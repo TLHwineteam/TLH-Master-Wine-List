@@ -26,6 +26,111 @@ window.WINE_DATA = [
     "titleZh": "每月精選佳釀"
   },
   {
+    "id": "c1",
+    "title": "National Day Selection",
+    "titleZh": "國慶精選",
+    "sections": [
+      {
+        "name": "Champagne",
+        "nameZh": "香檳",
+        "items": [
+          {
+            "v": "NV",
+            "name": "Devaux Rosé, Collection D Brut, Champagne, France",
+            "price": "Glass $388 · Bottle $1,980",
+            "section": "Champagne",
+            "nameZh": "帝沃，D系列粉紅香檳，法國香檳區",
+            "priceZh": "杯裝 $388 · 原瓶 $1,980"
+          },
+          {
+            "v": "2012",
+            "name": "Rare Millésime Brut, Champagne, France",
+            "price": "$3,880",
+            "section": "Champagne",
+            "nameZh": "派普愛希克，珍稀系列年份香檳，法國香檳區",
+            "priceZh": "$3,880"
+          },
+          {
+            "v": "2016",
+            "name": "Louis Roederer, Cristal Brut, Champagne, France",
+            "price": "$5,380",
+            "section": "Champagne",
+            "nameZh": "路易王妃，水晶香檳，法國香檳區",
+            "priceZh": "$5,380"
+          }
+        ]
+      },
+      {
+        "name": "White",
+        "nameZh": "白葡萄酒",
+        "items": [
+          {
+            "v": "2012",
+            "name": "Château Tronquoy Lalande Blanc, Bordeaux, France",
+            "price": "Glass $368 · Bottle $1,760",
+            "section": "White",
+            "nameZh": "杜龍瓜拉朗酒莊白葡萄酒，法國波爾多",
+            "priceZh": "杯裝 $368 · 原瓶 $1,760"
+          },
+          {
+            "v": "2023",
+            "name": "Mystic Island Winery, Yihu Chardonnay Reserve, Shandong, China",
+            "price": "$2,380",
+            "section": "White",
+            "nameZh": "仙島酒莊，逸湖霞多麗珍藏，中國山東",
+            "priceZh": "$2,380"
+          },
+          {
+            "v": "2020",
+            "name": "Château Palmer, Vin Blanc de Palmer, Bordeaux, France",
+            "price": "$5,800",
+            "section": "White",
+            "nameZh": "帕瑪堡瑪歌白酒，法國波爾多",
+            "priceZh": "$5,800"
+          }
+        ]
+      },
+      {
+        "name": "Red",
+        "nameZh": "紅葡萄酒",
+        "items": [
+          {
+            "v": "2023",
+            "name": "Penfolds, CWT 521 Cabernet & Marselan, Yunnan & Ningxia, China",
+            "price": "Glass $388 · Bottle $1,880",
+            "section": "Red",
+            "nameZh": "奔富 CWT 521 赤霞珠及馬瑟蘭，中國雲南及寧夏",
+            "priceZh": "杯裝 $388 · 原瓶 $1,880"
+          },
+          {
+            "v": "2021",
+            "name": "Amiot-Servelle, Chambolle-Musigny 1er Cru 'Les Charmes', Burgundy, France",
+            "price": "$3,280",
+            "section": "Red",
+            "nameZh": "阿米奧-塞維爾酒莊，香波-慕西尼一級園「夏姆園」，法國勃艮第",
+            "priceZh": "$3,280"
+          },
+          {
+            "v": "2017",
+            "name": "Bruno Clavelier, Gevrey-Chambertin 1er Cru 'Les Corbeaux', Burgundy, France",
+            "price": "$4,250",
+            "section": "Red",
+            "nameZh": "布魯諾酒莊，熱夫雷-香貝丹一級園「科博園」，法國勃艮第",
+            "priceZh": "$4,250"
+          },
+          {
+            "v": "2000",
+            "name": "La Fleur-Pétrus, Pomerol, Bordeaux, France",
+            "price": "$7,980",
+            "section": "Red",
+            "nameZh": "柏翠之花酒莊，波美侯，法國波爾多",
+            "priceZh": "$7,980"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "c2",
     "title": "Wine by the Glass",
     "titleZh": "杯裝佳釀",
@@ -70,23 +175,31 @@ window.WINE_DATA = [
       },
       {
         "name": "Grower Sparkling",
-        "nameZh": "小農氣泡葡萄酒",
+        "nameZh": "小農香檳及氣泡酒",
         "items": [
           {
             "v": "2023",
-            "name": "Silver Heights, \"Bloom Sparkling Wine\" Brut, Ningxia, China",
+            "name": "Silver Heights, \"Bloom\" Rosé Sparkling Rice Wine Brut, Ningxia, China",
             "price": "Glass $228 · Bottle $1,280",
-            "section": "Sparkling",
-            "nameZh": "銀色高地酒莊，「開屏」自然氣泡葡萄酒，寧夏，中國",
+            "section": "Grower Sparkling",
+            "nameZh": "銀色高地酒莊，「開屏」粉紅氣泡米酒，寧夏，中國",
             "priceZh": "杯裝 $228 · 原瓶 $1,280"
           },
           {
             "v": "2018",
             "name": "Wiston Estate, Blanc de Noirs Brut, West Sussex, England",
             "price": "Glass $348 · Bottle $1,800",
-            "section": "Sparkling",
-            "nameZh": "威斯頓酒莊，黑中白氣泡葡萄酒，西薩塞克斯，英格蘭",
+            "section": "Grower Sparkling",
+            "nameZh": "威斯頓酒莊，黑中白氣泡酒，西薩塞克斯，英格蘭",
             "priceZh": "杯裝 $348 · 原瓶 $1,800"
+          },
+          {
+            "v": "2023",
+            "name": "Romain Hénin, La Bulle Libre l’Odyssée Pétillante Chapitre 2, Champagne, France",
+            "price": "Glass $368 · Bottle $1,980",
+            "section": "Grower Sparkling",
+            "nameZh": "羅曼・艾南酒莊，「自由氣泡：閃耀奧德賽 第二章」香檳，法國",
+            "priceZh": "杯裝 $368 · 原瓶 $1,980"
           }
         ]
       },
@@ -96,7 +209,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2023",
-            "name": "Gewurztraminer, \"Rosenberg\", Domaine Barmes Buecher, Alsace, France",
+            "name": "Gewürztraminer, \"Rosenberg\", Domaine Barmes Buecher, Alsace, France",
             "price": "Glass $180 · Bottle $880",
             "section": "White",
             "nameZh": "巴姆斯布歇酒莊，「羅森堡」瓊瑤漿白葡萄酒，阿爾薩斯，法國",
@@ -104,43 +217,43 @@ window.WINE_DATA = [
           },
           {
             "v": "2024",
-            "name": "Mystic Island, Yihu Cabernet Franc Blanc, Shandong, China",
+            "name": "Cabernet Franc, \"Yihu Mystic Franc Blanc\", Mystic Island Winery, Shandong, China",
             "price": "Glass $180 · Bottle $880",
             "section": "White",
-            "nameZh": "仙島酒莊，逸湖品麗珠白葡萄酒，山東，中國",
+            "nameZh": "仙島酒莊「逸湖品麗珠白」白葡萄酒",
             "priceZh": "杯裝 $180 · 原瓶 $880"
           },
           {
-            "v": "2021",
-            "name": "Sauvignon Blanc, \"Taylors Pass\", Villa Maria, Marlborough, New Zealand",
-            "price": "Glass $268 · Bottle $1,300",
-            "section": "White",
-            "nameZh": "維拉瑪利亞酒莊，「泰勒斯帕斯」長相思白葡萄酒，馬爾堡，紐西蘭",
-            "priceZh": "杯裝 $268 · 原瓶 $1,300"
-          },
-          {
             "v": "2024",
-            "name": "Soave Classico, Gini, Veneto, Italy",
+            "name": "Garganega, Soave Classico, Gini Winery, Veneto, Italy",
             "price": "Glass $200 · Bottle $980",
             "section": "White",
-            "nameZh": "吉尼酒莊，經典蘇瓦韋白葡萄酒，威尼托，意大利",
+            "nameZh": "吉尼酒莊經典索阿韋白葡萄酒",
             "priceZh": "杯裝 $200 · 原瓶 $980"
           },
           {
             "v": "2023",
-            "name": "Riesling, Kiedricher Grafenberg GG, Weingut Robert Weil, Rheingau, Germany",
+            "name": "Sauvignon Blanc, \"Jade Dove\", Xige Estate, Ningxia, China",
+            "price": "Glass $220 · Bottle $1,080",
+            "section": "White",
+            "nameZh": "西鴿酒莊，「玉鴿」長相思白葡萄酒，寧夏，中國",
+            "priceZh": "杯裝 $220 · 原瓶 $1,080"
+          },
+          {
+            "v": "2023",
+            "name": "Riesling, VDP Grosses Gewächs Kiedricher Gräfenberg, Weingut Robert Weil, Rheingau, Germany",
             "price": "Glass $350 · Bottle $1,680",
             "section": "White",
-            "nameZh": "羅拔威爾酒莊，「基德里希格拉芬堡」特級園雷司令白葡萄酒，萊茵高，德國",
+            "nameZh": "羅拔威爾酒莊，基德里希格拉芬堡特級園雷司令白葡萄酒，萊茵高，德國",
             "priceZh": "杯裝 $350 · 原瓶 $1,680"
           },
           {
-            "v": "2022",
-            "name": "Chardonnay, Domaine Paul Pernot, Puligny-Montrachet, Burgundy, France",
-            "price": "Glass $468 · Bottle $2,280",
+            "v": "2020",
+            "name": "Chardonnay, Domaine William Fèvre, Chablis Grand Cru Les Preuses, Burgundy, France",
+            "price": "Glass $498 · Bottle $2,480",
             "section": "White",
-            "nameZh": "保羅貝諾酒莊，莎當妮白葡萄酒，普利尼蒙哈榭，勃艮第，法國",
-            "priceZh": "杯裝 $468 · 原瓶 $2,280"
+            "nameZh": "威廉費爾酒莊「普樂斯園」特級園白葡萄酒",
+            "priceZh": "杯裝 $498 · 原瓶 $2,480"
           }
         ]
       },
@@ -150,7 +263,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2023",
-            "name": "Cabernet Sauvignon, Grace Wine Rose, Yamanashi, Japan",
+            "name": "Cabernet Sauvignon, Grace Wine Rosé, Yamanashi, Japan",
             "price": "Glass $198 · Bottle $980",
             "section": "Rose",
             "nameZh": "中央葡萄酒莊，赤霞珠粉紅葡萄酒，山梨，日本",
@@ -163,7 +276,15 @@ window.WINE_DATA = [
         "nameZh": "紅葡萄酒",
         "items": [
           {
-            "v": "2022",
+            "v": "2016",
+            "name": "Tempranillo, \"Reserva Clásico\", Bodega Otazu, Navarra, Spain",
+            "price": "Glass $180 · Bottle $880",
+            "section": "Red",
+            "nameZh": "奧塔蘇酒莊「經典珍藏」紅葡萄酒",
+            "priceZh": "杯裝 $180 · 原瓶 $880"
+          },
+          {
+            "v": "2020/22",
             "name": "Pinot Noir, Domaine Rewa, Central Otago, New Zealand",
             "price": "Glass $198 · Bottle $980",
             "section": "Red",
@@ -188,27 +309,19 @@ window.WINE_DATA = [
           },
           {
             "v": "2021",
-            "name": "Zinfandel, \"Geyserville\", Ridge Vineyards, Alexander Valley, USA",
+            "name": "Zinfandel, \"Geyserville\", Ridge Vineyards, Alexander Valley, Sonoma County, USA",
             "price": "Glass $338 · Bottle $1,680",
             "section": "Red",
-            "nameZh": "嶺脊酒莊，「蓋瑟維爾」金粉黛紅葡萄酒，亞歷山大谷，美國",
+            "nameZh": "嶺脊酒莊，「蓋瑟維爾」金粉黛紅葡萄酒，亞歷山大谷，索諾瑪縣，美國",
             "priceZh": "杯裝 $338 · 原瓶 $1,680"
           },
           {
             "v": "2020",
-            "name": "Pinot Noir, Bouchard Père & Fils, 1er Cru Les Cailles, Nuits-St-Georges, France",
+            "name": "Pinot Noir, Domaine Bouchard Père et Fils, 1er Cru Les Cailles, Nuits-St-Georges, Burgundy, France",
             "price": "Glass $498 · Bottle $2,480",
             "section": "Red",
-            "nameZh": "布夏父子酒莊，「雷凱園」一級園黑皮諾紅葡萄酒，紐伊聖喬治，法國",
+            "nameZh": "布夏父子酒莊，「雷凱園」一級園黑皮諾紅葡萄酒，紐伊聖喬治，勃艮第，法國",
             "priceZh": "杯裝 $498 · 原瓶 $2,480"
-          },
-          {
-            "v": "2019",
-            "name": "Cabernet Sauvignon, Château Clerc-Milon, Pauillac, Bordeaux, France",
-            "price": "Glass $538 · Bottle $2,680",
-            "section": "Red",
-            "nameZh": "克拉米倫酒莊，赤霞珠紅葡萄酒，波雅克，波爾多，法國",
-            "priceZh": "杯裝 $538 · 原瓶 $2,680"
           }
         ]
       },
@@ -217,11 +330,11 @@ window.WINE_DATA = [
         "nameZh": "甜葡萄酒",
         "items": [
           {
-            "v": "2024",
-            "name": "La Spinetta, Bricco Quaglia Moscato d’Asti, Piedmont, Italy",
+            "v": "2025",
+            "name": "Muscat, La Spinetta, Moscato d'Asti, Piedmont, Italy",
             "price": "Glass $168 · Bottle $840",
             "section": "Dessert",
-            "nameZh": "史碧涅塔酒莊，「鵪鶉山丘」莫斯卡托甜葡萄酒，皮埃蒙特，意大利",
+            "nameZh": "史碧涅塔酒莊，莫斯卡托阿斯蒂甜葡萄酒，皮埃蒙特，意大利",
             "priceZh": "杯裝 $168 · 原瓶 $840"
           },
           {
@@ -234,7 +347,7 @@ window.WINE_DATA = [
           },
           {
             "v": "2016",
-            "name": "Muscat, \"Clovine Sweet Muscat\", Puchang, Xinjiang, China",
+            "name": "Muscat, \"Colvine Sweet Muscat\", Puchang, Xinjiang, China",
             "price": "Glass $298 · Bottle $1,480",
             "section": "Dessert",
             "nameZh": "蒲昌酒莊，「丁香」麝香甜葡萄酒，新疆，中國",
@@ -247,20 +360,20 @@ window.WINE_DATA = [
         "nameZh": "中國白酒及花雕酒",
         "items": [
           {
-            "v": "",
-            "name": "Zhen Jiu 15",
+            "v": "NV",
+            "name": "Zhen Jiu, Zhen 15 Baijiu (53% abv)",
             "price": "Glass (100ml) $585 · Bottle $2,850",
             "section": "Chinese Baijiu & Huadiaojiu",
-            "nameZh": "珍酒 珍十五",
+            "nameZh": "珍酒「珍十五」",
             "priceZh": "杯裝（100毫升）$585 · 原瓶 $2,850"
           },
           {
-            "v": "",
-            "name": "Xian Heng Huadiaojiu 25 Years Old",
-            "price": "Glass (250ml) $388",
+            "v": "NV",
+            "name": "Xian Heng, Huadiaojiu 25 Years Old (14% abv)",
+            "price": "Glass (250ml) $388 · Bottle NA",
             "section": "Chinese Baijiu & Huadiaojiu",
-            "nameZh": "咸亨・雕皇25年大葫蘆",
-            "priceZh": "杯裝（250毫升）$388"
+            "nameZh": "咸亨「雕皇二十五年」花雕酒",
+            "priceZh": "杯裝（250毫升）$388 · 原瓶不適用"
           }
         ]
       },
@@ -273,7 +386,7 @@ window.WINE_DATA = [
             "name": "Pierre Chavin, Pierre Zéro Sparkling Chardonnay, France",
             "price": "Glass $150 · Bottle $600",
             "section": "Alcohol-removed Wine",
-            "nameZh": "皮耶夏凡，零酒精氣泡莎當妮，法國",
+            "nameZh": "皮耶夏凡「零酒精」氣泡霞多麗",
             "priceZh": "杯裝 $150 · 原瓶 $600"
           },
           {
@@ -281,7 +394,7 @@ window.WINE_DATA = [
             "name": "Pierre Chavin, Pierre Zéro Chardonnay, France",
             "price": "Glass $130 · Bottle $600",
             "section": "Alcohol-removed Wine",
-            "nameZh": "皮耶夏凡，零酒精莎當妮，法國",
+            "nameZh": "皮耶夏凡「零酒精」霞多麗",
             "priceZh": "杯裝 $130 · 原瓶 $600"
           },
           {
@@ -289,7 +402,7 @@ window.WINE_DATA = [
             "name": "Pierre Chavin, Pierre Zéro Merlot, France",
             "price": "Glass $130 · Bottle $600",
             "section": "Alcohol-removed Wine",
-            "nameZh": "皮耶夏凡，零酒精梅洛，法國",
+            "nameZh": "皮耶夏凡「零酒精」梅洛",
             "priceZh": "杯裝 $130 · 原瓶 $600"
           }
         ]
@@ -875,7 +988,7 @@ window.WINE_DATA = [
           {
             "v": "",
             "name": "Pierre Chavin, Pierre Zéro Sparkling Chardonnay, France",
-            "nameZh": "皮耶夏凡，零酒精氣泡莎當妮，法國",
+            "nameZh": "皮耶夏凡「零酒精」氣泡霞多麗",
             "price": "Glass $150 · Bottle $600",
             "section": "ALCOHOL-REMOVED WINE",
             "priceZh": "杯裝 $150 · 原瓶 $600"
@@ -883,7 +996,7 @@ window.WINE_DATA = [
           {
             "v": "",
             "name": "Pierre Chavin, Pierre Zéro Chardonnay, France",
-            "nameZh": "皮耶夏凡，零酒精莎當妮，法國",
+            "nameZh": "皮耶夏凡「零酒精」霞多麗",
             "price": "Glass $130 · Bottle $600",
             "section": "ALCOHOL-REMOVED WINE",
             "priceZh": "杯裝 $130 · 原瓶 $600"
@@ -891,7 +1004,7 @@ window.WINE_DATA = [
           {
             "v": "",
             "name": "Pierre Chavin, Pierre Zéro Merlot, France",
-            "nameZh": "皮耶夏凡，零酒精梅洛，法國",
+            "nameZh": "皮耶夏凡「零酒精」梅洛",
             "price": "Glass $130 · Bottle $600",
             "section": "ALCOHOL-REMOVED WINE",
             "priceZh": "杯裝 $130 · 原瓶 $600"
@@ -1287,13 +1400,6 @@ window.WINE_DATA = [
             "price": "$4,280",
             "section": "Bourgogne Blanc",
             "nameZh": "俠龍酒莊，普利尼蒙哈榭「少女園」獨佔一級園莎當妮白葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2018",
-            "name": "Meursault, Domaine Roulot",
-            "price": "$6,380",
-            "section": "Bourgogne Blanc",
-            "nameZh": "魯洛酒莊，默爾索莎當妮白葡萄酒，勃艮第，法國"
           },
           {
             "v": "2012",
@@ -1877,13 +1983,6 @@ window.WINE_DATA = [
           },
           {
             "v": "NV",
-            "name": "Henriot Brut Souverain",
-            "price": "$1,180",
-            "section": "Non-Vintage",
-            "nameZh": "亨利奧，至尊天然乾型香檳，香檳區，法國"
-          },
-          {
-            "v": "NV",
             "name": "Jérôme Prévost 'La Closerie' Extra Brut",
             "price": "$3,080",
             "section": "Non-Vintage",
@@ -2219,13 +2318,6 @@ window.WINE_DATA = [
             "price": "$880",
             "section": "Sparkling Wine",
             "nameZh": "克萊芒・克呂爾，「招財貓」阿爾薩斯天然乾型氣泡酒，阿爾薩斯，法國"
-          },
-          {
-            "v": "2007",
-            "name": "Signat Gran Reserva Imperial Brut Cava, Catalonia, Spain",
-            "price": "$880",
-            "section": "Sparkling Wine",
-            "nameZh": "西納，帝國珍藏天然乾型卡瓦，加泰羅尼亞，西班牙"
           },
           {
             "v": "2023",
@@ -2790,13 +2882,6 @@ window.WINE_DATA = [
         "name": "Meursault",
         "items": [
           {
-            "v": "2018",
-            "name": "Meursault, MJ Tricot",
-            "price": "$1,680",
-            "section": "Meursault",
-            "nameZh": "特里科酒莊，默爾索莎當妮白酒，博恩丘，法國"
-          },
-          {
             "v": "2021",
             "name": "Meursault, Clos du Cromin, Domaine Génot-Boulanger",
             "price": "$2,330",
@@ -2816,13 +2901,6 @@ window.WINE_DATA = [
             "price": "$2,480",
             "section": "Meursault",
             "nameZh": "布沙父子酒莊，金滴一級園默爾索白酒，莎當妮，博恩丘，法國"
-          },
-          {
-            "v": "2018",
-            "name": "Meursault, Domaine Roulot",
-            "price": "$6,380",
-            "section": "Meursault",
-            "nameZh": "魯洛酒莊，默爾索莎當妮白葡萄酒，勃艮第，法國"
           }
         ],
         "nameZh": "默爾索"
@@ -2836,13 +2914,6 @@ window.WINE_DATA = [
             "price": "$2,280",
             "section": "Puligny-Montrachet",
             "nameZh": "保羅・佩爾諾酒莊，普里尼－蒙哈榭白酒，莎當妮，博恩丘，法國"
-          },
-          {
-            "v": "2018",
-            "name": "Puligny-Montrachet, Domaine Potinet Ampeau",
-            "price": "$2,280",
-            "section": "Puligny-Montrachet",
-            "nameZh": "波蒂內・昂皮奧酒莊，普里尼－蒙哈榭白酒，莎當妮，博恩丘，法國"
           },
           {
             "v": "2020",
@@ -3339,13 +3410,6 @@ window.WINE_DATA = [
             "price": "$1,980 · 375 ml",
             "section": "Red Wines",
             "nameZh": "貝修華酒莊，聖朱利安紅酒，波爾多，法國"
-          },
-          {
-            "v": "2021",
-            "name": "Domaine David Duband, Chambolle-Musigny",
-            "price": "$1,080 · 375ml",
-            "section": "Red Wines",
-            "nameZh": "大衛・杜邦酒莊，香波－慕西尼黑皮諾，勃艮第，法國"
           },
           {
             "v": "2020",
@@ -4296,24 +4360,10 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2010",
-            "name": "Valdicava 'Madonna del Piano'",
-            "price": "$4,580",
-            "section": "Brunello di Montalcino",
-            "nameZh": "瓦爾迪卡瓦酒莊，「鋼琴聖母」珍藏蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
-          },
-          {
-            "v": "2010",
             "name": "Pian dell'Orino 'Bassolino di Sopra'",
             "price": "$4,880",
             "section": "Brunello di Montalcino",
             "nameZh": "皮安德洛里諾酒莊，「上巴索利諾」蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
-          },
-          {
-            "v": "2007",
-            "name": "Casanova di Neri 'Cerretalto'",
-            "price": "$6,080",
-            "section": "Brunello di Montalcino",
-            "nameZh": "內里卡薩諾瓦酒莊，「切雷塔爾托」蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
           },
           {
             "v": "2020",
@@ -4703,13 +4753,6 @@ window.WINE_DATA = [
             "nameZh": "布朗康田酒莊，瑪歌，波爾多，法國"
           },
           {
-            "v": "2021",
-            "name": "Château Kirwan",
-            "price": "$1,480",
-            "section": "Margaux",
-            "nameZh": "麒麟酒莊，瑪歌，波爾多，法國"
-          },
-          {
             "v": "2010",
             "name": "Château Lascombes",
             "price": "$2,960",
@@ -4803,13 +4846,6 @@ window.WINE_DATA = [
             "price": "$2,080",
             "section": "Pauillac",
             "nameZh": "達瑪雅克酒莊，波雅克，波爾多，法國"
-          },
-          {
-            "v": "2019",
-            "name": "Château Clerc-Milon",
-            "price": "$2,680",
-            "section": "Pauillac",
-            "nameZh": "克拉米倫酒莊，波雅克，波爾多，法國"
           },
           {
             "v": "2012",
@@ -5802,13 +5838,6 @@ window.WINE_DATA = [
             "nameZh": "開普曼特爾酒莊，赤霞珠紅酒，瑪格麗特河，澳洲"
           },
           {
-            "v": "2017",
-            "name": "Coriole Mary Kathleen Reserve, Mclaren Vale, Australia",
-            "price": "$1,080",
-            "section": "Cabernet Sauvignon",
-            "nameZh": "科里奧酒莊「Mary Kathleen」珍藏赤霞珠紅酒，麥拉倫谷，澳洲"
-          },
-          {
             "v": "2014",
             "name": "Flametree S.R.S. Wilyabrup, Margaret River, Australia",
             "price": "$1,320",
@@ -6273,13 +6302,6 @@ window.WINE_DATA = [
         "name": "Sherry",
         "items": [
           {
-            "v": "NV",
-            "name": "Gonzalez Byass Tio Pepe Fino Muy Seco Sherry",
-            "price": "$700",
-            "section": "Sherry",
-            "nameZh": "岡薩雷斯・比亞斯「蒂奧佩佩」極乾菲諾雪莉酒"
-          },
-          {
             "v": "1918",
             "name": "Ximenez Spinola PX Muy Viejo Solera",
             "price": "Glass $1918 · Bottle $2,380",
@@ -6394,13 +6416,6 @@ window.WINE_DATA = [
             "price": "$1,880",
             "section": "Italy",
             "nameZh": "馬可・德・巴爾托利「Vecchio Samperi」"
-          },
-          {
-            "v": "2024",
-            "name": "Bricco Quaglia Moscato d’Asti, La Spinetta, Piemont",
-            "price": "$840",
-            "section": "Italy",
-            "nameZh": "拉斯皮內塔「Bricco Quaglia」阿斯蒂麝香葡萄酒，皮埃蒙特"
           }
         ],
         "nameZh": "意大利"
