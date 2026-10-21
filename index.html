@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#171411" />
+  <title>Tin Lung Heen Master Wine List</title>
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style id="remote-lock-styles">
+    body.remote-lock-active{overflow:hidden}
+    body.remote-lock-active .app{filter:blur(12px);pointer-events:none;user-select:none}
+    .remote-lock-overlay{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(23,20,17,.58);backdrop-filter:blur(3px)}
+    .remote-lock-overlay[hidden]{display:none}
+    .remote-lock-card{width:min(430px,100%);padding:34px 30px;border:1px solid rgba(230,196,119,.72);border-radius:20px;background:linear-gradient(145deg,#fffdfa,#f4ead9);box-shadow:0 28px 80px rgba(0,0,0,.4);text-align:center;color:#201b16}
+    .remote-lock-brand{margin-bottom:7px;color:#93651f;font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+    .remote-lock-icon{margin:12px 0 8px;font-size:38px}
+    .remote-lock-title{margin:0;color:#76521d;font-family:Georgia,serif;font-size:30px;font-weight:500}
+    .remote-lock-message{margin:12px 0 22px;color:#70685f;line-height:1.5}
+    .remote-lock-password{width:100%;padding:12px 13px;border:1px solid #cdbb9e;border-radius:9px;background:#fff;color:#201b16;outline:none}
+    .remote-lock-password:focus{border-color:#b68735;box-shadow:0 0 0 3px rgba(182,135,53,.18)}
+    .remote-lock-error{margin:9px 0 0;color:#b42318;font-size:12px;font-weight:700}
+    .remote-lock-button{width:100%;margin-top:16px;padding:11px 15px;border:1px solid #b68735;border-radius:9px;background:#b68735;color:#171411;font-weight:800;cursor:pointer}
+  </style>
+</head>
+<body>
+  <div id="welcome-cover" class="welcome-cover" role="button" tabindex="0" aria-label="Enter the Tin Lung Heen Master Wine List">
+    <div class="welcome-cover-inner">
+      <div class="welcome-identity">
+        <img class="welcome-logo" src="tin-lung-heen-logo.png" alt="Tin Lung Heen">
+        <div class="welcome-subtitle">Master Wine List</div>
+      </div>
+      <div class="welcome-credit">By Your Sommelier Team<br><strong>Benson, Marco and Jin</strong></div>
+    </div>
+  </div>
+
+  <div class="app">
+    <aside class="side">
+      <div id="brand-name" class="brand">Tin Lung Heen</div>
+      <h1 id="wine-list-title">Master Wine List</h1>
+      <input id="q" class="search" type="search" placeholder="Search wine, region or vintage" aria-label="Search" />
+      <nav id="nav" class="nav"></nav>
+    </aside>
+    <section class="shell">
+      <header class="status">
+        <b id="st"></b>
+        <span id="meta" class="meta"></span>
+      </header>
+      <main id="main" class="main"></main>
+    </section>
+  </div>
+<div id="site-disabled" class="site-disabled-overlay" hidden> <div class="site-disabled-card"> <div class="site-disabled-brand"> Tin Lung Heen </div> <h2 class="site-disabled-title"> This Installation Has Been Disabled </h2> <p class="site-disabled-message"> Please contact management. </p> </div> </div>
+  <div id="remote-lock" class="remote-lock-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="remote-lock-title">
+    <form id="remote-lock-form" class="remote-lock-card">
+      <div class="remote-lock-brand">Tin Lung Heen · Master Wine List</div>
+      <div class="remote-lock-icon" aria-hidden="true">🔒</div>
+      <h2 id="remote-lock-title" class="remote-lock-title">Service Suspended</h2>
+      <p id="remote-lock-message" class="remote-lock-message">Please contact management.</p>
+      <input id="remote-lock-password" class="remote-lock-password" type="password" autocomplete="current-password" aria-label="Password" placeholder="Password">
+      <p id="remote-lock-error" class="remote-lock-error" hidden>Incorrect password.</p>
+      <button class="remote-lock-button" type="submit">Unlock</button>
+    </form>
+  </div>
+  <script defer src="https://www.gstatic.com/firebasejs/12.4.0/firebase-app-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/12.4.0/firebase-database-compat.js"></script>
+  <script defer src="data/wines.js"></script>
+  <script defer src="js/app.js"></script>
+</body>
+</html>
