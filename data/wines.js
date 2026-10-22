@@ -141,7 +141,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "NV",
-            "name": "Barons de Rothschild, \"Ritz\" Brut Reserve",
+            "name": "Barons de Rothschild, \"Ritz\" Brut Reserve, Champagne, France",
             "price": "Glass $268 · Bottle $1,538",
             "section": "Champagne",
             "nameZh": "羅斯柴爾德男爵香檳，「麗思」特釀珍藏香檳，香檳區，法國",
@@ -149,7 +149,7 @@ window.WINE_DATA = [
           },
           {
             "v": "NV",
-            "name": "Ruinart, Blanc de Blancs Brut",
+            "name": "Ruinart, Blanc de Blancs Brut, Champagne, France",
             "price": "Glass $368 · Bottle $1,903",
             "section": "Champagne",
             "nameZh": "瑞納香檳，白中白香檳，香檳區，法國",
@@ -157,7 +157,7 @@ window.WINE_DATA = [
           },
           {
             "v": "NV",
-            "name": "Billecart-Salmon, Le Rosé Extra Brut",
+            "name": "Billecart-Salmon, Le Rosé Extra Brut, Champagne, France",
             "price": "Glass $428 · Bottle $2,080",
             "section": "Champagne",
             "nameZh": "比爾卡沙蒙香檳，「粉紅」特級天然香檳，香檳區，法國",
@@ -165,7 +165,7 @@ window.WINE_DATA = [
           },
           {
             "v": "2017",
-            "name": "Dom Pérignon Brut",
+            "name": "Dom Pérignon Brut, Champagne, France",
             "price": "Glass $628 · Bottle $3,290",
             "section": "Champagne",
             "nameZh": "唐培里儂香檳，年份香檳，香檳區，法國",
@@ -220,7 +220,7 @@ window.WINE_DATA = [
             "name": "Cabernet Franc, \"Yihu Mystic Franc Blanc\", Mystic Island Winery, Shandong, China",
             "price": "Glass $180 · Bottle $880",
             "section": "White",
-            "nameZh": "仙島酒莊「逸湖品麗珠白」白葡萄酒",
+            "nameZh": "仙島酒莊，「逸湖品麗珠白」品麗珠白葡萄酒，山東，中國",
             "priceZh": "杯裝 $180 · 原瓶 $880"
           },
           {
@@ -228,7 +228,7 @@ window.WINE_DATA = [
             "name": "Garganega, Soave Classico, Gini Winery, Veneto, Italy",
             "price": "Glass $200 · Bottle $980",
             "section": "White",
-            "nameZh": "吉尼酒莊經典索阿韋白葡萄酒",
+            "nameZh": "吉尼酒莊，經典索阿韋加爾加內加白葡萄酒，威尼托，意大利",
             "priceZh": "杯裝 $200 · 原瓶 $980"
           },
           {
@@ -252,7 +252,7 @@ window.WINE_DATA = [
             "name": "Chardonnay, Domaine William Fèvre, Chablis Grand Cru Les Preuses, Burgundy, France",
             "price": "Glass $498 · Bottle $2,480",
             "section": "White",
-            "nameZh": "威廉費爾酒莊「普樂斯園」特級園白葡萄酒",
+            "nameZh": "威廉費爾酒莊，「普樂斯園」夏布利特級園霞多麗白葡萄酒，勃艮第，法國",
             "priceZh": "杯裝 $498 · 原瓶 $2,480"
           }
         ]
@@ -280,7 +280,7 @@ window.WINE_DATA = [
             "name": "Tempranillo, \"Reserva Clásico\", Bodega Otazu, Navarra, Spain",
             "price": "Glass $180 · Bottle $880",
             "section": "Red",
-            "nameZh": "奧塔蘇酒莊「經典珍藏」紅葡萄酒",
+            "nameZh": "奧塔蘇酒莊，「經典珍藏」丹魄紅葡萄酒，納瓦拉，西班牙",
             "priceZh": "杯裝 $180 · 原瓶 $880"
           },
           {
@@ -386,7 +386,7 @@ window.WINE_DATA = [
             "name": "Pierre Chavin, Pierre Zéro Sparkling Chardonnay, France",
             "price": "Glass $150 · Bottle $600",
             "section": "Alcohol-removed Wine",
-            "nameZh": "皮耶夏凡「零酒精」氣泡霞多麗",
+            "nameZh": "皮耶夏凡，「零酒精」氣泡霞多麗，法國",
             "priceZh": "杯裝 $150 · 原瓶 $600"
           },
           {
@@ -394,7 +394,7 @@ window.WINE_DATA = [
             "name": "Pierre Chavin, Pierre Zéro Chardonnay, France",
             "price": "Glass $130 · Bottle $600",
             "section": "Alcohol-removed Wine",
-            "nameZh": "皮耶夏凡「零酒精」霞多麗",
+            "nameZh": "皮耶夏凡，「零酒精」霞多麗，法國",
             "priceZh": "杯裝 $130 · 原瓶 $600"
           },
           {
@@ -402,7 +402,7 @@ window.WINE_DATA = [
             "name": "Pierre Chavin, Pierre Zéro Merlot, France",
             "price": "Glass $130 · Bottle $600",
             "section": "Alcohol-removed Wine",
-            "nameZh": "皮耶夏凡「零酒精」梅洛",
+            "nameZh": "皮耶夏凡，「零酒精」梅洛，法國",
             "priceZh": "杯裝 $130 · 原瓶 $600"
           }
         ]
@@ -423,7 +423,9 @@ window.WINE_DATA = [
             "name": "Champagne Sangria",
             "price": "$225",
             "section": "Champagne Cocktails",
-            "nameZh": "香檳桑格利亞"
+            "nameZh": "香檳桑格利亞",
+            "ingredients": "White Madeira, Veuve Clicquot Yellow Label, St-Germain",
+            "ingredientsZh": "白馬德拉、凱歌黃牌香檳、聖日耳曼接骨木花利口酒"
           }
         ]
       },
@@ -436,14 +438,18 @@ window.WINE_DATA = [
             "name": "Melon Matsuri",
             "price": "$180",
             "section": "Seasonal Cocktails",
-            "nameZh": "蜜瓜祭"
+            "nameZh": "蜜瓜祭",
+            "ingredients": "Belvedere Vodka, Shiroi Melon Liqueur, Savoia Orancio, St-Germain, Fresh Passion Fruit Juice",
+            "ingredientsZh": "貝爾維德伏特加、白井蜜瓜利口酒、薩沃亞奧蘭西奧、聖日耳曼接骨木花利口酒、新鮮熱情果汁"
           },
           {
             "v": "",
             "name": "Sakura High Ball",
             "price": "$180",
             "section": "Seasonal Cocktails",
-            "nameZh": "櫻花高球"
+            "nameZh": "櫻花高球",
+            "ingredients": "Hachi Sweet Potato Shochu, Lychee, Sakura, Soda",
+            "ingredientsZh": "八重天甜薯燒酎、荔枝、櫻花、梳打水"
           }
         ]
       },
@@ -456,14 +462,18 @@ window.WINE_DATA = [
             "name": "Romance Florist",
             "price": "$145",
             "section": "Signature Mocktails",
-            "nameZh": "浪漫花藝師"
+            "nameZh": "浪漫花藝師",
+            "ingredients": "Rose-infused Seedlip Garden 108, Peach, Watermelon, Lemon",
+            "ingredientsZh": "玫瑰浸泡希普利花園108、蜜桃、西瓜、檸檬"
           },
           {
             "v": "",
             "name": "Summer SP-Ritz",
             "price": "$145",
             "section": "Signature Mocktails",
-            "nameZh": "盛夏麗思"
+            "nameZh": "盛夏麗思",
+            "ingredients": "Lyre's Italian Spritz, Strawberry, Pineapple, Lemon",
+            "ingredientsZh": "Lyre's 意式開胃酒、士多啤梨、菠蘿、檸檬"
           }
         ]
       },
@@ -593,13 +603,13 @@ window.WINE_DATA = [
     "titleZh": "威士忌",
     "sections": [
       {
-        "name": "THE RITZ-CARLTON HONG KONG SIGNATURE WHISKEY",
+        "name": "THE RITZ-CARLTON HK SIGNATURE WHISKEY",
         "items": [
           {
             "v": "",
             "name": "Tailor-made Blended malt whisky by Michel Couvreur",
             "price": "Glass $380 · Bottle $4,988",
-            "section": "THE RITZ-CARLTON HONG KONG SIGNATURE WHISKEY",
+            "section": "THE RITZ-CARLTON HK SIGNATURE WHISKEY",
             "nameZh": "米歇爾・庫弗爾訂製調和麥芽威士忌",
             "priceZh": "杯裝 $380 · 原瓶 $4,988"
           }
@@ -835,8 +845,8 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "",
-            "name": "The Ritz-Carlton Hong Kong Signature \"Framed Views\" Beer",
-            "nameZh": "香港麗思卡爾頓酒店「Framed Views」招牌啤酒",
+            "name": "The Ritz-Carlton Hong Kong Signature \"Sunzest\" Beer",
+            "nameZh": "香港麗思卡爾頓酒店「Sunzest」招牌啤酒",
             "price": "Bottle $98",
             "section": "BEERS",
             "priceZh": "原瓶 $98"
@@ -889,45 +899,23 @@ window.WINE_DATA = [
         ]
       },
       {
-        "name": "STILL WATER",
-        "nameZh": "無氣礦泉水",
+        "name": "STILL WATER / SPARKLING WATER",
+        "nameZh": "無氣／有氣礦泉水",
         "items": [
           {
             "v": "",
-            "name": "Evian (750ml)",
-            "nameZh": "依雲天然礦泉水（750毫升）",
+            "name": "Evian / Evian Sparkling (750ml)",
+            "nameZh": "依雲天然／氣泡礦泉水（750毫升）",
             "price": "Bottle $108",
-            "section": "STILL WATER",
+            "section": "STILL WATER / SPARKLING WATER",
             "priceZh": "原瓶 $108"
           },
           {
             "v": "",
-            "name": "Acqua Panna (750ml)",
-            "nameZh": "普娜天然礦泉水（750毫升）",
+            "name": "Acqua Panna / San Pellegrino (750ml)",
+            "nameZh": "普娜天然／聖培露氣泡礦泉水（750毫升）",
             "price": "Bottle $108",
-            "section": "STILL WATER",
-            "priceZh": "原瓶 $108"
-          }
-        ]
-      },
-      {
-        "name": "SPARKLING WATER",
-        "nameZh": "有氣礦泉水",
-        "items": [
-          {
-            "v": "",
-            "name": "Evian Sparkling (750ml)",
-            "nameZh": "依雲氣泡礦泉水（750毫升）",
-            "price": "Bottle $108",
-            "section": "SPARKLING WATER",
-            "priceZh": "原瓶 $108"
-          },
-          {
-            "v": "",
-            "name": "San Pellegrino (750ml)",
-            "nameZh": "聖培露氣泡天然礦泉水（750毫升）",
-            "price": "Bottle $108",
-            "section": "SPARKLING WATER",
+            "section": "STILL WATER / SPARKLING WATER",
             "priceZh": "原瓶 $108"
           }
         ]
@@ -940,9 +928,9 @@ window.WINE_DATA = [
             "v": "",
             "name": "East meets West blend - Shui Xian Oolong, Jasmine, Bergamot & Longan Honey",
             "nameZh": "東西薈萃拼配－水仙烏龍、茉莉、佛手柑及龍眼蜜",
-            "price": "Glass $85 · Bottle $398",
+            "price": "Glass $130 · Bottle $630",
             "section": "THE RITZ CARLTON SPARKLING TEA - SERENITEA",
-            "priceZh": "杯裝 $85 · 原瓶 $398"
+            "priceZh": "杯裝 $130 · 原瓶 $630"
           }
         ]
       },
@@ -978,36 +966,6 @@ window.WINE_DATA = [
             "price": "Glass $85",
             "section": "JUICES & SOFT DRINKS",
             "priceZh": "杯裝 $85"
-          }
-        ]
-      },
-      {
-        "name": "ALCOHOL-REMOVED WINE",
-        "nameZh": "無酒精葡萄酒",
-        "items": [
-          {
-            "v": "",
-            "name": "Pierre Chavin, Pierre Zéro Sparkling Chardonnay, France",
-            "nameZh": "皮耶夏凡「零酒精」氣泡霞多麗",
-            "price": "Glass $150 · Bottle $600",
-            "section": "ALCOHOL-REMOVED WINE",
-            "priceZh": "杯裝 $150 · 原瓶 $600"
-          },
-          {
-            "v": "",
-            "name": "Pierre Chavin, Pierre Zéro Chardonnay, France",
-            "nameZh": "皮耶夏凡「零酒精」霞多麗",
-            "price": "Glass $130 · Bottle $600",
-            "section": "ALCOHOL-REMOVED WINE",
-            "priceZh": "杯裝 $130 · 原瓶 $600"
-          },
-          {
-            "v": "",
-            "name": "Pierre Chavin, Pierre Zéro Merlot, France",
-            "nameZh": "皮耶夏凡「零酒精」梅洛",
-            "price": "Glass $130 · Bottle $600",
-            "section": "ALCOHOL-REMOVED WINE",
-            "priceZh": "杯裝 $130 · 原瓶 $600"
           }
         ]
       }
@@ -1524,13 +1482,6 @@ window.WINE_DATA = [
             "price": "$8,280",
             "section": "Bordeaux Rouge",
             "nameZh": "玫瑰山酒莊，二級酒莊紅葡萄酒，聖愛斯泰夫，波爾多，法國"
-          },
-          {
-            "v": "1995",
-            "name": "Château Angélus, 1er Grand Cru Classé B, Saint-Émilion",
-            "price": "$9,280",
-            "section": "Bordeaux Rouge",
-            "nameZh": "金鐘酒莊，一級特等酒莊B級紅葡萄酒，聖愛美濃，波爾多，法國"
           }
         ]
       }
@@ -2352,13 +2303,6 @@ window.WINE_DATA = [
             "price": "$1,380",
             "section": "Sicilia",
             "nameZh": "格拉奇酒莊，「Muganazzi」埃特納白葡萄酒，卡里坎特，西西里，意大利"
-          },
-          {
-            "v": "2021",
-            "name": "Terra Costantino, \"Contrada Blandano\", Etna Bianco",
-            "price": "$1,280",
-            "section": "Sicilia",
-            "nameZh": "泰拉・科斯坦蒂諾酒莊，「Contrada Blandano」埃特納白葡萄酒，西西里，意大利"
           }
         ],
         "nameZh": "西西里"
@@ -2976,9 +2920,29 @@ window.WINE_DATA = [
             "price": "$2,280",
             "section": "Chassagne-Montrachet",
             "nameZh": "拉舒佩特酒莊，莫爾若一級園夏山－蒙哈榭白酒，莎當妮，博恩丘，法國"
+          },
+          {
+            "v": "2023",
+            "name": "Chassagne-Montrachet 1er Cru Morgeot, Domaine Bruno Colin",
+            "price": "$3,380",
+            "section": "Chassagne-Montrachet",
+            "nameZh": "布魯諾・柯林酒莊，莫爾若一級園夏山－蒙哈榭白葡萄酒，莎當妮，博恩丘，法國"
           }
         ],
         "nameZh": "夏山－蒙哈榭"
+      },
+      {
+        "name": "Cote Chalonnaise",
+        "items": [
+          {
+            "v": "2022",
+            "name": "Mercurey \"Les Rochelles\" Blanc, Domaine Mia, Burgundy, France",
+            "price": "$1,280",
+            "section": "Cote Chalonnaise",
+            "nameZh": "米婭酒莊，「Les Rochelles」梅爾居雷白葡萄酒，莎當妮，勃艮第，法國"
+          }
+        ],
+        "nameZh": "夏隆內丘"
       },
       {
         "name": "Mâconnais",
@@ -3390,6 +3354,13 @@ window.WINE_DATA = [
             "price": "$2,180 · 375ml",
             "section": "White Wines",
             "nameZh": "拉佩父子酒莊，科爾登－查理曼特級園白酒，莎當妮，勃艮第，法國"
+          },
+          {
+            "v": "2022",
+            "name": "Mercurey \"Les Rochelles\" Blanc, Domaine Mia",
+            "price": "$800 · 375 ml",
+            "section": "White Wines",
+            "nameZh": "米婭酒莊，「Les Rochelles」梅爾居雷白葡萄酒，莎當妮，勃艮第，法國"
           }
         ],
         "nameZh": "白葡萄酒"
@@ -3431,6 +3402,13 @@ window.WINE_DATA = [
             "price": "$3,580 · 375 ml",
             "section": "Red Wines",
             "nameZh": "聖吉多莊園，「Sassicaia」托斯卡納紅酒，寶格麗，意大利"
+          },
+          {
+            "v": "2022",
+            "name": "Mercurey 1er Cru \"Les Vassées\" Rouge, Domaine Mia",
+            "price": "$980 · 375 ml",
+            "section": "Red Wines",
+            "nameZh": "米婭酒莊，「Les Vassées」梅爾居雷一級園黑皮諾紅葡萄酒，勃艮第，法國"
           }
         ],
         "nameZh": "紅葡萄酒"
@@ -5003,6 +4981,20 @@ window.WINE_DATA = [
             "price": "$2,390",
             "section": "Saint-Estèphe",
             "nameZh": "大精神酒莊，「大精神」紅葡萄酒，聖埃斯泰夫，波爾多，法國"
+          },
+          {
+            "v": "2022",
+            "name": "Château Calon-Ségur, Saint-Estèphe, Bordeaux, France",
+            "price": "$3,880",
+            "section": "Saint-Estèphe",
+            "nameZh": "卡龍世家酒莊，紅葡萄酒，聖埃斯泰夫，波爾多，法國"
+          },
+          {
+            "v": "2022",
+            "name": "Le C de Calon-Ségur, Saint-Estèphe, Bordeaux, France",
+            "price": "$1,080",
+            "section": "Saint-Estèphe",
+            "nameZh": "卡龍世家酒莊，「Le C」副牌紅葡萄酒，聖埃斯泰夫，波爾多，法國"
           }
         ],
         "nameZh": "聖埃斯泰夫"
@@ -5099,22 +5091,16 @@ window.WINE_DATA = [
             "price": "$4,280",
             "section": "Pomerol",
             "nameZh": "老色丹酒莊，波美侯，波爾多，法國"
-          }
-        ],
-        "nameZh": "波美侯"
-      },
-      {
-        "name": "Petrus",
-        "items": [
+          },
           {
             "v": "1982",
             "name": "Pétrus",
             "price": "$89,880",
-            "section": "Petrus",
+            "section": "Pomerol",
             "nameZh": "柏翠酒莊，紅葡萄酒，波美侯，波爾多，法國"
           }
         ],
-        "nameZh": "柏圖斯"
+        "nameZh": "波美侯"
       },
       {
         "name": "Saint-Émilion",
@@ -5174,29 +5160,16 @@ window.WINE_DATA = [
             "price": "$2,280",
             "section": "Saint-Émilion",
             "nameZh": "卓龍夢特酒莊，聖埃美隆，波爾多，法國"
-          }
-        ],
-        "nameZh": "聖埃美隆"
-      },
-      {
-        "name": "Château Angélus",
-        "items": [
-          {
-            "v": "1995",
-            "name": "Château Angélus, 1er Grand Cru Classé B",
-            "price": "$9,280",
-            "section": "Château Angélus",
-            "nameZh": "金鐘酒莊，聖埃美隆一級特等酒莊B級，波爾多，法國"
           },
           {
             "v": "2009",
             "name": "Château Angélus, 1er Grand Cru Classé B",
             "price": "$9,880",
-            "section": "Château Angélus",
+            "section": "Saint-Émilion",
             "nameZh": "金鐘酒莊，聖埃美隆一級特等酒莊B級，波爾多，法國"
           }
         ],
-        "nameZh": "金鐘酒莊"
+        "nameZh": "聖埃美隆"
       },
       {
         "name": "Marsannay",
@@ -5542,6 +5515,19 @@ window.WINE_DATA = [
           }
         ],
         "nameZh": "桑特奈"
+      },
+      {
+        "name": "Cote Chalonnaise",
+        "items": [
+          {
+            "v": "2022",
+            "name": "Mercurey 1er Cru \"Les Vassées\" Rouge, Domaine Mia, Burgundy, France",
+            "price": "$1,580",
+            "section": "Cote Chalonnaise",
+            "nameZh": "米婭酒莊，「Les Vassées」梅爾居雷一級園黑皮諾紅葡萄酒，勃艮第，法國"
+          }
+        ],
+        "nameZh": "夏隆內丘"
       },
       {
         "name": "Beaujolais",
