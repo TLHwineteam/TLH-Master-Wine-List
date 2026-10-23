@@ -2,6 +2,20 @@ const C=window.WINE_DATA;
 updated='18 October 2026';
 const totalSelections=C.reduce((total,category)=>total+category.sections.reduce((sum,section)=>sum+section.items.length,0),0);let current=C[0].id;const nav=document.querySelector('#nav'),main=document.querySelector('#main'),q=document.querySelector('#q'),st=document.querySelector('#st'),meta=document.querySelector('#meta');const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));const n=c=>c.sections.reduce((a,s)=>a+s.items.length,0);
 const brandName=document.querySelector('#brand-name'),wineListTitle=document.querySelector('#wine-list-title');
+const navToggle=document.querySelector('#nav-toggle');
+const pageStrip=document.querySelector('#page-strip');
+let navigationHidden=false;
+function updateNavigationToggle(){
+  const hidden=navigationHidden;
+  const label=lang==='zh'?(hidden?'顯示導覽列':'隱藏導覽列'):(hidden?'Show navigation':'Hide navigation');
+  navToggle.setAttribute('aria-expanded',String(!hidden));
+  navToggle.setAttribute('aria-label',label);
+  navToggle.title=label;
+  navToggle.querySelector('span').textContent=hidden?'›':'‹';
+  document.body.classList.toggle('navigation-hidden',hidden);
+  renderPageStrip();
+}
+navToggle.addEventListener('click',()=>{navigationHidden=!navigationHidden;updateNavigationToggle();});
 let lang=localStorage.getItem('wineListLanguage')==='zh'?'zh':'en';
 let fontSize=localStorage.getItem('wineListFontSize')||'normal';
 if(!['normal','large'].includes(fontSize))fontSize='normal';
@@ -13,7 +27,7 @@ function updateLanguageUI(){
   langToggle.innerHTML=
     lang==='zh'
       ? '<span class="active">繁</span><span>/</span><span>EN</span>'
-      : '<span>繁</span><span>/</span><span class="active">EN</span>';langToggle.setAttribute('aria-label',lang==='zh'?'切換至英文':'Switch to Traditional Chinese');document.documentElement.lang=lang==='zh'?'zh-Hant-HK':'en-GB';brandName.textContent=lang==='zh'?'天龍軒':'Tin Lung Heen';wineListTitle.textContent=lang==='zh'?'葡萄酒及飲料全單':'Master Wine List';q.placeholder=ui().search;}
+      : '<span>繁</span><span>/</span><span class="active">EN</span>';langToggle.setAttribute('aria-label',lang==='zh'?'切換至英文':'Switch to Traditional Chinese');document.documentElement.lang=lang==='zh'?'zh-Hant-HK':'en-GB';brandName.textContent=lang==='zh'?'天龍軒':'Tin Lung Heen';wineListTitle.textContent=lang==='zh'?'葡萄酒及飲料全單':'Master Wine List';q.placeholder=ui().search;updateNavigationToggle();}
 langToggle.onclick=()=>{lang=lang==='zh'?'en':'zh';localStorage.setItem('wineListLanguage',lang);updateLanguageUI();updateStaffUI();navR();render();};updateLanguageUI();
 function updateFontUI(){document.documentElement.dataset.fontSize=fontSize;fontControls.querySelectorAll('.font-btn').forEach(btn=>{const active=btn.dataset.size===fontSize;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active));});}
 fontControls.querySelectorAll('.font-btn').forEach(btn=>btn.onclick=()=>{fontSize=btn.dataset.size;localStorage.setItem('wineListFontSize',fontSize);updateFontUI();});updateFontUI();
@@ -326,15 +340,11 @@ c7:[
  ],
  c22:[
   {name:'Cabernet Sauvignon',nameZh:'赤霞珠',sections:['Cabernet Sauvignon']},
-  {name:'Zinfandel',nameZh:'仙粉黛',sections:['Zinfandel']},
-  {name:'Malbec',nameZh:'馬爾貝克',sections:['Malbec']},
   {name:'Merlot',nameZh:'梅洛',sections:['Merlot']},
   {name:'Pinot Noir',nameZh:'黑皮諾',sections:['Pinot Noir']},
   {name:'Shiraz',nameZh:'希哈',sections:['Shiraz']},
   {name:"Penfold's Selection",nameZh:'奔富精選',sections:["Penfold's Selection"]},
-  {name:"Two Hands's Selection",nameZh:'雙手酒莊精選',sections:["Two Hands's Selection"]},
-  {name:'Indigenous & Curiosities',nameZh:'原生品種與特色酒款',sections:['Indigenous & Curiosities']},
-  {name:"Xige Estate's Selection",nameZh:'西鴿酒莊精選',sections:["Xige Estate's Selection"]}
+  {name:'Indigenous & Curiosities',nameZh:'原生品種與特色酒款',sections:['Indigenous & Curiosities']}
  ],
  c23:[
   {name:'Port',nameZh:'砵酒',sections:['Port']},
@@ -364,6 +374,62 @@ function navChildren(c){
  return [];
 }
 let openCat='',activeGroup=null;
+function categoryPreviewRows(category){
+  return category.sections.flatMap(section=>section.items.slice(0,2).map(item=>({
+    section:pick(section,'name'),
+    vintage:item.v||'',
+    name:pick(item,'name')
+  }))).slice(0,3);
+}
+function navigateToCategory(category){
+  if(!category)return;
+  current=category.id;
+  activeGroup=null;
+  openCat=navChildren(category).length?category.id:'';
+  q.value='';
+  navR();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function renderPageStrip(){
+  const show=navigationHidden&&!q.value.trim();
+  pageStrip.hidden=!show;
+  if(!show)return;
+  pageStrip.setAttribute('aria-label',lang==='zh'?'葡萄酒酒單頁面':'Wine list pages');
+  pageStrip.innerHTML=C.map((category,index)=>{
+    const rows=categoryPreviewRows(category);
+    const active=category.id===current;
+    return `<button class="page-thumb ${active?'active':''}" type="button" data-category="${esc(category.id)}" aria-current="${active?'page':'false'}" aria-label="${esc(lang==='zh'?'前往':'Go to')} ${esc(pick(category,'title'))}">
+      <span class="page-thumb-page">
+        <span class="page-thumb-title">${esc(pick(category,'title'))}</span>
+        <span class="page-thumb-rule"></span>
+        ${rows.map(row=>`<span class="page-thumb-row"><span>${esc(row.vintage)}</span><span>${esc(row.name)}</span></span>`).join('')}
+      </span>
+      <span class="page-thumb-number">${index+1}</span>
+    </button>`;
+  }).join('');
+  pageStrip.querySelectorAll('.page-thumb').forEach(button=>{
+    button.addEventListener('click',()=>navigateToCategory(C.find(category=>category.id===button.dataset.category)));
+    if(button.dataset.category===current)button.scrollIntoView({block:'nearest',inline:'nearest'});
+  });
+}
+let pageSwipeStart=null;
+main.addEventListener('pointerdown',event=>{
+  if(!navigationHidden||event.pointerType==='mouse'||event.target.closest('button,input,a,select,textarea'))return;
+  pageSwipeStart={x:event.clientX,y:event.clientY};
+});
+main.addEventListener('pointerup',event=>{
+  if(!pageSwipeStart)return;
+  const deltaX=event.clientX-pageSwipeStart.x;
+  const deltaY=event.clientY-pageSwipeStart.y;
+  pageSwipeStart=null;
+  if(Math.abs(deltaX)>70&&Math.abs(deltaX)>Math.abs(deltaY)*1.3){
+    const currentIndex=C.findIndex(category=>category.id===current);
+    const nextIndex=(currentIndex+(deltaX<0?1:-1)+C.length)%C.length;
+    navigateToCategory(C[nextIndex]);
+  }
+});
+main.addEventListener('pointercancel',()=>{pageSwipeStart=null;});
 function navR(){
 
  const navOrder = [
@@ -404,6 +470,7 @@ function navR(){
     render();
     scrollTo({top:0,behavior:'smooth'});
 });
+ renderPageStrip();
 }
 function card(x,category,section){
   const key=wineKey(x),sold=isSoldOut(key),name=pick(x,'name'),price=pick(x,'price');
@@ -457,7 +524,7 @@ if(c.id==='c0'&&!group){
   bindWineSelection();
   return;
 }
-main.innerHTML=`<section class="hero"><div class="kicker">${esc(ui().brand)}${group?' · '+esc(pick(c,'title')):''}</div><h2>${esc(group?pick(group,'name'):pick(c,'title'))}</h2></section>`+sections.map(s=>`<section class="section">${s.hideHeading?'':`<h3>${esc(pick(s,'name'))}</h3>`}${s.items.map(x=>card(x,c,s)).join('')}</section>`).join('')+`<div class="legal">${esc(ui().legalGeneral)}</div>`;bind()}q.oninput=render;
+main.innerHTML=`<section class="hero"><div class="kicker">${esc(ui().brand)}${group?' · '+esc(pick(c,'title')):''}</div><h2>${esc(group?pick(group,'name'):pick(c,'title'))}</h2></section>`+sections.map(s=>`<section class="section">${s.hideHeading?'':`<h3>${esc(pick(s,'name'))}</h3>`}${s.items.map(x=>card(x,c,s)).join('')}</section>`).join('')+`<div class="legal">${esc(ui().legalGeneral)}</div>`;bind()}q.oninput=()=>{render();renderPageStrip();};
 navR();
 render();
 startStockSync();
