@@ -2264,325 +2264,6 @@ window.WINE_DATA = [
     ]
   },
   {
-    "id": "c12",
-    "title": "White Wines - Italy",
-    "sections": [
-      {
-        "name": "Sicilia",
-        "items": [
-          {
-            "v": "2018",
-            "name": "Benanti 'Pietra Marina' Etna Bianco, Sicilia, Italy",
-            "price": "$2,580",
-            "section": "Sicilia",
-            "nameZh": "貝南蒂酒莊，「Pietra Marina」埃特納白葡萄酒，卡里坎特，西西里，意大利"
-          },
-          {
-            "v": "2021",
-            "name": "Graci 'Muganazzi' Etna Bianco, Sicilia, Italy",
-            "price": "$1,380",
-            "section": "Sicilia",
-            "nameZh": "格拉奇酒莊，「Muganazzi」埃特納白葡萄酒，卡里坎特，西西里，意大利"
-          }
-        ],
-        "nameZh": "西西里"
-      },
-      {
-        "name": "Trentino Alto Adige",
-        "items": [
-          {
-            "v": "2020",
-            "name": "Cantina Terlan 'Quartz' Sauvignon, Trentino-Alto Adige, Trentino Alto Adige, Italy",
-            "price": "$1,380",
-            "section": "Trentino Alto Adige",
-            "nameZh": "特蘭酒莊，「Quartz」長相思，特倫蒂諾－上阿迪傑，意大利"
-          },
-          {
-            "v": "2021",
-            "name": "Cantina Terlan 'Vorberg Pinot Bianco Riserva', Trentino-Alto Adige, Trentino Alto Adige, Italy",
-            "price": "$1,180",
-            "section": "Trentino Alto Adige",
-            "nameZh": "特蘭酒莊，「Vorberg」珍藏級白皮諾，特倫蒂諾－上阿迪傑，意大利"
-          }
-        ],
-        "nameZh": "特倫蒂諾－上阿迪傑"
-      },
-      {
-        "name": "Friuli Venezia Giulia",
-        "items": [
-          {
-            "v": "2022",
-            "name": "Livio Felluga, Friulano, Friuli Venezia Giulia, Italy",
-            "price": "$980",
-            "section": "Friuli Venezia Giulia",
-            "nameZh": "利維奧・費魯加酒莊，弗留利亞諾，東部丘陵，弗留利－威尼斯朱利亞，意大利"
-          },
-          {
-            "v": "2021",
-            "name": "Jermann \"W…Dreams\", Friuli Venezia Giulia, Italy",
-            "price": "$1,780",
-            "section": "Friuli Venezia Giulia",
-            "nameZh": "耶爾曼酒莊，「W…Dreams」莎當妮，弗留利－威尼斯朱利亞，意大利"
-          }
-        ],
-        "nameZh": "弗留利－威尼斯朱利亞"
-      },
-      {
-        "name": "Veneto",
-        "items": [
-          {
-            "v": "2024",
-            "name": "Gini Soave Classico, Veneto, Italy",
-            "price": "$980",
-            "section": "Veneto",
-            "nameZh": "吉尼酒莊，索阿韋經典白葡萄酒，加爾加內加，威尼托，意大利"
-          }
-        ],
-        "nameZh": "威尼托"
-      },
-      {
-        "name": "Piemonte",
-        "items": [
-          {
-            "v": "2018",
-            "name": "Vigneti Massa 'Costa del Vento', Piedmont, Piemonte, Italy",
-            "price": "$1,580",
-            "section": "Piemonte",
-            "nameZh": "馬薩葡萄園，「Costa del Vento」蒂莫拉索，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2019",
-            "name": "Villa Sparina 'Monte Rotondo' Gavi, Piedmont, Piemonte, Italy",
-            "price": "$1,280",
-            "section": "Piemonte",
-            "nameZh": "斯帕里納別墅酒莊，「Monte Rotondo」加維，科爾泰塞，皮埃蒙特，意大利"
-          }
-        ],
-        "nameZh": "皮埃蒙特"
-      },
-      {
-        "name": "Liguria",
-        "items": [
-          {
-            "v": "2020",
-            "name": "Selvadolce 'VB1' (Orange Wine), Liguria, Italy",
-            "price": "$1,080",
-            "section": "Liguria",
-            "nameZh": "塞爾瓦多爾切酒莊，「VB1」橙酒，利古里亞，意大利"
-          }
-        ],
-        "nameZh": "利古里亞"
-      },
-      {
-        "name": "Umbria",
-        "items": [
-          {
-            "v": "2016",
-            "name": "Paolo Bea 'Arboreus', Umbria, Italy",
-            "price": "$1,880",
-            "section": "Umbria",
-            "nameZh": "保羅・貝亞酒莊，「Arboreus」橙酒，翁布里亞，意大利"
-          }
-        ],
-        "nameZh": "翁布里亞"
-      },
-      {
-        "name": "Marche",
-        "items": [
-          {
-            "v": "2004",
-            "name": "Fattoria San Lorenzo 'Il San Lorenzo' Riserva, Marche, Italy",
-            "price": "$1,680",
-            "section": "Marche",
-            "nameZh": "聖洛倫佐農莊，「Il San Lorenzo」珍藏級白維蒂奇奧，馬爾凱，意大利"
-          },
-          {
-            "v": "2023",
-            "name": "Villa Bucci, Verdicchio dei Castelli di Jesi Classico Superiore, Marche, Italy",
-            "price": "$980",
-            "section": "Marche",
-            "nameZh": "布奇別墅酒莊，耶西城堡經典優級白維蒂奇奧，馬爾凱，意大利"
-          }
-        ],
-        "nameZh": "馬爾凱"
-      },
-      {
-        "name": "Campania",
-        "items": [
-          {
-            "v": "2018",
-            "name": "Cantina Lonardo 'Grecomusc', Campania, Italy",
-            "price": "$980",
-            "section": "Campania",
-            "nameZh": "洛納爾多酒莊，「Grecomusc」白葡萄酒，坎帕尼亞，意大利"
-          },
-          {
-            "v": "2020",
-            "name": "Tenuta San Francesco 'Per Eva' Costa d'Amalfi, Campania, Italy",
-            "price": "$880",
-            "section": "Campania",
-            "nameZh": "聖弗朗切斯科莊園，「Per Eva」阿馬爾菲海岸白葡萄酒，坎帕尼亞，意大利"
-          }
-        ],
-        "nameZh": "坎帕尼亞"
-      }
-    ],
-    "titleZh": "白葡萄酒－意大利"
-  },
-  {
-    "id": "c13",
-    "title": "White Wines - Europe",
-    "sections": [
-      {
-        "name": "Mosel",
-        "items": [
-          {
-            "v": "2021",
-            "name": "Riesling Auslese, Fritz Haag, Brauneberger Juffer Sonnenuhr, Mosel, Germany",
-            "price": "$1,380",
-            "section": "Mosel",
-            "nameZh": "弗里茨・哈格酒莊，布勞內貝格・尤弗日晷園精選級雷司令，摩澤爾，德國"
-          },
-          {
-            "v": "2013",
-            "name": "Riesling Auslese Goldkapsel, Joh. Jos. Prüm, Wehlener Sonnenuhr, Mosel, Germany",
-            "price": "$2,420",
-            "section": "Mosel",
-            "nameZh": "普朗酒莊，魏倫日晷園金帽精選級雷司令，摩澤爾，德國"
-          },
-          {
-            "v": "2018",
-            "name": "Riesling Alte Reben, Immich-Batterieberg, Enkircher Batterieberg, Mosel, Germany",
-            "price": "$1,480",
-            "section": "Mosel",
-            "nameZh": "伊米希－巴特里貝格酒莊，恩基爾巴特里貝格老藤雷司令，摩澤爾，德國"
-          },
-          {
-            "v": "1998",
-            "name": "Riesling Spätlese, Dr. Pauly-Bergweiler, Brauneberger Juffer, Mosel, Germany",
-            "price": "$1,080",
-            "section": "Mosel",
-            "nameZh": "寶利－貝格魏勒酒莊，布勞內貝格・尤弗晚摘級雷司令，摩澤爾，德國"
-          }
-        ],
-        "nameZh": "摩澤爾"
-      },
-      {
-        "name": "Rheingau",
-        "items": [
-          {
-            "v": "2017",
-            "name": "Riesling Rotlack Kabinett, Schloss Johannisberger, Rheingau, Germany",
-            "price": "$980",
-            "section": "Rheingau",
-            "nameZh": "約翰尼斯堡城堡酒莊，Rotlack 珍藏級雷司令，萊茵高，德國"
-          },
-          {
-            "v": "2020",
-            "name": "Riesling Rotlack Kabinett, Schloss Johannisberg, Rheingau, Germany",
-            "price": "$980",
-            "section": "Rheingau",
-            "nameZh": "約翰尼斯堡城堡酒莊，Rotlack 珍藏級雷司令，萊茵高，德國"
-          },
-          {
-            "v": "2023",
-            "name": "Riesling Kiedricher Gräfenberg Grosses Gewächs, Weingut Robert Weil, Rheingau, Germany",
-            "price": "$1,680",
-            "section": "Rheingau",
-            "nameZh": "羅伯特・威爾酒莊，基德里希・格雷芬貝格特級園雷司令，萊茵高，德國"
-          }
-        ],
-        "nameZh": "萊茵高"
-      },
-      {
-        "name": "Rheinhessen",
-        "items": [
-          {
-            "v": "2021",
-            "name": "Riesling Grosses Gewächs Monopol, Weingut Keller Dalsheimer Oberer Hubacker, Rheinhessen, Germany",
-            "price": "$3,880",
-            "section": "Rheinhessen",
-            "nameZh": "凱勒酒莊，達爾斯海默・奧貝爾胡巴克獨佔園特級乾型雷司令，萊茵黑森，德國"
-          },
-          {
-            "v": "2015",
-            "name": "Riesling Spätlese, Louis Guntrum Oppenheim Sackträger, Rheinhessen, Germany",
-            "price": "$738",
-            "section": "Rheinhessen",
-            "nameZh": "路易斯・貢特魯姆酒莊，奧本海姆・薩克特雷格晚摘級雷司令，萊茵黑森，德國"
-          }
-        ],
-        "nameZh": "萊茵黑森"
-      },
-      {
-        "name": "Rías Baixas",
-        "items": [
-          {
-            "v": "2021",
-            "name": "Lagar de Fornelos, Albariño 'Lindeiros', Rías Baixas, Spain",
-            "price": "$1,880",
-            "section": "Rías Baixas",
-            "nameZh": "福內洛斯酒莊，「Lindeiros」阿爾巴利諾，下海灣，西班牙"
-          }
-        ],
-        "nameZh": "下海灣"
-      },
-      {
-        "name": "Rioja",
-        "items": [
-          {
-            "v": "2012",
-            "name": "Bodegas Contador 'Qué Bonito Cacareaba', Rioja, Spain",
-            "price": "$1,660",
-            "section": "Rioja",
-            "nameZh": "孔塔多酒莊，「Qué Bonito Cacareaba」白葡萄酒，里奧哈，西班牙"
-          }
-        ],
-        "nameZh": "里奧哈"
-      },
-      {
-        "name": "Rueda",
-        "items": [
-          {
-            "v": "2012",
-            "name": "Bodega Belondrade y Lurton Verdejo, Rueda, Spain",
-            "price": "$1,030",
-            "section": "Rueda",
-            "nameZh": "貝隆德拉德與呂爾頓酒莊，弗德喬，盧埃達，西班牙"
-          }
-        ],
-        "nameZh": "盧埃達"
-      },
-      {
-        "name": "Central Pyrenees",
-        "items": [
-          {
-            "v": "2014",
-            "name": "Ekam, Castell d’Encus, Central Pyrenees, Spain",
-            "price": "$928",
-            "section": "Central Pyrenees",
-            "nameZh": "恩庫斯城堡，「Ekam」白葡萄酒，中部庇里牛斯山，西班牙"
-          }
-        ],
-        "nameZh": "中部庇里牛斯山"
-      },
-      {
-        "name": "Kamptal",
-        "items": [
-          {
-            "v": "2016",
-            "name": "Brundlmayer Langenloiser Alte Reben Grüner Veltliner, Kamptal, Austria",
-            "price": "$1,280",
-            "section": "Kamptal",
-            "nameZh": "布倫德邁爾酒莊，朗根洛伊斯老藤綠維特利納，坎普塔爾，奧地利"
-          }
-        ],
-        "nameZh": "坎普塔爾"
-      }
-    ],
-    "titleZh": "白葡萄酒－歐洲"
-  },
-  {
     "id": "c14",
     "title": "White Wines - France",
     "sections": [
@@ -3016,11 +2697,331 @@ window.WINE_DATA = [
     "titleZh": "白葡萄酒－法國"
   },
   {
-    "id": "c15",
-    "title": "White Wines - International",
+    "id": "c12",
+    "title": "White Wines - Italy",
+    "sections": [
+      {
+        "name": "Sicilia",
+        "items": [
+          {
+            "v": "2018",
+            "name": "Benanti 'Pietra Marina' Etna Bianco, Sicilia, Italy",
+            "price": "$2,580",
+            "section": "Sicilia",
+            "nameZh": "貝南蒂酒莊，「Pietra Marina」埃特納白葡萄酒，卡里坎特，西西里，意大利"
+          },
+          {
+            "v": "2021",
+            "name": "Graci 'Muganazzi' Etna Bianco, Sicilia, Italy",
+            "price": "$1,380",
+            "section": "Sicilia",
+            "nameZh": "格拉奇酒莊，「Muganazzi」埃特納白葡萄酒，卡里坎特，西西里，意大利"
+          }
+        ],
+        "nameZh": "西西里"
+      },
+      {
+        "name": "Trentino Alto Adige",
+        "items": [
+          {
+            "v": "2020",
+            "name": "Cantina Terlan 'Quartz' Sauvignon, Trentino-Alto Adige, Trentino Alto Adige, Italy",
+            "price": "$1,380",
+            "section": "Trentino Alto Adige",
+            "nameZh": "特蘭酒莊，「Quartz」長相思，特倫蒂諾－上阿迪傑，意大利"
+          },
+          {
+            "v": "2021",
+            "name": "Cantina Terlan 'Vorberg Pinot Bianco Riserva', Trentino-Alto Adige, Trentino Alto Adige, Italy",
+            "price": "$1,180",
+            "section": "Trentino Alto Adige",
+            "nameZh": "特蘭酒莊，「Vorberg」珍藏級白皮諾，特倫蒂諾－上阿迪傑，意大利"
+          }
+        ],
+        "nameZh": "特倫蒂諾－上阿迪傑"
+      },
+      {
+        "name": "Friuli Venezia Giulia",
+        "items": [
+          {
+            "v": "2022",
+            "name": "Livio Felluga, Friulano, Friuli Venezia Giulia, Italy",
+            "price": "$980",
+            "section": "Friuli Venezia Giulia",
+            "nameZh": "利維奧・費魯加酒莊，弗留利亞諾，東部丘陵，弗留利－威尼斯朱利亞，意大利"
+          },
+          {
+            "v": "2021",
+            "name": "Jermann \"W…Dreams\", Friuli Venezia Giulia, Italy",
+            "price": "$1,780",
+            "section": "Friuli Venezia Giulia",
+            "nameZh": "耶爾曼酒莊，「W…Dreams」莎當妮，弗留利－威尼斯朱利亞，意大利"
+          }
+        ],
+        "nameZh": "弗留利－威尼斯朱利亞"
+      },
+      {
+        "name": "Veneto",
+        "items": [
+          {
+            "v": "2024",
+            "name": "Gini Soave Classico, Veneto, Italy",
+            "price": "$980",
+            "section": "Veneto",
+            "nameZh": "吉尼酒莊，索阿韋經典白葡萄酒，加爾加內加，威尼托，意大利"
+          }
+        ],
+        "nameZh": "威尼托"
+      },
+      {
+        "name": "Piemonte",
+        "items": [
+          {
+            "v": "2018",
+            "name": "Vigneti Massa 'Costa del Vento', Piedmont, Piemonte, Italy",
+            "price": "$1,580",
+            "section": "Piemonte",
+            "nameZh": "馬薩葡萄園，「Costa del Vento」蒂莫拉索，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2019",
+            "name": "Villa Sparina 'Monte Rotondo' Gavi, Piedmont, Piemonte, Italy",
+            "price": "$1,280",
+            "section": "Piemonte",
+            "nameZh": "斯帕里納別墅酒莊，「Monte Rotondo」加維，科爾泰塞，皮埃蒙特，意大利"
+          }
+        ],
+        "nameZh": "皮埃蒙特"
+      },
+      {
+        "name": "Liguria",
+        "items": [
+          {
+            "v": "2020",
+            "name": "Selvadolce 'VB1' (Orange Wine), Liguria, Italy",
+            "price": "$1,080",
+            "section": "Liguria",
+            "nameZh": "塞爾瓦多爾切酒莊，「VB1」橙酒，利古里亞，意大利"
+          }
+        ],
+        "nameZh": "利古里亞"
+      },
+      {
+        "name": "Umbria",
+        "items": [
+          {
+            "v": "2016",
+            "name": "Paolo Bea 'Arboreus', Umbria, Italy",
+            "price": "$1,880",
+            "section": "Umbria",
+            "nameZh": "保羅・貝亞酒莊，「Arboreus」橙酒，翁布里亞，意大利"
+          }
+        ],
+        "nameZh": "翁布里亞"
+      },
+      {
+        "name": "Marche",
+        "items": [
+          {
+            "v": "2004",
+            "name": "Fattoria San Lorenzo 'Il San Lorenzo' Riserva, Marche, Italy",
+            "price": "$1,680",
+            "section": "Marche",
+            "nameZh": "聖洛倫佐農莊，「Il San Lorenzo」珍藏級白維蒂奇奧，馬爾凱，意大利"
+          },
+          {
+            "v": "2023",
+            "name": "Villa Bucci, Verdicchio dei Castelli di Jesi Classico Superiore, Marche, Italy",
+            "price": "$980",
+            "section": "Marche",
+            "nameZh": "布奇別墅酒莊，耶西城堡經典優級白維蒂奇奧，馬爾凱，意大利"
+          }
+        ],
+        "nameZh": "馬爾凱"
+      },
+      {
+        "name": "Campania",
+        "items": [
+          {
+            "v": "2018",
+            "name": "Cantina Lonardo 'Grecomusc', Campania, Italy",
+            "price": "$980",
+            "section": "Campania",
+            "nameZh": "洛納爾多酒莊，「Grecomusc」白葡萄酒，坎帕尼亞，意大利"
+          },
+          {
+            "v": "2020",
+            "name": "Tenuta San Francesco 'Per Eva' Costa d'Amalfi, Campania, Italy",
+            "price": "$880",
+            "section": "Campania",
+            "nameZh": "聖弗朗切斯科莊園，「Per Eva」阿馬爾菲海岸白葡萄酒，坎帕尼亞，意大利"
+          }
+        ],
+        "nameZh": "坎帕尼亞"
+      }
+    ],
+    "titleZh": "白葡萄酒－意大利"
+  },
+  {
+    "id": "c13",
+    "title": "White Wines - Europe",
+    "sections": [
+      {
+        "name": "Mosel",
+        "items": [
+          {
+            "v": "2021",
+            "name": "Riesling Auslese, Fritz Haag, Brauneberger Juffer Sonnenuhr, Mosel, Germany",
+            "price": "$1,380",
+            "section": "Mosel",
+            "nameZh": "弗里茨・哈格酒莊，布勞內貝格・尤弗日晷園精選級雷司令，摩澤爾，德國"
+          },
+          {
+            "v": "2013",
+            "name": "Riesling Auslese Goldkapsel, Joh. Jos. Prüm, Wehlener Sonnenuhr, Mosel, Germany",
+            "price": "$2,420",
+            "section": "Mosel",
+            "nameZh": "普朗酒莊，魏倫日晷園金帽精選級雷司令，摩澤爾，德國"
+          },
+          {
+            "v": "2018",
+            "name": "Riesling Alte Reben, Immich-Batterieberg, Enkircher Batterieberg, Mosel, Germany",
+            "price": "$1,480",
+            "section": "Mosel",
+            "nameZh": "伊米希－巴特里貝格酒莊，恩基爾巴特里貝格老藤雷司令，摩澤爾，德國"
+          },
+          {
+            "v": "1998",
+            "name": "Riesling Spätlese, Dr. Pauly-Bergweiler, Brauneberger Juffer, Mosel, Germany",
+            "price": "$1,080",
+            "section": "Mosel",
+            "nameZh": "寶利－貝格魏勒酒莊，布勞內貝格・尤弗晚摘級雷司令，摩澤爾，德國"
+          }
+        ],
+        "nameZh": "摩澤爾"
+      },
+      {
+        "name": "Rheingau",
+        "items": [
+          {
+            "v": "2017",
+            "name": "Riesling Rotlack Kabinett, Schloss Johannisberger, Rheingau, Germany",
+            "price": "$980",
+            "section": "Rheingau",
+            "nameZh": "約翰尼斯堡城堡酒莊，Rotlack 珍藏級雷司令，萊茵高，德國"
+          },
+          {
+            "v": "2020",
+            "name": "Riesling Rotlack Kabinett, Schloss Johannisberg, Rheingau, Germany",
+            "price": "$980",
+            "section": "Rheingau",
+            "nameZh": "約翰尼斯堡城堡酒莊，Rotlack 珍藏級雷司令，萊茵高，德國"
+          },
+          {
+            "v": "2023",
+            "name": "Riesling Kiedricher Gräfenberg Grosses Gewächs, Weingut Robert Weil, Rheingau, Germany",
+            "price": "$1,680",
+            "section": "Rheingau",
+            "nameZh": "羅伯特・威爾酒莊，基德里希・格雷芬貝格特級園雷司令，萊茵高，德國"
+          }
+        ],
+        "nameZh": "萊茵高"
+      },
+      {
+        "name": "Rheinhessen",
+        "items": [
+          {
+            "v": "2021",
+            "name": "Riesling Grosses Gewächs Monopol, Weingut Keller Dalsheimer Oberer Hubacker, Rheinhessen, Germany",
+            "price": "$3,880",
+            "section": "Rheinhessen",
+            "nameZh": "凱勒酒莊，達爾斯海默・奧貝爾胡巴克獨佔園特級乾型雷司令，萊茵黑森，德國"
+          },
+          {
+            "v": "2015",
+            "name": "Riesling Spätlese, Louis Guntrum Oppenheim Sackträger, Rheinhessen, Germany",
+            "price": "$738",
+            "section": "Rheinhessen",
+            "nameZh": "路易斯・貢特魯姆酒莊，奧本海姆・薩克特雷格晚摘級雷司令，萊茵黑森，德國"
+          }
+        ],
+        "nameZh": "萊茵黑森"
+      },
+      {
+        "name": "Rías Baixas",
+        "items": [
+          {
+            "v": "2021",
+            "name": "Lagar de Fornelos, Albariño 'Lindeiros', Rías Baixas, Spain",
+            "price": "$1,880",
+            "section": "Rías Baixas",
+            "nameZh": "福內洛斯酒莊，「Lindeiros」阿爾巴利諾，下海灣，西班牙"
+          }
+        ],
+        "nameZh": "下海灣"
+      },
+      {
+        "name": "Rioja",
+        "items": [
+          {
+            "v": "2012",
+            "name": "Bodegas Contador 'Qué Bonito Cacareaba', Rioja, Spain",
+            "price": "$1,660",
+            "section": "Rioja",
+            "nameZh": "孔塔多酒莊，「Qué Bonito Cacareaba」白葡萄酒，里奧哈，西班牙"
+          }
+        ],
+        "nameZh": "里奧哈"
+      },
+      {
+        "name": "Rueda",
+        "items": [
+          {
+            "v": "2012",
+            "name": "Bodega Belondrade y Lurton Verdejo, Rueda, Spain",
+            "price": "$1,030",
+            "section": "Rueda",
+            "nameZh": "貝隆德拉德與呂爾頓酒莊，弗德喬，盧埃達，西班牙"
+          }
+        ],
+        "nameZh": "盧埃達"
+      },
+      {
+        "name": "Central Pyrenees",
+        "items": [
+          {
+            "v": "2014",
+            "name": "Ekam, Castell d’Encus, Central Pyrenees, Spain",
+            "price": "$928",
+            "section": "Central Pyrenees",
+            "nameZh": "恩庫斯城堡，「Ekam」白葡萄酒，中部庇里牛斯山，西班牙"
+          }
+        ],
+        "nameZh": "中部庇里牛斯山"
+      },
+      {
+        "name": "Kamptal",
+        "items": [
+          {
+            "v": "2016",
+            "name": "Brundlmayer Langenloiser Alte Reben Grüner Veltliner, Kamptal, Austria",
+            "price": "$1,280",
+            "section": "Kamptal",
+            "nameZh": "布倫德邁爾酒莊，朗根洛伊斯老藤綠維特利納，坎普塔爾，奧地利"
+          }
+        ],
+        "nameZh": "坎普塔爾"
+      }
+    ],
+    "titleZh": "白葡萄酒－歐洲"
+  },
+  {
+    "id": "c27",
+    "title": "White Wines - China",
     "sections": [
       {
         "name": "Chardonnay",
+        "nameZh": "莎當妮",
         "items": [
           {
             "v": "2020",
@@ -3036,6 +3037,65 @@ window.WINE_DATA = [
             "section": "Chardonnay",
             "nameZh": "西鴿酒莊，「N28」莎當妮，寧夏，中國"
           },
+          {
+            "v": "2023",
+            "name": "Yihu Chardonnay Reserve, Mystic Island, Shandong, China",
+            "price": "$2,380",
+            "section": "Chardonnay",
+            "nameZh": "一湖酒莊，Mystic Island 莎當妮珍藏，山東，中國"
+          }
+        ]
+      },
+      {
+        "name": "Sauvignon Blanc",
+        "nameZh": "長相思",
+        "items": [
+          {
+            "v": "2023",
+            "name": "Jade Dove, Xige Estate, Ningxia, China",
+            "price": "$1,080",
+            "section": "Sauvignon Blanc",
+            "nameZh": "西鴿酒莊，「Jade Dove」長相思，寧夏，中國"
+          }
+        ]
+      },
+      {
+        "name": "Indigenous & Curiosities",
+        "nameZh": "原生品種及特色佳釀",
+        "items": [
+          {
+            "v": "2024",
+            "name": "Yihu Cabernet Franc Blanc, Mystic Island, Shandong, China",
+            "price": "$880",
+            "section": "Indigenous & Curiosities",
+            "nameZh": "一湖酒莊，Mystic Island「Cabernet Franc Blanc」品麗珠白酒，山東，中國"
+          },
+          {
+            "v": "2023",
+            "name": "Rkatsiteli, Puchang, Xinjiang, China",
+            "price": "$1,280",
+            "section": "Indigenous & Curiosities",
+            "nameZh": "蒲昌酒莊，瑞卡茨特利白葡萄酒，新疆，中國"
+          },
+          {
+            "v": "2015",
+            "name": "Viognier blend, Château Bolongbao, Beijing, China",
+            "price": "$805",
+            "section": "Indigenous & Curiosities",
+            "nameZh": "波龍堡酒莊，維歐尼混釀，北京，中國"
+          }
+        ]
+      }
+    ],
+    "titleZh": "白葡萄酒－中國"
+  },
+  {
+    "id": "c15",
+    "title": "White Wines - International",
+    "sections": [
+      {
+        "name": "Chardonnay",
+        "items": [
           {
             "v": "2022",
             "name": "Shafer Red Shoulder Ranch, Napa Valley, USA",
@@ -3112,13 +3172,6 @@ window.WINE_DATA = [
         "name": "Sauvignon Blanc",
         "items": [
           {
-            "v": "2023",
-            "name": "Jade Dove, Xige Estate, Ningxia, China",
-            "price": "$1,080",
-            "section": "Sauvignon Blanc",
-            "nameZh": "西鴿酒莊，「Jade Dove」長相思，寧夏，中國"
-          },
-          {
             "v": "2025",
             "name": "Cloudy Bay, Marlborough, New Zealand",
             "price": "$805",
@@ -3159,34 +3212,6 @@ window.WINE_DATA = [
       {
         "name": "Indigenous & Curiosities",
         "items": [
-          {
-            "v": "2024",
-            "name": "Yihu Cabernet Franc Blanc, Mystic Island, Shandong, China",
-            "price": "$880",
-            "section": "Indigenous & Curiosities",
-            "nameZh": "一湖酒莊，Mystic Island「Cabernet Franc Blanc」品麗珠白酒，山東，中國"
-          },
-          {
-            "v": "2023",
-            "name": "Yihu Chardonnay Reserve, Mystic Island, Shandong, China",
-            "price": "$2,380",
-            "section": "Indigenous & Curiosities",
-            "nameZh": "一湖酒莊，Mystic Island 莎當妮珍藏，山東，中國"
-          },
-          {
-            "v": "2023",
-            "name": "Rkatsiteli, Puchang, Xinjiang, China",
-            "price": "$1,280",
-            "section": "Sauvignon Blanc",
-            "nameZh": "蒲昌酒莊，瑞卡茨特利白葡萄酒，新疆，中國"
-          },
-          {
-            "v": "2015",
-            "name": "Viognier blend, Château Bolongbao, Beijing, China",
-            "price": "$805",
-            "section": "Sauvignon Blanc",
-            "nameZh": "波龍堡酒莊，維歐尼混釀，北京，中國"
-          },
           {
             "v": "2023",
             "name": "WeightStone x Buvon Nature B&W, Taiwan",
@@ -3633,1006 +3658,6 @@ window.WINE_DATA = [
       }
     ],
     "titleZh": "大瓶裝"
-  },
-  {
-    "id": "c19",
-    "title": "Red Wines - Italy",
-    "sections": [
-      {
-        "name": "Sicilia",
-        "items": [
-          {
-            "v": "2021",
-            "name": "Calabretta 'Contrada dei Centenari', Sicily, Sicilia, Italy",
-            "price": "$1,880",
-            "section": "Sicilia",
-            "nameZh": "卡拉布雷塔酒莊，「百年地塊」紅酒，西西里島，意大利"
-          },
-          {
-            "v": "2014",
-            "name": "Calabretta 'Vigne Vecchie', Sicily, Sicilia, Italy",
-            "price": "$1,280",
-            "section": "Sicilia",
-            "nameZh": "卡拉布雷塔酒莊，「老藤」內雷洛・馬斯卡雷塞紅酒，西西里島，意大利"
-          },
-          {
-            "v": "2019",
-            "name": "COS 'Contrada' Nero d'Avola, Sicily, Sicilia, Italy",
-            "price": "$1,480",
-            "section": "Sicilia",
-            "nameZh": "西歐斯酒莊「Contrada」黑達沃拉紅酒，西西里島，意大利"
-          },
-          {
-            "v": "2014",
-            "name": "Gulfi 'Pino', Sicily, Sicilia, Italy",
-            "price": "$2,480",
-            "section": "Sicilia",
-            "nameZh": "古爾菲酒莊，「皮諾」黑達沃拉單一園紅酒，西西里島，意大利"
-          },
-          {
-            "v": "2011",
-            "name": "Tenuta di Passopisciaro 'Contrada Chiappemacine', Sicily, Sicilia, Italy",
-            "price": "$1,880",
-            "section": "Sicilia",
-            "nameZh": "帕索皮夏羅酒莊，「恰佩馬契內地塊」紅酒，西西里島，意大利"
-          }
-        ],
-        "nameZh": "西西里島"
-      },
-      {
-        "name": "Etna Rosso",
-        "items": [
-          {
-            "v": "2020",
-            "name": "Frank Cornelissen 'Magma', Etna Rosso, Italy",
-            "price": "$6,680",
-            "section": "Etna Rosso",
-            "nameZh": "法蘭克・科內利森酒莊，「岩漿」埃特納紅酒，西西里島，意大利"
-          },
-          {
-            "v": "2021",
-            "name": "Graci 'Arcurìa', Sicily, Etna Rosso, Italy",
-            "price": "$1,380",
-            "section": "Etna Rosso",
-            "nameZh": "格拉奇酒莊，「阿爾庫里亞」內雷洛・馬斯卡雷塞紅酒，埃特納，西西里島，埃特納紅酒，意大利"
-          },
-          {
-            "v": "2019",
-            "name": "Graci 'Quota 1000 Contrada Barbabecchi', Etna Rosso, Italy",
-            "price": "$3,280",
-            "section": "Etna Rosso",
-            "nameZh": "格拉奇酒莊，「海拔1000米・巴爾巴貝基地塊」埃特納紅酒，西西里島，意大利"
-          },
-          {
-            "v": "2018",
-            "name": "Graci 'Sopra il Pozzo', Etna Rosso, Italy",
-            "price": "$3,680",
-            "section": "Etna Rosso",
-            "nameZh": "格拉奇酒莊，「井上」埃特納紅酒，西西里島，意大利"
-          },
-          {
-            "v": "2017",
-            "name": "Graci 'Sopra il Pozzo', Etna Rosso, Italy",
-            "price": "$3,680",
-            "section": "Etna Rosso",
-            "nameZh": "格拉奇酒莊，「井上」埃特納紅酒，西西里島，意大利"
-          },
-          {
-            "v": "2020",
-            "name": "Pietradolce 'Contrada Rampante', Etna Rosso, Italy",
-            "price": "$1,880",
-            "section": "Etna Rosso",
-            "nameZh": "皮耶特拉多爾切酒莊，「蘭潘特地塊」埃特納紅酒，西西里島，意大利"
-          },
-          {
-            "v": "2016",
-            "name": "Pietradolce 'Vigna Barbagalli', Etna Rosso, Italy",
-            "price": "$4,580",
-            "section": "Etna Rosso",
-            "nameZh": "皮耶特拉多爾切酒莊，「巴爾巴加利園」埃特納紅酒，西西里島，意大利"
-          },
-          {
-            "v": "2013",
-            "name": "Pietradolce 'Vigna Barbagalli', Etna Rosso, Italy",
-            "price": "$4,380",
-            "section": "Etna Rosso",
-            "nameZh": "皮耶特拉多爾切酒莊，「巴爾巴加利園」埃特納紅酒，西西里島，意大利"
-          },
-          {
-            "v": "2021",
-            "name": "Tenuta delle Terre Nere 'Moganazzi', Etna Rosso, Italy",
-            "price": "$1,680",
-            "section": "Etna Rosso",
-            "nameZh": "黑土酒莊，「莫加納齊」埃特納紅酒，西西里島，意大利"
-          },
-          {
-            "v": "2021",
-            "name": "Tenuta Tascante 'Contrada Pianodario', Etna Rosso, Italy",
-            "price": "$1,780",
-            "section": "Etna Rosso",
-            "nameZh": "塔斯坎特酒莊，「皮亞諾達里奧地塊」埃特納紅酒，西西里島，意大利"
-          },
-          {
-            "v": "2017",
-            "name": "Tenuta Tascante 'Contrada Rampante', Etna Rosso, Italy",
-            "price": "$1,580",
-            "section": "Etna Rosso",
-            "nameZh": "塔斯坎特酒莊，「蘭潘特地塊」埃特納紅酒，西西里島，意大利"
-          }
-        ],
-        "nameZh": "埃特納紅酒"
-      },
-      {
-        "name": "Trentino Alto Adige",
-        "items": [
-          {
-            "v": "2016",
-            "name": "Franz Haas 'Schweizer' Pinot Nero, Trentino-Alto Adige, Trentino Alto Adige, Italy",
-            "price": "$1,480",
-            "section": "Trentino Alto Adige",
-            "nameZh": "弗朗茨・哈斯酒莊，「施魏策爾」黑皮諾紅酒，特倫蒂諾-上阿迪傑，意大利"
-          },
-          {
-            "v": "2013",
-            "name": "Hartmann Donà 'Donà Noir', Trentino-Alto Adige, Trentino Alto Adige, Italy",
-            "price": "$1,680",
-            "section": "Trentino Alto Adige",
-            "nameZh": "哈特曼・多納酒莊，「多納黑皮諾」紅酒，特倫蒂諾-上阿迪傑，意大利"
-          },
-          {
-            "v": "2015",
-            "name": "Hartmann Donà 'Donà Noir', Trentino-Alto Adige, Trentino Alto Adige, Italy",
-            "price": "$1,680",
-            "section": "Trentino Alto Adige",
-            "nameZh": "哈特曼・多納酒莊，「多納黑皮諾」紅酒，特倫蒂諾-上阿迪傑，意大利"
-          },
-          {
-            "v": "2007",
-            "name": "San Leonardo, Trentino-Alto Adige, Trentino Alto Adige, Italy",
-            "price": "$2,488",
-            "section": "Trentino Alto Adige",
-            "nameZh": "聖萊昂納多酒莊，波爾多混釀紅酒，特倫蒂諾-上阿迪傑，意大利"
-          },
-          {
-            "v": "2001",
-            "name": "San Leonardo, Trentino-Alto Adige, Trentino Alto Adige, Italy",
-            "price": "$2,980",
-            "section": "Trentino Alto Adige",
-            "nameZh": "聖萊昂納多酒莊，波爾多混釀紅酒，特倫蒂諾-上阿迪傑，意大利"
-          },
-          {
-            "v": "1999",
-            "name": "San Leonardo, Trentino-Alto Adige, Trentino Alto Adige, Italy",
-            "price": "$3,300",
-            "section": "Trentino Alto Adige",
-            "nameZh": "聖萊昂納多酒莊，波爾多混釀紅酒，特倫蒂諾-上阿迪傑，意大利"
-          }
-        ],
-        "nameZh": "特倫蒂諾-上阿迪傑"
-      },
-      {
-        "name": "Valle d'Aosta",
-        "items": [
-          {
-            "v": "2018",
-            "name": "Les Crêtes 'Côteau La Tour' Syrah, Valle d’Aosta, Valle d'Aosta, Italy",
-            "price": "$1,350",
-            "section": "Valle D' Aosta",
-            "nameZh": "萊克雷特酒莊，「拉圖丘」西拉紅酒，瓦萊達奧斯塔，意大利"
-          },
-          {
-            "v": "2018",
-            "name": "La Kíuva, Arnad-Montjovet Supérieur, Nebbiolo, Valle d’Aosta, Valle d'Aosta, Italy",
-            "price": "$1,180",
-            "section": "Valle D' Aosta",
-            "nameZh": "拉基烏瓦酒莊，阿爾納-蒙若韋上級內比奧羅紅酒，瓦萊達奧斯塔，意大利"
-          }
-        ],
-        "nameZh": "瓦萊達奧斯塔"
-      },
-      {
-        "name": "Piemonte",
-        "items": [
-          {
-            "v": "2019",
-            "name": "Amista, Nizza 'Riserva', Barbera, Piedmont, Piemonte, Italy",
-            "price": "$1,880",
-            "section": "Piemonte",
-            "nameZh": "阿米斯塔酒莊，「珍藏」尼扎巴貝拉紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2018",
-            "name": "Antoniolo 'Osso San Grato' Gattinara Riserva, Piedmont, Piemonte, Italy",
-            "price": "$2,280",
-            "section": "Piemonte",
-            "nameZh": "安東尼奧洛酒莊，「奧索・聖格拉托」加蒂納拉珍藏內比奧羅紅酒，皮埃蒙特，意大利"
-          }
-        ],
-        "nameZh": "皮埃蒙特"
-      },
-      {
-        "name": "Barbaresco",
-        "items": [
-          {
-            "v": "1990",
-            "name": "Bruno Giacosa 'Santo Stefano' Riserva, Barbaresco, Italy",
-            "price": "$16,135",
-            "section": "Barbaresco",
-            "nameZh": "布魯諾・賈科薩酒莊，「聖斯特凡諾」珍藏巴巴萊斯科紅酒，內維，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2019",
-            "name": "Ceretto 'Bernardot', Barbaresco, Italy",
-            "price": "$3,480",
-            "section": "Barbaresco",
-            "nameZh": "切雷托酒莊，「貝爾納多」巴巴萊斯科紅酒，特雷伊索，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2020",
-            "name": "Gaja 'Costa Russi', Barbaresco, Italy",
-            "price": "$9,880",
-            "section": "Barbaresco",
-            "nameZh": "嘉雅酒莊，「科斯塔・魯西」巴巴萊斯科單一園內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2020",
-            "name": "Gaja 'Sori San Lorenzo', Barbaresco, Italy",
-            "price": "$9,880",
-            "section": "Barbaresco",
-            "nameZh": "嘉雅酒莊，「索里・聖洛倫佐」巴巴萊斯科單一園內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2020",
-            "name": "Gaja 'Sorì Tildìn', Barbaresco, Italy",
-            "price": "$9,880",
-            "section": "Barbaresco",
-            "nameZh": "嘉雅酒莊，「索里・蒂爾丁」巴巴萊斯科單一園內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2022",
-            "name": "La Spinetta 'Bordini', Barbaresco, Italy",
-            "price": "$1,680",
-            "section": "Barbaresco",
-            "nameZh": "拉斯皮內塔酒莊，「博爾迪尼」巴巴萊斯科單一園內比奧羅紅酒，內維，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2004",
-            "name": "La Spinetta 'Gallina', Barbaresco, Italy",
-            "price": "$3,280",
-            "section": "Barbaresco",
-            "nameZh": "拉斯皮內塔酒莊，「加利納」巴巴萊斯科單一園內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2011",
-            "name": "La Spinetta 'Starderi', Barbaresco, Italy",
-            "price": "$3,380",
-            "section": "Barbaresco",
-            "nameZh": "拉斯皮內塔酒莊，「斯塔爾德里」巴巴萊斯科單一園內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2017",
-            "name": "Roagna 'Asili' Vecchie Viti, Barbaresco, Italy",
-            "price": "$5,280",
-            "section": "Barbaresco",
-            "nameZh": "羅亞尼亞酒莊，「阿西里」老藤巴巴萊斯科內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2017",
-            "name": "Roagna 'Pajè' Vecchie Viti, Barbaresco, Italy",
-            "price": "$5,280",
-            "section": "Barbaresco",
-            "nameZh": "羅亞尼亞酒莊，「帕耶」老藤巴巴萊斯科內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2006",
-            "name": "Roagna 'Crichët Pajé', Barbaresco, Italy",
-            "price": "$12,800",
-            "section": "Barbaresco",
-            "nameZh": "羅亞尼亞酒莊，「克里凱・帕耶」巴巴萊斯科內比奧羅紅酒，皮埃蒙特，意大利"
-          }
-        ],
-        "nameZh": "巴巴萊斯科"
-      },
-      {
-        "name": "Barolo",
-        "items": [
-          {
-            "v": "2005",
-            "name": "Cappellano 'Piè Franco', Piedmont, Barolo, Italy",
-            "price": "$11,800",
-            "section": "Barolo",
-            "nameZh": "卡佩拉諾酒莊，「皮耶・弗蘭科」未嫁接內比奧羅巴羅洛紅酒，塞拉倫加，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2017",
-            "name": "Cappellano 'Piè Rupestris', Piedmont, Barolo, Italy",
-            "price": "$3,380",
-            "section": "Barolo",
-            "nameZh": "卡佩拉諾酒莊，「皮耶・魯佩斯特里斯」巴羅洛內比奧羅紅酒，塞拉倫加，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2018",
-            "name": "Cappellano 'Piè Rupestris', Piedmont, Barolo, Italy",
-            "price": "$3,880",
-            "section": "Barolo",
-            "nameZh": "卡佩拉諾酒莊，「皮耶・魯佩斯特里斯」巴羅洛內比奧羅紅酒，塞拉倫加，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2021",
-            "name": "Com. G.B. Burlotto \"Acclivi\", Piedmont, Barolo, Italy",
-            "price": "$3,580",
-            "section": "Barolo",
-            "nameZh": "布爾洛托酒莊「Acclivi」巴羅洛內比奧羅紅酒，韋爾杜諾，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2021",
-            "name": "Com. G.B. Burlotto \"Cannubi\", Piedmont, Barolo, Italy",
-            "price": "$4,080",
-            "section": "Barolo",
-            "nameZh": "布爾洛托酒莊「Cannubi」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2020",
-            "name": "Com. G.B. Burlotto \"Cannubi\", Piedmont, Barolo, Italy",
-            "price": "$4,080",
-            "section": "Barolo",
-            "nameZh": "布爾洛托酒莊「Cannubi」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2019",
-            "name": "Com. G.B. Burlotto \"Monvigliero\", Piedmont, Barolo, Italy",
-            "price": "$4,080",
-            "section": "Barolo",
-            "nameZh": "布爾洛托酒莊「Monvigliero」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2020",
-            "name": "Com. G.B. Burlotto \"Monvigliero\", Piedmont, Barolo, Italy",
-            "price": "$4,080",
-            "section": "Barolo",
-            "nameZh": "布爾洛托酒莊「Monvigliero」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2021",
-            "name": "Com. G.B. Burlotto \"Monvigliero\", Piedmont, Barolo, Italy",
-            "price": "$4,080",
-            "section": "Barolo",
-            "nameZh": "布爾洛托酒莊「Monvigliero」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2019",
-            "name": "Gaja 'Conteisa', Piedmont, Barolo, Italy",
-            "price": "$6,280",
-            "section": "Barolo",
-            "nameZh": "嘉雅酒莊，「孔泰薩」巴羅洛內比奧羅紅酒，切雷奎奧，拉莫拉，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2008",
-            "name": "Giuseppe Rinaldi 'Cannubi San Lorenzo - Ravera', Piedmont, Barolo, Italy",
-            "price": "$10,800",
-            "section": "Barolo",
-            "nameZh": "朱塞佩・里納爾迪酒莊，「卡努比・聖洛倫佐－拉韋拉」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2008",
-            "name": "Giuseppe Rinaldi 'Brunate - Le Coste', Piedmont, Barolo, Italy",
-            "price": "$9,880",
-            "section": "Barolo",
-            "nameZh": "朱塞佩・里納爾迪酒莊，「布魯納特－萊科斯特」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "1978",
-            "name": "Prunotto 'Bussia di Monforte d'Alba' Riserva, Piedmont, Barolo, Italy",
-            "price": "$5,880",
-            "section": "Barolo",
-            "nameZh": "普魯諾托酒莊，「布西亞・蒙福爾泰達爾巴」珍藏巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2018",
-            "name": "Roagna 'Pira Vecchie Viti', Piedmont, Barolo, Italy",
-            "price": "$5,880",
-            "section": "Barolo",
-            "nameZh": "羅亞尼亞酒莊，「皮拉」老藤巴羅洛內比奧羅紅酒，卡斯蒂廖內・法萊托，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2012",
-            "name": "Sandrone 'Sibi et Paucis', Piedmont, Barolo, Italy",
-            "price": "$3,980",
-            "section": "Barolo",
-            "nameZh": "桑德羅內酒莊，「只為自己與少數人」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2017",
-            "name": "Sandrone 'Le Vigne', Piedmont, Barolo, Italy",
-            "price": "$2,580",
-            "section": "Barolo",
-            "nameZh": "桑德羅內酒莊，「葡萄園」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "1998",
-            "name": "Sordo 'Gabutti' Riserva, Piedmont, Barolo, Italy",
-            "price": "$3,480",
-            "section": "Barolo",
-            "nameZh": "索爾多酒莊，「加布蒂」珍藏巴羅洛內比奧羅紅酒，塞拉倫加，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2017",
-            "name": "Vietti, Riserva, Piedmont, Barolo, Italy",
-            "price": "$4,580",
-            "section": "Barolo",
-            "nameZh": "維埃蒂酒莊，珍藏巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
-          }
-        ],
-        "nameZh": "巴羅洛"
-      },
-      {
-        "name": "Lombardia",
-        "items": [
-          {
-            "v": "2018",
-            "name": "Ca' del Bosco 'Carmenero' Rosso del Sebino, Lombardia, Italy",
-            "price": "$1,780",
-            "section": "Lombardia",
-            "nameZh": "卡德爾博斯科酒莊，「卡梅內羅」塞比諾紅酒，倫巴第，意大利"
-          },
-          {
-            "v": "2012",
-            "name": "Ca' del Bosco 'Carmenero' Rosso del Sebino, Lombardia, Italy",
-            "price": "$1,980",
-            "section": "Lombardia",
-            "nameZh": "卡德爾博斯科酒莊，「卡梅內羅」塞比諾紅酒，倫巴第，意大利"
-          },
-          {
-            "v": "2018",
-            "name": "Ca' del Bosco 'Maurizio Zanella' Rosso del Sebino, Lombardia, Italy",
-            "price": "$2,080",
-            "section": "Lombardia",
-            "nameZh": "卡德爾博斯科酒莊，「毛里齊奧・扎內拉」塞比諾紅酒，倫巴第，意大利"
-          },
-          {
-            "v": "2013",
-            "name": "Ca' del Bosco 'Maurizio Zanella' Rosso del Sebino, Lombardia, Italy",
-            "price": "$2,580",
-            "section": "Lombardia",
-            "nameZh": "卡德爾博斯科酒莊，「毛里齊奧・扎內拉」塞比諾紅酒，倫巴第，意大利"
-          },
-          {
-            "v": "2014",
-            "name": "Comm. Lino Maga 'Barbacarlo', Lombardy, Lombardia, Italy",
-            "price": "$2,580",
-            "section": "Lombardia",
-            "nameZh": "利諾・馬加酒莊，「巴爾巴卡洛」田園混釀紅酒，倫巴第，意大利"
-          },
-          {
-            "v": "2013",
-            "name": "Vigne Olcru 'Coppiere Nero' Oltrepò Pavese, Lombardy, Lombardia, Italy",
-            "price": "$1,880",
-            "section": "Lombardia",
-            "nameZh": "奧爾克魯酒莊，「黑色酒盃」奧爾特雷波・帕韋塞紅酒，倫巴第，意大利"
-          }
-        ],
-        "nameZh": "倫巴第"
-      },
-      {
-        "name": "Veneto",
-        "items": [
-          {
-            "v": "2015",
-            "name": "Allegrini 'La Poja' Monovitigno Corvina Veronese, Veneto, Italy",
-            "price": "$2,880",
-            "section": "Veneto",
-            "nameZh": "阿萊格里尼酒莊，「拉波亞」單一品種科爾維納維羅內塞紅酒，威尼托，意大利"
-          },
-          {
-            "v": "2015",
-            "name": "Giuseppe Quintarelli 'Alzero', Veneto, Italy",
-            "price": "$5,880",
-            "section": "Veneto",
-            "nameZh": "朱塞佩・昆塔雷利酒莊，「阿爾澤羅」赤霞珠混釀紅酒，威尼托，意大利"
-          }
-        ],
-        "nameZh": "威尼托"
-      },
-      {
-        "name": "Amarone della Valpolicella",
-        "items": [
-          {
-            "v": "2015",
-            "name": "Angelo Nicolis 'Ambrosan' Classico, Amarone della Valpolicella, Italy",
-            "price": "$1,280",
-            "section": "Amarone della Valpolicella",
-            "nameZh": "安傑洛・尼科利斯酒莊，「安布羅桑」經典阿瑪羅內紅酒，瓦爾波利切拉，威尼托，瓦爾波利切拉阿瑪羅內，意大利"
-          },
-          {
-            "v": "2018",
-            "name": "Allegrini, Classico, Amarone della Valpolicella, Italy",
-            "price": "$2,180",
-            "section": "Amarone della Valpolicella",
-            "nameZh": "阿萊格里尼酒莊，經典阿瑪羅內紅酒，瓦爾波利切拉，威尼托，瓦爾波利切拉阿瑪羅內，意大利"
-          },
-          {
-            "v": "2017",
-            "name": "Romano Dal Forno, Amarone della Valpolicella, Italy",
-            "price": "$5,880",
-            "section": "Amarone della Valpolicella",
-            "nameZh": "羅馬諾・達爾・福爾諾酒莊，阿瑪羅內紅酒，瓦爾波利切拉，威尼托，瓦爾波利切拉阿瑪羅內，意大利"
-          },
-          {
-            "v": "2011",
-            "name": "Terre di Leone, Riserva, Amarone della Valpolicella, Italy",
-            "price": "$2,080",
-            "section": "Amarone della Valpolicella",
-            "nameZh": "獅子之地酒莊，珍藏阿瑪羅內紅酒，瓦爾波利切拉，威尼托，瓦爾波利切拉阿瑪羅內，意大利"
-          },
-          {
-            "v": "2018",
-            "name": "Terre di Leone 'Il Re Pazzo', Amarone della Valpolicella, Italy",
-            "price": "$1,380",
-            "section": "Amarone della Valpolicella",
-            "nameZh": "獅子之地酒莊，「瘋狂國王」阿瑪羅內紅酒，瓦爾波利切拉，威尼托，瓦爾波利切拉阿瑪羅內，意大利"
-          },
-          {
-            "v": "2011",
-            "name": "Zymé, Classico, Amarone della Valpolicella, Italy",
-            "price": "$3,180",
-            "section": "Amarone della Valpolicella",
-            "nameZh": "濟梅酒莊，經典阿瑪羅內紅酒，瓦爾波利切拉，威尼托，瓦爾波利切拉阿瑪羅內，意大利"
-          }
-        ],
-        "nameZh": "瓦爾波利切拉阿瑪羅內"
-      },
-      {
-        "name": "Friuli Venezia Giulia",
-        "items": [
-          {
-            "v": "1996",
-            "name": "Livio Felluga 'Sossó' Riserva, Friuli Venezia Giulia, Italy",
-            "price": "$3,800",
-            "section": "Friuli Venezia Giulia",
-            "nameZh": "利維奧・費盧加酒莊，「索索」珍藏紅酒，弗留利-威尼斯朱利亞，意大利"
-          },
-          {
-            "v": "2013",
-            "name": "Meroi 'Vigna Dominin' Merlot, Friuli Venezia Giulia, Italy",
-            "price": "$1,880",
-            "section": "Friuli Venezia Giulia",
-            "nameZh": "梅羅伊酒莊，「多米寧園」梅洛紅酒，布特里奧，弗留利-威尼斯朱利亞，意大利"
-          },
-          {
-            "v": "2018",
-            "name": "Miani 'Cossut' Colli Orientali del Friuli Refosco, Friuli Venezia Giulia, Italy",
-            "price": "$2,680",
-            "section": "Friuli Venezia Giulia",
-            "nameZh": "米亞尼酒莊，「科蘇特」弗留利東部丘陵雷弗斯科紅酒，弗留利-威尼斯朱利亞，意大利"
-          },
-          {
-            "v": "2018",
-            "name": "Miani, Colli Orientali del Friuli Merlot, Friuli Venezia Giulia, Italy",
-            "price": "$2,680",
-            "section": "Friuli Venezia Giulia",
-            "nameZh": "米亞尼酒莊，弗留利東部丘陵梅洛紅酒，弗留利-威尼斯朱利亞，意大利"
-          },
-          {
-            "v": "2017",
-            "name": "Ronchi di Cialla 'Schioppettino di Cialla', Friuli Venezia Giulia, Italy",
-            "price": "$1,480",
-            "section": "Friuli Venezia Giulia",
-            "nameZh": "恰拉山坡酒莊，「恰拉斯基奧佩蒂諾」紅酒，弗留利-威尼斯朱利亞，意大利"
-          }
-        ],
-        "nameZh": "弗留利-威尼斯朱利亞"
-      },
-      {
-        "name": "Super Toscana",
-        "items": [
-          {
-            "v": "2020",
-            "name": "Gaja 'Ca' Marcanda Magari', Bordeaux, Super Toscana, Italy",
-            "price": "$1,680",
-            "section": "Super Toscana",
-            "nameZh": "嘉雅酒莊，「卡・馬爾坎達・馬加里」波爾蓋里波爾多品種混釀，托斯卡納，超級托斯卡納，意大利"
-          },
-          {
-            "v": "1997",
-            "name": "Antinori 'Solaia', Super Toscana, Italy",
-            "price": "$9,880",
-            "section": "Super Toscana",
-            "nameZh": "安蒂諾里酒莊，「索萊亞」超級托斯卡納赤霞珠混釀，托斯卡納，意大利"
-          },
-          {
-            "v": "2003",
-            "name": "Antinori 'Solaia', Super Toscana, Italy",
-            "price": "$6,980",
-            "section": "Super Toscana",
-            "nameZh": "安蒂諾里酒莊，「索萊亞」超級托斯卡納赤霞珠混釀，托斯卡納，意大利"
-          },
-          {
-            "v": "2011",
-            "name": "Antinori 'Solaia', Super Toscana, Italy",
-            "price": "$5,880",
-            "section": "Super Toscana",
-            "nameZh": "安蒂諾里酒莊，「索萊亞」超級托斯卡納赤霞珠混釀，托斯卡納，意大利"
-          },
-          {
-            "v": "2003",
-            "name": "Antinori 'Tignanello', Super Toscana, Italy",
-            "price": "$5,280",
-            "section": "Super Toscana",
-            "nameZh": "安蒂諾里酒莊，「蒂尼亞內洛」超級托斯卡納桑嬌維塞混釀，托斯卡納，意大利"
-          },
-          {
-            "v": "2006",
-            "name": "Antinori 'Tignanello', Super Toscana, Italy",
-            "price": "$4,280",
-            "section": "Super Toscana",
-            "nameZh": "安蒂諾里酒莊，「蒂尼亞內洛」超級托斯卡納桑嬌維塞混釀，托斯卡納，意大利"
-          },
-          {
-            "v": "2007",
-            "name": "Antinori 'Tignanello', Super Toscana, Italy",
-            "price": "$4,280",
-            "section": "Super Toscana",
-            "nameZh": "安蒂諾里酒莊，「蒂尼亞內洛」超級托斯卡納桑嬌維塞混釀，托斯卡納，意大利"
-          },
-          {
-            "v": "2022",
-            "name": "Antinori 'Tignanello', Super Toscana, Italy",
-            "price": "$3,280",
-            "section": "Super Toscana",
-            "nameZh": "安蒂諾里酒莊，「蒂尼亞內洛」超級托斯卡納桑嬌維塞混釀，托斯卡納，意大利"
-          },
-          {
-            "v": "2017",
-            "name": "Tenuta dell'Ornellaia 'Masseto', Tuscany, Super Toscana, Italy",
-            "price": "$17,800",
-            "section": "Super Toscana",
-            "nameZh": "奧納亞酒莊，「馬賽托」波爾蓋里梅洛紅酒，托斯卡納，超級托斯卡納，意大利"
-          },
-          {
-            "v": "2018",
-            "name": "Tenuta dell'Ornellaia 'Ornellaia', Tuscany, Super Toscana, Italy",
-            "price": "$3,880",
-            "section": "Super Toscana",
-            "nameZh": "奧納亞莊園，「Ornellaia」托斯卡納紅酒，寶格麗，超級托斯卡納，意大利"
-          },
-          {
-            "v": "2009",
-            "name": "Tenuta San Guido 'Sassicaia', Tuscany, Super Toscana, Italy",
-            "price": "$7,280",
-            "section": "Super Toscana",
-            "nameZh": "聖吉多酒莊，「西施佳雅」波爾蓋里赤霞珠混釀，托斯卡納，超級托斯卡納，意大利"
-          },
-          {
-            "v": "2011",
-            "name": "Tenuta San Guido 'Sassicaia', Tuscany, Super Toscana, Italy",
-            "price": "$6,580",
-            "section": "Super Toscana",
-            "nameZh": "聖吉多酒莊，「西施佳雅」波爾蓋里赤霞珠混釀，托斯卡納，超級托斯卡納，意大利"
-          },
-          {
-            "v": "2021",
-            "name": "Tenuta San Guido 'Sassicaia', Tuscany, Super Toscana, Italy",
-            "price": "$4,980",
-            "section": "Super Toscana",
-            "nameZh": "聖吉多酒莊，「西施佳雅」波爾蓋里赤霞珠混釀，托斯卡納，超級托斯卡納，意大利"
-          }
-        ],
-        "nameZh": "超級托斯卡納"
-      },
-      {
-        "name": "Brunello di Montalcino",
-        "items": [
-          {
-            "v": "2010",
-            "name": "Pian dell'Orino 'Bassolino di Sopra', Brunello di Montalcino, Italy",
-            "price": "$4,880",
-            "section": "Brunello di Montalcino",
-            "nameZh": "皮安德洛里諾酒莊，「上巴索利諾」蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
-          },
-          {
-            "v": "2020",
-            "name": "Castello Banfi, Brunello di Montalcino, Italy",
-            "price": "$1,480",
-            "section": "Brunello di Montalcino",
-            "nameZh": "班菲城堡酒莊，蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
-          },
-          {
-            "v": "2018",
-            "name": "Poggio di Sotto, Brunello di Montalcino, Italy",
-            "price": "$4,880",
-            "section": "Brunello di Montalcino",
-            "nameZh": "波焦迪索托酒莊，蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
-          },
-          {
-            "v": "2018",
-            "name": "Caprili 'AdAlberto' Riserva, Brunello di Montalcino, Italy",
-            "price": "$2,880",
-            "section": "Brunello di Montalcino",
-            "nameZh": "卡普里利酒莊，「阿達爾貝托」珍藏蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
-          },
-          {
-            "v": "2011",
-            "name": "La Magia, Brunello di Montalcino, Italy",
-            "price": "$3,880",
-            "section": "Brunello di Montalcino",
-            "nameZh": "拉馬吉亞酒莊，蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
-          },
-          {
-            "v": "2012",
-            "name": "La Magia, Brunello di Montalcino, Italy",
-            "price": "$3,880",
-            "section": "Brunello di Montalcino",
-            "nameZh": "拉馬吉亞酒莊，蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
-          },
-          {
-            "v": "1975",
-            "name": "Biondi-Santi, Riserva, Brunello di Montalcino, Italy",
-            "price": "$10,800",
-            "section": "Brunello di Montalcino",
-            "nameZh": "比翁迪-桑蒂酒莊，珍藏蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
-          },
-          {
-            "v": "2001",
-            "name": "Biondi-Santi, Riserva, Brunello di Montalcino, Italy",
-            "price": "$13,500",
-            "section": "Brunello di Montalcino",
-            "nameZh": "比翁迪-桑蒂酒莊，珍藏蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
-          },
-          {
-            "v": "2006",
-            "name": "Biondi-Santi, Riserva, Brunello di Montalcino, Italy",
-            "price": "$12,800",
-            "section": "Brunello di Montalcino",
-            "nameZh": "比翁迪-桑蒂酒莊，珍藏蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
-          },
-          {
-            "v": "2016",
-            "name": "Biondi-Santi, Riserva, Brunello di Montalcino, Italy",
-            "price": "$9,980",
-            "section": "Brunello di Montalcino",
-            "nameZh": "比翁迪-桑蒂酒莊，珍藏蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
-          },
-          {
-            "v": "2011",
-            "name": "Biondi-Santi, Brunello di Montalcino, Italy",
-            "price": "$3,880",
-            "section": "Brunello di Montalcino",
-            "nameZh": "比翁迪-桑蒂酒莊，蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
-          },
-          {
-            "v": "2001",
-            "name": "Gaja 'Pieve Santa Restituta Rennina', Brunello di Montalcino, Italy",
-            "price": "$3,980",
-            "section": "Brunello di Montalcino",
-            "nameZh": "嘉雅酒莊，「聖雷斯蒂圖塔教堂・雷尼納」蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
-          },
-          {
-            "v": "1996",
-            "name": "Gaja 'Sugarrille', Brunello di Montalcino, Italy",
-            "price": "$4,280",
-            "section": "Brunello di Montalcino",
-            "nameZh": "嘉雅酒莊，「蘇加里萊」蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
-          },
-          {
-            "v": "2018",
-            "name": "Mastrojanni 'Schiena d'Asino', Brunello di Montalcino, Italy",
-            "price": "$3,980",
-            "section": "Brunello di Montalcino",
-            "nameZh": "馬斯特羅揚尼酒莊，「驢背園」蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
-          },
-          {
-            "v": "1990",
-            "name": "Soldera, Case Basse, Brunello di Montalcino, Italy",
-            "price": "$17,135",
-            "section": "Brunello di Montalcino",
-            "nameZh": "索爾代拉酒莊，卡塞巴塞桑嬌維塞紅酒，蒙塔奇諾，托斯卡納，蒙塔奇諾布魯內洛，意大利"
-          }
-        ],
-        "nameZh": "蒙塔奇諾布魯內洛"
-      },
-      {
-        "name": "Vino Nobile di Montepulciano",
-        "items": [
-          {
-            "v": "2022",
-            "name": "Avignonesi, Vino Nobile di Montepulciano, Italy",
-            "price": "$980",
-            "section": "Vino Nobile di Montepulciano",
-            "nameZh": "阿維尼奧內西酒莊，蒙特普爾恰諾貴族酒，托斯卡納，意大利"
-          }
-        ],
-        "nameZh": "蒙特普爾恰諾貴族酒"
-      },
-      {
-        "name": "Chianti",
-        "items": [
-          {
-            "v": "2020",
-            "name": "Val delle Corti, Chianti Classico Riserva, Italy",
-            "price": "$1,080",
-            "section": "Chianti",
-            "nameZh": "瓦爾德萊科爾蒂酒莊，經典基安蒂珍藏桑嬌維塞紅酒，拉達，托斯卡納，意大利"
-          }
-        ],
-        "nameZh": "基安蒂"
-      },
-      {
-        "name": "Umbria",
-        "items": [
-          {
-            "v": "2012",
-            "name": "Paolo Bea 'San Valentino', Umbria, Italy",
-            "price": "$1,480",
-            "section": "Umbria",
-            "nameZh": "保羅・貝亞酒莊，「聖瓦倫蒂諾」翁布里亞田園混釀紅酒，意大利"
-          },
-          {
-            "v": "1998",
-            "name": "Lamborghini 'Campoleone', Umbria, Italy",
-            "price": "$4,060",
-            "section": "Umbria",
-            "nameZh": "蘭博基尼酒莊，「坎波萊奧內」桑嬌維塞及梅洛混釀，帕尼卡萊，翁布里亞，意大利"
-          }
-        ],
-        "nameZh": "翁布里亞"
-      },
-      {
-        "name": "Marche",
-        "items": [
-          {
-            "v": "2020",
-            "name": "Umani Ronchi 'Cumaro' Conero Riserva, Vino Nobile di Montepulciano, Marche, Italy",
-            "price": "$980",
-            "section": "Marche",
-            "nameZh": "烏瑪尼・龍基酒莊，「庫馬羅」科內羅珍藏蒙特普爾恰諾紅酒，馬爾凱，意大利"
-          }
-        ],
-        "nameZh": "馬爾凱"
-      },
-      {
-        "name": "Lazio",
-        "items": [
-          {
-            "v": "2015",
-            "name": "San Giovenale 'Habemus', Lazio, Italy",
-            "price": "$1,780",
-            "section": "Lazio",
-            "nameZh": "聖喬韋納萊酒莊，「哈貝穆斯」北拉齊奧羅訥風格混釀，意大利"
-          },
-          {
-            "v": "2012",
-            "name": "Tenuta di Fiorano 'Fiorano', Lazio, Italy",
-            "price": "$2,480",
-            "section": "Lazio",
-            "nameZh": "菲奧拉諾酒莊，「菲奧拉諾」赤霞珠及梅洛混釀，拉齊奧，意大利"
-          }
-        ],
-        "nameZh": "拉齊奧"
-      },
-      {
-        "name": "Abruzzo",
-        "items": [
-          {
-            "v": "2018",
-            "name": "Masciarelli 'Villa Gemma' Montepulciano d'Abruzzo Riserva, Abruzzo, Italy",
-            "price": "$1,880",
-            "section": "Abruzzo",
-            "nameZh": "馬夏雷利酒莊，「吉瑪別墅」珍藏阿布魯佐蒙特普爾恰諾紅酒，阿布魯佐，意大利"
-          },
-          {
-            "v": "2013",
-            "name": "Masciarelli 'La Botte di Gianni' Montepulciano d'Abruzzo Riserva, Abruzzo, Italy",
-            "price": "$3,280",
-            "section": "Abruzzo",
-            "nameZh": "馬夏雷利酒莊，「賈尼大桶」珍藏阿布魯佐蒙特普爾恰諾紅酒，阿布魯佐，意大利"
-          }
-        ],
-        "nameZh": "阿布魯佐"
-      },
-      {
-        "name": "Campania",
-        "items": [
-          {
-            "v": "2015",
-            "name": "Silvia Imparato 'Montevetrano' Colli di Salerno, Campania, Italy",
-            "price": "$1,280",
-            "section": "Campania",
-            "nameZh": "西爾維婭・因帕拉托酒莊，「蒙特韋特拉諾」薩萊諾丘陵紅酒，坎帕尼亞，意大利"
-          },
-          {
-            "v": "2006",
-            "name": "Silvia Imparato 'Montevetrano' Colli di Salerno, Campania, Italy",
-            "price": "$1,880",
-            "section": "Campania",
-            "nameZh": "西爾維婭・因帕拉托酒莊，「蒙特韋特拉諾」薩萊諾丘陵紅酒，坎帕尼亞，意大利"
-          },
-          {
-            "v": "2009",
-            "name": "Galardi 'Terra di Lavoro', Campania, Italy",
-            "price": "$1,930",
-            "section": "Campania",
-            "nameZh": "加拉爾迪酒莊，「勞作之地」艾格尼科及皮耶迪羅索混釀，坎帕尼亞，意大利"
-          },
-          {
-            "v": "2007",
-            "name": "Quintodecimo 'Vigna Quintodecimo' Taurasi Riserva, Campania, Italy",
-            "price": "$4,280",
-            "section": "Campania",
-            "nameZh": "昆托代奇莫酒莊，「昆托代奇莫園」珍藏陶拉西艾格尼科紅酒，坎帕尼亞，意大利"
-          },
-          {
-            "v": "2010",
-            "name": "Perillo, Taurasi Riserva, Campania, Italy",
-            "price": "$1,680",
-            "section": "Campania",
-            "nameZh": "佩里洛酒莊，珍藏陶拉西艾格尼科紅酒，坎帕尼亞，意大利"
-          },
-          {
-            "v": "2011",
-            "name": "Mastroberardino 'Radici' Taurasi Riserva, Campania, Italy",
-            "price": "$2,580",
-            "section": "Campania",
-            "nameZh": "馬斯特羅貝拉爾迪諾酒莊，「根源」珍藏陶拉西艾格尼科紅酒，坎帕尼亞，意大利"
-          }
-        ],
-        "nameZh": "坎帕尼亞"
-      },
-      {
-        "name": "Basilicata",
-        "items": [
-          {
-            "v": "2019",
-            "name": "Elena Fucci 'Titolo' Aglianico del Vulture, Basilicata, Italy",
-            "price": "$1,180",
-            "section": "Basilicata",
-            "nameZh": "埃琳娜・富奇酒莊，「蒂托洛」武爾圖雷艾格尼科紅酒，巴西利卡塔，意大利"
-          }
-        ],
-        "nameZh": "巴西利卡塔"
-      },
-      {
-        "name": "Sardegna",
-        "items": [
-          {
-            "v": "2018",
-            "name": "Argiolas 'Turriga' Isola Dei Nuraghi, Sardinia, Sardegna, Italy",
-            "price": "$2,080",
-            "section": "Sardegna",
-            "nameZh": "阿爾焦拉斯酒莊，「圖里加」努拉吉島紅酒，撒丁島，意大利"
-          },
-          {
-            "v": "2004",
-            "name": "Argiolas 'Turriga' Isola Dei Nuraghi, Sardinia, Sardegna, Italy",
-            "price": "$3,680",
-            "section": "Sardegna",
-            "nameZh": "阿爾焦拉斯酒莊，「圖里加」努拉吉島紅酒，撒丁島，意大利"
-          },
-          {
-            "v": "2000",
-            "name": "Argiolas 'Turriga' Isola Dei Nuraghi, Sardinia, Sardegna, Italy",
-            "price": "$3,980",
-            "section": "Sardegna",
-            "nameZh": "阿爾焦拉斯酒莊，「圖里加」努拉吉島紅酒，撒丁島，意大利"
-          },
-          {
-            "v": "1999",
-            "name": "Argiolas 'Turriga' Isola Dei Nuraghi, Sardinia, Sardegna, Italy",
-            "price": "$4,280",
-            "section": "Sardegna",
-            "nameZh": "阿爾焦拉斯酒莊，「圖里加」努拉吉島紅酒，撒丁島，意大利"
-          },
-          {
-            "v": "2016",
-            "name": "Giovanni Montisci 'Barrosu Riserva Franzisca', Sardinia, Sardegna, Italy",
-            "price": "$2,480",
-            "section": "Sardegna",
-            "nameZh": "喬瓦尼・蒙蒂西酒莊，「巴羅蘇・弗朗齊斯卡」珍藏卡諾瑙紅酒，巴爾巴賈，撒丁島，意大利"
-          }
-        ],
-        "nameZh": "撒丁島"
-      }
-    ],
-    "titleZh": "意大利紅酒"
   },
   {
     "id": "c20",
@@ -5638,6 +4663,1006 @@ window.WINE_DATA = [
     "titleZh": "法國紅葡萄酒"
   },
   {
+    "id": "c19",
+    "title": "Red Wines - Italy",
+    "sections": [
+      {
+        "name": "Sicilia",
+        "items": [
+          {
+            "v": "2021",
+            "name": "Calabretta 'Contrada dei Centenari', Sicily, Sicilia, Italy",
+            "price": "$1,880",
+            "section": "Sicilia",
+            "nameZh": "卡拉布雷塔酒莊，「百年地塊」紅酒，西西里島，意大利"
+          },
+          {
+            "v": "2014",
+            "name": "Calabretta 'Vigne Vecchie', Sicily, Sicilia, Italy",
+            "price": "$1,280",
+            "section": "Sicilia",
+            "nameZh": "卡拉布雷塔酒莊，「老藤」內雷洛・馬斯卡雷塞紅酒，西西里島，意大利"
+          },
+          {
+            "v": "2019",
+            "name": "COS 'Contrada' Nero d'Avola, Sicily, Sicilia, Italy",
+            "price": "$1,480",
+            "section": "Sicilia",
+            "nameZh": "西歐斯酒莊「Contrada」黑達沃拉紅酒，西西里島，意大利"
+          },
+          {
+            "v": "2014",
+            "name": "Gulfi 'Pino', Sicily, Sicilia, Italy",
+            "price": "$2,480",
+            "section": "Sicilia",
+            "nameZh": "古爾菲酒莊，「皮諾」黑達沃拉單一園紅酒，西西里島，意大利"
+          },
+          {
+            "v": "2011",
+            "name": "Tenuta di Passopisciaro 'Contrada Chiappemacine', Sicily, Sicilia, Italy",
+            "price": "$1,880",
+            "section": "Sicilia",
+            "nameZh": "帕索皮夏羅酒莊，「恰佩馬契內地塊」紅酒，西西里島，意大利"
+          }
+        ],
+        "nameZh": "西西里島"
+      },
+      {
+        "name": "Etna Rosso",
+        "items": [
+          {
+            "v": "2020",
+            "name": "Frank Cornelissen 'Magma', Etna Rosso, Italy",
+            "price": "$6,680",
+            "section": "Etna Rosso",
+            "nameZh": "法蘭克・科內利森酒莊，「岩漿」埃特納紅酒，西西里島，意大利"
+          },
+          {
+            "v": "2021",
+            "name": "Graci 'Arcurìa', Sicily, Etna Rosso, Italy",
+            "price": "$1,380",
+            "section": "Etna Rosso",
+            "nameZh": "格拉奇酒莊，「阿爾庫里亞」內雷洛・馬斯卡雷塞紅酒，埃特納，西西里島，埃特納紅酒，意大利"
+          },
+          {
+            "v": "2019",
+            "name": "Graci 'Quota 1000 Contrada Barbabecchi', Etna Rosso, Italy",
+            "price": "$3,280",
+            "section": "Etna Rosso",
+            "nameZh": "格拉奇酒莊，「海拔1000米・巴爾巴貝基地塊」埃特納紅酒，西西里島，意大利"
+          },
+          {
+            "v": "2018",
+            "name": "Graci 'Sopra il Pozzo', Etna Rosso, Italy",
+            "price": "$3,680",
+            "section": "Etna Rosso",
+            "nameZh": "格拉奇酒莊，「井上」埃特納紅酒，西西里島，意大利"
+          },
+          {
+            "v": "2017",
+            "name": "Graci 'Sopra il Pozzo', Etna Rosso, Italy",
+            "price": "$3,680",
+            "section": "Etna Rosso",
+            "nameZh": "格拉奇酒莊，「井上」埃特納紅酒，西西里島，意大利"
+          },
+          {
+            "v": "2020",
+            "name": "Pietradolce 'Contrada Rampante', Etna Rosso, Italy",
+            "price": "$1,880",
+            "section": "Etna Rosso",
+            "nameZh": "皮耶特拉多爾切酒莊，「蘭潘特地塊」埃特納紅酒，西西里島，意大利"
+          },
+          {
+            "v": "2016",
+            "name": "Pietradolce 'Vigna Barbagalli', Etna Rosso, Italy",
+            "price": "$4,580",
+            "section": "Etna Rosso",
+            "nameZh": "皮耶特拉多爾切酒莊，「巴爾巴加利園」埃特納紅酒，西西里島，意大利"
+          },
+          {
+            "v": "2013",
+            "name": "Pietradolce 'Vigna Barbagalli', Etna Rosso, Italy",
+            "price": "$4,380",
+            "section": "Etna Rosso",
+            "nameZh": "皮耶特拉多爾切酒莊，「巴爾巴加利園」埃特納紅酒，西西里島，意大利"
+          },
+          {
+            "v": "2021",
+            "name": "Tenuta delle Terre Nere 'Moganazzi', Etna Rosso, Italy",
+            "price": "$1,680",
+            "section": "Etna Rosso",
+            "nameZh": "黑土酒莊，「莫加納齊」埃特納紅酒，西西里島，意大利"
+          },
+          {
+            "v": "2021",
+            "name": "Tenuta Tascante 'Contrada Pianodario', Etna Rosso, Italy",
+            "price": "$1,780",
+            "section": "Etna Rosso",
+            "nameZh": "塔斯坎特酒莊，「皮亞諾達里奧地塊」埃特納紅酒，西西里島，意大利"
+          },
+          {
+            "v": "2017",
+            "name": "Tenuta Tascante 'Contrada Rampante', Etna Rosso, Italy",
+            "price": "$1,580",
+            "section": "Etna Rosso",
+            "nameZh": "塔斯坎特酒莊，「蘭潘特地塊」埃特納紅酒，西西里島，意大利"
+          }
+        ],
+        "nameZh": "埃特納紅酒"
+      },
+      {
+        "name": "Trentino Alto Adige",
+        "items": [
+          {
+            "v": "2016",
+            "name": "Franz Haas 'Schweizer' Pinot Nero, Trentino-Alto Adige, Trentino Alto Adige, Italy",
+            "price": "$1,480",
+            "section": "Trentino Alto Adige",
+            "nameZh": "弗朗茨・哈斯酒莊，「施魏策爾」黑皮諾紅酒，特倫蒂諾-上阿迪傑，意大利"
+          },
+          {
+            "v": "2013",
+            "name": "Hartmann Donà 'Donà Noir', Trentino-Alto Adige, Trentino Alto Adige, Italy",
+            "price": "$1,680",
+            "section": "Trentino Alto Adige",
+            "nameZh": "哈特曼・多納酒莊，「多納黑皮諾」紅酒，特倫蒂諾-上阿迪傑，意大利"
+          },
+          {
+            "v": "2015",
+            "name": "Hartmann Donà 'Donà Noir', Trentino-Alto Adige, Trentino Alto Adige, Italy",
+            "price": "$1,680",
+            "section": "Trentino Alto Adige",
+            "nameZh": "哈特曼・多納酒莊，「多納黑皮諾」紅酒，特倫蒂諾-上阿迪傑，意大利"
+          },
+          {
+            "v": "2007",
+            "name": "San Leonardo, Trentino-Alto Adige, Trentino Alto Adige, Italy",
+            "price": "$2,488",
+            "section": "Trentino Alto Adige",
+            "nameZh": "聖萊昂納多酒莊，波爾多混釀紅酒，特倫蒂諾-上阿迪傑，意大利"
+          },
+          {
+            "v": "2001",
+            "name": "San Leonardo, Trentino-Alto Adige, Trentino Alto Adige, Italy",
+            "price": "$2,980",
+            "section": "Trentino Alto Adige",
+            "nameZh": "聖萊昂納多酒莊，波爾多混釀紅酒，特倫蒂諾-上阿迪傑，意大利"
+          },
+          {
+            "v": "1999",
+            "name": "San Leonardo, Trentino-Alto Adige, Trentino Alto Adige, Italy",
+            "price": "$3,300",
+            "section": "Trentino Alto Adige",
+            "nameZh": "聖萊昂納多酒莊，波爾多混釀紅酒，特倫蒂諾-上阿迪傑，意大利"
+          }
+        ],
+        "nameZh": "特倫蒂諾-上阿迪傑"
+      },
+      {
+        "name": "Valle d'Aosta",
+        "items": [
+          {
+            "v": "2018",
+            "name": "Les Crêtes 'Côteau La Tour' Syrah, Valle d’Aosta, Valle d'Aosta, Italy",
+            "price": "$1,350",
+            "section": "Valle D' Aosta",
+            "nameZh": "萊克雷特酒莊，「拉圖丘」西拉紅酒，瓦萊達奧斯塔，意大利"
+          },
+          {
+            "v": "2018",
+            "name": "La Kíuva, Arnad-Montjovet Supérieur, Nebbiolo, Valle d’Aosta, Valle d'Aosta, Italy",
+            "price": "$1,180",
+            "section": "Valle D' Aosta",
+            "nameZh": "拉基烏瓦酒莊，阿爾納-蒙若韋上級內比奧羅紅酒，瓦萊達奧斯塔，意大利"
+          }
+        ],
+        "nameZh": "瓦萊達奧斯塔"
+      },
+      {
+        "name": "Piemonte",
+        "items": [
+          {
+            "v": "2019",
+            "name": "Amista, Nizza 'Riserva', Barbera, Piedmont, Piemonte, Italy",
+            "price": "$1,880",
+            "section": "Piemonte",
+            "nameZh": "阿米斯塔酒莊，「珍藏」尼扎巴貝拉紅酒，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2018",
+            "name": "Antoniolo 'Osso San Grato' Gattinara Riserva, Piedmont, Piemonte, Italy",
+            "price": "$2,280",
+            "section": "Piemonte",
+            "nameZh": "安東尼奧洛酒莊，「奧索・聖格拉托」加蒂納拉珍藏內比奧羅紅酒，皮埃蒙特，意大利"
+          }
+        ],
+        "nameZh": "皮埃蒙特"
+      },
+      {
+        "name": "Barbaresco",
+        "items": [
+          {
+            "v": "1990",
+            "name": "Bruno Giacosa 'Santo Stefano' Riserva, Barbaresco, Italy",
+            "price": "$16,135",
+            "section": "Barbaresco",
+            "nameZh": "布魯諾・賈科薩酒莊，「聖斯特凡諾」珍藏巴巴萊斯科紅酒，內維，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2019",
+            "name": "Ceretto 'Bernardot', Barbaresco, Italy",
+            "price": "$3,480",
+            "section": "Barbaresco",
+            "nameZh": "切雷托酒莊，「貝爾納多」巴巴萊斯科紅酒，特雷伊索，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2020",
+            "name": "Gaja 'Costa Russi', Barbaresco, Italy",
+            "price": "$9,880",
+            "section": "Barbaresco",
+            "nameZh": "嘉雅酒莊，「科斯塔・魯西」巴巴萊斯科單一園內比奧羅紅酒，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2020",
+            "name": "Gaja 'Sori San Lorenzo', Barbaresco, Italy",
+            "price": "$9,880",
+            "section": "Barbaresco",
+            "nameZh": "嘉雅酒莊，「索里・聖洛倫佐」巴巴萊斯科單一園內比奧羅紅酒，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2020",
+            "name": "Gaja 'Sorì Tildìn', Barbaresco, Italy",
+            "price": "$9,880",
+            "section": "Barbaresco",
+            "nameZh": "嘉雅酒莊，「索里・蒂爾丁」巴巴萊斯科單一園內比奧羅紅酒，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2022",
+            "name": "La Spinetta 'Bordini', Barbaresco, Italy",
+            "price": "$1,680",
+            "section": "Barbaresco",
+            "nameZh": "拉斯皮內塔酒莊，「博爾迪尼」巴巴萊斯科單一園內比奧羅紅酒，內維，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2004",
+            "name": "La Spinetta 'Gallina', Barbaresco, Italy",
+            "price": "$3,280",
+            "section": "Barbaresco",
+            "nameZh": "拉斯皮內塔酒莊，「加利納」巴巴萊斯科單一園內比奧羅紅酒，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2011",
+            "name": "La Spinetta 'Starderi', Barbaresco, Italy",
+            "price": "$3,380",
+            "section": "Barbaresco",
+            "nameZh": "拉斯皮內塔酒莊，「斯塔爾德里」巴巴萊斯科單一園內比奧羅紅酒，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2017",
+            "name": "Roagna 'Asili' Vecchie Viti, Barbaresco, Italy",
+            "price": "$5,280",
+            "section": "Barbaresco",
+            "nameZh": "羅亞尼亞酒莊，「阿西里」老藤巴巴萊斯科內比奧羅紅酒，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2017",
+            "name": "Roagna 'Pajè' Vecchie Viti, Barbaresco, Italy",
+            "price": "$5,280",
+            "section": "Barbaresco",
+            "nameZh": "羅亞尼亞酒莊，「帕耶」老藤巴巴萊斯科內比奧羅紅酒，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2006",
+            "name": "Roagna 'Crichët Pajé', Barbaresco, Italy",
+            "price": "$12,800",
+            "section": "Barbaresco",
+            "nameZh": "羅亞尼亞酒莊，「克里凱・帕耶」巴巴萊斯科內比奧羅紅酒，皮埃蒙特，意大利"
+          }
+        ],
+        "nameZh": "巴巴萊斯科"
+      },
+      {
+        "name": "Barolo",
+        "items": [
+          {
+            "v": "2005",
+            "name": "Cappellano 'Piè Franco', Piedmont, Barolo, Italy",
+            "price": "$11,800",
+            "section": "Barolo",
+            "nameZh": "卡佩拉諾酒莊，「皮耶・弗蘭科」未嫁接內比奧羅巴羅洛紅酒，塞拉倫加，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2017",
+            "name": "Cappellano 'Piè Rupestris', Piedmont, Barolo, Italy",
+            "price": "$3,380",
+            "section": "Barolo",
+            "nameZh": "卡佩拉諾酒莊，「皮耶・魯佩斯特里斯」巴羅洛內比奧羅紅酒，塞拉倫加，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2018",
+            "name": "Cappellano 'Piè Rupestris', Piedmont, Barolo, Italy",
+            "price": "$3,880",
+            "section": "Barolo",
+            "nameZh": "卡佩拉諾酒莊，「皮耶・魯佩斯特里斯」巴羅洛內比奧羅紅酒，塞拉倫加，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2021",
+            "name": "Com. G.B. Burlotto \"Acclivi\", Piedmont, Barolo, Italy",
+            "price": "$3,580",
+            "section": "Barolo",
+            "nameZh": "布爾洛托酒莊「Acclivi」巴羅洛內比奧羅紅酒，韋爾杜諾，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2021",
+            "name": "Com. G.B. Burlotto \"Cannubi\", Piedmont, Barolo, Italy",
+            "price": "$4,080",
+            "section": "Barolo",
+            "nameZh": "布爾洛托酒莊「Cannubi」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2020",
+            "name": "Com. G.B. Burlotto \"Cannubi\", Piedmont, Barolo, Italy",
+            "price": "$4,080",
+            "section": "Barolo",
+            "nameZh": "布爾洛托酒莊「Cannubi」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2019",
+            "name": "Com. G.B. Burlotto \"Monvigliero\", Piedmont, Barolo, Italy",
+            "price": "$4,080",
+            "section": "Barolo",
+            "nameZh": "布爾洛托酒莊「Monvigliero」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2020",
+            "name": "Com. G.B. Burlotto \"Monvigliero\", Piedmont, Barolo, Italy",
+            "price": "$4,080",
+            "section": "Barolo",
+            "nameZh": "布爾洛托酒莊「Monvigliero」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2021",
+            "name": "Com. G.B. Burlotto \"Monvigliero\", Piedmont, Barolo, Italy",
+            "price": "$4,080",
+            "section": "Barolo",
+            "nameZh": "布爾洛托酒莊「Monvigliero」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2019",
+            "name": "Gaja 'Conteisa', Piedmont, Barolo, Italy",
+            "price": "$6,280",
+            "section": "Barolo",
+            "nameZh": "嘉雅酒莊，「孔泰薩」巴羅洛內比奧羅紅酒，切雷奎奧，拉莫拉，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2008",
+            "name": "Giuseppe Rinaldi 'Cannubi San Lorenzo - Ravera', Piedmont, Barolo, Italy",
+            "price": "$10,800",
+            "section": "Barolo",
+            "nameZh": "朱塞佩・里納爾迪酒莊，「卡努比・聖洛倫佐－拉韋拉」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2008",
+            "name": "Giuseppe Rinaldi 'Brunate - Le Coste', Piedmont, Barolo, Italy",
+            "price": "$9,880",
+            "section": "Barolo",
+            "nameZh": "朱塞佩・里納爾迪酒莊，「布魯納特－萊科斯特」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
+          },
+          {
+            "v": "1978",
+            "name": "Prunotto 'Bussia di Monforte d'Alba' Riserva, Piedmont, Barolo, Italy",
+            "price": "$5,880",
+            "section": "Barolo",
+            "nameZh": "普魯諾托酒莊，「布西亞・蒙福爾泰達爾巴」珍藏巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2018",
+            "name": "Roagna 'Pira Vecchie Viti', Piedmont, Barolo, Italy",
+            "price": "$5,880",
+            "section": "Barolo",
+            "nameZh": "羅亞尼亞酒莊，「皮拉」老藤巴羅洛內比奧羅紅酒，卡斯蒂廖內・法萊托，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2012",
+            "name": "Sandrone 'Sibi et Paucis', Piedmont, Barolo, Italy",
+            "price": "$3,980",
+            "section": "Barolo",
+            "nameZh": "桑德羅內酒莊，「只為自己與少數人」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2017",
+            "name": "Sandrone 'Le Vigne', Piedmont, Barolo, Italy",
+            "price": "$2,580",
+            "section": "Barolo",
+            "nameZh": "桑德羅內酒莊，「葡萄園」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
+          },
+          {
+            "v": "1998",
+            "name": "Sordo 'Gabutti' Riserva, Piedmont, Barolo, Italy",
+            "price": "$3,480",
+            "section": "Barolo",
+            "nameZh": "索爾多酒莊，「加布蒂」珍藏巴羅洛內比奧羅紅酒，塞拉倫加，皮埃蒙特，意大利"
+          },
+          {
+            "v": "2017",
+            "name": "Vietti, Riserva, Piedmont, Barolo, Italy",
+            "price": "$4,580",
+            "section": "Barolo",
+            "nameZh": "維埃蒂酒莊，珍藏巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
+          }
+        ],
+        "nameZh": "巴羅洛"
+      },
+      {
+        "name": "Lombardia",
+        "items": [
+          {
+            "v": "2018",
+            "name": "Ca' del Bosco 'Carmenero' Rosso del Sebino, Lombardia, Italy",
+            "price": "$1,780",
+            "section": "Lombardia",
+            "nameZh": "卡德爾博斯科酒莊，「卡梅內羅」塞比諾紅酒，倫巴第，意大利"
+          },
+          {
+            "v": "2012",
+            "name": "Ca' del Bosco 'Carmenero' Rosso del Sebino, Lombardia, Italy",
+            "price": "$1,980",
+            "section": "Lombardia",
+            "nameZh": "卡德爾博斯科酒莊，「卡梅內羅」塞比諾紅酒，倫巴第，意大利"
+          },
+          {
+            "v": "2018",
+            "name": "Ca' del Bosco 'Maurizio Zanella' Rosso del Sebino, Lombardia, Italy",
+            "price": "$2,080",
+            "section": "Lombardia",
+            "nameZh": "卡德爾博斯科酒莊，「毛里齊奧・扎內拉」塞比諾紅酒，倫巴第，意大利"
+          },
+          {
+            "v": "2013",
+            "name": "Ca' del Bosco 'Maurizio Zanella' Rosso del Sebino, Lombardia, Italy",
+            "price": "$2,580",
+            "section": "Lombardia",
+            "nameZh": "卡德爾博斯科酒莊，「毛里齊奧・扎內拉」塞比諾紅酒，倫巴第，意大利"
+          },
+          {
+            "v": "2014",
+            "name": "Comm. Lino Maga 'Barbacarlo', Lombardy, Lombardia, Italy",
+            "price": "$2,580",
+            "section": "Lombardia",
+            "nameZh": "利諾・馬加酒莊，「巴爾巴卡洛」田園混釀紅酒，倫巴第，意大利"
+          },
+          {
+            "v": "2013",
+            "name": "Vigne Olcru 'Coppiere Nero' Oltrepò Pavese, Lombardy, Lombardia, Italy",
+            "price": "$1,880",
+            "section": "Lombardia",
+            "nameZh": "奧爾克魯酒莊，「黑色酒盃」奧爾特雷波・帕韋塞紅酒，倫巴第，意大利"
+          }
+        ],
+        "nameZh": "倫巴第"
+      },
+      {
+        "name": "Veneto",
+        "items": [
+          {
+            "v": "2015",
+            "name": "Allegrini 'La Poja' Monovitigno Corvina Veronese, Veneto, Italy",
+            "price": "$2,880",
+            "section": "Veneto",
+            "nameZh": "阿萊格里尼酒莊，「拉波亞」單一品種科爾維納維羅內塞紅酒，威尼托，意大利"
+          },
+          {
+            "v": "2015",
+            "name": "Giuseppe Quintarelli 'Alzero', Veneto, Italy",
+            "price": "$5,880",
+            "section": "Veneto",
+            "nameZh": "朱塞佩・昆塔雷利酒莊，「阿爾澤羅」赤霞珠混釀紅酒，威尼托，意大利"
+          }
+        ],
+        "nameZh": "威尼托"
+      },
+      {
+        "name": "Amarone della Valpolicella",
+        "items": [
+          {
+            "v": "2015",
+            "name": "Angelo Nicolis 'Ambrosan' Classico, Amarone della Valpolicella, Italy",
+            "price": "$1,280",
+            "section": "Amarone della Valpolicella",
+            "nameZh": "安傑洛・尼科利斯酒莊，「安布羅桑」經典阿瑪羅內紅酒，瓦爾波利切拉，威尼托，瓦爾波利切拉阿瑪羅內，意大利"
+          },
+          {
+            "v": "2018",
+            "name": "Allegrini, Classico, Amarone della Valpolicella, Italy",
+            "price": "$2,180",
+            "section": "Amarone della Valpolicella",
+            "nameZh": "阿萊格里尼酒莊，經典阿瑪羅內紅酒，瓦爾波利切拉，威尼托，瓦爾波利切拉阿瑪羅內，意大利"
+          },
+          {
+            "v": "2017",
+            "name": "Romano Dal Forno, Amarone della Valpolicella, Italy",
+            "price": "$5,880",
+            "section": "Amarone della Valpolicella",
+            "nameZh": "羅馬諾・達爾・福爾諾酒莊，阿瑪羅內紅酒，瓦爾波利切拉，威尼托，瓦爾波利切拉阿瑪羅內，意大利"
+          },
+          {
+            "v": "2011",
+            "name": "Terre di Leone, Riserva, Amarone della Valpolicella, Italy",
+            "price": "$2,080",
+            "section": "Amarone della Valpolicella",
+            "nameZh": "獅子之地酒莊，珍藏阿瑪羅內紅酒，瓦爾波利切拉，威尼托，瓦爾波利切拉阿瑪羅內，意大利"
+          },
+          {
+            "v": "2018",
+            "name": "Terre di Leone 'Il Re Pazzo', Amarone della Valpolicella, Italy",
+            "price": "$1,380",
+            "section": "Amarone della Valpolicella",
+            "nameZh": "獅子之地酒莊，「瘋狂國王」阿瑪羅內紅酒，瓦爾波利切拉，威尼托，瓦爾波利切拉阿瑪羅內，意大利"
+          },
+          {
+            "v": "2011",
+            "name": "Zymé, Classico, Amarone della Valpolicella, Italy",
+            "price": "$3,180",
+            "section": "Amarone della Valpolicella",
+            "nameZh": "濟梅酒莊，經典阿瑪羅內紅酒，瓦爾波利切拉，威尼托，瓦爾波利切拉阿瑪羅內，意大利"
+          }
+        ],
+        "nameZh": "瓦爾波利切拉阿瑪羅內"
+      },
+      {
+        "name": "Friuli Venezia Giulia",
+        "items": [
+          {
+            "v": "1996",
+            "name": "Livio Felluga 'Sossó' Riserva, Friuli Venezia Giulia, Italy",
+            "price": "$3,800",
+            "section": "Friuli Venezia Giulia",
+            "nameZh": "利維奧・費盧加酒莊，「索索」珍藏紅酒，弗留利-威尼斯朱利亞，意大利"
+          },
+          {
+            "v": "2013",
+            "name": "Meroi 'Vigna Dominin' Merlot, Friuli Venezia Giulia, Italy",
+            "price": "$1,880",
+            "section": "Friuli Venezia Giulia",
+            "nameZh": "梅羅伊酒莊，「多米寧園」梅洛紅酒，布特里奧，弗留利-威尼斯朱利亞，意大利"
+          },
+          {
+            "v": "2018",
+            "name": "Miani 'Cossut' Colli Orientali del Friuli Refosco, Friuli Venezia Giulia, Italy",
+            "price": "$2,680",
+            "section": "Friuli Venezia Giulia",
+            "nameZh": "米亞尼酒莊，「科蘇特」弗留利東部丘陵雷弗斯科紅酒，弗留利-威尼斯朱利亞，意大利"
+          },
+          {
+            "v": "2018",
+            "name": "Miani, Colli Orientali del Friuli Merlot, Friuli Venezia Giulia, Italy",
+            "price": "$2,680",
+            "section": "Friuli Venezia Giulia",
+            "nameZh": "米亞尼酒莊，弗留利東部丘陵梅洛紅酒，弗留利-威尼斯朱利亞，意大利"
+          },
+          {
+            "v": "2017",
+            "name": "Ronchi di Cialla 'Schioppettino di Cialla', Friuli Venezia Giulia, Italy",
+            "price": "$1,480",
+            "section": "Friuli Venezia Giulia",
+            "nameZh": "恰拉山坡酒莊，「恰拉斯基奧佩蒂諾」紅酒，弗留利-威尼斯朱利亞，意大利"
+          }
+        ],
+        "nameZh": "弗留利-威尼斯朱利亞"
+      },
+      {
+        "name": "Super Toscana",
+        "items": [
+          {
+            "v": "2020",
+            "name": "Gaja 'Ca' Marcanda Magari', Bordeaux, Super Toscana, Italy",
+            "price": "$1,680",
+            "section": "Super Toscana",
+            "nameZh": "嘉雅酒莊，「卡・馬爾坎達・馬加里」波爾蓋里波爾多品種混釀，托斯卡納，超級托斯卡納，意大利"
+          },
+          {
+            "v": "1997",
+            "name": "Antinori 'Solaia', Super Toscana, Italy",
+            "price": "$9,880",
+            "section": "Super Toscana",
+            "nameZh": "安蒂諾里酒莊，「索萊亞」超級托斯卡納赤霞珠混釀，托斯卡納，意大利"
+          },
+          {
+            "v": "2003",
+            "name": "Antinori 'Solaia', Super Toscana, Italy",
+            "price": "$6,980",
+            "section": "Super Toscana",
+            "nameZh": "安蒂諾里酒莊，「索萊亞」超級托斯卡納赤霞珠混釀，托斯卡納，意大利"
+          },
+          {
+            "v": "2011",
+            "name": "Antinori 'Solaia', Super Toscana, Italy",
+            "price": "$5,880",
+            "section": "Super Toscana",
+            "nameZh": "安蒂諾里酒莊，「索萊亞」超級托斯卡納赤霞珠混釀，托斯卡納，意大利"
+          },
+          {
+            "v": "2003",
+            "name": "Antinori 'Tignanello', Super Toscana, Italy",
+            "price": "$5,280",
+            "section": "Super Toscana",
+            "nameZh": "安蒂諾里酒莊，「蒂尼亞內洛」超級托斯卡納桑嬌維塞混釀，托斯卡納，意大利"
+          },
+          {
+            "v": "2006",
+            "name": "Antinori 'Tignanello', Super Toscana, Italy",
+            "price": "$4,280",
+            "section": "Super Toscana",
+            "nameZh": "安蒂諾里酒莊，「蒂尼亞內洛」超級托斯卡納桑嬌維塞混釀，托斯卡納，意大利"
+          },
+          {
+            "v": "2007",
+            "name": "Antinori 'Tignanello', Super Toscana, Italy",
+            "price": "$4,280",
+            "section": "Super Toscana",
+            "nameZh": "安蒂諾里酒莊，「蒂尼亞內洛」超級托斯卡納桑嬌維塞混釀，托斯卡納，意大利"
+          },
+          {
+            "v": "2022",
+            "name": "Antinori 'Tignanello', Super Toscana, Italy",
+            "price": "$3,280",
+            "section": "Super Toscana",
+            "nameZh": "安蒂諾里酒莊，「蒂尼亞內洛」超級托斯卡納桑嬌維塞混釀，托斯卡納，意大利"
+          },
+          {
+            "v": "2017",
+            "name": "Tenuta dell'Ornellaia 'Masseto', Tuscany, Super Toscana, Italy",
+            "price": "$17,800",
+            "section": "Super Toscana",
+            "nameZh": "奧納亞酒莊，「馬賽托」波爾蓋里梅洛紅酒，托斯卡納，超級托斯卡納，意大利"
+          },
+          {
+            "v": "2018",
+            "name": "Tenuta dell'Ornellaia 'Ornellaia', Tuscany, Super Toscana, Italy",
+            "price": "$3,880",
+            "section": "Super Toscana",
+            "nameZh": "奧納亞莊園，「Ornellaia」托斯卡納紅酒，寶格麗，超級托斯卡納，意大利"
+          },
+          {
+            "v": "2009",
+            "name": "Tenuta San Guido 'Sassicaia', Tuscany, Super Toscana, Italy",
+            "price": "$7,280",
+            "section": "Super Toscana",
+            "nameZh": "聖吉多酒莊，「西施佳雅」波爾蓋里赤霞珠混釀，托斯卡納，超級托斯卡納，意大利"
+          },
+          {
+            "v": "2011",
+            "name": "Tenuta San Guido 'Sassicaia', Tuscany, Super Toscana, Italy",
+            "price": "$6,580",
+            "section": "Super Toscana",
+            "nameZh": "聖吉多酒莊，「西施佳雅」波爾蓋里赤霞珠混釀，托斯卡納，超級托斯卡納，意大利"
+          },
+          {
+            "v": "2021",
+            "name": "Tenuta San Guido 'Sassicaia', Tuscany, Super Toscana, Italy",
+            "price": "$4,980",
+            "section": "Super Toscana",
+            "nameZh": "聖吉多酒莊，「西施佳雅」波爾蓋里赤霞珠混釀，托斯卡納，超級托斯卡納，意大利"
+          }
+        ],
+        "nameZh": "超級托斯卡納"
+      },
+      {
+        "name": "Brunello di Montalcino",
+        "items": [
+          {
+            "v": "2010",
+            "name": "Pian dell'Orino 'Bassolino di Sopra', Brunello di Montalcino, Italy",
+            "price": "$4,880",
+            "section": "Brunello di Montalcino",
+            "nameZh": "皮安德洛里諾酒莊，「上巴索利諾」蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
+          },
+          {
+            "v": "2020",
+            "name": "Castello Banfi, Brunello di Montalcino, Italy",
+            "price": "$1,480",
+            "section": "Brunello di Montalcino",
+            "nameZh": "班菲城堡酒莊，蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
+          },
+          {
+            "v": "2018",
+            "name": "Poggio di Sotto, Brunello di Montalcino, Italy",
+            "price": "$4,880",
+            "section": "Brunello di Montalcino",
+            "nameZh": "波焦迪索托酒莊，蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
+          },
+          {
+            "v": "2018",
+            "name": "Caprili 'AdAlberto' Riserva, Brunello di Montalcino, Italy",
+            "price": "$2,880",
+            "section": "Brunello di Montalcino",
+            "nameZh": "卡普里利酒莊，「阿達爾貝托」珍藏蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
+          },
+          {
+            "v": "2011",
+            "name": "La Magia, Brunello di Montalcino, Italy",
+            "price": "$3,880",
+            "section": "Brunello di Montalcino",
+            "nameZh": "拉馬吉亞酒莊，蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
+          },
+          {
+            "v": "2012",
+            "name": "La Magia, Brunello di Montalcino, Italy",
+            "price": "$3,880",
+            "section": "Brunello di Montalcino",
+            "nameZh": "拉馬吉亞酒莊，蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
+          },
+          {
+            "v": "1975",
+            "name": "Biondi-Santi, Riserva, Brunello di Montalcino, Italy",
+            "price": "$10,800",
+            "section": "Brunello di Montalcino",
+            "nameZh": "比翁迪-桑蒂酒莊，珍藏蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
+          },
+          {
+            "v": "2001",
+            "name": "Biondi-Santi, Riserva, Brunello di Montalcino, Italy",
+            "price": "$13,500",
+            "section": "Brunello di Montalcino",
+            "nameZh": "比翁迪-桑蒂酒莊，珍藏蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
+          },
+          {
+            "v": "2006",
+            "name": "Biondi-Santi, Riserva, Brunello di Montalcino, Italy",
+            "price": "$12,800",
+            "section": "Brunello di Montalcino",
+            "nameZh": "比翁迪-桑蒂酒莊，珍藏蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
+          },
+          {
+            "v": "2016",
+            "name": "Biondi-Santi, Riserva, Brunello di Montalcino, Italy",
+            "price": "$9,980",
+            "section": "Brunello di Montalcino",
+            "nameZh": "比翁迪-桑蒂酒莊，珍藏蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
+          },
+          {
+            "v": "2011",
+            "name": "Biondi-Santi, Brunello di Montalcino, Italy",
+            "price": "$3,880",
+            "section": "Brunello di Montalcino",
+            "nameZh": "比翁迪-桑蒂酒莊，蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
+          },
+          {
+            "v": "2001",
+            "name": "Gaja 'Pieve Santa Restituta Rennina', Brunello di Montalcino, Italy",
+            "price": "$3,980",
+            "section": "Brunello di Montalcino",
+            "nameZh": "嘉雅酒莊，「聖雷斯蒂圖塔教堂・雷尼納」蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
+          },
+          {
+            "v": "1996",
+            "name": "Gaja 'Sugarrille', Brunello di Montalcino, Italy",
+            "price": "$4,280",
+            "section": "Brunello di Montalcino",
+            "nameZh": "嘉雅酒莊，「蘇加里萊」蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
+          },
+          {
+            "v": "2018",
+            "name": "Mastrojanni 'Schiena d'Asino', Brunello di Montalcino, Italy",
+            "price": "$3,980",
+            "section": "Brunello di Montalcino",
+            "nameZh": "馬斯特羅揚尼酒莊，「驢背園」蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
+          },
+          {
+            "v": "1990",
+            "name": "Soldera, Case Basse, Brunello di Montalcino, Italy",
+            "price": "$17,135",
+            "section": "Brunello di Montalcino",
+            "nameZh": "索爾代拉酒莊，卡塞巴塞桑嬌維塞紅酒，蒙塔奇諾，托斯卡納，蒙塔奇諾布魯內洛，意大利"
+          }
+        ],
+        "nameZh": "蒙塔奇諾布魯內洛"
+      },
+      {
+        "name": "Vino Nobile di Montepulciano",
+        "items": [
+          {
+            "v": "2022",
+            "name": "Avignonesi, Vino Nobile di Montepulciano, Italy",
+            "price": "$980",
+            "section": "Vino Nobile di Montepulciano",
+            "nameZh": "阿維尼奧內西酒莊，蒙特普爾恰諾貴族酒，托斯卡納，意大利"
+          }
+        ],
+        "nameZh": "蒙特普爾恰諾貴族酒"
+      },
+      {
+        "name": "Chianti",
+        "items": [
+          {
+            "v": "2020",
+            "name": "Val delle Corti, Chianti Classico Riserva, Italy",
+            "price": "$1,080",
+            "section": "Chianti",
+            "nameZh": "瓦爾德萊科爾蒂酒莊，經典基安蒂珍藏桑嬌維塞紅酒，拉達，托斯卡納，意大利"
+          }
+        ],
+        "nameZh": "基安蒂"
+      },
+      {
+        "name": "Umbria",
+        "items": [
+          {
+            "v": "2012",
+            "name": "Paolo Bea 'San Valentino', Umbria, Italy",
+            "price": "$1,480",
+            "section": "Umbria",
+            "nameZh": "保羅・貝亞酒莊，「聖瓦倫蒂諾」翁布里亞田園混釀紅酒，意大利"
+          },
+          {
+            "v": "1998",
+            "name": "Lamborghini 'Campoleone', Umbria, Italy",
+            "price": "$4,060",
+            "section": "Umbria",
+            "nameZh": "蘭博基尼酒莊，「坎波萊奧內」桑嬌維塞及梅洛混釀，帕尼卡萊，翁布里亞，意大利"
+          }
+        ],
+        "nameZh": "翁布里亞"
+      },
+      {
+        "name": "Marche",
+        "items": [
+          {
+            "v": "2020",
+            "name": "Umani Ronchi 'Cumaro' Conero Riserva, Vino Nobile di Montepulciano, Marche, Italy",
+            "price": "$980",
+            "section": "Marche",
+            "nameZh": "烏瑪尼・龍基酒莊，「庫馬羅」科內羅珍藏蒙特普爾恰諾紅酒，馬爾凱，意大利"
+          }
+        ],
+        "nameZh": "馬爾凱"
+      },
+      {
+        "name": "Lazio",
+        "items": [
+          {
+            "v": "2015",
+            "name": "San Giovenale 'Habemus', Lazio, Italy",
+            "price": "$1,780",
+            "section": "Lazio",
+            "nameZh": "聖喬韋納萊酒莊，「哈貝穆斯」北拉齊奧羅訥風格混釀，意大利"
+          },
+          {
+            "v": "2012",
+            "name": "Tenuta di Fiorano 'Fiorano', Lazio, Italy",
+            "price": "$2,480",
+            "section": "Lazio",
+            "nameZh": "菲奧拉諾酒莊，「菲奧拉諾」赤霞珠及梅洛混釀，拉齊奧，意大利"
+          }
+        ],
+        "nameZh": "拉齊奧"
+      },
+      {
+        "name": "Abruzzo",
+        "items": [
+          {
+            "v": "2018",
+            "name": "Masciarelli 'Villa Gemma' Montepulciano d'Abruzzo Riserva, Abruzzo, Italy",
+            "price": "$1,880",
+            "section": "Abruzzo",
+            "nameZh": "馬夏雷利酒莊，「吉瑪別墅」珍藏阿布魯佐蒙特普爾恰諾紅酒，阿布魯佐，意大利"
+          },
+          {
+            "v": "2013",
+            "name": "Masciarelli 'La Botte di Gianni' Montepulciano d'Abruzzo Riserva, Abruzzo, Italy",
+            "price": "$3,280",
+            "section": "Abruzzo",
+            "nameZh": "馬夏雷利酒莊，「賈尼大桶」珍藏阿布魯佐蒙特普爾恰諾紅酒，阿布魯佐，意大利"
+          }
+        ],
+        "nameZh": "阿布魯佐"
+      },
+      {
+        "name": "Campania",
+        "items": [
+          {
+            "v": "2015",
+            "name": "Silvia Imparato 'Montevetrano' Colli di Salerno, Campania, Italy",
+            "price": "$1,280",
+            "section": "Campania",
+            "nameZh": "西爾維婭・因帕拉托酒莊，「蒙特韋特拉諾」薩萊諾丘陵紅酒，坎帕尼亞，意大利"
+          },
+          {
+            "v": "2006",
+            "name": "Silvia Imparato 'Montevetrano' Colli di Salerno, Campania, Italy",
+            "price": "$1,880",
+            "section": "Campania",
+            "nameZh": "西爾維婭・因帕拉托酒莊，「蒙特韋特拉諾」薩萊諾丘陵紅酒，坎帕尼亞，意大利"
+          },
+          {
+            "v": "2009",
+            "name": "Galardi 'Terra di Lavoro', Campania, Italy",
+            "price": "$1,930",
+            "section": "Campania",
+            "nameZh": "加拉爾迪酒莊，「勞作之地」艾格尼科及皮耶迪羅索混釀，坎帕尼亞，意大利"
+          },
+          {
+            "v": "2007",
+            "name": "Quintodecimo 'Vigna Quintodecimo' Taurasi Riserva, Campania, Italy",
+            "price": "$4,280",
+            "section": "Campania",
+            "nameZh": "昆托代奇莫酒莊，「昆托代奇莫園」珍藏陶拉西艾格尼科紅酒，坎帕尼亞，意大利"
+          },
+          {
+            "v": "2010",
+            "name": "Perillo, Taurasi Riserva, Campania, Italy",
+            "price": "$1,680",
+            "section": "Campania",
+            "nameZh": "佩里洛酒莊，珍藏陶拉西艾格尼科紅酒，坎帕尼亞，意大利"
+          },
+          {
+            "v": "2011",
+            "name": "Mastroberardino 'Radici' Taurasi Riserva, Campania, Italy",
+            "price": "$2,580",
+            "section": "Campania",
+            "nameZh": "馬斯特羅貝拉爾迪諾酒莊，「根源」珍藏陶拉西艾格尼科紅酒，坎帕尼亞，意大利"
+          }
+        ],
+        "nameZh": "坎帕尼亞"
+      },
+      {
+        "name": "Basilicata",
+        "items": [
+          {
+            "v": "2019",
+            "name": "Elena Fucci 'Titolo' Aglianico del Vulture, Basilicata, Italy",
+            "price": "$1,180",
+            "section": "Basilicata",
+            "nameZh": "埃琳娜・富奇酒莊，「蒂托洛」武爾圖雷艾格尼科紅酒，巴西利卡塔，意大利"
+          }
+        ],
+        "nameZh": "巴西利卡塔"
+      },
+      {
+        "name": "Sardegna",
+        "items": [
+          {
+            "v": "2018",
+            "name": "Argiolas 'Turriga' Isola Dei Nuraghi, Sardinia, Sardegna, Italy",
+            "price": "$2,080",
+            "section": "Sardegna",
+            "nameZh": "阿爾焦拉斯酒莊，「圖里加」努拉吉島紅酒，撒丁島，意大利"
+          },
+          {
+            "v": "2004",
+            "name": "Argiolas 'Turriga' Isola Dei Nuraghi, Sardinia, Sardegna, Italy",
+            "price": "$3,680",
+            "section": "Sardegna",
+            "nameZh": "阿爾焦拉斯酒莊，「圖里加」努拉吉島紅酒，撒丁島，意大利"
+          },
+          {
+            "v": "2000",
+            "name": "Argiolas 'Turriga' Isola Dei Nuraghi, Sardinia, Sardegna, Italy",
+            "price": "$3,980",
+            "section": "Sardegna",
+            "nameZh": "阿爾焦拉斯酒莊，「圖里加」努拉吉島紅酒，撒丁島，意大利"
+          },
+          {
+            "v": "1999",
+            "name": "Argiolas 'Turriga' Isola Dei Nuraghi, Sardinia, Sardegna, Italy",
+            "price": "$4,280",
+            "section": "Sardegna",
+            "nameZh": "阿爾焦拉斯酒莊，「圖里加」努拉吉島紅酒，撒丁島，意大利"
+          },
+          {
+            "v": "2016",
+            "name": "Giovanni Montisci 'Barrosu Riserva Franzisca', Sardinia, Sardegna, Italy",
+            "price": "$2,480",
+            "section": "Sardegna",
+            "nameZh": "喬瓦尼・蒙蒂西酒莊，「巴羅蘇・弗朗齊斯卡」珍藏卡諾瑙紅酒，巴爾巴賈，撒丁島，意大利"
+          }
+        ],
+        "nameZh": "撒丁島"
+      }
+    ],
+    "titleZh": "意大利紅酒"
+  },
+  {
     "id": "c21",
     "title": "Red Wines - Europe",
     "sections": [
@@ -5796,6 +5821,88 @@ window.WINE_DATA = [
     "titleZh": "歐洲紅葡萄酒"
   },
   {
+    "id": "c28",
+    "title": "Red Wines - China",
+    "sections": [
+      {
+        "name": "Cabernet Sauvignon",
+        "nameZh": "赤霞珠",
+        "items": [
+          {
+            "v": "2023",
+            "name": "Penfolds CWT 521 Cabernet Sauvignon Marselan, Shangri-La & Ningxia, China",
+            "price": "$2,580",
+            "section": "Cabernet Sauvignon",
+            "nameZh": "奔富「CWT 521」赤霞珠及馬瑟蘭混釀紅酒，中國香格里拉及寧夏"
+          },
+          {
+            "v": "2013",
+            "name": "Cabernet Sauvignon, Ao Yun, Yunnan, China",
+            "price": "$5,680",
+            "section": "Cabernet Sauvignon",
+            "nameZh": "敖雲赤霞珠，雲南，中國"
+          },
+          {
+            "v": "2020",
+            "name": "Cabernet Sauvignon, Shangri-La Winery, \"Sacred Land Legend\", Yunnan, China",
+            "price": "$1,380",
+            "section": "Cabernet Sauvignon",
+            "nameZh": "香格里拉酒莊「聖域傳奇」赤霞珠，雲南，中國"
+          },
+          {
+            "v": "2020",
+            "name": "Cabernet Sauvignon, Hu Yue, Shandong, China",
+            "price": "$3,980",
+            "section": "Cabernet Sauvignon",
+            "nameZh": "瓏岱酒莊「瓏岱」赤霞珠，山東，中國"
+          },
+          {
+            "v": "2020",
+            "name": "Cabernet Sauvignon, Guanlan Vineyard Cuvée Faucon, Ningxia, China",
+            "price": "$1,480",
+            "section": "Cabernet Sauvignon",
+            "nameZh": "西鴿酒莊「觀蘭」葡萄園「Faucon」特釀，寧夏，中國"
+          },
+          {
+            "v": "2017",
+            "name": "Cabernet Sauvignon, Guanlan Vineyard Grand Vin, Ningxia, China",
+            "price": "$2,580",
+            "section": "Cabernet Sauvignon",
+            "nameZh": "西鴿酒莊「觀蘭」葡萄園頂級酒，寧夏，中國"
+          }
+        ]
+      },
+      {
+        "name": "Indigenous & Curiosities",
+        "nameZh": "原生品種與特色酒款",
+        "items": [
+          {
+            "v": "2022",
+            "name": "Syrah, Beyond Time, Ningxia, China",
+            "price": "$1,580",
+            "section": "Indigenous & Curiosities",
+            "nameZh": "時光機酒莊，希拉，寧夏，中國"
+          },
+          {
+            "v": "2022",
+            "name": "Marselan, Beyond Time, Ningxia, China",
+            "price": "$1,120",
+            "section": "Indigenous & Curiosities",
+            "nameZh": "時光機酒莊，馬瑟蘭，寧夏，中國"
+          },
+          {
+            "v": "2020",
+            "name": "Cabernet Gernischt, Xige Estate, \"Jade Dove Red\", Ningxia, China",
+            "price": "$1,600",
+            "section": "Indigenous & Curiosities",
+            "nameZh": "西鴿酒莊「玉鴿紅」蛇龍珠，寧夏，中國"
+          }
+        ]
+      }
+    ],
+    "titleZh": "紅葡萄酒－中國"
+  },
+  {
     "id": "c22",
     "title": "Red Wines - International",
     "sections": [
@@ -5918,32 +6025,6 @@ window.WINE_DATA = [
         "nameZh": "赤霞珠"
       },
       {
-        "name": "Zinfandel",
-        "items": [
-          {
-            "v": "2021",
-            "name": "Ridge Vineyards, Geyserville, Alexander Valley, USA",
-            "price": "$1,680",
-            "section": "Zinfandel",
-            "nameZh": "嶺酒莊「Geyserville」金粉黛紅酒，亞歷山大谷，美國"
-          }
-        ],
-        "nameZh": "仙粉黛"
-      },
-      {
-        "name": "Malbec",
-        "items": [
-          {
-            "v": "2021",
-            "name": "Bodegas Caro, \"Caro\" , Mendoza, Argentina",
-            "price": "$1,680",
-            "section": "Malbec",
-            "nameZh": "卡羅酒莊「Caro」馬爾貝克及赤霞珠混釀紅酒，門多薩，阿根廷"
-          }
-        ],
-        "nameZh": "馬爾貝克"
-      },
-      {
         "name": "Merlot",
         "items": [
           {
@@ -6055,6 +6136,20 @@ window.WINE_DATA = [
             "price": "$7,380",
             "section": "Shiraz",
             "nameZh": "無名酒莊「Distenta I」希拉紅酒，聖巴巴拉，加州，美國"
+          },
+          {
+            "v": "2014",
+            "name": "Bella's Garden Shiraz, Barossa Valley, Australia",
+            "price": "$1,340",
+            "section": "Shiraz",
+            "nameZh": "雙手酒莊「Bella's Garden」希拉紅酒，巴羅莎谷，澳洲"
+          },
+          {
+            "v": "2008",
+            "name": "Ares Shiraz, Barossa Valley, Australia",
+            "price": "$3,170",
+            "section": "Shiraz",
+            "nameZh": "雙手酒莊「Ares」希拉紅酒，巴羅莎谷，澳洲"
           }
         ],
         "nameZh": "希哈"
@@ -6110,36 +6205,9 @@ window.WINE_DATA = [
             "price": "$1,880",
             "section": "Penfold's Selection",
             "nameZh": "奔富「FWT 585」赤霞珠、小維鐸及梅洛混釀紅酒，布萊，波爾多，法國"
-          },
-          {
-            "v": "2023",
-            "name": "Penfolds CWT 521 Cabernet Sauvignon Marselan, Shangri-La & Ningxia, China",
-            "price": "$2,580",
-            "section": "Penfold's Selection",
-            "nameZh": "奔富「CWT 521」赤霞珠及馬瑟蘭混釀紅酒，中國香格里拉及寧夏"
           }
         ],
         "nameZh": "奔富精選"
-      },
-      {
-        "name": "Two Hands's Selection",
-        "items": [
-          {
-            "v": "2014",
-            "name": "Bella's Garden Shiraz, Barossa Valley, Australia",
-            "price": "$1,340",
-            "section": "Two Hands's Selection",
-            "nameZh": "雙手酒莊「Bella's Garden」希拉紅酒，巴羅莎谷，澳洲"
-          },
-          {
-            "v": "2008",
-            "name": "Ares Shiraz, Barossa Valley, Australia",
-            "price": "$3,170",
-            "section": "Two Hands's Selection",
-            "nameZh": "雙手酒莊「Ares」希拉紅酒，巴羅莎谷，澳洲"
-          }
-        ],
-        "nameZh": "雙手酒莊精選"
       },
       {
         "name": "Indigenous & Curiosities",
@@ -6152,69 +6220,21 @@ window.WINE_DATA = [
             "nameZh": "無名酒莊「Dark Blossom」歌海娜紅酒，加州，美國"
           },
           {
-            "v": "2013",
-            "name": "Cabernet Sauvignon, Ao Yun, Yunnan, China",
-            "price": "$5,680",
+            "v": "2021",
+            "name": "Ridge Vineyards, Geyserville, Alexander Valley, USA",
+            "price": "$1,680",
             "section": "Indigenous & Curiosities",
-            "nameZh": "敖雲赤霞珠，雲南，中國"
+            "nameZh": "嶺酒莊「Geyserville」金粉黛紅酒，亞歷山大谷，美國"
           },
           {
-            "v": "2020",
-            "name": "Cabernet Sauvignon, Shangri-La Winery, \"Sacred Land Legend\", Yunnan, China",
-            "price": "$1,380",
+            "v": "2021",
+            "name": "Bodegas Caro, \"Caro\" , Mendoza, Argentina",
+            "price": "$1,680",
             "section": "Indigenous & Curiosities",
-            "nameZh": "香格里拉酒莊「聖域傳奇」赤霞珠，雲南，中國"
-          },
-          {
-            "v": "2020",
-            "name": "Cabernet Sauvignon, Hu Yue, Shandong, China",
-            "price": "$3,980",
-            "section": "Indigenous & Curiosities",
-            "nameZh": "瓏岱酒莊「瓏岱」赤霞珠，山東，中國"
-          },
-          {
-            "v": "2022",
-            "name": "Syrah, Beyond Time, Ningxia, China",
-            "price": "$1,580",
-            "section": "Indigenous & Curiosities",
-            "nameZh": "時光機酒莊，希拉，寧夏，中國"
-          },
-          {
-            "v": "2022",
-            "name": "Marselan, Beyond Time, Ningxia, China",
-            "price": "$1,120",
-            "section": "Indigenous & Curiosities",
-            "nameZh": "時光機酒莊，馬瑟蘭，寧夏，中國"
+            "nameZh": "卡羅酒莊「Caro」馬爾貝克及赤霞珠混釀紅酒，門多薩，阿根廷"
           }
         ],
         "nameZh": "原生品種與特色酒款"
-      },
-      {
-        "name": "Xige Estate's Selection",
-        "items": [
-          {
-            "v": "2020",
-            "name": "Cabernet Gernischt, Xige Estate, \"Jade Dove Red\", Ningxia, China",
-            "price": "$1,600",
-            "section": "Xige Estate's Selection",
-            "nameZh": "西鴿酒莊「玉鴿紅」蛇龍珠，寧夏，中國"
-          },
-          {
-            "v": "2020",
-            "name": "Cabernet Sauvignon, Guanlan Vineyard Cuvée Faucon, Ningxia, China",
-            "price": "$1,480",
-            "section": "Xige Estate's Selection",
-            "nameZh": "西鴿酒莊「觀蘭」葡萄園「Faucon」特釀，寧夏，中國"
-          },
-          {
-            "v": "2017",
-            "name": "Cabernet Sauvignon, Guanlan Vineyard Grand Vin, Ningxia, China",
-            "price": "$2,580",
-            "section": "Xige Estate's Selection",
-            "nameZh": "西鴿酒莊「觀蘭」葡萄園頂級酒，寧夏，中國"
-          }
-        ],
-        "nameZh": "西鴿酒莊精選"
       }
     ],
     "titleZh": "國際紅葡萄酒"
