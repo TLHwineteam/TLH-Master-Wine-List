@@ -8,13 +8,13 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "1982",
-            "name": "Château Cos d'Estournel Magnum",
+            "name": "Château Cos d'Estournel Magnum, Saint-Estèphe, France",
             "price": "Glass (100ml) $1,880 · Carafe (375ml) $6,280 · Bottle (1.5L) $25,800",
             "section": "Wine of the Month",
             "image": "images/cos1982-magnum.png",
             "imageAlt": "Château Cos d'Estournel 1982 Magnum",
             "note": "Blackcurrant, cigar box and sandalwood. Mature cedar and tobacco complement the concentrated fruit of 1982, while the magnum retains freshness, structure and impressive length.\n\nA Second Growth of the 1855 Classification, Château Cos d'Estournel is one of Bordeaux's most celebrated estates. Its gravelly hilltop vineyards in Saint-Estèphe produce wines renowned for combining power, richness and remarkable longevity.\n\nThe legendary 1982 Bordeaux vintage is widely regarded as one of the greatest in the region's history. More than four decades later, this magnum demonstrates the vintage's hallmark combination of concentration, harmony and enduring vitality.",
-            "nameZh": "1982年 愛士圖爾酒莊大瓶裝",
+            "nameZh": "1982年 愛士圖爾酒莊大瓶裝，聖埃斯泰夫，法國",
             "priceZh": "杯裝（100毫升）$1,880 · 醒酒瓶（375毫升）$6,280 · 大瓶裝（1.5公升）$25,800",
             "imageAltZh": "1982年愛士圖爾酒莊大瓶裝",
             "noteZh": "黑加侖子、雪茄盒及檀香。成熟的雪松與煙草氣息襯托1982年份的濃郁果香，而大瓶裝仍保持清新度、結構與悠長餘韻。\n\n愛士圖爾酒莊是1855年列級制度中的二級酒莊，亦是波爾多最著名的酒莊之一。酒莊坐落於聖埃斯泰夫的礫石丘陵，所產佳釀以力量、豐潤度與卓越陳年能力著稱。\n\n傳奇的1982年波爾多年份被廣泛視為區內史上最佳年份之一。逾四十年後，這瓶大瓶裝仍展現該年份標誌性的濃郁度、和諧感與持久活力。"
@@ -383,27 +383,543 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "NV",
-            "name": "Pierre Chavin, Pierre Zéro Sparkling Chardonnay, France",
+            "name": "Pierre Chavin, Pierre Zéro Sparkling Chardonnay, Languedoc, France",
             "price": "Glass $150 · Bottle $600",
             "section": "Alcohol-removed Wine",
-            "nameZh": "皮耶夏凡，「零酒精」氣泡霞多麗，法國",
+            "nameZh": "皮耶夏凡，「零酒精」氣泡霞多麗，朗格多克，法國",
             "priceZh": "杯裝 $150 · 原瓶 $600"
           },
           {
             "v": "NV",
-            "name": "Pierre Chavin, Pierre Zéro Chardonnay, France",
+            "name": "Pierre Chavin, Pierre Zéro Chardonnay, Languedoc, France",
             "price": "Glass $130 · Bottle $600",
             "section": "Alcohol-removed Wine",
-            "nameZh": "皮耶夏凡，「零酒精」霞多麗，法國",
+            "nameZh": "皮耶夏凡，「零酒精」霞多麗，朗格多克，法國",
             "priceZh": "杯裝 $130 · 原瓶 $600"
           },
           {
             "v": "NV",
-            "name": "Pierre Chavin, Pierre Zéro Merlot, France",
+            "name": "Pierre Chavin, Pierre Zéro Merlot, Languedoc, France",
             "price": "Glass $130 · Bottle $600",
             "section": "Alcohol-removed Wine",
-            "nameZh": "皮耶夏凡，「零酒精」梅洛，法國",
+            "nameZh": "皮耶夏凡，「零酒精」梅洛，朗格多克，法國",
             "priceZh": "杯裝 $130 · 原瓶 $600"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "c6",
+    "title": "Premium Collection",
+    "titleZh": "尊尚珍藏",
+    "sections": [
+      {
+        "name": "Vintage Champagne",
+        "nameZh": "年份香檳",
+        "items": [
+          {
+            "v": "2004",
+            "name": "Dom Pérignon P2 Plénitude Collection, Champagne, France",
+            "price": "$8,280",
+            "section": "Vintage Champagne",
+            "nameZh": "唐培里儂，第二階段陳年珍藏年份香檳，香檳區，法國"
+          },
+          {
+            "v": "1989",
+            "name": "Lanson, Vintage Collection, Champagne, France",
+            "price": "$8,500",
+            "section": "Vintage Champagne",
+            "nameZh": "蘭頌香檳，年份珍藏香檳，香檳區，法國"
+          },
+          {
+            "v": "2012",
+            "name": "Bollinger, La Côte aux Enfants, Blanc de Noirs Brut, Champagne, France",
+            "price": "$12,880",
+            "section": "Vintage Champagne",
+            "nameZh": "寶祿爵香檳，「兒童山坡園」黑中白年份香檳，香檳區，法國"
+          },
+          {
+            "v": "2009",
+            "name": "Krug, Clos du Mesnil, Blanc de Blancs, Champagne, France",
+            "price": "$18,880",
+            "section": "Vintage Champagne",
+            "nameZh": "庫克香檳，「梅尼爾圍牆園」白中白年份香檳，香檳區，法國"
+          },
+          {
+            "v": "2015",
+            "name": "Salon, Cuvée 'S' Le Mesnil, Blanc de Blancs Brut, Champagne, France",
+            "price": "$18,800",
+            "section": "Vintage Champagne",
+            "nameZh": "沙龍香檳，「梅尼爾」白中白年份香檳，香檳區，法國"
+          },
+          {
+            "v": "1999",
+            "name": "Louis Roederer, Cristal Vinothèque Edition Brut, Champagne, France",
+            "price": "$25,800",
+            "section": "Vintage Champagne",
+            "nameZh": "路易王妃香檳，「水晶酒窖珍藏版」年份香檳，香檳區，法國"
+          },
+          {
+            "v": "1992",
+            "name": "Dom Pérignon P3 Plénitude Collection, Champagne, France",
+            "price": "$43,000",
+            "section": "Vintage Champagne",
+            "nameZh": "唐培里儂，第三階段陳年珍藏年份香檳，香檳區，法國"
+          },
+          {
+            "v": "1993",
+            "name": "Dom Pérignon P3 Plénitude Collection, Champagne, France",
+            "price": "$43,000",
+            "section": "Vintage Champagne",
+            "nameZh": "唐培里儂，第三階段陳年珍藏年份香檳，香檳區，法國"
+          }
+        ]
+      },
+      {
+        "name": "White",
+        "nameZh": "白酒",
+        "items": [
+          {
+            "v": "2012",
+            "name": "Corton-Charlemagne Grand Cru, Domaine Ponsot, Burgundy, France",
+            "price": "$7,980",
+            "section": "White",
+            "nameZh": "龐索酒莊，科爾登查理曼特級園白葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "2013",
+            "name": "Montrachet Grand Cru, Domaine Jean Chartron, Burgundy, France",
+            "price": "$16,000",
+            "section": "White",
+            "nameZh": "尚夏酒莊，蒙哈榭特級園白葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "2001",
+            "name": "Bâtard-Montrachet Grand Cru, Château de la Maltroye (1.5L), Burgundy, France",
+            "price": "$17,280",
+            "section": "White",
+            "nameZh": "瑪特華城堡，巴塔蒙哈榭特級園白葡萄酒（1.5公升），勃艮第，法國"
+          },
+          {
+            "v": "2010",
+            "name": "Château Haut-Brion Blanc, Pessac-Léognan, France",
+            "price": "$26,500",
+            "section": "White",
+            "nameZh": "奧比昂酒莊，白葡萄酒，佩薩克雷奧良，波爾多，法國"
+          }
+        ]
+      },
+      {
+        "name": "Dessert",
+        "nameZh": "甜葡萄酒",
+        "items": [
+          {
+            "v": "2009",
+            "name": "Château d'Yquem (375ml), Sauternes, France",
+            "price": "$7,880",
+            "section": "Dessert",
+            "nameZh": "滴金酒莊，貴腐甜白葡萄酒（375毫升），蘇玳，波爾多，法國"
+          }
+        ]
+      },
+      {
+        "name": "Red",
+        "nameZh": "紅酒",
+        "items": [
+          {
+            "v": "2003",
+            "name": "Château Haut-Brion, Pessac-Léognan, France",
+            "price": "$13,800",
+            "section": "Red",
+            "nameZh": "奧比昂酒莊，紅葡萄酒，佩薩克雷奧良，波爾多，法國"
+          },
+          {
+            "v": "2014",
+            "name": "Château Haut-Brion, Pessac-Léognan, France",
+            "price": "$9,880",
+            "section": "Red",
+            "nameZh": "奧比昂酒莊，紅葡萄酒，佩薩克雷奧良，波爾多，法國"
+          },
+          {
+            "v": "1998",
+            "name": "Château Mouton Rothschild, Bordeaux, Pauillac, France",
+            "price": "$13,680",
+            "section": "Red",
+            "nameZh": "木桐酒莊，紅葡萄酒，波雅克，波爾多，法國"
+          },
+          {
+            "v": "2003",
+            "name": "Château Mouton Rothschild, Bordeaux, Pauillac, France",
+            "price": "$13,680",
+            "section": "Red",
+            "nameZh": "木桐酒莊，紅葡萄酒，波雅克，波爾多，法國"
+          },
+          {
+            "v": "2017",
+            "name": "Château Mouton Rothschild, Bordeaux, Pauillac, France",
+            "price": "$9,380",
+            "section": "Red",
+            "nameZh": "木桐酒莊，紅葡萄酒，波雅克，波爾多，法國"
+          },
+          {
+            "v": "1998",
+            "name": "Château Lafite Rothschild, Bordeaux, Pauillac, France",
+            "price": "$20,800",
+            "section": "Red",
+            "nameZh": "拉菲酒莊，紅葡萄酒，波雅克，波爾多，法國"
+          },
+          {
+            "v": "2008",
+            "name": "Château Lafite Rothschild, Bordeaux, Pauillac, France",
+            "price": "$15,680",
+            "section": "Red",
+            "nameZh": "拉菲酒莊，紅葡萄酒，波雅克，波爾多，法國"
+          },
+          {
+            "v": "2015",
+            "name": "Château Lafite Rothschild, Bordeaux, Pauillac, France",
+            "price": "$12,980",
+            "section": "Red",
+            "nameZh": "拉菲酒莊，紅葡萄酒，波雅克，波爾多，法國"
+          },
+          {
+            "v": "1990",
+            "name": "Château Margaux, Margaux, France",
+            "price": "$23,800",
+            "section": "Red",
+            "nameZh": "瑪歌酒莊，紅葡萄酒，瑪歌，波爾多，法國"
+          },
+          {
+            "v": "2003",
+            "name": "Château Margaux, Margaux, France",
+            "price": "$19,800",
+            "section": "Red",
+            "nameZh": "瑪歌酒莊，紅葡萄酒，瑪歌，波爾多，法國"
+          },
+          {
+            "v": "2011",
+            "name": "Château Margaux, Margaux, France",
+            "price": "$10,900",
+            "section": "Red",
+            "nameZh": "瑪歌酒莊，紅葡萄酒，瑪歌，波爾多，法國"
+          },
+          {
+            "v": "1982",
+            "name": "Château Latour, Bordeaux, Pauillac, France",
+            "price": "$37,800",
+            "section": "Red",
+            "nameZh": "拉圖酒莊，紅葡萄酒，波雅克，波爾多，法國"
+          },
+          {
+            "v": "2001",
+            "name": "Château Latour, Bordeaux, Pauillac, France",
+            "price": "$16,980",
+            "section": "Red",
+            "nameZh": "拉圖酒莊，紅葡萄酒，波雅克，波爾多，法國"
+          },
+          {
+            "v": "2014",
+            "name": "Château Latour, Bordeaux, Pauillac, France",
+            "price": "$10,800",
+            "section": "Red",
+            "nameZh": "拉圖酒莊，紅葡萄酒，波雅克，波爾多，法國"
+          },
+          {
+            "v": "1982",
+            "name": "Pétrus, Bordeaux, Pomerol, France",
+            "price": "$89,880",
+            "section": "Red",
+            "nameZh": "柏翠酒莊，紅葡萄酒，波美侯，波爾多，法國"
+          },
+          {
+            "v": "1988",
+            "name": "Le Pin, Bordeaux, Pomerol, France",
+            "price": "$56,530",
+            "section": "Red",
+            "nameZh": "里鵬酒莊，紅葡萄酒，波美侯，波爾多，法國"
+          },
+          {
+            "v": "1988",
+            "name": "Lafleur, Bordeaux, Pomerol, France",
+            "price": "$31,300",
+            "section": "Red",
+            "nameZh": "花堡酒莊，紅葡萄酒，波美侯，波爾多，法國"
+          }
+        ]
+      },
+      {
+        "name": "Domaine de la Romanée-Conti",
+        "nameZh": "羅曼尼康帝酒莊",
+        "items": [
+          {
+            "v": "2017",
+            "name": "Conti Échezeaux, Domaine de la Romanée-Conti, Burgundy, France",
+            "price": "$51,280",
+            "section": "Domaine de la Romanée-Conti",
+            "nameZh": "羅曼尼康帝酒莊，艾雪索特級園紅葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "2011",
+            "name": "Richebourg, Domaine de la Romanée-Conti, Burgundy, France",
+            "price": "$56,800",
+            "section": "Domaine de la Romanée-Conti",
+            "nameZh": "羅曼尼康帝酒莊，李其堡特級園紅葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "2016",
+            "name": "Romanée-Saint-Vivant, Domaine de la Romanée-Conti, Burgundy, France",
+            "price": "$60,800",
+            "section": "Domaine de la Romanée-Conti",
+            "nameZh": "羅曼尼康帝酒莊，羅曼尼聖維望特級園紅葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "2010",
+            "name": "La Tâche, Domaine de la Romanée-Conti, Burgundy, France",
+            "price": "$119,800",
+            "section": "Domaine de la Romanée-Conti",
+            "nameZh": "羅曼尼康帝酒莊，拉塔希獨佔特級園紅葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "1995",
+            "name": "Romanée-Conti, Domaine de la Romanée-Conti, Burgundy, France",
+            "price": "$368,000",
+            "section": "Domaine de la Romanée-Conti",
+            "nameZh": "羅曼尼康帝酒莊，羅曼尼康帝獨佔特級園紅葡萄酒，勃艮第，法國"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "c7",
+    "title": "Sommelier Selection",
+    "titleZh": "侍酒師精選",
+    "sections": [
+      {
+        "name": "Champagne",
+        "nameZh": "香檳",
+        "items": [
+          {
+            "v": "2012",
+            "name": "Charles Heidsieck, Rosé Millésime, Brut, Champagne, France",
+            "price": "$2,580",
+            "section": "Champagne",
+            "nameZh": "查理海斯基香檳，年份粉紅香檳，香檳區，法國"
+          },
+          {
+            "v": "2003",
+            "name": "Tarlant, La Vigne Royale, Blanc de Noirs, Extra Brut, Champagne, France",
+            "price": "$2,680",
+            "section": "Champagne",
+            "nameZh": "塔朗香檳，「皇家葡萄園」黑中白特級天然年份香檳，香檳區，法國"
+          },
+          {
+            "v": "2002",
+            "name": "Lanson, Le Vintage Brut, Champagne, France",
+            "price": "$2,980",
+            "section": "Champagne",
+            "nameZh": "蘭頌香檳，「年份珍藏」香檳，香檳區，法國"
+          },
+          {
+            "v": "2012",
+            "name": "Piper-Heidsieck Rare, Brut Millésime, Champagne, France",
+            "price": "$3,880",
+            "section": "Champagne",
+            "nameZh": "白雪香檳，「珍稀」年份香檳，香檳區，法國"
+          },
+          {
+            "v": "NV",
+            "name": "Krug, Grande Cuvée 171ème Édition Brut, Champagne, France",
+            "price": "$4,180",
+            "section": "Champagne",
+            "nameZh": "庫克香檳，「陳年特釀」第一百七十一版香檳，香檳區，法國"
+          },
+          {
+            "v": "2016",
+            "name": "Louis Roederer Cristal, Brut Millésime, Champagne, France",
+            "price": "$5,380",
+            "section": "Champagne",
+            "nameZh": "路易王妃香檳，「水晶」年份香檳，香檳區，法國"
+          },
+          {
+            "v": "2006",
+            "name": "Dom Pérignon, Rosé Brut, Champagne, France",
+            "price": "$6,650",
+            "section": "Champagne",
+            "nameZh": "唐培里儂香檳，年份粉紅香檳，香檳區，法國"
+          },
+          {
+            "v": "1996",
+            "name": "Charles Heidsieck, La Collection Crayères Brut, Champagne, France",
+            "price": "$7,380",
+            "section": "Champagne",
+            "nameZh": "查理海斯基香檳，「白堊酒窖珍藏」年份香檳，香檳區，法國"
+          }
+        ]
+      },
+      {
+        "name": "Bourgogne Blanc",
+        "nameZh": "勃艮第白葡萄酒",
+        "items": [
+          {
+            "v": "2023",
+            "name": "Mâcon Verze, Domaine Leflaive, Burgundy, France",
+            "price": "$1,780",
+            "section": "Bourgogne Blanc",
+            "nameZh": "雙雞酒莊，馬貢韋爾澤莎當妮白葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "2019",
+            "name": "Meursault, 1er Cru Les Ravelles, Chapelle de Blagny, Burgundy, France",
+            "price": "$2,000",
+            "section": "Bourgogne Blanc",
+            "nameZh": "布拉尼禮拜堂酒莊，默爾索「拉韋勒園」一級園莎當妮白葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "2023",
+            "name": "Chassagne Montrachet, Domaine Larue, Chassagne-Montrachet, Burgundy, France",
+            "price": "$2,280",
+            "section": "Bourgogne Blanc",
+            "nameZh": "拉魯酒莊，夏山蒙哈榭莎當妮白葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "2021",
+            "name": "Puligny-Montrachet, Les Reuchaux, Domaine Boyer-Martenot, Burgundy, France",
+            "price": "$3,180",
+            "section": "Bourgogne Blanc",
+            "nameZh": "布瓦耶馬特諾酒莊，普利尼蒙哈榭「勒呂紹園」莎當妮白葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "2020",
+            "name": "Puligny-Montrachet 1er Cru \"Clos de la Pucelle\" Monopole, Domaine Jean Chartron, Burgundy, France",
+            "price": "$4,280",
+            "section": "Bourgogne Blanc",
+            "nameZh": "俠龍酒莊，普利尼蒙哈榭「少女園」獨佔一級園莎當妮白葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "2012",
+            "name": "Corton-Charlemagne Grand Cru, Domaine Ponsot, Burgundy, France",
+            "price": "$7,980",
+            "section": "Bourgogne Blanc",
+            "nameZh": "龐索酒莊，科爾登查理曼特級園莎當妮白葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "2013",
+            "name": "Montrachet Grand Cru, Domaine Jean Chartron, Burgundy, France",
+            "price": "$16,000",
+            "section": "Bourgogne Blanc",
+            "nameZh": "俠龍酒莊，蒙哈榭特級園莎當妮白葡萄酒，勃艮第，法國"
+          }
+        ]
+      },
+      {
+        "name": "Bourgogne Rouge",
+        "nameZh": "勃艮第紅葡萄酒",
+        "items": [
+          {
+            "v": "2020",
+            "name": "Chambolle-Musigny, Domaine François Bertheau, Burgundy, France",
+            "price": "$2,080",
+            "section": "Bourgogne Rouge",
+            "nameZh": "法蘭索瓦貝爾托酒莊，香波慕西尼黑皮諾紅葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "2020",
+            "name": "Morey-Saint-Denis 1er Cru Les Monts Luisants, Domaine Pierre Girardin, Burgundy, France",
+            "price": "$2,680",
+            "section": "Bourgogne Rouge",
+            "nameZh": "皮耶吉拉丹酒莊，莫雷聖丹尼「光輝山」一級園黑皮諾紅葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "2022",
+            "name": "Pommard 1er Cru, Clos de la Commaraine Monopole, Domaine de la Commaraine, Burgundy, France",
+            "price": "$4,380",
+            "section": "Bourgogne Rouge",
+            "nameZh": "科瑪萊訥酒莊，玻瑪「科瑪萊訥圍牆園」獨佔一級園黑皮諾紅葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "2018",
+            "name": "Charmes-Chambertin Grand Cru, Geantet-Pansiot, Gevrey-Chambertin, Burgundy, France",
+            "price": "$6,280",
+            "section": "Bourgogne Rouge",
+            "nameZh": "傑昂泰龐西奧酒莊，夏姆香貝丹特級園黑皮諾紅葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "2022",
+            "name": "Échézeaux Grand Cru, Mongeard-Mugneret, Burgundy, France",
+            "price": "$6,380",
+            "section": "Bourgogne Rouge",
+            "nameZh": "蒙雅穆格奈酒莊，艾雪索特級園黑皮諾紅葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "2019",
+            "name": "Vosne-Romanée, Domaine Emmanuel Rouget, Burgundy, France",
+            "price": "$7,880",
+            "section": "Bourgogne Rouge",
+            "nameZh": "艾曼紐胡傑酒莊，沃恩羅曼尼黑皮諾紅葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "2013",
+            "name": "Musigny Grand Cru \"Cuvée Vieilles Vignes\", Domaine Comte Georges de Vogüé, Burgundy, France",
+            "price": "$16,750",
+            "section": "Bourgogne Rouge",
+            "nameZh": "武戈伯爵酒莊，慕西尼特級園「老藤特釀」黑皮諾紅葡萄酒，勃艮第，法國"
+          }
+        ]
+      },
+      {
+        "name": "Red Bordeaux",
+        "nameZh": "波爾多紅葡萄酒",
+        "items": [
+          {
+            "v": "2010",
+            "name": "Château Brane-Cantenac, 2ème Cru Classé, Margaux, Bordeaux, France",
+            "price": "$2,788",
+            "section": "Bordeaux Rouge",
+            "nameZh": "布朗康田酒莊，二級酒莊紅葡萄酒，瑪歌，波爾多，法國"
+          },
+          {
+            "v": "2012",
+            "name": "Vieux Château Certan, Pomerol, Bordeaux, France",
+            "price": "$4,280",
+            "section": "Bordeaux Rouge",
+            "nameZh": "老色丹酒莊紅葡萄酒，波美侯，波爾多，法國"
+          },
+          {
+            "v": "2008",
+            "name": "Château Trotanoy, Pomerol, Bordeaux, France",
+            "price": "$5,480",
+            "section": "Bordeaux Rouge",
+            "nameZh": "卓龍酒莊紅葡萄酒，波美侯，波爾多，法國"
+          },
+          {
+            "v": "2008",
+            "name": "Château La Mission Haut-Brion, Pessac-Léognan, Bordeaux, France",
+            "price": "$6,550",
+            "section": "Bordeaux Rouge",
+            "nameZh": "修道院紅顏容酒莊紅葡萄酒，佩薩克雷奧良，波爾多，法國"
+          },
+          {
+            "v": "2005",
+            "name": "Château Léoville Las Cases, 2ème Cru Classé, Saint-Julien, Bordeaux, France",
+            "price": "$7,680",
+            "section": "Bordeaux Rouge",
+            "nameZh": "雄獅酒莊，二級酒莊紅葡萄酒，聖朱利安，波爾多，法國"
+          },
+          {
+            "v": "2000",
+            "name": "Château La Fleur-Pétrus, Pomerol, Bordeaux, France",
+            "price": "$7,980",
+            "section": "Bordeaux Rouge",
+            "nameZh": "柏圖斯之花酒莊紅葡萄酒，波美侯，波爾多，法國"
+          },
+          {
+            "v": "1989",
+            "name": "Château Montrose, 2ème Cru Classé, Saint-Estèphe, Bordeaux, France",
+            "price": "$8,280",
+            "section": "Bordeaux Rouge",
+            "nameZh": "玫瑰山酒莊，二級酒莊紅葡萄酒，聖愛斯泰夫，波爾多，法國"
           }
         ]
       }
@@ -972,714 +1488,6 @@ window.WINE_DATA = [
     ]
   },
   {
-    "id": "c6",
-    "title": "Premium Collection",
-    "titleZh": "尊尚珍藏",
-    "sections": [
-      {
-        "name": "Vintage Champagne",
-        "nameZh": "年份香檳",
-        "items": [
-          {
-            "v": "2004",
-            "name": "Dom Pérignon P2 Plénitude Collection",
-            "price": "$8,280",
-            "section": "Vintage Champagne",
-            "nameZh": "唐培里儂，第二階段陳年珍藏年份香檳，香檳區，法國"
-          },
-          {
-            "v": "1989",
-            "name": "Lanson, Vintage Collection",
-            "price": "$8,500",
-            "section": "Vintage Champagne",
-            "nameZh": "蘭頌香檳，年份珍藏香檳，香檳區，法國"
-          },
-          {
-            "v": "2012",
-            "name": "Bollinger, La Côte aux Enfants, Blanc de Noirs Brut",
-            "price": "$12,880",
-            "section": "Vintage Champagne",
-            "nameZh": "寶祿爵香檳，「兒童山坡園」黑中白年份香檳，香檳區，法國"
-          },
-          {
-            "v": "2009",
-            "name": "Krug, Clos du Mesnil, Blanc de Blancs",
-            "price": "$18,880",
-            "section": "Vintage Champagne",
-            "nameZh": "庫克香檳，「梅尼爾圍牆園」白中白年份香檳，香檳區，法國"
-          },
-          {
-            "v": "2015",
-            "name": "Salon, Cuvée 'S' Le Mesnil, Blanc de Blancs Brut",
-            "price": "$18,800",
-            "section": "Vintage Champagne",
-            "nameZh": "沙龍香檳，「梅尼爾」白中白年份香檳，香檳區，法國"
-          },
-          {
-            "v": "1999",
-            "name": "Louis Roederer, Cristal Vinothèque Edition Brut",
-            "price": "$25,800",
-            "section": "Vintage Champagne",
-            "nameZh": "路易王妃香檳，「水晶酒窖珍藏版」年份香檳，香檳區，法國"
-          },
-          {
-            "v": "1992",
-            "name": "Dom Pérignon P3 Plénitude Collection",
-            "price": "$43,000",
-            "section": "Vintage Champagne",
-            "nameZh": "唐培里儂，第三階段陳年珍藏年份香檳，香檳區，法國"
-          },
-          {
-            "v": "1993",
-            "name": "Dom Pérignon P3 Plénitude Collection",
-            "price": "$43,000",
-            "section": "Vintage Champagne",
-            "nameZh": "唐培里儂，第三階段陳年珍藏年份香檳，香檳區，法國"
-          }
-        ]
-      },
-      {
-        "name": "White",
-        "nameZh": "白酒",
-        "items": [
-          {
-            "v": "2012",
-            "name": "Corton-Charlemagne Grand Cru, Domaine Ponsot",
-            "price": "$7,980",
-            "section": "White",
-            "nameZh": "龐索酒莊，科爾登查理曼特級園白葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2013",
-            "name": "Montrachet Grand Cru, Domaine Jean Chartron",
-            "price": "$16,000",
-            "section": "White",
-            "nameZh": "尚夏酒莊，蒙哈榭特級園白葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2001",
-            "name": "Bâtard-Montrachet Grand Cru, Château de la Maltroye (1.5L)",
-            "price": "$17,280",
-            "section": "White",
-            "nameZh": "瑪特華城堡，巴塔蒙哈榭特級園白葡萄酒（1.5公升），勃艮第，法國"
-          },
-          {
-            "v": "2010",
-            "name": "Château Haut-Brion Blanc",
-            "price": "$26,500",
-            "section": "White",
-            "nameZh": "奧比昂酒莊，白葡萄酒，佩薩克雷奧良，波爾多，法國"
-          }
-        ]
-      },
-      {
-        "name": "Dessert",
-        "nameZh": "甜葡萄酒",
-        "items": [
-          {
-            "v": "2009",
-            "name": "Château d'Yquem (375ml)",
-            "price": "$7,880",
-            "section": "Dessert",
-            "nameZh": "滴金酒莊，貴腐甜白葡萄酒（375毫升），蘇玳，波爾多，法國"
-          }
-        ]
-      },
-      {
-        "name": "Red",
-        "nameZh": "紅酒",
-        "items": [
-          {
-            "v": "2003",
-            "name": "Château Haut-Brion",
-            "price": "$13,800",
-            "section": "Red",
-            "nameZh": "奧比昂酒莊，紅葡萄酒，佩薩克雷奧良，波爾多，法國"
-          },
-          {
-            "v": "2014",
-            "name": "Château Haut-Brion",
-            "price": "$9,880",
-            "section": "Red",
-            "nameZh": "奧比昂酒莊，紅葡萄酒，佩薩克雷奧良，波爾多，法國"
-          },
-          {
-            "v": "1998",
-            "name": "Château Mouton Rothschild",
-            "price": "$13,680",
-            "section": "Red",
-            "nameZh": "木桐酒莊，紅葡萄酒，波雅克，波爾多，法國"
-          },
-          {
-            "v": "2003",
-            "name": "Château Mouton Rothschild",
-            "price": "$13,680",
-            "section": "Red",
-            "nameZh": "木桐酒莊，紅葡萄酒，波雅克，波爾多，法國"
-          },
-          {
-            "v": "2017",
-            "name": "Château Mouton Rothschild",
-            "price": "$9,380",
-            "section": "Red",
-            "nameZh": "木桐酒莊，紅葡萄酒，波雅克，波爾多，法國"
-          },
-          {
-            "v": "1998",
-            "name": "Château Lafite Rothschild",
-            "price": "$20,800",
-            "section": "Red",
-            "nameZh": "拉菲酒莊，紅葡萄酒，波雅克，波爾多，法國"
-          },
-          {
-            "v": "2008",
-            "name": "Château Lafite Rothschild",
-            "price": "$15,680",
-            "section": "Red",
-            "nameZh": "拉菲酒莊，紅葡萄酒，波雅克，波爾多，法國"
-          },
-          {
-            "v": "2015",
-            "name": "Château Lafite Rothschild",
-            "price": "$12,980",
-            "section": "Red",
-            "nameZh": "拉菲酒莊，紅葡萄酒，波雅克，波爾多，法國"
-          },
-          {
-            "v": "1990",
-            "name": "Château Margaux",
-            "price": "$23,800",
-            "section": "Red",
-            "nameZh": "瑪歌酒莊，紅葡萄酒，瑪歌，波爾多，法國"
-          },
-          {
-            "v": "2003",
-            "name": "Château Margaux",
-            "price": "$19,800",
-            "section": "Red",
-            "nameZh": "瑪歌酒莊，紅葡萄酒，瑪歌，波爾多，法國"
-          },
-          {
-            "v": "2011",
-            "name": "Château Margaux",
-            "price": "$10,900",
-            "section": "Red",
-            "nameZh": "瑪歌酒莊，紅葡萄酒，瑪歌，波爾多，法國"
-          },
-          {
-            "v": "1982",
-            "name": "Château Latour",
-            "price": "$37,800",
-            "section": "Red",
-            "nameZh": "拉圖酒莊，紅葡萄酒，波雅克，波爾多，法國"
-          },
-          {
-            "v": "2001",
-            "name": "Château Latour",
-            "price": "$16,980",
-            "section": "Red",
-            "nameZh": "拉圖酒莊，紅葡萄酒，波雅克，波爾多，法國"
-          },
-          {
-            "v": "2014",
-            "name": "Château Latour",
-            "price": "$10,800",
-            "section": "Red",
-            "nameZh": "拉圖酒莊，紅葡萄酒，波雅克，波爾多，法國"
-          },
-          {
-            "v": "1982",
-            "name": "Pétrus",
-            "price": "$89,880",
-            "section": "Red",
-            "nameZh": "柏翠酒莊，紅葡萄酒，波美侯，波爾多，法國"
-          },
-          {
-            "v": "1988",
-            "name": "Le Pin",
-            "price": "$56,530",
-            "section": "Red",
-            "nameZh": "里鵬酒莊，紅葡萄酒，波美侯，波爾多，法國"
-          },
-          {
-            "v": "1988",
-            "name": "Lafleur",
-            "price": "$31,300",
-            "section": "Red",
-            "nameZh": "花堡酒莊，紅葡萄酒，波美侯，波爾多，法國"
-          }
-        ]
-      },
-      {
-        "name": "Domaine de la Romanée-Conti",
-        "nameZh": "羅曼尼康帝酒莊",
-        "items": [
-          {
-            "v": "2017",
-            "name": "Conti Échezeaux, Domaine de la Romanée-Conti",
-            "price": "$51,280",
-            "section": "Domaine de la Romanée-Conti",
-            "nameZh": "羅曼尼康帝酒莊，艾雪索特級園紅葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2011",
-            "name": "Richebourg, Domaine de la Romanée-Conti",
-            "price": "$56,800",
-            "section": "Domaine de la Romanée-Conti",
-            "nameZh": "羅曼尼康帝酒莊，李其堡特級園紅葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2016",
-            "name": "Romanée-Saint-Vivant, Domaine de la Romanée-Conti",
-            "price": "$60,800",
-            "section": "Domaine de la Romanée-Conti",
-            "nameZh": "羅曼尼康帝酒莊，羅曼尼聖維望特級園紅葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2010",
-            "name": "La Tâche, Domaine de la Romanée-Conti",
-            "price": "$119,800",
-            "section": "Domaine de la Romanée-Conti",
-            "nameZh": "羅曼尼康帝酒莊，拉塔希獨佔特級園紅葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "1995",
-            "name": "Romanée-Conti, Domaine de la Romanée-Conti",
-            "price": "$368,000",
-            "section": "Domaine de la Romanée-Conti",
-            "nameZh": "羅曼尼康帝酒莊，羅曼尼康帝獨佔特級園紅葡萄酒，勃艮第，法國"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "c7",
-    "title": "Sommelier Selection",
-    "titleZh": "侍酒師精選",
-    "sections": [
-      {
-        "name": "Champagne",
-        "nameZh": "香檳",
-        "items": [
-          {
-            "v": "2012",
-            "name": "Charles Heidsieck, Rosé Millésime, Brut",
-            "price": "$2,580",
-            "section": "Champagne",
-            "nameZh": "查理海斯基香檳，年份粉紅香檳，香檳區，法國"
-          },
-          {
-            "v": "2003",
-            "name": "Tarlant, La Vigne Royale, Blanc de Noirs, Extra Brut",
-            "price": "$2,680",
-            "section": "Champagne",
-            "nameZh": "塔朗香檳，「皇家葡萄園」黑中白特級天然年份香檳，香檳區，法國"
-          },
-          {
-            "v": "2002",
-            "name": "Lanson, Le Vintage Brut",
-            "price": "$2,980",
-            "section": "Champagne",
-            "nameZh": "蘭頌香檳，「年份珍藏」香檳，香檳區，法國"
-          },
-          {
-            "v": "2012",
-            "name": "Piper-Heidsieck Rare, Brut Millésime",
-            "price": "$3,880",
-            "section": "Champagne",
-            "nameZh": "白雪香檳，「珍稀」年份香檳，香檳區，法國"
-          },
-          {
-            "v": "NV",
-            "name": "Krug, Grande Cuvée 171ème Édition Brut",
-            "price": "$4,180",
-            "section": "Champagne",
-            "nameZh": "庫克香檳，「陳年特釀」第一百七十一版香檳，香檳區，法國"
-          },
-          {
-            "v": "2016",
-            "name": "Louis Roederer Cristal, Brut Millésime",
-            "price": "$5,380",
-            "section": "Champagne",
-            "nameZh": "路易王妃香檳，「水晶」年份香檳，香檳區，法國"
-          },
-          {
-            "v": "2006",
-            "name": "Dom Pérignon, Rosé Brut",
-            "price": "$6,650",
-            "section": "Champagne",
-            "nameZh": "唐培里儂香檳，年份粉紅香檳，香檳區，法國"
-          },
-          {
-            "v": "1996",
-            "name": "Charles Heidsieck, La Collection Crayères Brut",
-            "price": "$7,380",
-            "section": "Champagne",
-            "nameZh": "查理海斯基香檳，「白堊酒窖珍藏」年份香檳，香檳區，法國"
-          }
-        ]
-      },
-      {
-        "name": "Bourgogne Blanc",
-        "nameZh": "勃艮第白葡萄酒",
-        "items": [
-          {
-            "v": "2023",
-            "name": "Mâcon Verze, Domaine Leflaive",
-            "price": "$1,780",
-            "section": "Bourgogne Blanc",
-            "nameZh": "雙雞酒莊，馬貢韋爾澤莎當妮白葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2019",
-            "name": "Meursault, 1er Cru Les Ravelles, Chapelle de Blagny",
-            "price": "$2,000",
-            "section": "Bourgogne Blanc",
-            "nameZh": "布拉尼禮拜堂酒莊，默爾索「拉韋勒園」一級園莎當妮白葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2023",
-            "name": "Chassagne Montrachet, Domaine Larue",
-            "price": "$2,280",
-            "section": "Bourgogne Blanc",
-            "nameZh": "拉魯酒莊，夏山蒙哈榭莎當妮白葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2021",
-            "name": "Puligny-Montrachet, Les Reuchaux, Domaine Boyer-Martenot",
-            "price": "$3,180",
-            "section": "Bourgogne Blanc",
-            "nameZh": "布瓦耶馬特諾酒莊，普利尼蒙哈榭「勒呂紹園」莎當妮白葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2020",
-            "name": "Puligny-Montrachet 1er Cru \"Clos de la Pucelle\" Monopole, Domaine Jean Chartron",
-            "price": "$4,280",
-            "section": "Bourgogne Blanc",
-            "nameZh": "俠龍酒莊，普利尼蒙哈榭「少女園」獨佔一級園莎當妮白葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2012",
-            "name": "Corton-Charlemagne Grand Cru, Domaine Ponsot",
-            "price": "$7,980",
-            "section": "Bourgogne Blanc",
-            "nameZh": "龐索酒莊，科爾登查理曼特級園莎當妮白葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2013",
-            "name": "Montrachet Grand Cru, Domaine Jean Chartron",
-            "price": "$16,000",
-            "section": "Bourgogne Blanc",
-            "nameZh": "俠龍酒莊，蒙哈榭特級園莎當妮白葡萄酒，勃艮第，法國"
-          }
-        ]
-      },
-      {
-        "name": "Bourgogne Rouge",
-        "nameZh": "勃艮第紅葡萄酒",
-        "items": [
-          {
-            "v": "2020",
-            "name": "Chambolle-Musigny, Domaine François Bertheau",
-            "price": "$2,080",
-            "section": "Bourgogne Rouge",
-            "nameZh": "法蘭索瓦貝爾托酒莊，香波慕西尼黑皮諾紅葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2020",
-            "name": "Morey-Saint-Denis 1er Cru Les Monts Luisants, Domaine Pierre Girardin",
-            "price": "$2,680",
-            "section": "Bourgogne Rouge",
-            "nameZh": "皮耶吉拉丹酒莊，莫雷聖丹尼「光輝山」一級園黑皮諾紅葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2022",
-            "name": "Pommard 1er Cru, Clos de la Commaraine Monopole, Domaine de la Commaraine",
-            "price": "$4,380",
-            "section": "Bourgogne Rouge",
-            "nameZh": "科瑪萊訥酒莊，玻瑪「科瑪萊訥圍牆園」獨佔一級園黑皮諾紅葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2018",
-            "name": "Charmes-Chambertin Grand Cru, Geantet-Pansiot",
-            "price": "$6,280",
-            "section": "Bourgogne Rouge",
-            "nameZh": "傑昂泰龐西奧酒莊，夏姆香貝丹特級園黑皮諾紅葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2022",
-            "name": "Échézeaux Grand Cru, Mongeard-Mugneret",
-            "price": "$6,380",
-            "section": "Bourgogne Rouge",
-            "nameZh": "蒙雅穆格奈酒莊，艾雪索特級園黑皮諾紅葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2019",
-            "name": "Vosne-Romanée, Domaine Emmanuel Rouget",
-            "price": "$7,880",
-            "section": "Bourgogne Rouge",
-            "nameZh": "艾曼紐胡傑酒莊，沃恩羅曼尼黑皮諾紅葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2013",
-            "name": "Musigny Grand Cru \"Cuvée Vieilles Vignes\", Domaine Comte Georges de Vogüé",
-            "price": "$16,750",
-            "section": "Bourgogne Rouge",
-            "nameZh": "武戈伯爵酒莊，慕西尼特級園「老藤特釀」黑皮諾紅葡萄酒，勃艮第，法國"
-          }
-        ]
-      },
-      {
-        "name": "Red Bordeaux",
-        "nameZh": "波爾多紅葡萄酒",
-        "items": [
-          {
-            "v": "2010",
-            "name": "Château Brane-Cantenac, 2ème Cru Classé, Margaux",
-            "price": "$2,788",
-            "section": "Bordeaux Rouge",
-            "nameZh": "布朗康田酒莊，二級酒莊紅葡萄酒，瑪歌，波爾多，法國"
-          },
-          {
-            "v": "2012",
-            "name": "Vieux Château Certan, Pomerol",
-            "price": "$4,280",
-            "section": "Bordeaux Rouge",
-            "nameZh": "老色丹酒莊紅葡萄酒，波美侯，波爾多，法國"
-          },
-          {
-            "v": "2008",
-            "name": "Château Trotanoy, Pomerol",
-            "price": "$5,480",
-            "section": "Bordeaux Rouge",
-            "nameZh": "卓龍酒莊紅葡萄酒，波美侯，波爾多，法國"
-          },
-          {
-            "v": "2008",
-            "name": "Château La Mission Haut-Brion, Pessac-Léognan",
-            "price": "$6,550",
-            "section": "Bordeaux Rouge",
-            "nameZh": "修道院紅顏容酒莊紅葡萄酒，佩薩克雷奧良，波爾多，法國"
-          },
-          {
-            "v": "2005",
-            "name": "Château Léoville Las Cases, 2ème Cru Classé, Saint-Julien",
-            "price": "$7,680",
-            "section": "Bordeaux Rouge",
-            "nameZh": "雄獅酒莊，二級酒莊紅葡萄酒，聖朱利安，波爾多，法國"
-          },
-          {
-            "v": "2000",
-            "name": "Château La Fleur-Pétrus, Pomerol",
-            "price": "$7,980",
-            "section": "Bordeaux Rouge",
-            "nameZh": "柏圖斯之花酒莊紅葡萄酒，波美侯，波爾多，法國"
-          },
-          {
-            "v": "1989",
-            "name": "Château Montrose, 2ème Cru Classé, Saint-Estèphe",
-            "price": "$8,280",
-            "section": "Bordeaux Rouge",
-            "nameZh": "玫瑰山酒莊，二級酒莊紅葡萄酒，聖愛斯泰夫，波爾多，法國"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "c8",
-    "title": "Italian Sparkling",
-    "sections": [
-      {
-        "name": "Ca'del Bosco Collections",
-        "items": [
-          {
-            "v": "2013",
-            "name": "Ca'del Bosco 'Annamaria Clementi'",
-            "price": "$3,380",
-            "section": "Ca'del Bosco Collections",
-            "nameZh": "卡德爾博斯科，「安娜瑪麗亞・克萊門蒂」法蘭恰柯達，倫巴第，意大利"
-          },
-          {
-            "v": "2011",
-            "name": "Ca'del Bosco 'Annamaria Clementi'",
-            "price": "$3,880",
-            "section": "Ca'del Bosco Collections",
-            "nameZh": "卡德爾博斯科，「安娜瑪麗亞・克萊門蒂」法蘭恰柯達，倫巴第，意大利"
-          },
-          {
-            "v": "2015",
-            "name": "Ca'del Bosco 'Annamaria Clementi' Rosé",
-            "price": "$4,580",
-            "section": "Ca'del Bosco Collections",
-            "nameZh": "卡德爾博斯科，「安娜瑪麗亞・克萊門蒂」粉紅法蘭恰柯達，倫巴第，意大利"
-          },
-          {
-            "v": "2013",
-            "name": "Ca'del Bosco 'Annamaria Clementi' Rosé",
-            "price": "$4,580",
-            "section": "Ca'del Bosco Collections",
-            "nameZh": "卡德爾博斯科，「安娜瑪麗亞・克萊門蒂」粉紅法蘭恰柯達，倫巴第，意大利"
-          },
-          {
-            "v": "2010",
-            "name": "Ca'del Bosco 'Annamaria Clementi' Rosé",
-            "price": "$6,880",
-            "section": "Ca'del Bosco Collections",
-            "nameZh": "卡德爾博斯科，「安娜瑪麗亞・克萊門蒂」粉紅法蘭恰柯達，倫巴第，意大利"
-          },
-          {
-            "v": "NV",
-            "name": "Ca'del Bosco 'Cuvée Prestige Edizione 44' Rosé",
-            "price": "$1,680",
-            "section": "Ca'del Bosco Collections",
-            "nameZh": "卡德爾博斯科，「尊尚特釀第44版」粉紅法蘭恰柯達，倫巴第，意大利"
-          },
-          {
-            "v": "NV",
-            "name": "Ca'del Bosco 'Cuvée Prestige Edizione 45' Rosé",
-            "price": "$1,380",
-            "section": "Ca'del Bosco Collections",
-            "nameZh": "卡德爾博斯科，「尊尚特釀第45版」粉紅法蘭恰柯達，倫巴第，意大利"
-          },
-          {
-            "v": "NV",
-            "name": "Ca'del Bosco 'Cuvée Prestige Edizione 47'",
-            "price": "$1,080",
-            "section": "Ca'del Bosco Collections",
-            "nameZh": "卡德爾博斯科，「尊尚特釀第47版」法蘭恰柯達，倫巴第，意大利"
-          },
-          {
-            "v": "2017",
-            "name": "Ca'del Bosco 'Dosage Zero Millesimato'",
-            "price": "$1,580",
-            "section": "Ca'del Bosco Collections",
-            "nameZh": "卡德爾博斯科，「零補糖年份」法蘭恰柯達，倫巴第，意大利"
-          },
-          {
-            "v": "2013",
-            "name": "Ca'del Bosco 'Vintage Collection Dosage Noir'",
-            "price": "$2,280",
-            "section": "Ca'del Bosco Collections",
-            "nameZh": "卡德爾博斯科，「年份珍藏黑皮諾低補糖」法蘭恰柯達，倫巴第，意大利"
-          }
-        ],
-        "nameZh": "卡德爾博斯科珍藏系列"
-      },
-      {
-        "name": "Sicilia",
-        "items": [
-          {
-            "v": "2016",
-            "name": "Santa Maria La Nave 'Tempesta'",
-            "price": "$2,580",
-            "section": "Sicilia",
-            "nameZh": "聖瑪麗亞拉納維，「暴風雨」傳統法氣泡酒，西西里，意大利"
-          }
-        ],
-        "nameZh": "西西里"
-      },
-      {
-        "name": "Lombardia",
-        "items": [
-          {
-            "v": "NV",
-            "name": "Bellavista 'Alma' Franciacorta Brut",
-            "price": "$1,380",
-            "section": "Lombardia",
-            "nameZh": "貝拉維斯塔，「阿爾瑪」法蘭恰柯達天然乾型，倫巴第，意大利"
-          },
-          {
-            "v": "2018",
-            "name": "Costaripa 'Mattia Vezzola' Grande Annata Rosé",
-            "price": "$1,880",
-            "section": "Lombardia",
-            "nameZh": "科斯塔里帕，「馬蒂亞・韋佐拉」卓越年份粉紅酒，倫巴第，意大利"
-          },
-          {
-            "v": "2014",
-            "name": "Vigne Olcru 'Verve' Metodo Classico Extra Brut",
-            "price": "$1,690",
-            "section": "Lombardia",
-            "nameZh": "維涅・奧爾克魯，「活力」傳統法特級乾型，倫巴第，意大利"
-          }
-        ],
-        "nameZh": "倫巴第"
-      },
-      {
-        "name": "Trento",
-        "items": [
-          {
-            "v": "2012",
-            "name": "Ferrari 'Perlè' Zero Dosage Riserva",
-            "price": "$1,780",
-            "section": "Trento",
-            "nameZh": "法拉利，「珍珠」零補糖珍藏特倫托DOC，特倫托，意大利"
-          }
-        ],
-        "nameZh": "特倫托"
-      }
-    ],
-    "titleZh": "意大利氣泡酒"
-  },
-  {
-    "id": "c9",
-    "title": "Ritz Cuvée",
-    "sections": [
-      {
-        "name": "Barons de Rothschild Ritz Cuvée selection",
-        "items": [
-          {
-            "v": "NV",
-            "name": "Barons de Rothschild, \"Ritz\" Brut Reserve",
-            "price": "Glass $268 · Bottle $1,538",
-            "section": "Barons de Rothschild Ritz Cuvée selection",
-            "nameZh": "羅斯柴爾德男爵香檳，「麗思」特釀珍藏香檳，香檳區，法國",
-            "priceZh": "杯裝 $268 · 原瓶 $1,538"
-          },
-          {
-            "v": "NV",
-            "name": "Barons de Rothschild, \"Ritz\" Blanc de Blancs",
-            "price": "$1,628",
-            "section": "Barons de Rothschild Ritz Cuvée selection",
-            "nameZh": "羅斯柴爾德男爵香檳，「麗思」白中白香檳，香檳區，法國"
-          },
-          {
-            "v": "NV",
-            "name": "Barons de Rothschild, \"Ritz\" Brut Reserve, Rosé",
-            "price": "$1,648",
-            "section": "Barons de Rothschild Ritz Cuvée selection",
-            "nameZh": "羅斯柴爾德男爵香檳，「麗思」特釀珍藏粉紅香檳，香檳區，法國"
-          },
-          {
-            "v": "2008",
-            "name": "Barons de Rothschild, \"Ritz\" Millésime",
-            "price": "$2,040",
-            "section": "Barons de Rothschild Ritz Cuvée selection",
-            "nameZh": "羅斯柴爾德男爵香檳，「麗思」年份特釀，香檳區，法國"
-          },
-          {
-            "v": "NV",
-            "name": "Barons de Rothschild, \"Ritz\" Brut Reserve (375 ml)",
-            "price": "$700",
-            "section": "Barons de Rothschild Ritz Cuvée selection",
-            "nameZh": "羅斯柴爾德男爵香檳，「麗思」特釀珍藏香檳（375毫升），香檳區，法國"
-          },
-          {
-            "v": "NV",
-            "name": "Barons de Rothschild, \"Ritz\" Brut Reserve (Magnum)",
-            "price": "$2,660",
-            "section": "Barons de Rothschild Ritz Cuvée selection",
-            "nameZh": "羅斯柴爾德男爵香檳，「麗思」特釀珍藏香檳（大瓶裝），香檳區，法國"
-          }
-        ],
-        "nameZh": "羅斯柴爾德男爵麗思特釀系列"
-      }
-    ],
-    "titleZh": "麗思特釀"
-  },
-  {
     "id": "c10",
     "title": "Champagne - Connoisseur Collections",
     "sections": [
@@ -1688,56 +1496,56 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2017",
-            "name": "Dom Pérignon",
+            "name": "Dom Pérignon, Champagne, France",
             "price": "$3,290",
             "section": "Dom Pérignon",
             "nameZh": "唐培里儂年份香檳，香檳區，法國"
           },
           {
             "v": "2015",
-            "name": "Dom Pérignon",
+            "name": "Dom Pérignon, Champagne, France",
             "price": "$3,290",
             "section": "Dom Pérignon",
             "nameZh": "唐培里儂年份香檳，香檳區，法國"
           },
           {
             "v": "2013",
-            "name": "Dom Pérignon",
+            "name": "Dom Pérignon, Champagne, France",
             "price": "$3,690",
             "section": "Dom Pérignon",
             "nameZh": "唐培里儂年份香檳，香檳區，法國"
           },
           {
             "v": "2012",
-            "name": "Dom Pérignon",
+            "name": "Dom Pérignon, Champagne, France",
             "price": "$4,080",
             "section": "Dom Pérignon",
             "nameZh": "唐培里儂年份香檳，香檳區，法國"
           },
           {
             "v": "2006",
-            "name": "Dom Pérignon Rosé",
+            "name": "Dom Pérignon Rosé, Champagne, France",
             "price": "$6,650",
             "section": "Dom Pérignon",
             "nameZh": "唐培里儂粉紅香檳，香檳區，法國"
           },
           {
             "v": "2004",
-            "name": "Dom Pérignon P2",
+            "name": "Dom Pérignon P2, Champagne, France",
             "price": "$8,280",
             "section": "Dom Pérignon",
             "nameZh": "唐培里儂P2第二次臻味，香檳區，法國"
           },
           {
             "v": "1992",
-            "name": "Dom Pérignon P3",
+            "name": "Dom Pérignon P3, Champagne, France",
             "price": "$43,000",
             "section": "Dom Pérignon",
             "nameZh": "唐培里儂P3第三次臻味，香檳區，法國"
           },
           {
             "v": "1993",
-            "name": "Dom Pérignon P3",
+            "name": "Dom Pérignon P3, Champagne, France",
             "price": "$43,000",
             "section": "Dom Pérignon",
             "nameZh": "唐培里儂P3第三次臻味，香檳區，法國"
@@ -1750,49 +1558,49 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "NV",
-            "name": "Krug, Grande Cuvée 171ème Édition",
+            "name": "Krug, Grande Cuvée 171ème Édition, Champagne, France",
             "price": "$4,180",
             "section": "Krug",
             "nameZh": "庫克，第171版大特釀，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Krug, Grande Cuvée 172ème Édition",
+            "name": "Krug, Grande Cuvée 172ème Édition, Champagne, France",
             "price": "$4,580",
             "section": "Krug",
             "nameZh": "庫克，第172版大特釀，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Krug, Grande Cuvée 173ème Édition",
+            "name": "Krug, Grande Cuvée 173ème Édition, Champagne, France",
             "price": "$4,580",
             "section": "Krug",
             "nameZh": "庫克，第173版大特釀，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Krug, Rosé 27ème Édition",
+            "name": "Krug, Rosé 27ème Édition, Champagne, France",
             "price": "$5,780",
             "section": "Krug",
             "nameZh": "庫克，第27版粉紅香檳，香檳區，法國"
           },
           {
             "v": "2004",
-            "name": "Krug, Vintage",
+            "name": "Krug, Vintage, Champagne, France",
             "price": "$6,880",
             "section": "Krug",
             "nameZh": "庫克，香檳，香檳區，法國"
           },
           {
             "v": "2011",
-            "name": "Krug, Vintage",
+            "name": "Krug, Vintage, Champagne, France",
             "price": "$5,880",
             "section": "Krug",
             "nameZh": "庫克，香檳，香檳區，法國"
           },
           {
             "v": "2009",
-            "name": "Krug, Clos du Mesnil, Blanc de Blancs",
+            "name": "Krug, Clos du Mesnil, Blanc de Blancs, Champagne, France",
             "price": "$18,880",
             "section": "Krug",
             "nameZh": "庫克香檳，「梅尼爾圍牆園」白中白年份香檳，香檳區，法國"
@@ -1805,14 +1613,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2016",
-            "name": "Louis Roederer, Cristal Brut",
+            "name": "Louis Roederer, Cristal Brut, Champagne, France",
             "price": "$5,380",
             "section": "Louis Roederer, Cristal",
             "nameZh": "路易王妃，水晶天然乾型香檳，香檳區，法國"
           },
           {
             "v": "1999",
-            "name": "Louis Roederer, Cristal Vinothèque - Brut",
+            "name": "Louis Roederer, Cristal Vinothèque - Brut, Champagne, France",
             "price": "$25,800",
             "section": "Louis Roederer, Cristal",
             "nameZh": "路易王妃，水晶酒窖珍藏天然乾型香檳，香檳區，法國"
@@ -1825,17 +1633,17 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "NV",
-            "name": "Jacques Selosse 'Sous le Mont' Mareuil-sur-Aÿ Grand Cru",
+            "name": "Jacques Selosse 'Sous le Mont' Mareuil-sur-Aÿ Grand Cru, Champagne, France",
             "price": "$8,880",
             "section": "Jacques Selosse",
             "nameZh": "雅克・瑟洛斯，「山下」馬勒伊蘇爾艾特級園香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Jacques Selosse, Brut Rosé",
-            "price": "$9,880",
+            "name": "Jacques Selosse, Brut Rosé (Disgorged 2026), Champagne, France",
+            "price": "$7,880",
             "section": "Jacques Selosse",
-            "nameZh": "雅克・瑟洛斯，天然乾型粉紅香檳，香檳區，法國"
+            "nameZh": "雅克・瑟洛斯，天然乾型粉紅香檳（2026年除渣），香檳區，法國"
           }
         ],
         "nameZh": "雅克・瑟洛斯"
@@ -1845,7 +1653,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2015",
-            "name": "Salon, Cuvée 'S' Le Mesnil, Blanc de Blancs Brut",
+            "name": "Salon, Cuvée 'S' Le Mesnil, Blanc de Blancs Brut, Champagne, France",
             "price": "$18,800",
             "section": "Salon",
             "nameZh": "沙龍香檳，「梅尼爾」白中白年份香檳，香檳區，法國"
@@ -1858,35 +1666,35 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2007",
-            "name": "Perrier-Jouët 'Belle Époque'",
+            "name": "Perrier-Jouët 'Belle Époque', Champagne, France",
             "price": "$5,080",
             "section": "Perrier-Jouët Belle Époque",
             "nameZh": "巴黎之花，「美麗時光」香檳，香檳區，法國"
           },
           {
             "v": "2015",
-            "name": "Perrier-Jouët 'Belle Époque'",
+            "name": "Perrier-Jouët 'Belle Époque', Champagne, France",
             "price": "$3,680",
             "section": "Perrier-Jouët Belle Époque",
             "nameZh": "巴黎之花，「美麗時光」香檳，香檳區，法國"
           },
           {
             "v": "2002",
-            "name": "Perrier-Jouët 'Belle Époque' Blanc de Blancs",
+            "name": "Perrier-Jouët 'Belle Époque' Blanc de Blancs, Champagne, France",
             "price": "$9,900",
             "section": "Perrier-Jouët Belle Époque",
             "nameZh": "巴黎之花，「美麗時光」白中白香檳，香檳區，法國"
           },
           {
             "v": "2014",
-            "name": "Perrier-Jouët 'Belle Époque' Rosé",
+            "name": "Perrier-Jouët 'Belle Époque' Rosé, Champagne, France",
             "price": "$4,180",
             "section": "Perrier-Jouët Belle Époque",
             "nameZh": "巴黎之花，「美麗時光」粉紅香檳，香檳區，法國"
           },
           {
             "v": "2006",
-            "name": "Perrier-Jouët 'Belle Époque' Rosé",
+            "name": "Perrier-Jouët 'Belle Époque' Rosé, Champagne, France",
             "price": "$6,120",
             "section": "Perrier-Jouët Belle Époque",
             "nameZh": "巴黎之花，「美麗時光」粉紅香檳，香檳區，法國"
@@ -1902,74 +1710,116 @@ window.WINE_DATA = [
     "title": "Champagne",
     "sections": [
       {
+        "name": "Ritz Cuvée",
+        "items": [
+          {
+            "v": "NV",
+            "name": "Barons de Rothschild, \"Ritz\" Brut Reserve, Champagne, France",
+            "price": "Glass $268 · Bottle $1,538",
+            "section": "Ritz Cuvée",
+            "nameZh": "羅斯柴爾德男爵香檳，「麗思」特釀珍藏香檳，香檳區，法國",
+            "priceZh": "杯裝 $268 · 原瓶 $1,538"
+          },
+          {
+            "v": "NV",
+            "name": "Barons de Rothschild, \"Ritz\" Blanc de Blancs, Champagne, France",
+            "price": "$1,628",
+            "section": "Ritz Cuvée",
+            "nameZh": "羅斯柴爾德男爵香檳，「麗思」白中白香檳，香檳區，法國"
+          },
+          {
+            "v": "NV",
+            "name": "Barons de Rothschild, \"Ritz\" Brut Reserve, Rosé, Champagne, France",
+            "price": "$1,648",
+            "section": "Ritz Cuvée",
+            "nameZh": "羅斯柴爾德男爵香檳，「麗思」特釀珍藏粉紅香檳，香檳區，法國"
+          },
+          {
+            "v": "2008",
+            "name": "Barons de Rothschild, \"Ritz\" Millésime, Champagne, France",
+            "price": "$2,040",
+            "section": "Ritz Cuvée",
+            "nameZh": "羅斯柴爾德男爵香檳，「麗思」年份特釀，香檳區，法國"
+          },
+          {
+            "v": "NV",
+            "name": "Barons de Rothschild, \"Ritz\" Brut Reserve (375 ml), Champagne, France",
+            "price": "$700",
+            "section": "Ritz Cuvée",
+            "nameZh": "羅斯柴爾德男爵香檳，「麗思」特釀珍藏香檳（375毫升），香檳區，法國"
+          },
+          {
+            "v": "NV",
+            "name": "Barons de Rothschild, \"Ritz\" Brut Reserve (Magnum), Champagne, France",
+            "price": "$2,660",
+            "section": "Ritz Cuvée",
+            "nameZh": "羅斯柴爾德男爵香檳，「麗思」特釀珍藏香檳（大瓶裝），香檳區，法國"
+          }
+        ],
+        "nameZh": "麗思特釀"
+      },
+      {
         "name": "Non-Vintage",
         "items": [
           {
             "v": "NV",
-            "name": "Alfred Gratien, Cuvée Brut Classique",
+            "name": "Alfred Gratien, Cuvée Brut Classique, Champagne, France",
             "price": "$1,755",
             "section": "Non-Vintage",
             "nameZh": "阿爾弗雷德・格拉蒂安，經典天然乾型特釀香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Armand de Brignac Brut Gold",
+            "name": "Armand de Brignac Brut Gold, Champagne, France",
             "price": "$5,985",
             "section": "Non-Vintage",
             "nameZh": "黑桃A，金牌天然乾型香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Barons de Rothschild, \"Ritz\" Brut Reserve",
-            "price": "$1,538",
-            "section": "Non-Vintage",
-            "nameZh": "羅斯柴爾德男爵香檳，「麗思」特釀珍藏香檳，香檳區，法國"
-          },
-          {
-            "v": "NV",
-            "name": "Frédéric Savart 'L'Accomplie' 1er Cru Extra Brut",
+            "name": "Frédéric Savart 'L'Accomplie' 1er Cru Extra Brut, Champagne, France",
             "price": "$2,080",
             "section": "Non-Vintage",
             "nameZh": "弗雷德里克・薩瓦爾，「成就」一級園特級天然乾型香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Jérôme Prévost 'La Closerie' Extra Brut",
+            "name": "Jérôme Prévost 'La Closerie' Extra Brut, Champagne, France",
             "price": "$3,080",
             "section": "Non-Vintage",
             "nameZh": "熱羅姆・普雷沃，「拉克洛斯里」特級天然乾型香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Jérôme Prévost 'La Closerie Les Beguines' Extra Brut",
+            "name": "Jérôme Prévost 'La Closerie Les Beguines' Extra Brut, Champagne, France",
             "price": "$3,580",
             "section": "Non-Vintage",
             "nameZh": "熱羅姆・普雷沃，「拉克洛斯里・Les Béguines」特級天然乾型香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Lanson Black Label, Brut",
+            "name": "Lanson Black Label, Brut, Champagne, France",
             "price": "$1,120",
             "section": "Non-Vintage",
             "nameZh": "蘭頌，黑牌天然乾型香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Laurent-Perrier Ultra Brut",
+            "name": "Laurent-Perrier Ultra Brut, Champagne, France",
             "price": "$1,280",
             "section": "Non-Vintage",
             "nameZh": "羅蘭百悅，極乾香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Perrier-Jouët Grand Brut",
+            "name": "Perrier-Jouët Grand Brut, Champagne, France",
             "price": "$1,480",
             "section": "Non-Vintage",
             "nameZh": "巴黎之花，特級乾型香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Veuve Clicquot, Yellow Label",
+            "name": "Veuve Clicquot, Yellow Label, Champagne, France",
             "price": "$1,538",
             "section": "Non-Vintage",
             "nameZh": "凱歌，黃牌香檳，香檳區，法國"
@@ -1981,57 +1831,50 @@ window.WINE_DATA = [
         "name": "Vintage",
         "items": [
           {
-            "v": "2008",
-            "name": "Barons de Rothschild, \"Ritz\" Millésime",
-            "price": "$2,040",
-            "section": "Vintage",
-            "nameZh": "羅斯柴爾德男爵香檳，「麗思」年份特釀，香檳區，法國"
-          },
-          {
             "v": "2014",
-            "name": "Bollinger, La Grande Année",
+            "name": "Bollinger, La Grande Année, Champagne, France",
             "price": "$2,940",
             "section": "Vintage",
             "nameZh": "堡林爵，「卓越年份」香檳，香檳區，法國"
           },
           {
             "v": "1989",
-            "name": "Lanson Vintage Collection Champagne",
+            "name": "Lanson Vintage Collection Champagne, Champagne, France",
             "price": "$8,500",
             "section": "Vintage",
             "nameZh": "蘭頌，年份珍藏香檳，香檳區，法國"
           },
           {
             "v": "2002",
-            "name": "Lanson, Noble Cuvée Brut",
+            "name": "Lanson, Noble Cuvée Brut, Champagne, France",
             "price": "$2,980",
             "section": "Vintage",
             "nameZh": "蘭頌，高貴特釀天然乾型香檳，香檳區，法國"
           },
           {
             "v": "2002",
-            "name": "Laurent-Perrier Brut Millésime",
+            "name": "Laurent-Perrier Brut Millésime, Champagne, France",
             "price": "$2,680",
             "section": "Vintage",
             "nameZh": "羅蘭百悅，年份天然乾型香檳，香檳區，法國"
           },
           {
             "v": "2012",
-            "name": "Rare Millésime",
+            "name": "Rare Millésime, Champagne, France",
             "price": "$3,880",
             "section": "Vintage",
             "nameZh": "珍稀，年份香檳，香檳區，法國"
           },
           {
             "v": "2012",
-            "name": "Taittinger Brut Millésime",
+            "name": "Taittinger Brut Millésime, Champagne, France",
             "price": "$2,180",
             "section": "Vintage",
             "nameZh": "泰廷爵，年份天然乾型香檳，香檳區，法國"
           },
           {
             "v": "1996",
-            "name": "Charles Heidsieck La Collection Crayères Brut",
+            "name": "Charles Heidsieck La Collection Crayères Brut, Champagne, France",
             "price": "$7,380",
             "section": "Vintage",
             "nameZh": "夏爾・海德希克，白堊酒窖珍藏天然乾型香檳，香檳區，法國"
@@ -2044,112 +1887,105 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "NV",
-            "name": "Barons de Rothschild, \"Ritz\" Brut Reserve, Rosé",
-            "price": "$1,648",
-            "section": "Rose",
-            "nameZh": "羅斯柴爾德男爵香檳，「麗思」特釀珍藏粉紅香檳，香檳區，法國"
-          },
-          {
-            "v": "NV",
-            "name": "Billecart-Salmon, Le Rosé Extra Brut",
+            "name": "Billecart-Salmon, Le Rosé Extra Brut, Champagne, France",
             "price": "$2,080",
             "section": "Rose",
             "nameZh": "比爾卡沙蒙香檳，「粉紅」特級天然香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Charles Heidsieck Rosé Reserve",
+            "name": "Charles Heidsieck Rosé Reserve, Champagne, France",
             "price": "$1,680",
             "section": "Rose",
             "nameZh": "夏爾・海德希克，珍藏粉紅香檳，香檳區，法國"
           },
           {
             "v": "2012",
-            "name": "Charles Heidsieck Rosé Millésime",
+            "name": "Charles Heidsieck Rosé Millésime, Champagne, France",
             "price": "$2,580",
             "section": "Rose",
             "nameZh": "夏爾・海德希克，年份粉紅香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Devaux, Collection D Rosé",
+            "name": "Devaux, Collection D Rosé, Champagne, France",
             "price": "$1,980",
             "section": "Rose",
             "nameZh": "德沃，D系列粉紅香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Duval-Leroy, Champagne Rose Prestige Premier Cru",
+            "name": "Duval-Leroy, Champagne Rose Prestige Premier Cru, France",
             "price": "$1,430",
             "section": "Rose",
             "nameZh": "杜瓦・勒魯瓦，一級園頂級粉紅香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Emmanuel Brochet 'Rose d'Assemblage' Extra Brut",
+            "name": "Emmanuel Brochet 'Rose d'Assemblage' Extra Brut, Champagne, France",
             "price": "$3,380",
             "section": "Rose",
             "nameZh": "埃馬紐埃爾・布羅謝，「混調粉紅」特級天然乾型香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Emmanuel Brochet 'Rosé de Saignée'",
+            "name": "Emmanuel Brochet 'Rosé de Saignée', Champagne, France",
             "price": "$3,380",
             "section": "Rose",
             "nameZh": "埃馬紐埃爾・布羅謝，「放血法粉紅」香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "G.H. Mumm, Brut Rosé",
+            "name": "G.H. Mumm, Brut Rosé, Champagne, France",
             "price": "$1,520",
             "section": "Rose",
             "nameZh": "慕姆香檳，天然乾型粉紅香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Jérôme Prévost 'La Closerie Fac-Similé' Extra Brut",
+            "name": "Jérôme Prévost 'La Closerie Fac-Similé' Extra Brut, Champagne, France",
             "price": "$5,880",
             "section": "Rose",
             "nameZh": "熱羅姆・普雷沃，「拉克洛斯里・Fac-Similé」特級天然乾型粉紅香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Jérôme Prévost 'La Closerie D'un Iota' Extra Brut",
+            "name": "Jérôme Prévost 'La Closerie D'un Iota' Extra Brut, Champagne, France",
             "price": "$12,880",
             "section": "Rose",
             "nameZh": "熱羅姆・普雷沃，「拉克洛斯里・D’un Iota」特級天然乾型粉紅香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Laurent-Perrier, Rosé",
+            "name": "Laurent-Perrier, Rosé, Champagne, France",
             "price": "$2,255",
             "section": "Rose",
             "nameZh": "羅蘭百悅，粉紅香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Thiénot Brut Rosé",
+            "name": "Thiénot Brut Rosé, Champagne, France",
             "price": "$1,180",
             "section": "Rose",
             "nameZh": "蒂耶諾，天然乾型粉紅香檳，香檳區，法國"
           },
           {
             "v": "2017",
-            "name": "Louis Roederer, Brut Rosé",
+            "name": "Louis Roederer, Brut Rosé, Champagne, France",
             "price": "$2,380",
             "section": "Rose",
             "nameZh": "路易王妃，天然乾型粉紅香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Perrier-Jouët Blason Brut Rosé",
+            "name": "Perrier-Jouët Blason Brut Rosé, Champagne, France",
             "price": "$1,380",
             "section": "Rose",
             "nameZh": "巴黎之花，徽章天然乾型粉紅香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Ruinart, Rosé",
+            "name": "Ruinart, Rosé, Champagne, France",
             "price": "$2,008",
             "section": "Rose",
             "nameZh": "瑞納，粉紅香檳，香檳區，法國"
@@ -2162,56 +1998,49 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "NV",
-            "name": "Waris et Filles Premices Brut Grand Cru NV",
+            "name": "Waris et Filles Premices Brut Grand Cru NV, Champagne, France",
             "price": "$1,128",
             "section": "Blanc de Blancs",
             "nameZh": "瓦里與女兒，「初綻」特級園天然乾型白中白香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Barons de Rothschild, \"Ritz\" Blanc de Blancs",
-            "price": "$1,628",
-            "section": "Blanc de Blancs",
-            "nameZh": "羅斯柴爾德男爵香檳，「麗思」白中白香檳，香檳區，法國"
-          },
-          {
-            "v": "NV",
-            "name": "Brimoncourt, Blanc de Blancs",
+            "name": "Brimoncourt, Blanc de Blancs, Champagne, France",
             "price": "$1,380",
             "section": "Blanc de Blancs",
             "nameZh": "布里蒙庫爾，白中白香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Ruinart, Blanc de Blancs",
+            "name": "Ruinart, Blanc de Blancs, Champagne, France",
             "price": "$1,903",
             "section": "Blanc de Blancs",
             "nameZh": "瑞納香檳，白中白香檳，莎當妮，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Edouard Duval Blanc d Eulalie Extra Brut",
+            "name": "Edouard Duval Blanc d Eulalie Extra Brut, Champagne, France",
             "price": "$1,680",
             "section": "Blanc de Blancs",
             "nameZh": "愛德華・杜瓦，「歐拉莉」特級天然乾型白中白香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Lanson Blanc de Blancs",
+            "name": "Lanson Blanc de Blancs, Champagne, France",
             "price": "$1,875",
             "section": "Blanc de Blancs",
             "nameZh": "蘭頌，白中白香檳，香檳區，法國"
           },
           {
             "v": "2015",
-            "name": "Pierre Péters 'Cuvée Spéciale Les Chétillons' Blanc de Blancs Grand Cru Brut",
+            "name": "Pierre Péters 'Cuvée Spéciale Les Chétillons' Blanc de Blancs Grand Cru Brut, Champagne, France",
             "price": "$5,880",
             "section": "Blanc de Blancs",
             "nameZh": "皮埃爾・彼得斯，「特選萊謝蒂永」特級園天然乾型白中白香檳，香檳區，法國"
           },
           {
             "v": "2010",
-            "name": "Ruinart 'Dom Ruinart' Blanc de Blancs Brut Millésimé",
+            "name": "Ruinart 'Dom Ruinart' Blanc de Blancs Brut Millésimé, Champagne, France",
             "price": "$3,480",
             "section": "Blanc de Blancs",
             "nameZh": "瑞納，「唐・瑞納」年份天然乾型白中白香檳，香檳區，法國"
@@ -2224,51 +2053,204 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2012",
-            "name": "Bollinger, La Côte aux Enfants Grand Cru, Blanc de Noirs",
+            "name": "Bollinger, La Côte aux Enfants Grand Cru, Blanc de Noirs, Champagne, France",
             "price": "$12,880",
             "section": "Blanc de Noirs",
             "nameZh": "堡林爵，「孩子山坡」特級園黑中白香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Coessens 'Largillier' Blanc de Noirs",
+            "name": "Coessens 'Largillier' Blanc de Noirs, Champagne, France",
             "price": "$1,980",
             "section": "Blanc de Noirs",
             "nameZh": "科桑斯，「拉爾吉利耶」黑中白香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Frédéric Savart 'Les Pinots V15.16' Blanc de Noirs Extra Brut",
+            "name": "Frédéric Savart 'Les Pinots V15.16' Blanc de Noirs Extra Brut, Champagne, France",
             "price": "$2,380",
             "section": "Blanc de Noirs",
             "nameZh": "弗雷德里克・薩瓦爾，「黑皮諾V15.16」黑中白特級天然乾型香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Mailly, Grand Cru, Blanc de Noirs",
+            "name": "Mailly, Grand Cru, Blanc de Noirs, Champagne, France",
             "price": "$1,680",
             "section": "Blanc de Noirs",
             "nameZh": "馬伊，特級園黑中白香檳，香檳區，法國"
           },
           {
             "v": "2003",
-            "name": "Tarlant La Vigne Royale Blanc de Noirs Extra Brut",
+            "name": "Tarlant La Vigne Royale Blanc de Noirs Extra Brut, Champagne, France",
             "price": "$2,680",
             "section": "Blanc de Noirs",
             "nameZh": "塔朗，「皇家葡萄藤」黑中白特級天然乾型香檳，香檳區，法國"
           }
         ],
         "nameZh": "黑中白香檳"
+      }
+    ],
+    "titleZh": "香檳"
+  },
+  {
+    "id": "c8",
+    "title": "Italian Sparkling",
+    "sections": [
+      {
+        "name": "Ca'del Bosco Collections",
+        "items": [
+          {
+            "v": "2013",
+            "name": "Ca'del Bosco 'Annamaria Clementi', Franciacorta, Italy",
+            "price": "$3,380",
+            "section": "Ca'del Bosco Collections",
+            "nameZh": "卡德爾博斯科，「安娜瑪麗亞・克萊門蒂」法蘭恰柯達，倫巴第，意大利"
+          },
+          {
+            "v": "2011",
+            "name": "Ca'del Bosco 'Annamaria Clementi', Franciacorta, Italy",
+            "price": "$3,880",
+            "section": "Ca'del Bosco Collections",
+            "nameZh": "卡德爾博斯科，「安娜瑪麗亞・克萊門蒂」法蘭恰柯達，倫巴第，意大利"
+          },
+          {
+            "v": "2015",
+            "name": "Ca'del Bosco 'Annamaria Clementi' Rosé, Franciacorta, Italy",
+            "price": "$4,580",
+            "section": "Ca'del Bosco Collections",
+            "nameZh": "卡德爾博斯科，「安娜瑪麗亞・克萊門蒂」粉紅法蘭恰柯達，倫巴第，意大利"
+          },
+          {
+            "v": "2013",
+            "name": "Ca'del Bosco 'Annamaria Clementi' Rosé, Franciacorta, Italy",
+            "price": "$4,580",
+            "section": "Ca'del Bosco Collections",
+            "nameZh": "卡德爾博斯科，「安娜瑪麗亞・克萊門蒂」粉紅法蘭恰柯達，倫巴第，意大利"
+          },
+          {
+            "v": "2010",
+            "name": "Ca'del Bosco 'Annamaria Clementi' Rosé, Franciacorta, Italy",
+            "price": "$6,880",
+            "section": "Ca'del Bosco Collections",
+            "nameZh": "卡德爾博斯科，「安娜瑪麗亞・克萊門蒂」粉紅法蘭恰柯達，倫巴第，意大利"
+          },
+          {
+            "v": "NV",
+            "name": "Ca'del Bosco 'Cuvée Prestige Edizione 44' Rosé, Franciacorta, Italy",
+            "price": "$1,680",
+            "section": "Ca'del Bosco Collections",
+            "nameZh": "卡德爾博斯科，「尊尚特釀第44版」粉紅法蘭恰柯達，倫巴第，意大利"
+          },
+          {
+            "v": "NV",
+            "name": "Ca'del Bosco 'Cuvée Prestige Edizione 45' Rosé, Franciacorta, Italy",
+            "price": "$1,380",
+            "section": "Ca'del Bosco Collections",
+            "nameZh": "卡德爾博斯科，「尊尚特釀第45版」粉紅法蘭恰柯達，倫巴第，意大利"
+          },
+          {
+            "v": "NV",
+            "name": "Ca'del Bosco 'Cuvée Prestige Edizione 47', Franciacorta, Italy",
+            "price": "$1,080",
+            "section": "Ca'del Bosco Collections",
+            "nameZh": "卡德爾博斯科，「尊尚特釀第47版」法蘭恰柯達，倫巴第，意大利"
+          },
+          {
+            "v": "2017",
+            "name": "Ca'del Bosco 'Dosage Zero Millesimato', Franciacorta, Italy",
+            "price": "$1,580",
+            "section": "Ca'del Bosco Collections",
+            "nameZh": "卡德爾博斯科，「零補糖年份」法蘭恰柯達，倫巴第，意大利"
+          },
+          {
+            "v": "2013",
+            "name": "Ca'del Bosco 'Vintage Collection Dosage Noir', Franciacorta, Italy",
+            "price": "$2,280",
+            "section": "Ca'del Bosco Collections",
+            "nameZh": "卡德爾博斯科，「年份珍藏黑皮諾低補糖」法蘭恰柯達，倫巴第，意大利"
+          }
+        ],
+        "nameZh": "卡德爾博斯科珍藏系列"
       },
       {
-        "name": "Sparkling Wine",
+        "name": "Sicilia",
+        "items": [
+          {
+            "v": "2016",
+            "name": "Santa Maria La Nave 'Tempesta', Sicily, Italy",
+            "price": "$2,580",
+            "section": "Sicilia",
+            "nameZh": "聖瑪麗亞拉納維，「暴風雨」傳統法氣泡酒，西西里，意大利"
+          }
+        ],
+        "nameZh": "西西里"
+      },
+      {
+        "name": "Lombardia",
         "items": [
           {
             "v": "NV",
-            "name": "Clément Klur 'Manekineko' Crémant d'Alsace Brut",
+            "name": "Bellavista 'Alma' Franciacorta Brut, Lombardy, Italy",
+            "price": "$1,380",
+            "section": "Lombardia",
+            "nameZh": "貝拉維斯塔，「阿爾瑪」法蘭恰柯達天然乾型，倫巴第，意大利"
+          },
+          {
+            "v": "2018",
+            "name": "Costaripa 'Mattia Vezzola' Grande Annata Rosé, Lombardy, Italy",
+            "price": "$1,880",
+            "section": "Lombardia",
+            "nameZh": "科斯塔里帕，「馬蒂亞・韋佐拉」卓越年份粉紅酒，倫巴第，意大利"
+          },
+          {
+            "v": "2014",
+            "name": "Vigne Olcru 'Verve' Metodo Classico Extra Brut, Lombardy, Italy",
+            "price": "$1,690",
+            "section": "Lombardia",
+            "nameZh": "維涅・奧爾克魯，「活力」傳統法特級乾型，倫巴第，意大利"
+          }
+        ],
+        "nameZh": "倫巴第"
+      },
+      {
+        "name": "Trento",
+        "items": [
+          {
+            "v": "2012",
+            "name": "Ferrari 'Perlè' Zero Dosage Riserva, Trento, Italy",
+            "price": "$1,780",
+            "section": "Trento",
+            "nameZh": "法拉利，「珍珠」零補糖珍藏特倫托DOC，特倫托，意大利"
+          }
+        ],
+        "nameZh": "特倫托"
+      }
+    ],
+    "titleZh": "意大利氣泡酒"
+  },
+  {
+    "id": "c26",
+    "title": "Sparkling Wine",
+    "titleZh": "氣泡酒",
+    "sections": [
+      {
+        "name": "Sparkling Wine",
+        "nameZh": "氣泡酒",
+        "hideHeading": true,
+        "items": [
+          {
+            "v": "NV",
+            "name": "Clément Klur 'Manekineko' Crémant d'Alsace Brut, Alsace, France",
             "price": "$880",
             "section": "Sparkling Wine",
             "nameZh": "克萊芒・克呂爾，「招財貓」阿爾薩斯天然乾型氣泡酒，阿爾薩斯，法國"
+          },
+          {
+            "v": "NV",
+            "name": "Lou Dumont Crémant de Bourgogne Blanc de Blancs, Burgundy, France",
+            "price": "$800",
+            "section": "Sparkling Wine",
+            "nameZh": "Lou Dumont，勃艮第白中白氣泡酒，勃艮第，法國"
           },
           {
             "v": "2023",
@@ -2277,11 +2259,9 @@ window.WINE_DATA = [
             "section": "Sparkling Wine",
             "nameZh": "銀色高地，「綻放」自然氣泡酒，寧夏，中國"
           }
-        ],
-        "nameZh": "氣泡酒"
+        ]
       }
-    ],
-    "titleZh": "香檳"
+    ]
   },
   {
     "id": "c12",
@@ -2292,14 +2272,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2018",
-            "name": "Benanti 'Pietra Marina' Etna Bianco",
+            "name": "Benanti 'Pietra Marina' Etna Bianco, Sicilia, Italy",
             "price": "$2,580",
             "section": "Sicilia",
             "nameZh": "貝南蒂酒莊，「Pietra Marina」埃特納白葡萄酒，卡里坎特，西西里，意大利"
           },
           {
             "v": "2021",
-            "name": "Graci 'Muganazzi' Etna Bianco",
+            "name": "Graci 'Muganazzi' Etna Bianco, Sicilia, Italy",
             "price": "$1,380",
             "section": "Sicilia",
             "nameZh": "格拉奇酒莊，「Muganazzi」埃特納白葡萄酒，卡里坎特，西西里，意大利"
@@ -2312,14 +2292,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2020",
-            "name": "Cantina Terlan 'Quartz' Sauvignon",
+            "name": "Cantina Terlan 'Quartz' Sauvignon, Trentino-Alto Adige, Trentino Alto Adige, Italy",
             "price": "$1,380",
             "section": "Trentino Alto Adige",
             "nameZh": "特蘭酒莊，「Quartz」長相思，特倫蒂諾－上阿迪傑，意大利"
           },
           {
             "v": "2021",
-            "name": "Cantina Terlan 'Vorberg Pinot Bianco Riserva'",
+            "name": "Cantina Terlan 'Vorberg Pinot Bianco Riserva', Trentino-Alto Adige, Trentino Alto Adige, Italy",
             "price": "$1,180",
             "section": "Trentino Alto Adige",
             "nameZh": "特蘭酒莊，「Vorberg」珍藏級白皮諾，特倫蒂諾－上阿迪傑，意大利"
@@ -2332,14 +2312,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2022",
-            "name": "Livio Felluga, Friulano",
+            "name": "Livio Felluga, Friulano, Friuli Venezia Giulia, Italy",
             "price": "$980",
             "section": "Friuli Venezia Giulia",
             "nameZh": "利維奧・費魯加酒莊，弗留利亞諾，東部丘陵，弗留利－威尼斯朱利亞，意大利"
           },
           {
             "v": "2021",
-            "name": "Jermann \"W…Dreams\"",
+            "name": "Jermann \"W…Dreams\", Friuli Venezia Giulia, Italy",
             "price": "$1,780",
             "section": "Friuli Venezia Giulia",
             "nameZh": "耶爾曼酒莊，「W…Dreams」莎當妮，弗留利－威尼斯朱利亞，意大利"
@@ -2352,7 +2332,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2024",
-            "name": "Gini Soave Classico",
+            "name": "Gini Soave Classico, Veneto, Italy",
             "price": "$980",
             "section": "Veneto",
             "nameZh": "吉尼酒莊，索阿韋經典白葡萄酒，加爾加內加，威尼托，意大利"
@@ -2365,14 +2345,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2018",
-            "name": "Vigneti Massa 'Costa del Vento'",
+            "name": "Vigneti Massa 'Costa del Vento', Piedmont, Piemonte, Italy",
             "price": "$1,580",
             "section": "Piemonte",
             "nameZh": "馬薩葡萄園，「Costa del Vento」蒂莫拉索，皮埃蒙特，意大利"
           },
           {
             "v": "2019",
-            "name": "Villa Sparina 'Monte Rotondo' Gavi",
+            "name": "Villa Sparina 'Monte Rotondo' Gavi, Piedmont, Piemonte, Italy",
             "price": "$1,280",
             "section": "Piemonte",
             "nameZh": "斯帕里納別墅酒莊，「Monte Rotondo」加維，科爾泰塞，皮埃蒙特，意大利"
@@ -2385,7 +2365,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2020",
-            "name": "Selvadolce 'VB1' (Orange Wine)",
+            "name": "Selvadolce 'VB1' (Orange Wine), Liguria, Italy",
             "price": "$1,080",
             "section": "Liguria",
             "nameZh": "塞爾瓦多爾切酒莊，「VB1」橙酒，利古里亞，意大利"
@@ -2398,7 +2378,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2016",
-            "name": "Paolo Bea 'Arboreus'",
+            "name": "Paolo Bea 'Arboreus', Umbria, Italy",
             "price": "$1,880",
             "section": "Umbria",
             "nameZh": "保羅・貝亞酒莊，「Arboreus」橙酒，翁布里亞，意大利"
@@ -2411,14 +2391,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2004",
-            "name": "Fattoria San Lorenzo 'Il San Lorenzo' Riserva",
+            "name": "Fattoria San Lorenzo 'Il San Lorenzo' Riserva, Marche, Italy",
             "price": "$1,680",
             "section": "Marche",
             "nameZh": "聖洛倫佐農莊，「Il San Lorenzo」珍藏級白維蒂奇奧，馬爾凱，意大利"
           },
           {
             "v": "2023",
-            "name": "Villa Bucci, Verdicchio dei Castelli di Jesi Classico Superiore",
+            "name": "Villa Bucci, Verdicchio dei Castelli di Jesi Classico Superiore, Marche, Italy",
             "price": "$980",
             "section": "Marche",
             "nameZh": "布奇別墅酒莊，耶西城堡經典優級白維蒂奇奧，馬爾凱，意大利"
@@ -2431,14 +2411,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2018",
-            "name": "Cantina Lonardo 'Grecomusc'",
+            "name": "Cantina Lonardo 'Grecomusc', Campania, Italy",
             "price": "$980",
             "section": "Campania",
             "nameZh": "洛納爾多酒莊，「Grecomusc」白葡萄酒，坎帕尼亞，意大利"
           },
           {
             "v": "2020",
-            "name": "Tenuta San Francesco 'Per Eva' Costa d'Amalfi",
+            "name": "Tenuta San Francesco 'Per Eva' Costa d'Amalfi, Campania, Italy",
             "price": "$880",
             "section": "Campania",
             "nameZh": "聖弗朗切斯科莊園，「Per Eva」阿馬爾菲海岸白葡萄酒，坎帕尼亞，意大利"
@@ -2458,28 +2438,28 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2021",
-            "name": "Riesling Auslese, Fritz Haag, Brauneberger Juffer Sonnenuhr",
+            "name": "Riesling Auslese, Fritz Haag, Brauneberger Juffer Sonnenuhr, Mosel, Germany",
             "price": "$1,380",
             "section": "Mosel",
             "nameZh": "弗里茨・哈格酒莊，布勞內貝格・尤弗日晷園精選級雷司令，摩澤爾，德國"
           },
           {
             "v": "2013",
-            "name": "Riesling Auslese Goldkapsel, Joh. Jos. Prüm, Wehlener Sonnenuhr",
+            "name": "Riesling Auslese Goldkapsel, Joh. Jos. Prüm, Wehlener Sonnenuhr, Mosel, Germany",
             "price": "$2,420",
             "section": "Mosel",
             "nameZh": "普朗酒莊，魏倫日晷園金帽精選級雷司令，摩澤爾，德國"
           },
           {
             "v": "2018",
-            "name": "Riesling Alte Reben, Immich-Batterieberg, Enkircher Batterieberg",
+            "name": "Riesling Alte Reben, Immich-Batterieberg, Enkircher Batterieberg, Mosel, Germany",
             "price": "$1,480",
             "section": "Mosel",
             "nameZh": "伊米希－巴特里貝格酒莊，恩基爾巴特里貝格老藤雷司令，摩澤爾，德國"
           },
           {
             "v": "1998",
-            "name": "Riesling Spätlese, Dr. Pauly-Bergweiler, Brauneberger Juffer",
+            "name": "Riesling Spätlese, Dr. Pauly-Bergweiler, Brauneberger Juffer, Mosel, Germany",
             "price": "$1,080",
             "section": "Mosel",
             "nameZh": "寶利－貝格魏勒酒莊，布勞內貝格・尤弗晚摘級雷司令，摩澤爾，德國"
@@ -2492,21 +2472,21 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2017",
-            "name": "Riesling Rotlack Kabinett, Schloss Johannisberger",
+            "name": "Riesling Rotlack Kabinett, Schloss Johannisberger, Rheingau, Germany",
             "price": "$980",
             "section": "Rheingau",
             "nameZh": "約翰尼斯堡城堡酒莊，Rotlack 珍藏級雷司令，萊茵高，德國"
           },
           {
             "v": "2020",
-            "name": "Riesling Rotlack Kabinett, Schloss Johannisberg",
+            "name": "Riesling Rotlack Kabinett, Schloss Johannisberg, Rheingau, Germany",
             "price": "$980",
             "section": "Rheingau",
             "nameZh": "約翰尼斯堡城堡酒莊，Rotlack 珍藏級雷司令，萊茵高，德國"
           },
           {
             "v": "2023",
-            "name": "Riesling Kiedricher Gräfenberg Grosses Gewächs, Weingut Robert Weil",
+            "name": "Riesling Kiedricher Gräfenberg Grosses Gewächs, Weingut Robert Weil, Rheingau, Germany",
             "price": "$1,680",
             "section": "Rheingau",
             "nameZh": "羅伯特・威爾酒莊，基德里希・格雷芬貝格特級園雷司令，萊茵高，德國"
@@ -2519,14 +2499,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2021",
-            "name": "Riesling Grosses Gewächs Monopol, Weingut Keller Dalsheimer Oberer Hubacker",
+            "name": "Riesling Grosses Gewächs Monopol, Weingut Keller Dalsheimer Oberer Hubacker, Rheinhessen, Germany",
             "price": "$3,880",
             "section": "Rheinhessen",
             "nameZh": "凱勒酒莊，達爾斯海默・奧貝爾胡巴克獨佔園特級乾型雷司令，萊茵黑森，德國"
           },
           {
             "v": "2015",
-            "name": "Riesling Spätlese, Louis Guntrum Oppenheim Sackträger",
+            "name": "Riesling Spätlese, Louis Guntrum Oppenheim Sackträger, Rheinhessen, Germany",
             "price": "$738",
             "section": "Rheinhessen",
             "nameZh": "路易斯・貢特魯姆酒莊，奧本海姆・薩克特雷格晚摘級雷司令，萊茵黑森，德國"
@@ -2539,7 +2519,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2021",
-            "name": "Lagar de Fornelos, Albariño 'Lindeiros'",
+            "name": "Lagar de Fornelos, Albariño 'Lindeiros', Rías Baixas, Spain",
             "price": "$1,880",
             "section": "Rías Baixas",
             "nameZh": "福內洛斯酒莊，「Lindeiros」阿爾巴利諾，下海灣，西班牙"
@@ -2552,7 +2532,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2012",
-            "name": "Bodegas Contador 'Qué Bonito Cacareaba'",
+            "name": "Bodegas Contador 'Qué Bonito Cacareaba', Rioja, Spain",
             "price": "$1,660",
             "section": "Rioja",
             "nameZh": "孔塔多酒莊，「Qué Bonito Cacareaba」白葡萄酒，里奧哈，西班牙"
@@ -2565,7 +2545,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2012",
-            "name": "Bodega Belondrade y Lurton Verdejo",
+            "name": "Bodega Belondrade y Lurton Verdejo, Rueda, Spain",
             "price": "$1,030",
             "section": "Rueda",
             "nameZh": "貝隆德拉德與呂爾頓酒莊，弗德喬，盧埃達，西班牙"
@@ -2578,7 +2558,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2014",
-            "name": "Ekam, Castell d’Encus",
+            "name": "Ekam, Castell d’Encus, Central Pyrenees, Spain",
             "price": "$928",
             "section": "Central Pyrenees",
             "nameZh": "恩庫斯城堡，「Ekam」白葡萄酒，中部庇里牛斯山，西班牙"
@@ -2591,7 +2571,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2016",
-            "name": "Brundlmayer Langenloiser Alte Reben Grüner Veltliner",
+            "name": "Brundlmayer Langenloiser Alte Reben Grüner Veltliner, Kamptal, Austria",
             "price": "$1,280",
             "section": "Kamptal",
             "nameZh": "布倫德邁爾酒莊，朗根洛伊斯老藤綠維特利納，坎普塔爾，奧地利"
@@ -2611,28 +2591,28 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2023",
-            "name": "Domaine Barmes Buecher, \"Rosenberg\" Gewurztraminer",
+            "name": "Domaine Barmes Buecher, \"Rosenberg\" Gewurztraminer, Alsace, France",
             "price": "$880",
             "section": "Alsace",
             "nameZh": "巴姆斯・比歇爾酒莊，「Rosenberg」瓊瑤漿，阿爾薩斯，法國"
           },
           {
             "v": "2023",
-            "name": "Josmeyer Gewürztraminer Les Folastries",
+            "name": "Josmeyer Gewürztraminer Les Folastries, Alsace, France",
             "price": "$1,000",
             "section": "Alsace",
             "nameZh": "約斯邁爾酒莊，「Les Folastries」瓊瑤漿，阿爾薩斯，法國"
           },
           {
             "v": "2022",
-            "name": "Josmeyer Riesling Le Dragon",
+            "name": "Josmeyer Riesling Le Dragon, Alsace, France",
             "price": "$1,280",
             "section": "Alsace",
             "nameZh": "約斯邁爾酒莊，「Le Dragon」雷司令，阿爾薩斯，法國"
           },
           {
             "v": "2018",
-            "name": "Josmeyer Riesling Le Dragon",
+            "name": "Josmeyer Riesling Le Dragon, Alsace, France",
             "price": "$1,880 · Magnum",
             "section": "Alsace",
             "nameZh": "約斯邁爾酒莊，「Le Dragon」雷司令，阿爾薩斯，法國"
@@ -2645,7 +2625,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2019",
-            "name": "Pinot gris, Famille Hugel",
+            "name": "Pinot gris, Famille Hugel, Alsace, France",
             "price": "$880",
             "section": "Famille Hugel",
             "nameZh": "雨果家族，灰皮諾，阿爾薩斯，法國"
@@ -2658,28 +2638,28 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2021",
-            "name": "Trimbach Riesling Maison",
+            "name": "Trimbach Riesling Maison, Alsace, France",
             "price": "$880",
             "section": "Trimbach",
             "nameZh": "婷芭克酒莊，家族雷司令，阿爾薩斯，法國"
           },
           {
             "v": "2019",
-            "name": "Trimbach Riesling Brand Grand Cru",
+            "name": "Trimbach Riesling Brand Grand Cru, Alsace, France",
             "price": "$1,980",
             "section": "Trimbach",
             "nameZh": "婷芭克酒莊，布朗特級園雷司令，阿爾薩斯，法國"
           },
           {
             "v": "2001",
-            "name": "Trimbach Riesling Cuvée Frederic Emile Sélection",
+            "name": "Trimbach Riesling Cuvée Frederic Emile Sélection, Alsace, France",
             "price": "$3,588",
             "section": "Trimbach",
             "nameZh": "婷芭克酒莊，「Frédéric Emile」精選特釀雷司令，阿爾薩斯，法國"
           },
           {
             "v": "2016",
-            "name": "Trimbach Riesling Clos Sainte Hune",
+            "name": "Trimbach Riesling Clos Sainte Hune, Alsace, France",
             "price": "$6,230",
             "section": "Trimbach",
             "nameZh": "婷芭克酒莊，聖于訥園雷司令，阿爾薩斯，法國"
@@ -2692,42 +2672,42 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2024",
-            "name": "Château Beychevelle Grand Bateau Blanc",
+            "name": "Château Beychevelle Grand Bateau Blanc, Bordeaux, France",
             "price": "$900",
             "section": "Bordeaux",
             "nameZh": "貝修華酒莊，「Grand Bateau Blanc」波爾多白酒，法國"
           },
           {
             "v": "2022",
-            "name": "Château de Lugey 'Blanc des Cabanes' Blanc",
+            "name": "Château de Lugey 'Blanc des Cabanes' Blanc, Bordeaux, France",
             "price": "$1,070",
             "section": "Bordeaux",
             "nameZh": "呂熱城堡，「Blanc des Cabanes」波爾多白酒，法國"
           },
           {
             "v": "2012",
-            "name": "Château Tronquoy Lalande Blanc",
+            "name": "Château Tronquoy Lalande Blanc, Bordeaux, France",
             "price": "$1,760",
             "section": "Bordeaux",
             "nameZh": "特龍凱・拉朗德酒莊白酒，梅多克，波爾多，法國"
           },
           {
             "v": "2020",
-            "name": "Château Palmer Blanc",
+            "name": "Château Palmer Blanc, Bordeaux, France",
             "price": "$5,800",
             "section": "Bordeaux",
             "nameZh": "帕瑪酒莊白酒，瑪歌，波爾多，法國"
           },
           {
             "v": "2010",
-            "name": "Château Haut-Brion Blanc",
+            "name": "Château Haut-Brion Blanc, Pessac-Léognan, Bordeaux, France",
             "price": "$26,500",
             "section": "Bordeaux",
             "nameZh": "奧比昂酒莊，白葡萄酒，佩薩克雷奧良，波爾多，法國"
           },
           {
             "v": "2013",
-            "name": "Smith Haut Lafitte Blanc",
+            "name": "Smith Haut Lafitte Blanc, Bordeaux, France",
             "price": "$2,880",
             "section": "Bordeaux",
             "nameZh": "史密夫拉菲特酒莊白酒，佩薩克－雷奧良，波爾多，法國"
@@ -2740,21 +2720,21 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2023",
-            "name": "Chablis, Envers de Valmur, Domaine des Malandes",
+            "name": "Chablis, Envers de Valmur, Domaine des Malandes, France",
             "price": "$980",
             "section": "Chablis",
             "nameZh": "馬朗德酒莊，瓦爾繆背坡夏布利，勃艮第，法國"
           },
           {
             "v": "2022",
-            "name": "Chablis, \"Les Deux Rives\", Domaine Olivier Leflaive",
+            "name": "Chablis, \"Les Deux Rives\", Domaine Olivier Leflaive, France",
             "price": "$1,080",
             "section": "Chablis",
             "nameZh": "奧利維・勒弗萊夫酒莊，「Les Deux Rives」夏布利，勃艮第，法國"
           },
           {
             "v": "2023",
-            "name": "Chablis, 1er Cru Fourchaume, Domaine des Malandes",
+            "name": "Chablis, 1er Cru Fourchaume, Domaine des Malandes, France",
             "price": "$1,330",
             "section": "Chablis",
             "nameZh": "馬朗德酒莊，富爾紹姆一級園夏布利，勃艮第，法國"
@@ -2767,7 +2747,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2022",
-            "name": "Bourgogne, Fontaine St Martin monopole, Domaine Michel Gros",
+            "name": "Bourgogne, Fontaine St Martin monopole, Domaine Michel Gros, Cote de Nuits, France",
             "price": "$1,380",
             "section": "Cote de Nuits",
             "nameZh": "米歇爾・格羅酒莊，Fontaine St Martin 獨佔園勃艮第白酒，夜丘，法國"
@@ -2780,14 +2760,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2022",
-            "name": "Monthélie Blanc, Domaine Laboureau",
+            "name": "Monthélie Blanc, Domaine Laboureau, Côte de Beaune, Cote de Beaune, France",
             "price": "$1,180",
             "section": "Cote de Beaune",
             "nameZh": "拉布羅酒莊，蒙泰利白酒，莎當妮，博恩丘，法國"
           },
           {
             "v": "2020",
-            "name": "Beaune, 1er Cru Champs Pimont Blanc, Domaine Saint Marc",
+            "name": "Beaune, 1er Cru Champs Pimont Blanc, Domaine Saint Marc, Cote de Beaune, France",
             "price": "$1,370",
             "section": "Cote de Beaune",
             "nameZh": "聖馬克酒莊，博恩・香皮蒙一級園白酒，莎當妮，博恩丘，法國"
@@ -2800,24 +2780,24 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2012",
-            "name": "Corton-Charlemagne, Domaine Ponsot",
+            "name": "Corton-Charlemagne, Domaine Ponsot, Côte de Beaune, Cote de Beaune, Grand Cru, France",
             "price": "$7,980",
             "section": "Cote de Beaune, Grand Cru",
-            "nameZh": "龐索酒莊，科爾登－查理曼特級園白酒，莎當妮，博恩丘，法國"
+            "nameZh": "龐索酒莊，科爾登－查理曼特級園白酒，莎當妮，博恩丘，博恩丘特級園，法國"
           },
           {
             "v": "2013",
-            "name": "Montrachet, Domaine Jean Chartron",
+            "name": "Montrachet, Domaine Jean Chartron, Côte de Beaune, Cote de Beaune, Grand Cru, France",
             "price": "$16,000",
             "section": "Cote de Beaune, Grand Cru",
-            "nameZh": "讓・沙特龍酒莊，蒙哈榭特級園白酒，莎當妮，博恩丘，法國"
+            "nameZh": "讓・沙特龍酒莊，蒙哈榭特級園白酒，莎當妮，博恩丘，博恩丘特級園，法國"
           },
           {
             "v": "2001",
-            "name": "Bâtard-Montrachet, Château de la Maltroye",
+            "name": "Bâtard-Montrachet, Château de la Maltroye, Cote de Beaune, Grand Cru, France",
             "price": "$17,280 · Magnum",
             "section": "Cote de Beaune, Grand Cru",
-            "nameZh": "馬爾特魯瓦城堡，巴塔－蒙哈榭特級園白酒，莎當妮，博恩丘，法國"
+            "nameZh": "馬爾特魯瓦城堡，巴塔－蒙哈榭特級園白酒，莎當妮，博恩丘，博恩丘特級園，法國"
           }
         ],
         "nameZh": "博恩丘特級園"
@@ -2827,21 +2807,21 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2021",
-            "name": "Meursault, Clos du Cromin, Domaine Génot-Boulanger",
+            "name": "Meursault, Clos du Cromin, Domaine Génot-Boulanger, France",
             "price": "$2,330",
             "section": "Meursault",
             "nameZh": "熱諾－布朗熱酒莊，克羅・迪・克羅曼默爾索白酒，莎當妮，博恩丘，法國"
           },
           {
             "v": "2019",
-            "name": "Meursault, 1er Cru Les Ravelles, Chappelle de Blagny",
+            "name": "Meursault, 1er Cru Les Ravelles, Chappelle de Blagny, France",
             "price": "$2,000",
             "section": "Meursault",
             "nameZh": "布拉尼小教堂酒莊，拉韋勒一級園默爾索白酒，莎當妮，博恩丘，法國"
           },
           {
             "v": "2020",
-            "name": "Meursault, 1er Cru Les Gouttes d'Or, Bouchard P&F",
+            "name": "Meursault, 1er Cru Les Gouttes d'Or, Bouchard P&F, France",
             "price": "$2,480",
             "section": "Meursault",
             "nameZh": "布沙父子酒莊，金滴一級園默爾索白酒，莎當妮，博恩丘，法國"
@@ -2854,38 +2834,38 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2022",
-            "name": "Puligny-Montrachet, Domaine Paul Pernot",
+            "name": "Puligny-Montrachet, Domaine Paul Pernot, France",
             "price": "$2,280",
             "section": "Puligny-Montrachet",
             "nameZh": "保羅・佩爾諾酒莊，普里尼－蒙哈榭白酒，莎當妮，博恩丘，法國"
           },
           {
             "v": "2020",
-            "name": "Puligny-Montrachet, Louis Jadot",
+            "name": "Puligny-Montrachet, Louis Jadot, France",
             "price": "$1,850",
             "section": "Puligny-Montrachet",
             "nameZh": "路易・賈多酒莊，普里尼－蒙哈榭白酒，莎當妮，博恩丘，法國"
           },
           {
             "v": "2021",
-            "name": "Puligny-Montrachet, Les Reuchaux, Domaine Boyer-Martenot",
+            "name": "Puligny-Montrachet, Les Reuchaux, Domaine Boyer-Martenot, France",
             "price": "$3,180",
             "section": "Puligny-Montrachet",
-            "nameZh": "布瓦耶馬特諾酒莊，普利尼蒙哈榭「勒呂紹園」莎當妮白葡萄酒，勃艮第，法國"
+            "nameZh": "布瓦耶馬特諾酒莊，普利尼蒙哈榭「勒呂紹園」莎當妮白葡萄酒，勃艮第，普里尼－蒙哈榭，法國"
           },
           {
             "v": "2023",
-            "name": "Puligny-Montrachet, Les Enseignères, Domaine Joseph Pascal",
+            "name": "Puligny-Montrachet, Les Enseignères, Domaine Joseph Pascal, France",
             "price": "$2,080",
             "section": "Puligny-Montrachet",
             "nameZh": "約瑟夫・帕斯卡酒莊，Les Enseignères 普里尼－蒙哈榭白酒，莎當妮，博恩丘，法國"
           },
           {
             "v": "2020",
-            "name": "Puligny-Montrachet 1er Cru \"Clos de la Pucelle\" Monopole, Domaine Jean Chartron",
+            "name": "Puligny-Montrachet 1er Cru \"Clos de la Pucelle\" Monopole, Domaine Jean Chartron, France",
             "price": "$4,280",
             "section": "Puligny-Montrachet",
-            "nameZh": "俠龍酒莊，普利尼蒙哈榭「少女園」獨佔一級園莎當妮白葡萄酒，勃艮第，法國"
+            "nameZh": "俠龍酒莊，普利尼蒙哈榭「少女園」獨佔一級園莎當妮白葡萄酒，勃艮第，普里尼－蒙哈榭，法國"
           }
         ],
         "nameZh": "普里尼－蒙哈榭"
@@ -2895,35 +2875,35 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2023",
-            "name": "Chassagne Montrachet, Domaine Larue",
+            "name": "Chassagne Montrachet, Domaine Larue, Chassagne-Montrachet, France",
             "price": "$2,280",
             "section": "Chassagne-Montrachet",
-            "nameZh": "拉魯酒莊，夏山蒙哈榭莎當妮白葡萄酒，勃艮第，法國"
+            "nameZh": "拉魯酒莊，夏山蒙哈榭莎當妮白葡萄酒，勃艮第，夏山－蒙哈榭，法國"
           },
           {
             "v": "2022",
-            "name": "Chassagne-Montrachet, Domaine Bachelet-Monnot",
+            "name": "Chassagne-Montrachet, Domaine Bachelet-Monnot, France",
             "price": "$2,180",
             "section": "Chassagne-Montrachet",
             "nameZh": "巴舍萊－莫諾酒莊，夏山－蒙哈榭白酒，莎當妮，博恩丘，法國"
           },
           {
             "v": "2022",
-            "name": "Chassagne-Montrachet, La Bergerie, Domaine Darviot-Perrin",
+            "name": "Chassagne-Montrachet, La Bergerie, Domaine Darviot-Perrin, France",
             "price": "$2,350",
             "section": "Chassagne-Montrachet",
             "nameZh": "達維奧－佩蘭酒莊，「La Bergerie」夏山－蒙哈榭白酒，莎當妮，博恩丘，法國"
           },
           {
             "v": "2023",
-            "name": "Chassagne-Montrachet 1er Cru Morgeot, Domaine de la Choupette",
+            "name": "Chassagne-Montrachet 1er Cru Morgeot, Domaine de la Choupette, France",
             "price": "$2,280",
             "section": "Chassagne-Montrachet",
             "nameZh": "拉舒佩特酒莊，莫爾若一級園夏山－蒙哈榭白酒，莎當妮，博恩丘，法國"
           },
           {
             "v": "2023",
-            "name": "Chassagne-Montrachet 1er Cru Morgeot, Domaine Bruno Colin",
+            "name": "Chassagne-Montrachet 1er Cru Morgeot, Domaine Bruno Colin, France",
             "price": "$3,380",
             "section": "Chassagne-Montrachet",
             "nameZh": "布魯諾・柯林酒莊，莫爾若一級園夏山－蒙哈榭白葡萄酒，莎當妮，博恩丘，法國"
@@ -2936,10 +2916,10 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2022",
-            "name": "Mercurey \"Les Rochelles\" Blanc, Domaine Mia, Burgundy, France",
+            "name": "Mercurey \"Les Rochelles\" Blanc, Domaine Mia, Burgundy, Cote Chalonnaise, France",
             "price": "$1,280",
             "section": "Cote Chalonnaise",
-            "nameZh": "米婭酒莊，「Les Rochelles」梅爾居雷白葡萄酒，莎當妮，勃艮第，法國"
+            "nameZh": "米婭酒莊，「Les Rochelles」梅爾居雷白葡萄酒，莎當妮，勃艮第，夏隆內丘，法國"
           }
         ],
         "nameZh": "夏隆內丘"
@@ -2949,17 +2929,17 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2021",
-            "name": "Saint-Véran, Château-Fuissé",
+            "name": "Saint-Véran, Château-Fuissé, Mâconnais, France",
             "price": "$930",
             "section": "Mâconnais",
             "nameZh": "富塞城堡，聖韋朗白酒，莎當妮，馬貢內，法國"
           },
           {
             "v": "2023",
-            "name": "Mâcon Verze, Domaine Leflaive",
+            "name": "Mâcon Verze, Domaine Leflaive, Burgundy, Mâconnais, France",
             "price": "$1,780",
             "section": "Mâconnais",
-            "nameZh": "雙雞酒莊，馬貢韋爾澤莎當妮白葡萄酒，勃艮第，法國"
+            "nameZh": "雙雞酒莊，馬貢韋爾澤莎當妮白葡萄酒，勃艮第，馬貢內，法國"
           }
         ],
         "nameZh": "馬貢內"
@@ -2969,42 +2949,42 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2020",
-            "name": "Pouilly Fumé, \"Cuvée Tonnerre\", Château Favray",
+            "name": "Pouilly Fumé, \"Cuvée Tonnerre\", Château Favray, Loire Valley, France",
             "price": "$1,000",
             "section": "Loire Valley",
             "nameZh": "法夫雷城堡，「Cuvée Tonnerre」普伊－富美，長相思，羅亞爾河谷，法國"
           },
           {
             "v": "2023",
-            "name": "Sancerre, \"Constellation du Scorpion\", Vincent Gaudry",
+            "name": "Sancerre, \"Constellation du Scorpion\", Vincent Gaudry, Loire Valley, France",
             "price": "$1,280",
             "section": "Loire Valley",
             "nameZh": "文森・戈德里酒莊，「Constellation du Scorpion」桑塞爾，長相思，羅亞爾河谷，法國"
           },
           {
             "v": "2022",
-            "name": "Pouilly-Fumé. Silex, Didier Dagueneau",
+            "name": "Pouilly-Fumé. Silex, Didier Dagueneau, Loire Valley, France",
             "price": "$4,880",
             "section": "Loire Valley",
             "nameZh": "迪迪耶・達格諾酒莊，「Silex」普伊－富美，長相思，羅亞爾河谷，法國"
           },
           {
             "v": "2020",
-            "name": "Vouvray, Le Mont Sec, Domaine Huet",
+            "name": "Vouvray, Le Mont Sec, Domaine Huet, Loire Valley, France",
             "price": "$1,075",
             "section": "Loire Valley",
             "nameZh": "于埃酒莊，Le Mont Sec 沃夫雷乾白，白詩南，羅亞爾河谷，法國"
           },
           {
             "v": "2017",
-            "name": "Vouvray, Le Mont Sec, Domaine Huet",
+            "name": "Vouvray, Le Mont Sec, Domaine Huet, Loire Valley, France",
             "price": "$1,110",
             "section": "Loire Valley",
             "nameZh": "于埃酒莊，Le Mont Sec 沃夫雷乾白，白詩南，羅亞爾河谷，法國"
           },
           {
             "v": "2003",
-            "name": "Vouvray, Demi Sec, Domaine du Clos Naudin",
+            "name": "Vouvray, Demi Sec, Domaine du Clos Naudin, Loire Valley, France",
             "price": "$1,150",
             "section": "Loire Valley",
             "nameZh": "克洛・諾丹酒莊，半乾型沃夫雷，白詩南，羅亞爾河谷，法國"
@@ -3017,14 +2997,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2020",
-            "name": "Crozes-Hermitage Mule Blanche, Paul Jaboulet Aîné",
+            "name": "Crozes-Hermitage Mule Blanche, Paul Jaboulet Aîné, Rhone Valley, France",
             "price": "$1,030",
             "section": "Rhone Valley",
             "nameZh": "保羅・雅布萊酒莊，「Mule Blanche」克羅茲－埃米塔日白酒，瑪珊與胡珊，隆河谷，法國"
           },
           {
             "v": "2022",
-            "name": "Condrieu, Les Terrasses de l'Empire, Domaine Georges Vernay",
+            "name": "Condrieu, Les Terrasses de l'Empire, Domaine Georges Vernay, Rhone Valley, France",
             "price": "$2,150",
             "section": "Rhone Valley",
             "nameZh": "喬治・維奈酒莊，「Les Terrasses de l'Empire」孔德里約，維歐尼，隆河谷，法國"
@@ -3250,7 +3230,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2022",
-            "name": "Unico Zelo Origami Rose, Adelaide Hills",
+            "name": "Unico Zelo Origami Rose, Adelaide Hills, Australia",
             "price": "$800",
             "section": "Australia",
             "nameZh": "烏尼科・澤洛酒莊，「Origami」粉紅酒，阿德萊德山，澳洲"
@@ -3263,7 +3243,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2020",
-            "name": "Château de Pibarnon Rose, Bandol",
+            "name": "Château de Pibarnon Rose, Bandol, France",
             "price": "$1,180",
             "section": "Provence",
             "nameZh": "皮巴農城堡，邦多爾粉紅酒，慕合懷特，普羅旺斯，法國"
@@ -3276,14 +3256,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2020",
-            "name": "Pietradolce, Etna Rosato, Sicilia",
+            "name": "Pietradolce, Etna Rosato, Sicilia, Italy",
             "price": "$920",
             "section": "Italy",
             "nameZh": "彼得拉多爾切酒莊，埃特納粉紅酒，西西里，意大利"
           },
           {
             "v": "2010",
-            "name": "Valentini, Cerasuolo Montepulciano d'Abruzzo, Abruzzo",
+            "name": "Valentini, Cerasuolo Montepulciano d'Abruzzo, Abruzzo, Italy",
             "price": "$3,380",
             "section": "Italy",
             "nameZh": "瓦倫蒂尼酒莊，阿布魯佐蒙特普爾恰諾「Cerasuolo」粉紅酒，意大利"
@@ -3296,7 +3276,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2023",
-            "name": "Grace Wine Rose, Yamanashi",
+            "name": "Grace Wine Rose, Yamanashi, Japan",
             "price": "$980",
             "section": "Japan",
             "nameZh": "葛瑞斯酒莊，粉紅酒，山梨，日本"
@@ -3316,21 +3296,21 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "NV",
-            "name": "Barons de Rothschild, \"Ritz\" Brut Reserve",
+            "name": "Barons de Rothschild, \"Ritz\" Brut Reserve, Champagne, France",
             "price": "$700 · 375 ml",
             "section": "Champagne",
             "nameZh": "羅斯柴爾德男爵香檳，「麗思」特釀珍藏香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Ruinart, Blanc de Blancs",
+            "name": "Ruinart, Blanc de Blancs, Champagne, France",
             "price": "$830 · 375 ml",
             "section": "Champagne",
             "nameZh": "瑞納香檳，白中白香檳，莎當妮，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Krug, Grande Cuvée",
+            "name": "Krug, Grande Cuvée, Champagne, France",
             "price": "$2,780 · 375 ml",
             "section": "Champagne",
             "nameZh": "庫克香檳，Grande Cuvée 第173版，香檳區，法國"
@@ -3343,21 +3323,21 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2020",
-            "name": "Chablis 1er Cru Vaillons, Domaine William Fèvre",
+            "name": "Chablis 1er Cru Vaillons, Domaine William Fèvre, France",
             "price": "$850 · 375ml",
             "section": "White Wines",
             "nameZh": "威廉・費弗爾酒莊，瓦永一級園夏布利，莎當妮，勃艮第，法國"
           },
           {
             "v": "2020",
-            "name": "Corton-Charlemagne Grand Cru, Domaine Rapet Père & Fils",
+            "name": "Corton-Charlemagne Grand Cru, Domaine Rapet Père & Fils, Burgundy, France",
             "price": "$2,180 · 375ml",
             "section": "White Wines",
             "nameZh": "拉佩父子酒莊，科爾登－查理曼特級園白酒，莎當妮，勃艮第，法國"
           },
           {
             "v": "2022",
-            "name": "Mercurey \"Les Rochelles\" Blanc, Domaine Mia",
+            "name": "Mercurey \"Les Rochelles\" Blanc, Domaine Mia, Burgundy, France",
             "price": "$800 · 375 ml",
             "section": "White Wines",
             "nameZh": "米婭酒莊，「Les Rochelles」梅爾居雷白葡萄酒，莎當妮，勃艮第，法國"
@@ -3370,42 +3350,42 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2010",
-            "name": "Château Mouton Rothschild, Pauillac",
+            "name": "Château Mouton Rothschild, Pauillac, France",
             "price": "$9,880 · 375 ml",
             "section": "Red Wines",
             "nameZh": "木桐酒莊，波亞克紅酒，赤霞珠，波爾多，法國"
           },
           {
             "v": "2014",
-            "name": "Château Beychevelle, St. Julien",
+            "name": "Château Beychevelle, St. Julien, France",
             "price": "$1,980 · 375 ml",
             "section": "Red Wines",
             "nameZh": "貝修華酒莊，聖朱利安紅酒，波爾多，法國"
           },
           {
             "v": "2020",
-            "name": "Allegrini, Amarone della Valpolicella Classico",
+            "name": "Allegrini, Amarone della Valpolicella Classico, Italy",
             "price": "$1,580 · 375 ml",
             "section": "Red Wines",
             "nameZh": "艾格尼酒莊，瓦爾波利切拉經典阿瑪羅內，威尼托，意大利"
           },
           {
             "v": "2021",
-            "name": "La Spinetta 'Bordini' Barbaresco",
+            "name": "La Spinetta 'Bordini' Barbaresco, Italy",
             "price": "$1,080 · 375 ml",
             "section": "Red Wines",
             "nameZh": "拉斯皮內塔酒莊，「Bordini」巴巴萊斯科，內比奧羅，皮埃蒙特，意大利"
           },
           {
             "v": "2015",
-            "name": "Tenuta San Guido 'Sassicaia', Toscana",
+            "name": "Tenuta San Guido 'Sassicaia', Toscana, Italy",
             "price": "$3,580 · 375 ml",
             "section": "Red Wines",
             "nameZh": "聖吉多莊園，「Sassicaia」托斯卡納紅酒，寶格麗，意大利"
           },
           {
             "v": "2022",
-            "name": "Mercurey 1er Cru \"Les Vassées\" Rouge, Domaine Mia",
+            "name": "Mercurey 1er Cru \"Les Vassées\" Rouge, Domaine Mia, Burgundy, France",
             "price": "$980 · 375 ml",
             "section": "Red Wines",
             "nameZh": "米婭酒莊，「Les Vassées」梅爾居雷一級園黑皮諾紅葡萄酒，勃艮第，法國"
@@ -3425,42 +3405,42 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "NV",
-            "name": "Barons de Rothschild, \"Ritz\" Brut Reserve",
+            "name": "Barons de Rothschild, \"Ritz\" Brut Reserve, Champagne, France",
             "price": "$2,660 · Magnum",
             "section": "Champagne & Sparkling",
             "nameZh": "羅斯柴爾德男爵香檳，「麗思」特釀珍藏香檳，香檳區，法國，大瓶裝"
           },
           {
             "v": "NV",
-            "name": "Emmanuel Brochet 'Le Mont Benoit' Extra Brut",
+            "name": "Emmanuel Brochet 'Le Mont Benoit' Extra Brut, Champagne, France",
             "price": "$9,880 · Magnum",
             "section": "Champagne & Sparkling",
             "nameZh": "埃馬紐埃爾・布羅謝酒莊，「Le Mont Benoit」特級天然香檳，香檳區，法國"
           },
           {
             "v": "2011",
-            "name": "Frédéric Savart 'Le Pinot Noir V' 1er Cru Extra Brut",
+            "name": "Frédéric Savart 'Le Pinot Noir V' 1er Cru Extra Brut, Champagne, France",
             "price": "$7,880 · Magnum",
             "section": "Champagne & Sparkling",
             "nameZh": "弗雷德里克・薩瓦爾酒莊，「Le Pinot Noir V」一級園特級天然香檳，香檳區，法國"
           },
           {
             "v": "NV",
-            "name": "Frédéric Savart 'L'Ouverture' Blanc de Noirs 1er Cru Brut",
+            "name": "Frédéric Savart 'L'Ouverture' Blanc de Noirs 1er Cru Brut, Champagne, France",
             "price": "$3,280 · Magnum",
             "section": "Champagne & Sparkling",
             "nameZh": "弗雷德里克・薩瓦爾酒莊，「L'Ouverture」黑中白一級園香檳，香檳區，法國"
           },
           {
             "v": "2004",
-            "name": "Louis Roederer 'Cristal' Rosé",
+            "name": "Louis Roederer 'Cristal' Rosé, Champagne, France",
             "price": "$33,555 · Magnum",
             "section": "Champagne & Sparkling",
             "nameZh": "路易・侯德爾香檳，「Cristal」粉紅香檳，香檳區，法國"
           },
           {
             "v": "1999",
-            "name": "Perrier-Jouët 'Belle Époque' Rosé White",
+            "name": "Perrier-Jouët 'Belle Époque' Rosé White, Champagne, France",
             "price": "$20,200 · Magnum",
             "section": "Champagne & Sparkling",
             "nameZh": "巴黎之花香檳，「Belle Époque」粉紅香檳，香檳區，法國"
@@ -3473,21 +3453,21 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2013",
-            "name": "Jermann \"W…Dreams\"",
+            "name": "Jermann \"W…Dreams\", Friuli Venezia Giulia, Italy",
             "price": "$3,780 · Magnum",
             "section": "White Wines",
             "nameZh": "耶爾曼酒莊，「W…Dreams」莎當妮，弗留利－威尼斯朱利亞，意大利，大瓶裝"
           },
           {
             "v": "2018",
-            "name": "Josmeyer Riesling Le Dragon",
+            "name": "Josmeyer Riesling Le Dragon, Alsace, France",
             "price": "$1,880 · Magnum",
             "section": "White Wines",
             "nameZh": "約斯邁爾酒莊，「Le Dragon」雷司令，阿爾薩斯，法國，大瓶裝"
           },
           {
             "v": "2001",
-            "name": "Bâtard-Montrachet, Château de la Maltroye",
+            "name": "Bâtard-Montrachet, Château de la Maltroye, France",
             "price": "$23,950 · Magnum",
             "section": "White Wines",
             "nameZh": "馬爾特魯瓦城堡，巴塔－蒙哈榭特級園白酒，莎當妮，博恩丘，法國，大瓶裝"
@@ -3496,25 +3476,31 @@ window.WINE_DATA = [
         "nameZh": "白葡萄酒"
       },
       {
+        "name": "Red Wines",
+        "nameZh": "紅葡萄酒",
+        "items": [],
+        "headingOnly": true
+      },
+      {
         "name": "France",
         "items": [
           {
             "v": "1982",
-            "name": "Château Cos d'Estournel",
+            "name": "Château Cos d'Estournel, Saint-Estèphe, France",
             "price": "$25,800 · Magnum",
             "section": "France",
             "nameZh": "愛士圖爾酒莊，聖埃斯泰夫紅酒，波爾多，法國"
           },
           {
             "v": "1996",
-            "name": "Château Ducru-Beaucaillou",
+            "name": "Château Ducru-Beaucaillou, Saint-Julien, France",
             "price": "$8,680 · Magnum",
             "section": "France",
             "nameZh": "杜克魯－博卡尤酒莊，聖朱利安紅酒，波爾多，法國"
           },
           {
             "v": "1995",
-            "name": "Crozes-Hermitage Domaine de Thalabert, Paul Jaboulet Aîné",
+            "name": "Crozes-Hermitage Domaine de Thalabert, Paul Jaboulet Aîné, France",
             "price": "$3,080 · Magnum",
             "section": "France",
             "nameZh": "保羅・嘉布列酒莊，克羅澤－埃米塔日「Domaine de Thalabert」紅葡萄酒，北隆河，法國"
@@ -3527,77 +3513,77 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2016",
-            "name": "Albino Rocca, Barbaresco 'Ronchi' Riserva",
+            "name": "Albino Rocca, Barbaresco 'Ronchi' Riserva, Italy",
             "price": "$4,680 · Magnum",
             "section": "Italy",
             "nameZh": "阿爾比諾・羅卡酒莊，「Ronchi」珍藏級巴巴萊斯科，內比奧羅，皮埃蒙特，意大利"
           },
           {
             "v": "2000",
-            "name": "Bruno Giacosa, Barbaresco 'Asili' Riserva",
+            "name": "Bruno Giacosa, Barbaresco 'Asili' Riserva, Italy",
             "price": "$19,800 · Magnum",
             "section": "Italy",
             "nameZh": "布魯諾・賈科薩酒莊，「Asili」珍藏級巴巴萊斯科，內比奧羅，皮埃蒙特，意大利"
           },
           {
             "v": "2005",
-            "name": "Bruno Giacosa, Barolo 'Rocche del Falletto'",
+            "name": "Bruno Giacosa, Barolo 'Rocche del Falletto', Italy",
             "price": "$9,480 · Magnum",
             "section": "Italy",
             "nameZh": "布魯諾・賈科薩酒莊，「Rocche del Falletto」巴羅洛，內比奧羅，塞拉倫加，皮埃蒙特，意大利"
           },
           {
             "v": "2000",
-            "name": "Bruno Giacosa, Barolo 'Rocche del Falletto' Riserva",
+            "name": "Bruno Giacosa, Barolo 'Rocche del Falletto' Riserva, Italy",
             "price": "$20,200 · Magnum",
             "section": "Italy",
             "nameZh": "布魯諾・賈科薩酒莊，「Rocche del Falletto」珍藏級巴羅洛，內比奧羅，塞拉倫加，皮埃蒙特，意大利"
           },
           {
             "v": "1998",
-            "name": "Giacomo Conterno, Barolo 'Monfortino' Riserva",
+            "name": "Giacomo Conterno, Barolo 'Monfortino' Riserva, Italy",
             "price": "$27,500 · Magnum",
             "section": "Italy",
             "nameZh": "賈科莫・孔特諾酒莊，「Monfortino」珍藏級巴羅洛，內比奧羅，皮埃蒙特，意大利"
           },
           {
             "v": "1997",
-            "name": "Luciano Sandrone, Barolo 'Le Vigne'",
+            "name": "Luciano Sandrone, Barolo 'Le Vigne', Italy",
             "price": "$17,280 · Magnum",
             "section": "Italy",
             "nameZh": "盧恰諾・桑德羅內酒莊，「Le Vigne」巴羅洛，內比奧羅，皮埃蒙特，意大利"
           },
           {
             "v": "2004",
-            "name": "Vietti, Barolo 'Villero' Riserva",
+            "name": "Vietti, Barolo 'Villero' Riserva, Italy",
             "price": "$13,980 · Magnum",
             "section": "Italy",
             "nameZh": "維耶蒂酒莊，「Villero」珍藏級巴羅洛，內比奧羅，卡斯蒂廖內・法萊托，皮埃蒙特，意大利"
           },
           {
             "v": "2016",
-            "name": "Bertinga, Toscana",
+            "name": "Bertinga, Toscana, Italy",
             "price": "$3,280 · Magnum",
             "section": "Italy",
             "nameZh": "貝爾廷加酒莊，托斯卡納赤霞珠混釀，蓋奧萊，意大利"
           },
           {
             "v": "1990",
-            "name": "Castello dei Rampolla 'Sammarco'",
+            "name": "Castello dei Rampolla 'Sammarco', Tuscany, Italy",
             "price": "$11,980 · Magnum",
             "section": "Italy",
             "nameZh": "蘭波拉城堡，「Sammarco」托斯卡納紅酒，意大利"
           },
           {
             "v": "1990",
-            "name": "Tenuta dell'Ornellaia 'Ornellaia'",
+            "name": "Tenuta dell'Ornellaia 'Ornellaia', Tuscany, Italy",
             "price": "$79,800 · 6 Liters",
             "section": "Italy",
             "nameZh": "奧納亞莊園，「Ornellaia」托斯卡納紅酒，寶格麗，意大利，6公升裝"
           },
           {
             "v": "2008",
-            "name": "Tua Rita, Syrah",
+            "name": "Tua Rita, Syrah, Tuscany, Italy",
             "price": "$9,980 · Magnum",
             "section": "Italy",
             "nameZh": "圖阿・麗塔酒莊，西拉，托斯卡納，意大利"
@@ -3610,21 +3596,21 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2010",
-            "name": "R. López de Heredia 'Viña Tondonia' Reserva, Rioja",
+            "name": "R. López de Heredia 'Viña Tondonia' Reserva, Rioja, Spain",
             "price": "$2,300 · Magnum",
             "section": "Spain",
             "nameZh": "洛佩斯・德・埃雷迪亞酒莊，「Viña Tondonia」珍藏級里奧哈，西班牙"
           },
           {
             "v": "2006",
-            "name": "R. López de Heredia 'Viña Tondonia' Reserva, Rioja",
+            "name": "R. López de Heredia 'Viña Tondonia' Reserva, Rioja, Spain",
             "price": "$3,300 · Magnum",
             "section": "Spain",
             "nameZh": "洛佩斯・德・埃雷迪亞酒莊，「Viña Tondonia」珍藏級里奧哈，西班牙"
           },
           {
             "v": "2019",
-            "name": "Mas Martinet 'Martinet Bru', Priorat",
+            "name": "Mas Martinet 'Martinet Bru', Priorat, Spain",
             "price": "$1,780 · Magnum",
             "section": "Spain",
             "nameZh": "瑪斯・馬丁內特酒莊，「Martinet Bru」普里奧拉托，西班牙"
@@ -3637,7 +3623,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2018",
-            "name": "Domaine Serene 'Evenstad Reserve', Pinot Noir",
+            "name": "Domaine Serene 'Evenstad Reserve', Pinot Noir, Oregon, United States",
             "price": "$3,980 · Magnum",
             "section": "USA",
             "nameZh": "塞琳酒莊，「Evenstad Reserve」黑皮諾，俄勒岡州，美國"
@@ -3657,35 +3643,35 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2021",
-            "name": "Calabretta 'Contrada dei Centenari'",
+            "name": "Calabretta 'Contrada dei Centenari', Sicily, Sicilia, Italy",
             "price": "$1,880",
             "section": "Sicilia",
             "nameZh": "卡拉布雷塔酒莊，「百年地塊」紅酒，西西里島，意大利"
           },
           {
             "v": "2014",
-            "name": "Calabretta 'Vigne Vecchie'",
+            "name": "Calabretta 'Vigne Vecchie', Sicily, Sicilia, Italy",
             "price": "$1,280",
             "section": "Sicilia",
             "nameZh": "卡拉布雷塔酒莊，「老藤」內雷洛・馬斯卡雷塞紅酒，西西里島，意大利"
           },
           {
             "v": "2019",
-            "name": "COS 'Contrada' Nero d'Avola",
+            "name": "COS 'Contrada' Nero d'Avola, Sicily, Sicilia, Italy",
             "price": "$1,480",
             "section": "Sicilia",
             "nameZh": "西歐斯酒莊「Contrada」黑達沃拉紅酒，西西里島，意大利"
           },
           {
             "v": "2014",
-            "name": "Gulfi 'Pino'",
+            "name": "Gulfi 'Pino', Sicily, Sicilia, Italy",
             "price": "$2,480",
             "section": "Sicilia",
             "nameZh": "古爾菲酒莊，「皮諾」黑達沃拉單一園紅酒，西西里島，意大利"
           },
           {
             "v": "2011",
-            "name": "Tenuta di Passopisciaro 'Contrada Chiappemacine'",
+            "name": "Tenuta di Passopisciaro 'Contrada Chiappemacine', Sicily, Sicilia, Italy",
             "price": "$1,880",
             "section": "Sicilia",
             "nameZh": "帕索皮夏羅酒莊，「恰佩馬契內地塊」紅酒，西西里島，意大利"
@@ -3698,77 +3684,77 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2020",
-            "name": "Frank Cornelissen 'Magma'",
+            "name": "Frank Cornelissen 'Magma', Etna Rosso, Italy",
             "price": "$6,680",
             "section": "Etna Rosso",
             "nameZh": "法蘭克・科內利森酒莊，「岩漿」埃特納紅酒，西西里島，意大利"
           },
           {
             "v": "2021",
-            "name": "Graci 'Arcurìa'",
+            "name": "Graci 'Arcurìa', Sicily, Etna Rosso, Italy",
             "price": "$1,380",
             "section": "Etna Rosso",
-            "nameZh": "格拉奇酒莊，「阿爾庫里亞」內雷洛・馬斯卡雷塞紅酒，埃特納，西西里島，意大利"
+            "nameZh": "格拉奇酒莊，「阿爾庫里亞」內雷洛・馬斯卡雷塞紅酒，埃特納，西西里島，埃特納紅酒，意大利"
           },
           {
             "v": "2019",
-            "name": "Graci 'Quota 1000 Contrada Barbabecchi'",
+            "name": "Graci 'Quota 1000 Contrada Barbabecchi', Etna Rosso, Italy",
             "price": "$3,280",
             "section": "Etna Rosso",
             "nameZh": "格拉奇酒莊，「海拔1000米・巴爾巴貝基地塊」埃特納紅酒，西西里島，意大利"
           },
           {
             "v": "2018",
-            "name": "Graci 'Sopra il Pozzo'",
+            "name": "Graci 'Sopra il Pozzo', Etna Rosso, Italy",
             "price": "$3,680",
             "section": "Etna Rosso",
             "nameZh": "格拉奇酒莊，「井上」埃特納紅酒，西西里島，意大利"
           },
           {
             "v": "2017",
-            "name": "Graci 'Sopra il Pozzo'",
+            "name": "Graci 'Sopra il Pozzo', Etna Rosso, Italy",
             "price": "$3,680",
             "section": "Etna Rosso",
             "nameZh": "格拉奇酒莊，「井上」埃特納紅酒，西西里島，意大利"
           },
           {
             "v": "2020",
-            "name": "Pietradolce 'Contrada Rampante'",
+            "name": "Pietradolce 'Contrada Rampante', Etna Rosso, Italy",
             "price": "$1,880",
             "section": "Etna Rosso",
             "nameZh": "皮耶特拉多爾切酒莊，「蘭潘特地塊」埃特納紅酒，西西里島，意大利"
           },
           {
             "v": "2016",
-            "name": "Pietradolce 'Vigna Barbagalli'",
+            "name": "Pietradolce 'Vigna Barbagalli', Etna Rosso, Italy",
             "price": "$4,580",
             "section": "Etna Rosso",
             "nameZh": "皮耶特拉多爾切酒莊，「巴爾巴加利園」埃特納紅酒，西西里島，意大利"
           },
           {
             "v": "2013",
-            "name": "Pietradolce 'Vigna Barbagalli'",
+            "name": "Pietradolce 'Vigna Barbagalli', Etna Rosso, Italy",
             "price": "$4,380",
             "section": "Etna Rosso",
             "nameZh": "皮耶特拉多爾切酒莊，「巴爾巴加利園」埃特納紅酒，西西里島，意大利"
           },
           {
             "v": "2021",
-            "name": "Tenuta delle Terre Nere 'Moganazzi'",
+            "name": "Tenuta delle Terre Nere 'Moganazzi', Etna Rosso, Italy",
             "price": "$1,680",
             "section": "Etna Rosso",
             "nameZh": "黑土酒莊，「莫加納齊」埃特納紅酒，西西里島，意大利"
           },
           {
             "v": "2021",
-            "name": "Tenuta Tascante 'Contrada Pianodario'",
+            "name": "Tenuta Tascante 'Contrada Pianodario', Etna Rosso, Italy",
             "price": "$1,780",
             "section": "Etna Rosso",
             "nameZh": "塔斯坎特酒莊，「皮亞諾達里奧地塊」埃特納紅酒，西西里島，意大利"
           },
           {
             "v": "2017",
-            "name": "Tenuta Tascante 'Contrada Rampante'",
+            "name": "Tenuta Tascante 'Contrada Rampante', Etna Rosso, Italy",
             "price": "$1,580",
             "section": "Etna Rosso",
             "nameZh": "塔斯坎特酒莊，「蘭潘特地塊」埃特納紅酒，西西里島，意大利"
@@ -3781,42 +3767,42 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2016",
-            "name": "Franz Haas 'Schweizer' Pinot Nero",
+            "name": "Franz Haas 'Schweizer' Pinot Nero, Trentino-Alto Adige, Trentino Alto Adige, Italy",
             "price": "$1,480",
             "section": "Trentino Alto Adige",
             "nameZh": "弗朗茨・哈斯酒莊，「施魏策爾」黑皮諾紅酒，特倫蒂諾-上阿迪傑，意大利"
           },
           {
             "v": "2013",
-            "name": "Hartmann Donà 'Donà Noir'",
+            "name": "Hartmann Donà 'Donà Noir', Trentino-Alto Adige, Trentino Alto Adige, Italy",
             "price": "$1,680",
             "section": "Trentino Alto Adige",
             "nameZh": "哈特曼・多納酒莊，「多納黑皮諾」紅酒，特倫蒂諾-上阿迪傑，意大利"
           },
           {
             "v": "2015",
-            "name": "Hartmann Donà 'Donà Noir'",
+            "name": "Hartmann Donà 'Donà Noir', Trentino-Alto Adige, Trentino Alto Adige, Italy",
             "price": "$1,680",
             "section": "Trentino Alto Adige",
             "nameZh": "哈特曼・多納酒莊，「多納黑皮諾」紅酒，特倫蒂諾-上阿迪傑，意大利"
           },
           {
             "v": "2007",
-            "name": "San Leonardo",
+            "name": "San Leonardo, Trentino-Alto Adige, Trentino Alto Adige, Italy",
             "price": "$2,488",
             "section": "Trentino Alto Adige",
             "nameZh": "聖萊昂納多酒莊，波爾多混釀紅酒，特倫蒂諾-上阿迪傑，意大利"
           },
           {
             "v": "2001",
-            "name": "San Leonardo",
+            "name": "San Leonardo, Trentino-Alto Adige, Trentino Alto Adige, Italy",
             "price": "$2,980",
             "section": "Trentino Alto Adige",
             "nameZh": "聖萊昂納多酒莊，波爾多混釀紅酒，特倫蒂諾-上阿迪傑，意大利"
           },
           {
             "v": "1999",
-            "name": "San Leonardo",
+            "name": "San Leonardo, Trentino-Alto Adige, Trentino Alto Adige, Italy",
             "price": "$3,300",
             "section": "Trentino Alto Adige",
             "nameZh": "聖萊昂納多酒莊，波爾多混釀紅酒，特倫蒂諾-上阿迪傑，意大利"
@@ -3829,14 +3815,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2018",
-            "name": "Les Crêtes 'Côteau La Tour' Syrah",
+            "name": "Les Crêtes 'Côteau La Tour' Syrah, Valle d’Aosta, Valle d'Aosta, Italy",
             "price": "$1,350",
             "section": "Valle D' Aosta",
             "nameZh": "萊克雷特酒莊，「拉圖丘」西拉紅酒，瓦萊達奧斯塔，意大利"
           },
           {
             "v": "2018",
-            "name": "La Kíuva, Arnad-Montjovet Supérieur, Nebbiolo",
+            "name": "La Kíuva, Arnad-Montjovet Supérieur, Nebbiolo, Valle d’Aosta, Valle d'Aosta, Italy",
             "price": "$1,180",
             "section": "Valle D' Aosta",
             "nameZh": "拉基烏瓦酒莊，阿爾納-蒙若韋上級內比奧羅紅酒，瓦萊達奧斯塔，意大利"
@@ -3849,14 +3835,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2019",
-            "name": "Amista, Nizza 'Riserva', Barbera",
+            "name": "Amista, Nizza 'Riserva', Barbera, Piedmont, Piemonte, Italy",
             "price": "$1,880",
             "section": "Piemonte",
             "nameZh": "阿米斯塔酒莊，「珍藏」尼扎巴貝拉紅酒，皮埃蒙特，意大利"
           },
           {
             "v": "2018",
-            "name": "Antoniolo 'Osso San Grato' Gattinara Riserva",
+            "name": "Antoniolo 'Osso San Grato' Gattinara Riserva, Piedmont, Piemonte, Italy",
             "price": "$2,280",
             "section": "Piemonte",
             "nameZh": "安東尼奧洛酒莊，「奧索・聖格拉托」加蒂納拉珍藏內比奧羅紅酒，皮埃蒙特，意大利"
@@ -3869,77 +3855,77 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "1990",
-            "name": "Bruno Giacosa 'Santo Stefano' Riserva",
+            "name": "Bruno Giacosa 'Santo Stefano' Riserva, Barbaresco, Italy",
             "price": "$16,135",
             "section": "Barbaresco",
             "nameZh": "布魯諾・賈科薩酒莊，「聖斯特凡諾」珍藏巴巴萊斯科紅酒，內維，皮埃蒙特，意大利"
           },
           {
             "v": "2019",
-            "name": "Ceretto 'Bernardot'",
+            "name": "Ceretto 'Bernardot', Barbaresco, Italy",
             "price": "$3,480",
             "section": "Barbaresco",
             "nameZh": "切雷托酒莊，「貝爾納多」巴巴萊斯科紅酒，特雷伊索，皮埃蒙特，意大利"
           },
           {
             "v": "2020",
-            "name": "Gaja 'Costa Russi'",
+            "name": "Gaja 'Costa Russi', Barbaresco, Italy",
             "price": "$9,880",
             "section": "Barbaresco",
             "nameZh": "嘉雅酒莊，「科斯塔・魯西」巴巴萊斯科單一園內比奧羅紅酒，皮埃蒙特，意大利"
           },
           {
             "v": "2020",
-            "name": "Gaja 'Sori San Lorenzo'",
+            "name": "Gaja 'Sori San Lorenzo', Barbaresco, Italy",
             "price": "$9,880",
             "section": "Barbaresco",
             "nameZh": "嘉雅酒莊，「索里・聖洛倫佐」巴巴萊斯科單一園內比奧羅紅酒，皮埃蒙特，意大利"
           },
           {
             "v": "2020",
-            "name": "Gaja 'Sorì Tildìn'",
+            "name": "Gaja 'Sorì Tildìn', Barbaresco, Italy",
             "price": "$9,880",
             "section": "Barbaresco",
             "nameZh": "嘉雅酒莊，「索里・蒂爾丁」巴巴萊斯科單一園內比奧羅紅酒，皮埃蒙特，意大利"
           },
           {
             "v": "2022",
-            "name": "La Spinetta 'Bordini'",
+            "name": "La Spinetta 'Bordini', Barbaresco, Italy",
             "price": "$1,680",
             "section": "Barbaresco",
             "nameZh": "拉斯皮內塔酒莊，「博爾迪尼」巴巴萊斯科單一園內比奧羅紅酒，內維，皮埃蒙特，意大利"
           },
           {
             "v": "2004",
-            "name": "La Spinetta 'Gallina'",
+            "name": "La Spinetta 'Gallina', Barbaresco, Italy",
             "price": "$3,280",
             "section": "Barbaresco",
             "nameZh": "拉斯皮內塔酒莊，「加利納」巴巴萊斯科單一園內比奧羅紅酒，皮埃蒙特，意大利"
           },
           {
             "v": "2011",
-            "name": "La Spinetta 'Starderi'",
+            "name": "La Spinetta 'Starderi', Barbaresco, Italy",
             "price": "$3,380",
             "section": "Barbaresco",
             "nameZh": "拉斯皮內塔酒莊，「斯塔爾德里」巴巴萊斯科單一園內比奧羅紅酒，皮埃蒙特，意大利"
           },
           {
             "v": "2017",
-            "name": "Roagna 'Asili' Vecchie Viti",
+            "name": "Roagna 'Asili' Vecchie Viti, Barbaresco, Italy",
             "price": "$5,280",
             "section": "Barbaresco",
             "nameZh": "羅亞尼亞酒莊，「阿西里」老藤巴巴萊斯科內比奧羅紅酒，皮埃蒙特，意大利"
           },
           {
             "v": "2017",
-            "name": "Roagna 'Pajè' Vecchie Viti",
+            "name": "Roagna 'Pajè' Vecchie Viti, Barbaresco, Italy",
             "price": "$5,280",
             "section": "Barbaresco",
             "nameZh": "羅亞尼亞酒莊，「帕耶」老藤巴巴萊斯科內比奧羅紅酒，皮埃蒙特，意大利"
           },
           {
             "v": "2006",
-            "name": "Roagna 'Crichët Pajé'",
+            "name": "Roagna 'Crichët Pajé', Barbaresco, Italy",
             "price": "$12,800",
             "section": "Barbaresco",
             "nameZh": "羅亞尼亞酒莊，「克里凱・帕耶」巴巴萊斯科內比奧羅紅酒，皮埃蒙特，意大利"
@@ -3952,126 +3938,126 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2005",
-            "name": "Cappellano 'Piè Franco'",
+            "name": "Cappellano 'Piè Franco', Piedmont, Barolo, Italy",
             "price": "$11,800",
             "section": "Barolo",
             "nameZh": "卡佩拉諾酒莊，「皮耶・弗蘭科」未嫁接內比奧羅巴羅洛紅酒，塞拉倫加，皮埃蒙特，意大利"
           },
           {
             "v": "2017",
-            "name": "Cappellano 'Piè Rupestris'",
+            "name": "Cappellano 'Piè Rupestris', Piedmont, Barolo, Italy",
             "price": "$3,380",
             "section": "Barolo",
             "nameZh": "卡佩拉諾酒莊，「皮耶・魯佩斯特里斯」巴羅洛內比奧羅紅酒，塞拉倫加，皮埃蒙特，意大利"
           },
           {
             "v": "2018",
-            "name": "Cappellano 'Piè Rupestris'",
+            "name": "Cappellano 'Piè Rupestris', Piedmont, Barolo, Italy",
             "price": "$3,880",
             "section": "Barolo",
             "nameZh": "卡佩拉諾酒莊，「皮耶・魯佩斯特里斯」巴羅洛內比奧羅紅酒，塞拉倫加，皮埃蒙特，意大利"
           },
           {
             "v": "2021",
-            "name": "Com. G.B. Burlotto \"Acclivi\"",
+            "name": "Com. G.B. Burlotto \"Acclivi\", Piedmont, Barolo, Italy",
             "price": "$3,580",
             "section": "Barolo",
             "nameZh": "布爾洛托酒莊「Acclivi」巴羅洛內比奧羅紅酒，韋爾杜諾，皮埃蒙特，意大利"
           },
           {
             "v": "2021",
-            "name": "Com. G.B. Burlotto \"Cannubi\"",
+            "name": "Com. G.B. Burlotto \"Cannubi\", Piedmont, Barolo, Italy",
             "price": "$4,080",
             "section": "Barolo",
             "nameZh": "布爾洛托酒莊「Cannubi」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
           },
           {
             "v": "2020",
-            "name": "Com. G.B. Burlotto \"Cannubi\"",
+            "name": "Com. G.B. Burlotto \"Cannubi\", Piedmont, Barolo, Italy",
             "price": "$4,080",
             "section": "Barolo",
             "nameZh": "布爾洛托酒莊「Cannubi」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
           },
           {
             "v": "2019",
-            "name": "Com. G.B. Burlotto \"Monvigliero\"",
+            "name": "Com. G.B. Burlotto \"Monvigliero\", Piedmont, Barolo, Italy",
             "price": "$4,080",
             "section": "Barolo",
             "nameZh": "布爾洛托酒莊「Monvigliero」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
           },
           {
             "v": "2020",
-            "name": "Com. G.B. Burlotto \"Monvigliero\"",
+            "name": "Com. G.B. Burlotto \"Monvigliero\", Piedmont, Barolo, Italy",
             "price": "$4,080",
             "section": "Barolo",
             "nameZh": "布爾洛托酒莊「Monvigliero」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
           },
           {
             "v": "2021",
-            "name": "Com. G.B. Burlotto \"Monvigliero\"",
+            "name": "Com. G.B. Burlotto \"Monvigliero\", Piedmont, Barolo, Italy",
             "price": "$4,080",
             "section": "Barolo",
             "nameZh": "布爾洛托酒莊「Monvigliero」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
           },
           {
             "v": "2019",
-            "name": "Gaja 'Conteisa'",
+            "name": "Gaja 'Conteisa', Piedmont, Barolo, Italy",
             "price": "$6,280",
             "section": "Barolo",
             "nameZh": "嘉雅酒莊，「孔泰薩」巴羅洛內比奧羅紅酒，切雷奎奧，拉莫拉，皮埃蒙特，意大利"
           },
           {
             "v": "2008",
-            "name": "Giuseppe Rinaldi 'Cannubi San Lorenzo - Ravera'",
+            "name": "Giuseppe Rinaldi 'Cannubi San Lorenzo - Ravera', Piedmont, Barolo, Italy",
             "price": "$10,800",
             "section": "Barolo",
             "nameZh": "朱塞佩・里納爾迪酒莊，「卡努比・聖洛倫佐－拉韋拉」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
           },
           {
             "v": "2008",
-            "name": "Giuseppe Rinaldi 'Brunate - Le Coste'",
+            "name": "Giuseppe Rinaldi 'Brunate - Le Coste', Piedmont, Barolo, Italy",
             "price": "$9,880",
             "section": "Barolo",
             "nameZh": "朱塞佩・里納爾迪酒莊，「布魯納特－萊科斯特」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
           },
           {
             "v": "1978",
-            "name": "Prunotto 'Bussia di Monforte d'Alba' Riserva",
+            "name": "Prunotto 'Bussia di Monforte d'Alba' Riserva, Piedmont, Barolo, Italy",
             "price": "$5,880",
             "section": "Barolo",
             "nameZh": "普魯諾托酒莊，「布西亞・蒙福爾泰達爾巴」珍藏巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
           },
           {
             "v": "2018",
-            "name": "Roagna 'Pira Vecchie Viti'",
+            "name": "Roagna 'Pira Vecchie Viti', Piedmont, Barolo, Italy",
             "price": "$5,880",
             "section": "Barolo",
             "nameZh": "羅亞尼亞酒莊，「皮拉」老藤巴羅洛內比奧羅紅酒，卡斯蒂廖內・法萊托，皮埃蒙特，意大利"
           },
           {
             "v": "2012",
-            "name": "Sandrone 'Sibi et Paucis'",
+            "name": "Sandrone 'Sibi et Paucis', Piedmont, Barolo, Italy",
             "price": "$3,980",
             "section": "Barolo",
             "nameZh": "桑德羅內酒莊，「只為自己與少數人」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
           },
           {
             "v": "2017",
-            "name": "Sandrone 'Le Vigne'",
+            "name": "Sandrone 'Le Vigne', Piedmont, Barolo, Italy",
             "price": "$2,580",
             "section": "Barolo",
             "nameZh": "桑德羅內酒莊，「葡萄園」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
           },
           {
             "v": "1998",
-            "name": "Sordo 'Gabutti' Riserva",
+            "name": "Sordo 'Gabutti' Riserva, Piedmont, Barolo, Italy",
             "price": "$3,480",
             "section": "Barolo",
             "nameZh": "索爾多酒莊，「加布蒂」珍藏巴羅洛內比奧羅紅酒，塞拉倫加，皮埃蒙特，意大利"
           },
           {
             "v": "2017",
-            "name": "Vietti, Riserva",
+            "name": "Vietti, Riserva, Piedmont, Barolo, Italy",
             "price": "$4,580",
             "section": "Barolo",
             "nameZh": "維埃蒂酒莊，珍藏巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
@@ -4084,42 +4070,42 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2018",
-            "name": "Ca' del Bosco 'Carmenero' Rosso del Sebino",
+            "name": "Ca' del Bosco 'Carmenero' Rosso del Sebino, Lombardia, Italy",
             "price": "$1,780",
             "section": "Lombardia",
             "nameZh": "卡德爾博斯科酒莊，「卡梅內羅」塞比諾紅酒，倫巴第，意大利"
           },
           {
             "v": "2012",
-            "name": "Ca' del Bosco 'Carmenero' Rosso del Sebino",
+            "name": "Ca' del Bosco 'Carmenero' Rosso del Sebino, Lombardia, Italy",
             "price": "$1,980",
             "section": "Lombardia",
             "nameZh": "卡德爾博斯科酒莊，「卡梅內羅」塞比諾紅酒，倫巴第，意大利"
           },
           {
             "v": "2018",
-            "name": "Ca' del Bosco 'Maurizio Zanella' Rosso del Sebino",
+            "name": "Ca' del Bosco 'Maurizio Zanella' Rosso del Sebino, Lombardia, Italy",
             "price": "$2,080",
             "section": "Lombardia",
             "nameZh": "卡德爾博斯科酒莊，「毛里齊奧・扎內拉」塞比諾紅酒，倫巴第，意大利"
           },
           {
             "v": "2013",
-            "name": "Ca' del Bosco 'Maurizio Zanella' Rosso del Sebino",
+            "name": "Ca' del Bosco 'Maurizio Zanella' Rosso del Sebino, Lombardia, Italy",
             "price": "$2,580",
             "section": "Lombardia",
             "nameZh": "卡德爾博斯科酒莊，「毛里齊奧・扎內拉」塞比諾紅酒，倫巴第，意大利"
           },
           {
             "v": "2014",
-            "name": "Comm. Lino Maga 'Barbacarlo'",
+            "name": "Comm. Lino Maga 'Barbacarlo', Lombardy, Lombardia, Italy",
             "price": "$2,580",
             "section": "Lombardia",
             "nameZh": "利諾・馬加酒莊，「巴爾巴卡洛」田園混釀紅酒，倫巴第，意大利"
           },
           {
             "v": "2013",
-            "name": "Vigne Olcru 'Coppiere Nero' Oltrepò Pavese",
+            "name": "Vigne Olcru 'Coppiere Nero' Oltrepò Pavese, Lombardy, Lombardia, Italy",
             "price": "$1,880",
             "section": "Lombardia",
             "nameZh": "奧爾克魯酒莊，「黑色酒盃」奧爾特雷波・帕韋塞紅酒，倫巴第，意大利"
@@ -4132,14 +4118,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2015",
-            "name": "Allegrini 'La Poja' Monovitigno Corvina Veronese",
+            "name": "Allegrini 'La Poja' Monovitigno Corvina Veronese, Veneto, Italy",
             "price": "$2,880",
             "section": "Veneto",
             "nameZh": "阿萊格里尼酒莊，「拉波亞」單一品種科爾維納維羅內塞紅酒，威尼托，意大利"
           },
           {
             "v": "2015",
-            "name": "Giuseppe Quintarelli 'Alzero'",
+            "name": "Giuseppe Quintarelli 'Alzero', Veneto, Italy",
             "price": "$5,880",
             "section": "Veneto",
             "nameZh": "朱塞佩・昆塔雷利酒莊，「阿爾澤羅」赤霞珠混釀紅酒，威尼托，意大利"
@@ -4152,45 +4138,45 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2015",
-            "name": "Angelo Nicolis 'Ambrosan' Classico",
+            "name": "Angelo Nicolis 'Ambrosan' Classico, Amarone della Valpolicella, Italy",
             "price": "$1,280",
             "section": "Amarone della Valpolicella",
-            "nameZh": "安傑洛・尼科利斯酒莊，「安布羅桑」經典阿瑪羅內紅酒，瓦爾波利切拉，威尼托，意大利"
+            "nameZh": "安傑洛・尼科利斯酒莊，「安布羅桑」經典阿瑪羅內紅酒，瓦爾波利切拉，威尼托，瓦爾波利切拉阿瑪羅內，意大利"
           },
           {
             "v": "2018",
-            "name": "Allegrini, Classico",
+            "name": "Allegrini, Classico, Amarone della Valpolicella, Italy",
             "price": "$2,180",
             "section": "Amarone della Valpolicella",
-            "nameZh": "阿萊格里尼酒莊，經典阿瑪羅內紅酒，瓦爾波利切拉，威尼托，意大利"
+            "nameZh": "阿萊格里尼酒莊，經典阿瑪羅內紅酒，瓦爾波利切拉，威尼托，瓦爾波利切拉阿瑪羅內，意大利"
           },
           {
             "v": "2017",
-            "name": "Romano Dal Forno",
+            "name": "Romano Dal Forno, Amarone della Valpolicella, Italy",
             "price": "$5,880",
             "section": "Amarone della Valpolicella",
-            "nameZh": "羅馬諾・達爾・福爾諾酒莊，阿瑪羅內紅酒，瓦爾波利切拉，威尼托，意大利"
+            "nameZh": "羅馬諾・達爾・福爾諾酒莊，阿瑪羅內紅酒，瓦爾波利切拉，威尼托，瓦爾波利切拉阿瑪羅內，意大利"
           },
           {
             "v": "2011",
-            "name": "Terre di Leone, Riserva",
+            "name": "Terre di Leone, Riserva, Amarone della Valpolicella, Italy",
             "price": "$2,080",
             "section": "Amarone della Valpolicella",
-            "nameZh": "獅子之地酒莊，珍藏阿瑪羅內紅酒，瓦爾波利切拉，威尼托，意大利"
+            "nameZh": "獅子之地酒莊，珍藏阿瑪羅內紅酒，瓦爾波利切拉，威尼托，瓦爾波利切拉阿瑪羅內，意大利"
           },
           {
             "v": "2018",
-            "name": "Terre di Leone 'Il Re Pazzo'",
+            "name": "Terre di Leone 'Il Re Pazzo', Amarone della Valpolicella, Italy",
             "price": "$1,380",
             "section": "Amarone della Valpolicella",
-            "nameZh": "獅子之地酒莊，「瘋狂國王」阿瑪羅內紅酒，瓦爾波利切拉，威尼托，意大利"
+            "nameZh": "獅子之地酒莊，「瘋狂國王」阿瑪羅內紅酒，瓦爾波利切拉，威尼托，瓦爾波利切拉阿瑪羅內，意大利"
           },
           {
             "v": "2011",
-            "name": "Zymé, Classico",
+            "name": "Zymé, Classico, Amarone della Valpolicella, Italy",
             "price": "$3,180",
             "section": "Amarone della Valpolicella",
-            "nameZh": "濟梅酒莊，經典阿瑪羅內紅酒，瓦爾波利切拉，威尼托，意大利"
+            "nameZh": "濟梅酒莊，經典阿瑪羅內紅酒，瓦爾波利切拉，威尼托，瓦爾波利切拉阿瑪羅內，意大利"
           }
         ],
         "nameZh": "瓦爾波利切拉阿瑪羅內"
@@ -4200,35 +4186,35 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "1996",
-            "name": "Livio Felluga 'Sossó' Riserva",
+            "name": "Livio Felluga 'Sossó' Riserva, Friuli Venezia Giulia, Italy",
             "price": "$3,800",
             "section": "Friuli Venezia Giulia",
             "nameZh": "利維奧・費盧加酒莊，「索索」珍藏紅酒，弗留利-威尼斯朱利亞，意大利"
           },
           {
             "v": "2013",
-            "name": "Meroi 'Vigna Dominin' Merlot",
+            "name": "Meroi 'Vigna Dominin' Merlot, Friuli Venezia Giulia, Italy",
             "price": "$1,880",
             "section": "Friuli Venezia Giulia",
             "nameZh": "梅羅伊酒莊，「多米寧園」梅洛紅酒，布特里奧，弗留利-威尼斯朱利亞，意大利"
           },
           {
             "v": "2018",
-            "name": "Miani 'Cossut' Colli Orientali del Friuli Refosco",
+            "name": "Miani 'Cossut' Colli Orientali del Friuli Refosco, Friuli Venezia Giulia, Italy",
             "price": "$2,680",
             "section": "Friuli Venezia Giulia",
             "nameZh": "米亞尼酒莊，「科蘇特」弗留利東部丘陵雷弗斯科紅酒，弗留利-威尼斯朱利亞，意大利"
           },
           {
             "v": "2018",
-            "name": "Miani, Colli Orientali del Friuli Merlot",
+            "name": "Miani, Colli Orientali del Friuli Merlot, Friuli Venezia Giulia, Italy",
             "price": "$2,680",
             "section": "Friuli Venezia Giulia",
             "nameZh": "米亞尼酒莊，弗留利東部丘陵梅洛紅酒，弗留利-威尼斯朱利亞，意大利"
           },
           {
             "v": "2017",
-            "name": "Ronchi di Cialla 'Schioppettino di Cialla'",
+            "name": "Ronchi di Cialla 'Schioppettino di Cialla', Friuli Venezia Giulia, Italy",
             "price": "$1,480",
             "section": "Friuli Venezia Giulia",
             "nameZh": "恰拉山坡酒莊，「恰拉斯基奧佩蒂諾」紅酒，弗留利-威尼斯朱利亞，意大利"
@@ -4241,94 +4227,94 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2020",
-            "name": "Gaja 'Ca' Marcanda Magari'",
+            "name": "Gaja 'Ca' Marcanda Magari', Bordeaux, Super Toscana, Italy",
             "price": "$1,680",
             "section": "Super Toscana",
-            "nameZh": "嘉雅酒莊，「卡・馬爾坎達・馬加里」波爾蓋里波爾多品種混釀，托斯卡納，意大利"
+            "nameZh": "嘉雅酒莊，「卡・馬爾坎達・馬加里」波爾蓋里波爾多品種混釀，托斯卡納，超級托斯卡納，意大利"
           },
           {
             "v": "1997",
-            "name": "Antinori 'Solaia'",
+            "name": "Antinori 'Solaia', Super Toscana, Italy",
             "price": "$9,880",
             "section": "Super Toscana",
             "nameZh": "安蒂諾里酒莊，「索萊亞」超級托斯卡納赤霞珠混釀，托斯卡納，意大利"
           },
           {
             "v": "2003",
-            "name": "Antinori 'Solaia'",
+            "name": "Antinori 'Solaia', Super Toscana, Italy",
             "price": "$6,980",
             "section": "Super Toscana",
             "nameZh": "安蒂諾里酒莊，「索萊亞」超級托斯卡納赤霞珠混釀，托斯卡納，意大利"
           },
           {
             "v": "2011",
-            "name": "Antinori 'Solaia'",
+            "name": "Antinori 'Solaia', Super Toscana, Italy",
             "price": "$5,880",
             "section": "Super Toscana",
             "nameZh": "安蒂諾里酒莊，「索萊亞」超級托斯卡納赤霞珠混釀，托斯卡納，意大利"
           },
           {
             "v": "2003",
-            "name": "Antinori 'Tignanello'",
+            "name": "Antinori 'Tignanello', Super Toscana, Italy",
             "price": "$5,280",
             "section": "Super Toscana",
             "nameZh": "安蒂諾里酒莊，「蒂尼亞內洛」超級托斯卡納桑嬌維塞混釀，托斯卡納，意大利"
           },
           {
             "v": "2006",
-            "name": "Antinori 'Tignanello'",
+            "name": "Antinori 'Tignanello', Super Toscana, Italy",
             "price": "$4,280",
             "section": "Super Toscana",
             "nameZh": "安蒂諾里酒莊，「蒂尼亞內洛」超級托斯卡納桑嬌維塞混釀，托斯卡納，意大利"
           },
           {
             "v": "2007",
-            "name": "Antinori 'Tignanello'",
+            "name": "Antinori 'Tignanello', Super Toscana, Italy",
             "price": "$4,280",
             "section": "Super Toscana",
             "nameZh": "安蒂諾里酒莊，「蒂尼亞內洛」超級托斯卡納桑嬌維塞混釀，托斯卡納，意大利"
           },
           {
             "v": "2022",
-            "name": "Antinori 'Tignanello'",
+            "name": "Antinori 'Tignanello', Super Toscana, Italy",
             "price": "$3,280",
             "section": "Super Toscana",
             "nameZh": "安蒂諾里酒莊，「蒂尼亞內洛」超級托斯卡納桑嬌維塞混釀，托斯卡納，意大利"
           },
           {
             "v": "2017",
-            "name": "Tenuta dell'Ornellaia 'Masseto'",
+            "name": "Tenuta dell'Ornellaia 'Masseto', Tuscany, Super Toscana, Italy",
             "price": "$17,800",
             "section": "Super Toscana",
-            "nameZh": "奧納亞酒莊，「馬賽托」波爾蓋里梅洛紅酒，托斯卡納，意大利"
+            "nameZh": "奧納亞酒莊，「馬賽托」波爾蓋里梅洛紅酒，托斯卡納，超級托斯卡納，意大利"
           },
           {
             "v": "2018",
-            "name": "Tenuta dell'Ornellaia 'Ornellaia'",
+            "name": "Tenuta dell'Ornellaia 'Ornellaia', Tuscany, Super Toscana, Italy",
             "price": "$3,880",
             "section": "Super Toscana",
-            "nameZh": "奧納亞莊園，「Ornellaia」托斯卡納紅酒，寶格麗，意大利"
+            "nameZh": "奧納亞莊園，「Ornellaia」托斯卡納紅酒，寶格麗，超級托斯卡納，意大利"
           },
           {
             "v": "2009",
-            "name": "Tenuta San Guido 'Sassicaia'",
+            "name": "Tenuta San Guido 'Sassicaia', Tuscany, Super Toscana, Italy",
             "price": "$7,280",
             "section": "Super Toscana",
-            "nameZh": "聖吉多酒莊，「西施佳雅」波爾蓋里赤霞珠混釀，托斯卡納，意大利"
+            "nameZh": "聖吉多酒莊，「西施佳雅」波爾蓋里赤霞珠混釀，托斯卡納，超級托斯卡納，意大利"
           },
           {
             "v": "2011",
-            "name": "Tenuta San Guido 'Sassicaia'",
+            "name": "Tenuta San Guido 'Sassicaia', Tuscany, Super Toscana, Italy",
             "price": "$6,580",
             "section": "Super Toscana",
-            "nameZh": "聖吉多酒莊，「西施佳雅」波爾蓋里赤霞珠混釀，托斯卡納，意大利"
+            "nameZh": "聖吉多酒莊，「西施佳雅」波爾蓋里赤霞珠混釀，托斯卡納，超級托斯卡納，意大利"
           },
           {
             "v": "2021",
-            "name": "Tenuta San Guido 'Sassicaia'",
+            "name": "Tenuta San Guido 'Sassicaia', Tuscany, Super Toscana, Italy",
             "price": "$4,980",
             "section": "Super Toscana",
-            "nameZh": "聖吉多酒莊，「西施佳雅」波爾蓋里赤霞珠混釀，托斯卡納，意大利"
+            "nameZh": "聖吉多酒莊，「西施佳雅」波爾蓋里赤霞珠混釀，托斯卡納，超級托斯卡納，意大利"
           }
         ],
         "nameZh": "超級托斯卡納"
@@ -4338,108 +4324,108 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2010",
-            "name": "Pian dell'Orino 'Bassolino di Sopra'",
+            "name": "Pian dell'Orino 'Bassolino di Sopra', Brunello di Montalcino, Italy",
             "price": "$4,880",
             "section": "Brunello di Montalcino",
             "nameZh": "皮安德洛里諾酒莊，「上巴索利諾」蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
           },
           {
             "v": "2020",
-            "name": "Castello Banfi",
+            "name": "Castello Banfi, Brunello di Montalcino, Italy",
             "price": "$1,480",
             "section": "Brunello di Montalcino",
             "nameZh": "班菲城堡酒莊，蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
           },
           {
             "v": "2018",
-            "name": "Poggio di Sotto",
+            "name": "Poggio di Sotto, Brunello di Montalcino, Italy",
             "price": "$4,880",
             "section": "Brunello di Montalcino",
             "nameZh": "波焦迪索托酒莊，蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
           },
           {
             "v": "2018",
-            "name": "Caprili 'AdAlberto' Riserva",
+            "name": "Caprili 'AdAlberto' Riserva, Brunello di Montalcino, Italy",
             "price": "$2,880",
             "section": "Brunello di Montalcino",
             "nameZh": "卡普里利酒莊，「阿達爾貝托」珍藏蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
           },
           {
             "v": "2011",
-            "name": "La Magia, Brunello di Montalcino",
+            "name": "La Magia, Brunello di Montalcino, Italy",
             "price": "$3,880",
             "section": "Brunello di Montalcino",
             "nameZh": "拉馬吉亞酒莊，蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
           },
           {
             "v": "2012",
-            "name": "La Magia, Brunello di Montalcino",
+            "name": "La Magia, Brunello di Montalcino, Italy",
             "price": "$3,880",
             "section": "Brunello di Montalcino",
             "nameZh": "拉馬吉亞酒莊，蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
           },
           {
             "v": "1975",
-            "name": "Biondi-Santi, Riserva",
+            "name": "Biondi-Santi, Riserva, Brunello di Montalcino, Italy",
             "price": "$10,800",
             "section": "Brunello di Montalcino",
             "nameZh": "比翁迪-桑蒂酒莊，珍藏蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
           },
           {
             "v": "2001",
-            "name": "Biondi-Santi, Riserva",
+            "name": "Biondi-Santi, Riserva, Brunello di Montalcino, Italy",
             "price": "$13,500",
             "section": "Brunello di Montalcino",
             "nameZh": "比翁迪-桑蒂酒莊，珍藏蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
           },
           {
             "v": "2006",
-            "name": "Biondi-Santi, Riserva",
+            "name": "Biondi-Santi, Riserva, Brunello di Montalcino, Italy",
             "price": "$12,800",
             "section": "Brunello di Montalcino",
             "nameZh": "比翁迪-桑蒂酒莊，珍藏蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
           },
           {
             "v": "2016",
-            "name": "Biondi-Santi, Riserva",
+            "name": "Biondi-Santi, Riserva, Brunello di Montalcino, Italy",
             "price": "$9,980",
             "section": "Brunello di Montalcino",
             "nameZh": "比翁迪-桑蒂酒莊，珍藏蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
           },
           {
             "v": "2011",
-            "name": "Biondi-Santi, Brunello di Montalcino",
+            "name": "Biondi-Santi, Brunello di Montalcino, Italy",
             "price": "$3,880",
             "section": "Brunello di Montalcino",
             "nameZh": "比翁迪-桑蒂酒莊，蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
           },
           {
             "v": "2001",
-            "name": "Gaja 'Pieve Santa Restituta Rennina'",
+            "name": "Gaja 'Pieve Santa Restituta Rennina', Brunello di Montalcino, Italy",
             "price": "$3,980",
             "section": "Brunello di Montalcino",
             "nameZh": "嘉雅酒莊，「聖雷斯蒂圖塔教堂・雷尼納」蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
           },
           {
             "v": "1996",
-            "name": "Gaja 'Sugarrille'",
+            "name": "Gaja 'Sugarrille', Brunello di Montalcino, Italy",
             "price": "$4,280",
             "section": "Brunello di Montalcino",
             "nameZh": "嘉雅酒莊，「蘇加里萊」蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
           },
           {
             "v": "2018",
-            "name": "Mastrojanni 'Schiena d'Asino'",
+            "name": "Mastrojanni 'Schiena d'Asino', Brunello di Montalcino, Italy",
             "price": "$3,980",
             "section": "Brunello di Montalcino",
             "nameZh": "馬斯特羅揚尼酒莊，「驢背園」蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
           },
           {
             "v": "1990",
-            "name": "Soldera, Case Basse",
+            "name": "Soldera, Case Basse, Brunello di Montalcino, Italy",
             "price": "$17,135",
             "section": "Brunello di Montalcino",
-            "nameZh": "索爾代拉酒莊，卡塞巴塞桑嬌維塞紅酒，蒙塔奇諾，托斯卡納，意大利"
+            "nameZh": "索爾代拉酒莊，卡塞巴塞桑嬌維塞紅酒，蒙塔奇諾，托斯卡納，蒙塔奇諾布魯內洛，意大利"
           }
         ],
         "nameZh": "蒙塔奇諾布魯內洛"
@@ -4449,7 +4435,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2022",
-            "name": "Avignonesi",
+            "name": "Avignonesi, Vino Nobile di Montepulciano, Italy",
             "price": "$980",
             "section": "Vino Nobile di Montepulciano",
             "nameZh": "阿維尼奧內西酒莊，蒙特普爾恰諾貴族酒，托斯卡納，意大利"
@@ -4462,7 +4448,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2020",
-            "name": "Val delle Corti, Chianti Classico Riserva",
+            "name": "Val delle Corti, Chianti Classico Riserva, Italy",
             "price": "$1,080",
             "section": "Chianti",
             "nameZh": "瓦爾德萊科爾蒂酒莊，經典基安蒂珍藏桑嬌維塞紅酒，拉達，托斯卡納，意大利"
@@ -4475,14 +4461,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2012",
-            "name": "Paolo Bea 'San Valentino'",
+            "name": "Paolo Bea 'San Valentino', Umbria, Italy",
             "price": "$1,480",
             "section": "Umbria",
             "nameZh": "保羅・貝亞酒莊，「聖瓦倫蒂諾」翁布里亞田園混釀紅酒，意大利"
           },
           {
             "v": "1998",
-            "name": "Lamborghini 'Campoleone'",
+            "name": "Lamborghini 'Campoleone', Umbria, Italy",
             "price": "$4,060",
             "section": "Umbria",
             "nameZh": "蘭博基尼酒莊，「坎波萊奧內」桑嬌維塞及梅洛混釀，帕尼卡萊，翁布里亞，意大利"
@@ -4495,7 +4481,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2020",
-            "name": "Umani Ronchi 'Cumaro' Conero Riserva",
+            "name": "Umani Ronchi 'Cumaro' Conero Riserva, Vino Nobile di Montepulciano, Marche, Italy",
             "price": "$980",
             "section": "Marche",
             "nameZh": "烏瑪尼・龍基酒莊，「庫馬羅」科內羅珍藏蒙特普爾恰諾紅酒，馬爾凱，意大利"
@@ -4508,14 +4494,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2015",
-            "name": "San Giovenale 'Habemus'",
+            "name": "San Giovenale 'Habemus', Lazio, Italy",
             "price": "$1,780",
             "section": "Lazio",
             "nameZh": "聖喬韋納萊酒莊，「哈貝穆斯」北拉齊奧羅訥風格混釀，意大利"
           },
           {
             "v": "2012",
-            "name": "Tenuta di Fiorano 'Fiorano'",
+            "name": "Tenuta di Fiorano 'Fiorano', Lazio, Italy",
             "price": "$2,480",
             "section": "Lazio",
             "nameZh": "菲奧拉諾酒莊，「菲奧拉諾」赤霞珠及梅洛混釀，拉齊奧，意大利"
@@ -4528,17 +4514,17 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2018",
-            "name": "Masciarelli 'Villa Gemma' Montepulciano d'Abruzzo Riserva",
+            "name": "Masciarelli 'Villa Gemma' Montepulciano d'Abruzzo Riserva, Abruzzo, Italy",
             "price": "$1,880",
             "section": "Abruzzo",
-            "nameZh": "馬夏雷利酒莊，「吉瑪別墅」珍藏阿布魯佐蒙特普爾恰諾紅酒，意大利"
+            "nameZh": "馬夏雷利酒莊，「吉瑪別墅」珍藏阿布魯佐蒙特普爾恰諾紅酒，阿布魯佐，意大利"
           },
           {
             "v": "2013",
-            "name": "Masciarelli 'La Botte di Gianni' Montepulciano d'Abruzzo Riserva",
+            "name": "Masciarelli 'La Botte di Gianni' Montepulciano d'Abruzzo Riserva, Abruzzo, Italy",
             "price": "$3,280",
             "section": "Abruzzo",
-            "nameZh": "馬夏雷利酒莊，「賈尼大桶」珍藏阿布魯佐蒙特普爾恰諾紅酒，意大利"
+            "nameZh": "馬夏雷利酒莊，「賈尼大桶」珍藏阿布魯佐蒙特普爾恰諾紅酒，阿布魯佐，意大利"
           }
         ],
         "nameZh": "阿布魯佐"
@@ -4548,42 +4534,42 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2015",
-            "name": "Silvia Imparato 'Montevetrano' Colli di Salerno",
+            "name": "Silvia Imparato 'Montevetrano' Colli di Salerno, Campania, Italy",
             "price": "$1,280",
             "section": "Campania",
             "nameZh": "西爾維婭・因帕拉托酒莊，「蒙特韋特拉諾」薩萊諾丘陵紅酒，坎帕尼亞，意大利"
           },
           {
             "v": "2006",
-            "name": "Silvia Imparato 'Montevetrano' Colli di Salerno",
+            "name": "Silvia Imparato 'Montevetrano' Colli di Salerno, Campania, Italy",
             "price": "$1,880",
             "section": "Campania",
             "nameZh": "西爾維婭・因帕拉托酒莊，「蒙特韋特拉諾」薩萊諾丘陵紅酒，坎帕尼亞，意大利"
           },
           {
             "v": "2009",
-            "name": "Galardi 'Terra di Lavoro'",
+            "name": "Galardi 'Terra di Lavoro', Campania, Italy",
             "price": "$1,930",
             "section": "Campania",
             "nameZh": "加拉爾迪酒莊，「勞作之地」艾格尼科及皮耶迪羅索混釀，坎帕尼亞，意大利"
           },
           {
             "v": "2007",
-            "name": "Quintodecimo 'Vigna Quintodecimo' Taurasi Riserva",
+            "name": "Quintodecimo 'Vigna Quintodecimo' Taurasi Riserva, Campania, Italy",
             "price": "$4,280",
             "section": "Campania",
             "nameZh": "昆托代奇莫酒莊，「昆托代奇莫園」珍藏陶拉西艾格尼科紅酒，坎帕尼亞，意大利"
           },
           {
             "v": "2010",
-            "name": "Perillo, Taurasi Riserva",
+            "name": "Perillo, Taurasi Riserva, Campania, Italy",
             "price": "$1,680",
             "section": "Campania",
             "nameZh": "佩里洛酒莊，珍藏陶拉西艾格尼科紅酒，坎帕尼亞，意大利"
           },
           {
             "v": "2011",
-            "name": "Mastroberardino 'Radici' Taurasi Riserva",
+            "name": "Mastroberardino 'Radici' Taurasi Riserva, Campania, Italy",
             "price": "$2,580",
             "section": "Campania",
             "nameZh": "馬斯特羅貝拉爾迪諾酒莊，「根源」珍藏陶拉西艾格尼科紅酒，坎帕尼亞，意大利"
@@ -4596,7 +4582,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2019",
-            "name": "Elena Fucci 'Titolo' Aglianico del Vulture",
+            "name": "Elena Fucci 'Titolo' Aglianico del Vulture, Basilicata, Italy",
             "price": "$1,180",
             "section": "Basilicata",
             "nameZh": "埃琳娜・富奇酒莊，「蒂托洛」武爾圖雷艾格尼科紅酒，巴西利卡塔，意大利"
@@ -4609,35 +4595,35 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2018",
-            "name": "Argiolas 'Turriga' Isola Dei Nuraghi",
+            "name": "Argiolas 'Turriga' Isola Dei Nuraghi, Sardinia, Sardegna, Italy",
             "price": "$2,080",
             "section": "Sardegna",
             "nameZh": "阿爾焦拉斯酒莊，「圖里加」努拉吉島紅酒，撒丁島，意大利"
           },
           {
             "v": "2004",
-            "name": "Argiolas 'Turriga' Isola Dei Nuraghi",
+            "name": "Argiolas 'Turriga' Isola Dei Nuraghi, Sardinia, Sardegna, Italy",
             "price": "$3,680",
             "section": "Sardegna",
             "nameZh": "阿爾焦拉斯酒莊，「圖里加」努拉吉島紅酒，撒丁島，意大利"
           },
           {
             "v": "2000",
-            "name": "Argiolas 'Turriga' Isola Dei Nuraghi",
+            "name": "Argiolas 'Turriga' Isola Dei Nuraghi, Sardinia, Sardegna, Italy",
             "price": "$3,980",
             "section": "Sardegna",
             "nameZh": "阿爾焦拉斯酒莊，「圖里加」努拉吉島紅酒，撒丁島，意大利"
           },
           {
             "v": "1999",
-            "name": "Argiolas 'Turriga' Isola Dei Nuraghi",
+            "name": "Argiolas 'Turriga' Isola Dei Nuraghi, Sardinia, Sardegna, Italy",
             "price": "$4,280",
             "section": "Sardegna",
             "nameZh": "阿爾焦拉斯酒莊，「圖里加」努拉吉島紅酒，撒丁島，意大利"
           },
           {
             "v": "2016",
-            "name": "Giovanni Montisci 'Barrosu Riserva Franzisca'",
+            "name": "Giovanni Montisci 'Barrosu Riserva Franzisca', Sardinia, Sardegna, Italy",
             "price": "$2,480",
             "section": "Sardegna",
             "nameZh": "喬瓦尼・蒙蒂西酒莊，「巴羅蘇・弗朗齊斯卡」珍藏卡諾瑙紅酒，巴爾巴賈，撒丁島，意大利"
@@ -4657,35 +4643,35 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2003",
-            "name": "Château Haut-Brion",
+            "name": "Château Haut-Brion, Pessac-Léognan, Graves, France",
             "price": "$13,800",
             "section": "Graves",
-            "nameZh": "奧比昂酒莊，紅葡萄酒，佩薩克雷奧良，波爾多，法國"
+            "nameZh": "奧比昂酒莊，紅葡萄酒，佩薩克雷奧良，波爾多，格拉夫，法國"
           },
           {
             "v": "2014",
-            "name": "Château Haut-Brion",
+            "name": "Château Haut-Brion, Pessac-Léognan, Graves, France",
             "price": "$9,880",
             "section": "Graves",
-            "nameZh": "奧比昂酒莊，紅葡萄酒，佩薩克雷奧良，波爾多，法國"
+            "nameZh": "奧比昂酒莊，紅葡萄酒，佩薩克雷奧良，波爾多，格拉夫，法國"
           },
           {
             "v": "2008",
-            "name": "Château La Mission Haut-Brion",
+            "name": "Château La Mission Haut-Brion, Bordeaux, Graves, France",
             "price": "$6,550",
             "section": "Graves",
             "nameZh": "拉米松侯伯王酒莊，格拉夫，波爾多，法國"
           },
           {
             "v": "2014",
-            "name": "Château Les Carmes Haut-Brion",
+            "name": "Château Les Carmes Haut-Brion, Bordeaux, Graves, France",
             "price": "$2,888",
             "section": "Graves",
             "nameZh": "卡美侯伯王酒莊，佩薩克－雷奧良，格拉夫，波爾多，法國"
           },
           {
             "v": "2021",
-            "name": "Esprit de Chevalier, Domaine de Chevalier",
+            "name": "Esprit de Chevalier, Domaine de Chevalier, Graves, France",
             "price": "$988",
             "section": "Graves",
             "nameZh": "騎士酒莊，「騎士精神」紅葡萄酒，格拉夫，波爾多，法國"
@@ -4698,14 +4684,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2010",
-            "name": "Bordeaux Rive Gauche, Pont Des Arts Collection",
+            "name": "Bordeaux Rive Gauche, Pont Des Arts Collection, Haut-Médoc, France",
             "price": "$3,210",
             "section": "Haut-Médoc",
             "nameZh": "龐德雅藝術酒藏，「波爾多左岸」紅葡萄酒，上梅多克，波爾多，法國"
           },
           {
             "v": "1990",
-            "name": "Château Sociando Mallet",
+            "name": "Château Sociando Mallet, Haut-Médoc, France",
             "price": "$4,810",
             "section": "Haut-Médoc",
             "nameZh": "索希安多馬萊酒莊，上梅多克，波爾多，法國"
@@ -4718,35 +4704,35 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2010",
-            "name": "Château d'Issan",
+            "name": "Château d'Issan, Bordeaux, Margaux, France",
             "price": "$2,480",
             "section": "Margaux",
             "nameZh": "迪仙酒莊，瑪歌，波爾多，法國"
           },
           {
             "v": "2010",
-            "name": "Château Brane-Cantenac",
+            "name": "Château Brane-Cantenac, Bordeaux, Margaux, France",
             "price": "$2,788",
             "section": "Margaux",
             "nameZh": "布朗康田酒莊，瑪歌，波爾多，法國"
           },
           {
             "v": "2010",
-            "name": "Château Lascombes",
+            "name": "Château Lascombes, Bordeaux, Margaux, France",
             "price": "$2,960",
             "section": "Margaux",
             "nameZh": "力士金酒莊，瑪歌，波爾多，法國"
           },
           {
             "v": "2018",
-            "name": "Château Rauzan-Ségla",
+            "name": "Château Rauzan-Ségla, Bordeaux, Margaux, France",
             "price": "$2,880",
             "section": "Margaux",
             "nameZh": "露仙歌酒莊，瑪歌，波爾多，法國"
           },
           {
             "v": "2017",
-            "name": "Chevalier de Lascombes",
+            "name": "Chevalier de Lascombes, Margaux, France",
             "price": "$1,080",
             "section": "Margaux",
             "nameZh": "力士金騎士，瑪歌，波爾多，法國"
@@ -4759,28 +4745,28 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2004",
-            "name": "Pavillon Rouge du Château Margaux",
+            "name": "Pavillon Rouge du Château Margaux, Margaux, France",
             "price": "$4,880",
             "section": "Château Margaux",
             "nameZh": "瑪歌酒莊，「紅亭」紅葡萄酒，瑪歌，波爾多，法國"
           },
           {
             "v": "2011",
-            "name": "Château Margaux",
+            "name": "Château Margaux, Margaux, France",
             "price": "$10,900",
             "section": "Château Margaux",
             "nameZh": "瑪歌酒莊，紅葡萄酒，瑪歌，波爾多，法國"
           },
           {
             "v": "2003",
-            "name": "Château Margaux",
+            "name": "Château Margaux, Margaux, France",
             "price": "$19,450",
             "section": "Château Margaux",
             "nameZh": "瑪歌酒莊，紅葡萄酒，瑪歌，波爾多，法國"
           },
           {
             "v": "1990",
-            "name": "Château Margaux",
+            "name": "Château Margaux, Margaux, France",
             "price": "$44,960",
             "section": "Château Margaux",
             "nameZh": "瑪歌酒莊，紅葡萄酒，瑪歌，波爾多，法國"
@@ -4793,14 +4779,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2005",
-            "name": "Château Palmer",
+            "name": "Château Palmer, Bordeaux, Margaux, France",
             "price": "$8,380",
             "section": "Château Palmer",
             "nameZh": "帕瑪酒莊，瑪歌，波爾多，法國"
           },
           {
             "v": "2013",
-            "name": "Château Palmer",
+            "name": "Château Palmer, Bordeaux, Margaux, France",
             "price": "$5,280",
             "section": "Château Palmer",
             "nameZh": "帕瑪酒莊，瑪歌，波爾多，法國"
@@ -4813,49 +4799,49 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2015",
-            "name": "Château d’Armailhac",
+            "name": "Château d’Armailhac, Bordeaux, Pauillac, France",
             "price": "$2,080",
             "section": "Pauillac",
             "nameZh": "達瑪雅克酒莊，波雅克，波爾多，法國"
           },
           {
             "v": "2016",
-            "name": "Château d’Armailhac",
+            "name": "Château d’Armailhac, Bordeaux, Pauillac, France",
             "price": "$2,080",
             "section": "Pauillac",
             "nameZh": "達瑪雅克酒莊，波雅克，波爾多，法國"
           },
           {
             "v": "2012",
-            "name": "Château Duhart-Milon",
+            "name": "Château Duhart-Milon, Bordeaux, Pauillac, France",
             "price": "$2,048",
             "section": "Pauillac",
             "nameZh": "杜哈米隆酒莊，波雅克，波爾多，法國"
           },
           {
             "v": "2018",
-            "name": "Château Haut-Pauillac",
+            "name": "Château Haut-Pauillac, Pauillac, France",
             "price": "$1,430",
             "section": "Pauillac",
             "nameZh": "上波雅克酒莊，波雅克，波爾多，法國"
           },
           {
             "v": "2021",
-            "name": "Château Lynch-Bages",
+            "name": "Château Lynch-Bages, Bordeaux, Pauillac, France",
             "price": "$2,880",
             "section": "Pauillac",
             "nameZh": "靚次伯酒莊，波雅克，波爾多，法國"
           },
           {
             "v": "2015",
-            "name": "Château Pichon-Longueville Baron",
+            "name": "Château Pichon-Longueville Baron, Bordeaux, Pauillac, France",
             "price": "$4,380",
             "section": "Pauillac",
             "nameZh": "碧尚男爵酒莊，波雅克，波爾多，法國"
           },
           {
             "v": "2014",
-            "name": "Les Griffons de Pichon Baron",
+            "name": "Les Griffons de Pichon Baron, Pauillac, France",
             "price": "$1,380",
             "section": "Pauillac",
             "nameZh": "碧尚男爵，「獅鷲」紅葡萄酒，波雅克，波爾多，法國"
@@ -4868,28 +4854,28 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2002",
-            "name": "Carruades de Lafite Rothschild",
+            "name": "Carruades de Lafite Rothschild, Pauillac, France",
             "price": "$9,490",
             "section": "Château Lafite Rothschild",
             "nameZh": "拉菲珍寶，拉菲酒莊，波雅克，波爾多，法國"
           },
           {
             "v": "1998",
-            "name": "Château Lafite Rothschild",
+            "name": "Château Lafite Rothschild, Bordeaux, Pauillac, France",
             "price": "$20,800",
             "section": "Château Lafite Rothschild",
             "nameZh": "拉菲酒莊，紅葡萄酒，波雅克，波爾多，法國"
           },
           {
             "v": "2008",
-            "name": "Château Lafite Rothschild",
+            "name": "Château Lafite Rothschild, Bordeaux, Pauillac, France",
             "price": "$15,680",
             "section": "Château Lafite Rothschild",
             "nameZh": "拉菲酒莊，紅葡萄酒，波雅克，波爾多，法國"
           },
           {
             "v": "2015",
-            "name": "Château Lafite Rothschild",
+            "name": "Château Lafite Rothschild, Bordeaux, Pauillac, France",
             "price": "$12,980",
             "section": "Château Lafite Rothschild",
             "nameZh": "拉菲酒莊，紅葡萄酒，波雅克，波爾多，法國"
@@ -4902,21 +4888,21 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "1982",
-            "name": "Château Latour",
+            "name": "Château Latour, Bordeaux, Pauillac, France",
             "price": "$40,900",
             "section": "Château Latour",
             "nameZh": "拉圖酒莊，紅葡萄酒，波雅克，波爾多，法國"
           },
           {
             "v": "2001",
-            "name": "Château Latour",
+            "name": "Château Latour, Bordeaux, Pauillac, France",
             "price": "$16,980",
             "section": "Château Latour",
             "nameZh": "拉圖酒莊，紅葡萄酒，波雅克，波爾多，法國"
           },
           {
             "v": "2014",
-            "name": "Château Latour",
+            "name": "Château Latour, Bordeaux, Pauillac, France",
             "price": "$10,800",
             "section": "Château Latour",
             "nameZh": "拉圖酒莊，紅葡萄酒，波雅克，波爾多，法國"
@@ -4929,21 +4915,21 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "1998",
-            "name": "Château Mouton Rothschild",
+            "name": "Château Mouton Rothschild, Bordeaux, Pauillac, France",
             "price": "$14,800",
             "section": "Château Mouton Rothschild",
             "nameZh": "木桐酒莊，紅葡萄酒，波雅克，波爾多，法國"
           },
           {
             "v": "2003",
-            "name": "Château Mouton Rothschild",
+            "name": "Château Mouton Rothschild, Bordeaux, Pauillac, France",
             "price": "$13,680",
             "section": "Château Mouton Rothschild",
             "nameZh": "木桐酒莊，紅葡萄酒，波雅克，波爾多，法國"
           },
           {
             "v": "2017",
-            "name": "Château Mouton Rothschild",
+            "name": "Château Mouton Rothschild, Bordeaux, Pauillac, France",
             "price": "$9,380",
             "section": "Château Mouton Rothschild",
             "nameZh": "木桐酒莊，紅葡萄酒，波雅克，波爾多，法國"
@@ -4956,42 +4942,42 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2019",
-            "name": "Château Beau Site",
+            "name": "Château Beau Site, Saint-Estèphe, France",
             "price": "$1,150",
             "section": "Saint-Estèphe",
             "nameZh": "美景酒莊，聖埃斯泰夫，波爾多，法國"
           },
           {
             "v": "2021",
-            "name": "Château de Pez",
+            "name": "Château de Pez, Saint-Estèphe, France",
             "price": "$1,380",
             "section": "Saint-Estèphe",
             "nameZh": "佩茲酒莊，聖埃斯泰夫，波爾多，法國"
           },
           {
             "v": "1989",
-            "name": "Château Montrose",
+            "name": "Château Montrose, Saint-Estèphe, France",
             "price": "$7,380",
             "section": "Saint-Estèphe",
             "nameZh": "玫瑰山酒莊，聖埃斯泰夫，波爾多，法國"
           },
           {
             "v": "2015",
-            "name": "Maison de Grand Esprit Grand Esprit",
+            "name": "Maison de Grand Esprit Grand Esprit, Saint-Estèphe, France",
             "price": "$2,390",
             "section": "Saint-Estèphe",
             "nameZh": "大精神酒莊，「大精神」紅葡萄酒，聖埃斯泰夫，波爾多，法國"
           },
           {
             "v": "2022",
-            "name": "Château Calon-Ségur, Saint-Estèphe, Bordeaux, France",
+            "name": "Château Calon-Ségur, Saint-Estèphe, Bordeaux, Saint-Estèphe, France",
             "price": "$3,880",
             "section": "Saint-Estèphe",
             "nameZh": "卡龍世家酒莊，紅葡萄酒，聖埃斯泰夫，波爾多，法國"
           },
           {
             "v": "2022",
-            "name": "Le C de Calon-Ségur, Saint-Estèphe, Bordeaux, France",
+            "name": "Le C de Calon-Ségur, Saint-Estèphe, Bordeaux, Saint-Estèphe, France",
             "price": "$1,080",
             "section": "Saint-Estèphe",
             "nameZh": "卡龍世家酒莊，「Le C」副牌紅葡萄酒，聖埃斯泰夫，波爾多，法國"
@@ -5004,28 +4990,28 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "1947",
-            "name": "Château Beychevelle",
+            "name": "Château Beychevelle, Saint-Julien, France",
             "price": "$14,980",
             "section": "Saint-Julien",
             "nameZh": "龍船酒莊，聖朱利安，波爾多，法國"
           },
           {
             "v": "2005",
-            "name": "Château Léoville Las Cases",
+            "name": "Château Léoville Las Cases, Saint-Julien, France",
             "price": "$7,680",
             "section": "Saint-Julien",
             "nameZh": "雄獅酒莊，聖朱利安，波爾多，法國"
           },
           {
             "v": "2016",
-            "name": "Château Talbot",
+            "name": "Château Talbot, Saint-Julien, France",
             "price": "$2,000",
             "section": "Saint-Julien",
             "nameZh": "大寶酒莊，聖朱利安，波爾多，法國"
           },
           {
             "v": "2017",
-            "name": "Château Talbot",
+            "name": "Château Talbot, Saint-Julien, France",
             "price": "$2,000",
             "section": "Saint-Julien",
             "nameZh": "大寶酒莊，聖朱利安，波爾多，法國"
@@ -5038,63 +5024,63 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2013",
-            "name": "Château L’Évangile",
+            "name": "Château L’Évangile, Bordeaux, Pomerol, France",
             "price": "$3,080",
             "section": "Pomerol",
             "nameZh": "樂王吉酒莊，波美侯，波爾多，法國"
           },
           {
             "v": "2000",
-            "name": "Château La Fleur-Pétrus",
+            "name": "Château La Fleur-Pétrus, Bordeaux, Pomerol, France",
             "price": "$7,980",
             "section": "Pomerol",
             "nameZh": "花堡，波美侯，波爾多，法國"
           },
           {
             "v": "2013",
-            "name": "Château Lafleur",
+            "name": "Château Lafleur, Bordeaux, Pomerol, France",
             "price": "$8,780",
             "section": "Pomerol",
             "nameZh": "花莊，波美侯，波爾多，法國"
           },
           {
             "v": "1988",
-            "name": "Château Lafleur",
+            "name": "Château Lafleur, Bordeaux, Pomerol, France",
             "price": "$31,300",
             "section": "Pomerol",
             "nameZh": "花莊，波美侯，波爾多，法國"
           },
           {
             "v": "2018",
-            "name": "Château Lafleur 'Les Pensées de Lafleur'",
+            "name": "Château Lafleur 'Les Pensées de Lafleur', Pomerol, France",
             "price": "$4,780",
             "section": "Pomerol",
             "nameZh": "花莊，「花莊思緒」紅葡萄酒，波美侯，波爾多，法國"
           },
           {
             "v": "2008",
-            "name": "Château Trotanoy",
+            "name": "Château Trotanoy, Bordeaux, Pomerol, France",
             "price": "$5,480",
             "section": "Pomerol",
             "nameZh": "老托特諾酒莊，波美侯，波爾多，法國"
           },
           {
             "v": "1988",
-            "name": "Le Pin",
+            "name": "Le Pin, Bordeaux, Pomerol, France",
             "price": "$56,530",
             "section": "Pomerol",
             "nameZh": "里鵬酒莊，紅葡萄酒，波美侯，波爾多，法國"
           },
           {
             "v": "2012",
-            "name": "Vieux Château Certan",
+            "name": "Vieux Château Certan, Bordeaux, Pomerol, France",
             "price": "$4,280",
             "section": "Pomerol",
             "nameZh": "老色丹酒莊，波美侯，波爾多，法國"
           },
           {
             "v": "1982",
-            "name": "Pétrus",
+            "name": "Pétrus, Bordeaux, Pomerol, France",
             "price": "$89,880",
             "section": "Pomerol",
             "nameZh": "柏翠酒莊，紅葡萄酒，波美侯，波爾多，法國"
@@ -5107,63 +5093,63 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2013",
-            "name": "Château Ausone",
+            "name": "Château Ausone, Saint-Émilion, France",
             "price": "$10,600",
             "section": "Saint-Émilion",
             "nameZh": "奧松酒莊，聖埃美隆，波爾多，法國"
           },
           {
             "v": "2013",
-            "name": "Château Canon",
+            "name": "Château Canon, Saint-Émilion, France",
             "price": "$1,990",
             "section": "Saint-Émilion",
             "nameZh": "卡農酒莊，聖埃美隆，波爾多，法國"
           },
           {
             "v": "2000",
-            "name": "Château Cheval Blanc",
+            "name": "Château Cheval Blanc, Saint-Émilion, France",
             "price": "$23,880",
             "section": "Saint-Émilion",
             "nameZh": "白馬酒莊，聖埃美隆一級特等酒莊，波爾多，法國"
           },
           {
             "v": "2016",
-            "name": "Château Franc le Maine",
+            "name": "Château Franc le Maine, Saint-Émilion, France",
             "price": "$950",
             "section": "Saint-Émilion",
             "nameZh": "弗朗勒曼酒莊，聖埃美隆，波爾多，法國"
           },
           {
             "v": "2018",
-            "name": "Château Haut-Brisson",
+            "name": "Château Haut-Brisson, Saint-Émilion, France",
             "price": "$1,080",
             "section": "Saint-Émilion",
             "nameZh": "奧布里松酒莊，聖埃美隆，波爾多，法國"
           },
           {
             "v": "2019",
-            "name": "Château Morillon",
+            "name": "Château Morillon, Saint-Émilion, France",
             "price": "$910",
             "section": "Saint-Émilion",
             "nameZh": "莫里永酒莊，聖埃美隆，波爾多，法國"
           },
           {
             "v": "2009",
-            "name": "Château Pavie",
+            "name": "Château Pavie, Saint-Émilion, France",
             "price": "$10,800",
             "section": "Saint-Émilion",
             "nameZh": "柏菲酒莊，聖埃美隆，波爾多，法國"
           },
           {
             "v": "2014",
-            "name": "Château Troplong Mondot",
+            "name": "Château Troplong Mondot, Saint-Émilion, France",
             "price": "$2,280",
             "section": "Saint-Émilion",
             "nameZh": "卓龍夢特酒莊，聖埃美隆，波爾多，法國"
           },
           {
             "v": "2009",
-            "name": "Château Angélus, 1er Grand Cru Classé B",
+            "name": "Château Angélus, 1er Grand Cru Classé B, Saint-Émilion, France",
             "price": "$9,880",
             "section": "Saint-Émilion",
             "nameZh": "金鐘酒莊，聖埃美隆一級特等酒莊B級，波爾多，法國"
@@ -5176,7 +5162,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2022",
-            "name": "Domaine Jean Fournier Cuvée Saint-Urbain",
+            "name": "Domaine Jean Fournier Cuvée Saint-Urbain, Burgundy, Marsannay, France",
             "price": "$1,580",
             "section": "Marsannay",
             "nameZh": "讓・富尼耶酒莊，「聖烏爾班」特釀，馬沙內，勃艮第，法國"
@@ -5189,45 +5175,45 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2021",
-            "name": "Gevrey-Chambertin, Les Crais, Nicolas Burguet",
+            "name": "Gevrey-Chambertin, Les Crais, Nicolas Burguet, France",
             "price": "$1,550",
             "section": "Gevrey-Chambertin",
             "nameZh": "尼古拉・布爾蓋酒莊，熱夫雷－香貝丹「Les Crais」紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2022",
-            "name": "Gevrey-Chambertin, Domaine Odoul-Coquard",
+            "name": "Gevrey-Chambertin, Domaine Odoul-Coquard, France",
             "price": "$1,940",
             "section": "Gevrey-Chambertin",
             "nameZh": "奧杜爾－科卡爾酒莊，熱夫雷－香貝丹紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2023",
-            "name": "Gevrey-Chambertin, Domaine Aurélien Verdet",
+            "name": "Gevrey-Chambertin, Domaine Aurélien Verdet, France",
             "price": "$2,280",
             "section": "Gevrey-Chambertin",
             "nameZh": "奧雷利安・韋爾代酒莊，熱夫雷－香貝丹紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2017",
-            "name": "Gevrey-Chambertin 1er Cru Les Corbeaux, Bruno Clavelier",
+            "name": "Gevrey-Chambertin 1er Cru Les Corbeaux, Bruno Clavelier, France",
             "price": "$4,250",
             "section": "Gevrey-Chambertin",
             "nameZh": "布魯諾・克拉維利耶酒莊，熱夫雷－香貝丹一級園「Les Corbeaux」紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2021",
-            "name": "Charmes-Chambertin Grand Cru, Domaine Castagnier",
+            "name": "Charmes-Chambertin Grand Cru, Domaine Castagnier, Gevrey-Chambertin, France",
             "price": "$5,280",
             "section": "Gevrey-Chambertin",
-            "nameZh": "卡斯塔尼耶酒莊，香牡－香貝丹特級園紅葡萄酒，勃艮第，法國"
+            "nameZh": "卡斯塔尼耶酒莊，香牡－香貝丹特級園紅葡萄酒，勃艮第，熱夫雷－香貝丹，法國"
           },
           {
             "v": "2018",
-            "name": "Charmes-Chambertin Grand Cru, Geantet-Pansiot",
+            "name": "Charmes-Chambertin Grand Cru, Geantet-Pansiot, Gevrey-Chambertin, France",
             "price": "$6,280",
             "section": "Gevrey-Chambertin",
-            "nameZh": "傑昂泰龐西奧酒莊，夏姆香貝丹特級園黑皮諾紅葡萄酒，勃艮第，法國"
+            "nameZh": "傑昂泰龐西奧酒莊，夏姆香貝丹特級園黑皮諾紅葡萄酒，勃艮第，熱夫雷－香貝丹，法國"
           }
         ],
         "nameZh": "熱夫雷－香貝丹"
@@ -5237,28 +5223,28 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2023",
-            "name": "Morey-Saint-Denis En La Rue de Vergy, Domaine Gilbert & Christine Felettig",
+            "name": "Morey-Saint-Denis En La Rue de Vergy, Domaine Gilbert & Christine Felettig, France",
             "price": "$1,680",
             "section": "Morey-Saint-Denis",
             "nameZh": "吉爾貝與克莉絲汀・費勒蒂酒莊，莫雷－聖丹尼「En La Rue de Vergy」紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2020",
-            "name": "Morey-Saint-Denis 1er Cru Les Monts Luisants, Domaine Aurélien Verdet",
+            "name": "Morey-Saint-Denis 1er Cru Les Monts Luisants, Domaine Aurélien Verdet, France",
             "price": "$2,680",
             "section": "Morey-Saint-Denis",
             "nameZh": "奧雷利安・韋爾代酒莊，莫雷－聖丹尼一級園「Les Monts Luisants」紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2020",
-            "name": "Morey-Saint-Denis 1er Cru Les Monts Luisants, Pierre Girardin",
+            "name": "Morey-Saint-Denis 1er Cru Les Monts Luisants, Pierre Girardin, France",
             "price": "$2,680",
             "section": "Morey-Saint-Denis",
             "nameZh": "皮耶・吉拉丹酒莊，莫雷－聖丹尼一級園「Les Monts Luisants」紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2020",
-            "name": "Morey-Saint-Denis Cuvée des Grives, Domaine Ponsot",
+            "name": "Morey-Saint-Denis Cuvée des Grives, Domaine Ponsot, France",
             "price": "$2,380",
             "section": "Morey-Saint-Denis",
             "nameZh": "龐索酒莊，莫雷－聖丹尼「Cuvée des Grives」特釀，勃艮第，法國"
@@ -5271,31 +5257,31 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2020",
-            "name": "Chambolle-Musigny, Domaine François Bertheau",
+            "name": "Chambolle-Musigny, Domaine François Bertheau, France",
             "price": "$2,080",
             "section": "Chambolle-Musigny",
-            "nameZh": "法蘭索瓦貝爾托酒莊，香波慕西尼黑皮諾紅葡萄酒，勃艮第，法國"
+            "nameZh": "法蘭索瓦貝爾托酒莊，香波慕西尼黑皮諾紅葡萄酒，勃艮第，香波－慕西尼，法國"
           },
           {
             "v": "2021",
-            "name": "Chambolle-Musigny 1er Cru Les Charmes, Domaine Amiot-Servelle",
+            "name": "Chambolle-Musigny 1er Cru Les Charmes, Domaine Amiot-Servelle, France",
             "price": "$3,280",
             "section": "Chambolle-Musigny",
             "nameZh": "阿米奧－塞爾韋爾酒莊，香波－慕西尼一級園「Les Charmes」紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2013",
-            "name": "Musigny Grand Cru \"Cuvée Vieilles Vignes\", Domaine Comte Georges de Vogüé",
+            "name": "Musigny Grand Cru \"Cuvée Vieilles Vignes\", Domaine Comte Georges de Vogüé, Chambolle-Musigny, France",
             "price": "$16,750",
             "section": "Chambolle-Musigny",
-            "nameZh": "武戈伯爵酒莊，慕西尼特級園「老藤特釀」黑皮諾紅葡萄酒，勃艮第，法國"
+            "nameZh": "武戈伯爵酒莊，慕西尼特級園「老藤特釀」黑皮諾紅葡萄酒，勃艮第，香波－慕西尼，法國"
           },
           {
             "v": "1990",
-            "name": "Musigny Grand Cru, Domaine Comte Georges de Vogüé",
+            "name": "Musigny Grand Cru, Domaine Comte Georges de Vogüé, Chambolle-Musigny, France",
             "price": "$31,800",
             "section": "Chambolle-Musigny",
-            "nameZh": "伏舊・伯爵喬治酒莊，慕西尼特級園紅葡萄酒，勃艮第，法國"
+            "nameZh": "伏舊・伯爵喬治酒莊，慕西尼特級園紅葡萄酒，勃艮第，香波－慕西尼，法國"
           }
         ],
         "nameZh": "香波－慕西尼"
@@ -5305,7 +5291,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2018",
-            "name": "Les Petits Vougeots, Domaine Christian Clerget",
+            "name": "Les Petits Vougeots, Domaine Christian Clerget, Burgundy, Vougeot, France",
             "price": "$3,080",
             "section": "Vougeot",
             "nameZh": "克里斯蒂安・克萊熱酒莊，小武若一級園紅葡萄酒，勃艮第，法國"
@@ -5318,52 +5304,52 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2017",
-            "name": "Vosne Romanée, Aux ormes, Jaques Cacheaux",
+            "name": "Vosne Romanée, Aux ormes, Jaques Cacheaux, Vosne-Romanée, France",
             "price": "$1,780",
             "section": "Vosne-Romanée",
             "nameZh": "雅克・卡修酒莊，沃恩－羅曼尼「Aux Ormes」紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2021",
-            "name": "Vosne Romanée, Les Violettes, Christian Clerget",
+            "name": "Vosne Romanée, Les Violettes, Christian Clerget, Vosne-Romanée, France",
             "price": "$2,480",
             "section": "Vosne-Romanée",
             "nameZh": "克里斯蒂安・克萊熱酒莊，沃恩－羅曼尼「Les Violettes」紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2022",
-            "name": "Vosne-Romanée, Mongeard-Mugneret",
+            "name": "Vosne-Romanée, Mongeard-Mugneret, Vosne-Romanée, France",
             "price": "$2,580",
             "section": "Vosne-Romanée",
             "nameZh": "蒙雅－慕尼耶酒莊，沃恩－羅曼尼紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2020",
-            "name": "Vosne-Romanée, Clos de Réas Monopole, Domaine Michel Gros",
+            "name": "Vosne-Romanée, Clos de Réas Monopole, Domaine Michel Gros, Vosne-Romanée, France",
             "price": "$4,560",
             "section": "Vosne-Romanée",
             "nameZh": "米歇爾・格羅酒莊，沃恩－羅曼尼「Clos de Réas」獨佔園紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2022",
-            "name": "Échézeaux Grand Cru, Mongeard-Mugneret",
+            "name": "Échézeaux Grand Cru, Mongeard-Mugneret, Burgundy, Vosne-Romanée, France",
             "price": "$6,380",
             "section": "Vosne-Romanée",
-            "nameZh": "蒙雅穆格奈酒莊，艾雪索特級園黑皮諾紅葡萄酒，勃艮第，法國"
+            "nameZh": "蒙雅穆格奈酒莊，艾雪索特級園黑皮諾紅葡萄酒，勃艮第，沃恩－羅曼尼，法國"
           },
           {
             "v": "2019",
-            "name": "Vosne Romanée, Emmanuel Rouget",
+            "name": "Vosne Romanée, Emmanuel Rouget, Vosne-Romanée, France",
             "price": "$7,880",
             "section": "Vosne-Romanée",
             "nameZh": "艾曼紐・魯傑酒莊，沃恩－羅曼尼紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2019",
-            "name": "Échézeaux Grand Cru, Emmanuel Rouget",
+            "name": "Échézeaux Grand Cru, Emmanuel Rouget, Burgundy, Vosne-Romanée, France",
             "price": "$18,350",
             "section": "Vosne-Romanée",
-            "nameZh": "艾曼紐・魯傑酒莊，依瑟索特級園紅葡萄酒，勃艮第，法國"
+            "nameZh": "艾曼紐・魯傑酒莊，依瑟索特級園紅葡萄酒，勃艮第，沃恩－羅曼尼，法國"
           }
         ],
         "nameZh": "沃恩－羅曼尼"
@@ -5373,28 +5359,28 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2012",
-            "name": "Nuits-Saint-Georges Les Allots, Domaine Remoriquet",
+            "name": "Nuits-Saint-Georges Les Allots, Domaine Remoriquet, France",
             "price": "$1,680",
             "section": "Nuits-Saint-Georges",
             "nameZh": "雷莫里凱酒莊，紐伊－聖喬治「Les Allots」紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2019",
-            "name": "Nuits-Saint-Georges Les Chaliots, Domaine Michel Gros",
+            "name": "Nuits-Saint-Georges Les Chaliots, Domaine Michel Gros, France",
             "price": "$2,750",
             "section": "Nuits-Saint-Georges",
             "nameZh": "米歇爾・格羅酒莊，紐伊－聖喬治「Les Chaliots」紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2020",
-            "name": "Nuits-Saint-Georges 1er Cru Les Cailles, Bouchard Père & Fils",
+            "name": "Nuits-Saint-Georges 1er Cru Les Cailles, Bouchard Père & Fils, France",
             "price": "$2,480",
             "section": "Nuits-Saint-Georges",
             "nameZh": "布夏父子酒莊，紐伊－聖喬治一級園「Les Cailles」紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2018",
-            "name": "Nuits-Saint-Georges 1er Cru Aux Cras, Domaine Bruno Clavelier",
+            "name": "Nuits-Saint-Georges 1er Cru Aux Cras, Domaine Bruno Clavelier, France",
             "price": "$4,420",
             "section": "Nuits-Saint-Georges",
             "nameZh": "布魯諾・克拉維利耶酒莊，紐伊－聖喬治一級園「Aux Cras」紅葡萄酒，勃艮第，法國"
@@ -5407,35 +5393,35 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2011",
-            "name": "Richebourg, Domaine de la Romanée-Conti",
+            "name": "Richebourg, Domaine de la Romanée-Conti, Burgundy, France",
             "price": "$56,800",
             "section": "Domaine de la Romanée-Conti",
             "nameZh": "羅曼尼康帝酒莊，李其堡特級園紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2017",
-            "name": "Echézeaux, Domaine de la Romanée-Conti",
+            "name": "Echézeaux, Domaine de la Romanée-Conti, Burgundy, France",
             "price": "$51,280",
             "section": "Domaine de la Romanée-Conti",
             "nameZh": "羅曼尼－康帝酒莊，依瑟索特級園紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2010",
-            "name": "La Tâche, Domaine de la Romanée-Conti",
+            "name": "La Tâche, Domaine de la Romanée-Conti, Burgundy, France",
             "price": "$119,800",
             "section": "Domaine de la Romanée-Conti",
             "nameZh": "羅曼尼康帝酒莊，拉塔希獨佔特級園紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2016",
-            "name": "Romanée-Saint-Vivant, Domaine de la Romanée-Conti",
+            "name": "Romanée-Saint-Vivant, Domaine de la Romanée-Conti, Burgundy, France",
             "price": "$60,800",
             "section": "Domaine de la Romanée-Conti",
             "nameZh": "羅曼尼康帝酒莊，羅曼尼聖維望特級園紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "1995",
-            "name": "Romanée-Conti, Domaine de la Romanée-Conti",
+            "name": "Romanée-Conti, Domaine de la Romanée-Conti, Burgundy, France",
             "price": "$368,000",
             "section": "Domaine de la Romanée-Conti",
             "nameZh": "羅曼尼康帝酒莊，羅曼尼康帝獨佔特級園紅葡萄酒，勃艮第，法國"
@@ -5448,17 +5434,17 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2019",
-            "name": "Domaine Julien Gros, Clos du Roi, Corton Grand Cru",
+            "name": "Domaine Julien Gros, Clos du Roi, Corton Grand Cru, Aloxe-Corton, France",
             "price": "$2,730",
             "section": "Aloxe-Corton",
-            "nameZh": "朱利安・格羅酒莊，高登特級園「Clos du Roi」紅葡萄酒，勃艮第，法國"
+            "nameZh": "朱利安・格羅酒莊，高登特級園「Clos du Roi」紅葡萄酒，勃艮第，阿洛斯－高登，法國"
           },
           {
             "v": "2022",
-            "name": "Antonin Cosnier, Les Renardes, Corton Grand Cru",
+            "name": "Antonin Cosnier, Les Renardes, Corton Grand Cru, Aloxe-Corton, France",
             "price": "$2,580",
             "section": "Aloxe-Corton",
-            "nameZh": "安托萬・科斯尼耶，高登特級園「Les Renardes」紅葡萄酒，勃艮第，法國"
+            "nameZh": "安托萬・科斯尼耶，高登特級園「Les Renardes」紅葡萄酒，勃艮第，阿洛斯－高登，法國"
           }
         ],
         "nameZh": "阿洛斯－高登"
@@ -5468,10 +5454,10 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2022",
-            "name": "Pommard 1er Cru, Clos de la Commaraine Monopole, Domaine de la Commaraine",
+            "name": "Pommard 1er Cru, Clos de la Commaraine Monopole, Domaine de la Commaraine, France",
             "price": "$4,380",
             "section": "Pommard",
-            "nameZh": "科瑪萊訥酒莊，玻瑪「科瑪萊訥圍牆園」獨佔一級園黑皮諾紅葡萄酒，勃艮第，法國"
+            "nameZh": "科瑪萊訥酒莊，玻瑪「科瑪萊訥圍牆園」獨佔一級園黑皮諾紅葡萄酒，勃艮第，波瑪，法國"
           }
         ],
         "nameZh": "波瑪"
@@ -5481,14 +5467,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2008",
-            "name": "Volnay 1er Cru Carelles Sous la Chapelle, Domaine François Buffet",
+            "name": "Volnay 1er Cru Carelles Sous la Chapelle, Domaine François Buffet, France",
             "price": "$2,210",
             "section": "Volnay",
             "nameZh": "弗朗索瓦・布菲酒莊，沃爾奈一級園「Carelles Sous la Chapelle」紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2023",
-            "name": "Volnay 1er Cru Les Champans, Domaine de la Commaraine",
+            "name": "Volnay 1er Cru Les Champans, Domaine de la Commaraine, France",
             "price": "$2,980",
             "section": "Volnay",
             "nameZh": "拉康馬雷納酒莊，沃爾奈一級園「Les Champans」紅葡萄酒，勃艮第，法國"
@@ -5501,14 +5487,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2015",
-            "name": "Santenay 1er Cru La Mystèriale, Maison de Grand Esprit",
+            "name": "Santenay 1er Cru La Mystèriale, Maison de Grand Esprit, France",
             "price": "$1,530",
             "section": "Santenay",
             "nameZh": "大精神酒莊，桑特奈一級園「La Mystèriale」紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2022",
-            "name": "Santenay 1er Cru Clos Rousseau, Domaine de la Choupette",
+            "name": "Santenay 1er Cru Clos Rousseau, Domaine de la Choupette, France",
             "price": "$1,380",
             "section": "Santenay",
             "nameZh": "拉舒佩特酒莊，桑特奈一級園「Clos Rousseau」紅葡萄酒，勃艮第，法國"
@@ -5521,10 +5507,10 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2022",
-            "name": "Mercurey 1er Cru \"Les Vassées\" Rouge, Domaine Mia, Burgundy, France",
+            "name": "Mercurey 1er Cru \"Les Vassées\" Rouge, Domaine Mia, Burgundy, Cote Chalonnaise, France",
             "price": "$1,580",
             "section": "Cote Chalonnaise",
-            "nameZh": "米婭酒莊，「Les Vassées」梅爾居雷一級園黑皮諾紅葡萄酒，勃艮第，法國"
+            "nameZh": "米婭酒莊，「Les Vassées」梅爾居雷一級園黑皮諾紅葡萄酒，勃艮第，夏隆內丘，法國"
           }
         ],
         "nameZh": "夏隆內丘"
@@ -5534,7 +5520,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2022",
-            "name": "Morgon, Cuvée Camille, Domaine Marcel Lapierre",
+            "name": "Morgon, Cuvée Camille, Domaine Marcel Lapierre, Beaujolais, France",
             "price": "$1,480",
             "section": "Beaujolais",
             "nameZh": "馬塞爾・拉皮耶酒莊，摩貢「Camille」特釀，薄酒萊，法國"
@@ -5547,7 +5533,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "1976",
-            "name": "Bourgueil Cuvée Prestige, Lamé Delisle Boucard",
+            "name": "Bourgueil Cuvée Prestige, Lamé Delisle Boucard, Loire Valley, France",
             "price": "$2,340",
             "section": "Loire Valley",
             "nameZh": "拉梅・德利勒・布卡爾酒莊，布爾格伊「Prestige」特釀，盧瓦爾河谷，法國"
@@ -5560,14 +5546,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2021",
-            "name": "Crozes-Hermitage L'Orientale, Ogier",
+            "name": "Crozes-Hermitage L'Orientale, Ogier, Northern Rhone, France",
             "price": "$950",
             "section": "Northern Rhone",
             "nameZh": "奧吉耶酒莊，克羅澤－埃米塔日「L’Orientale」紅葡萄酒，北隆河，法國"
           },
           {
             "v": "2020",
-            "name": "Crozes-Hermitage Domaine de Thalabert, Paul Jaboulet Aîné",
+            "name": "Crozes-Hermitage Domaine de Thalabert, Paul Jaboulet Aîné, Northern Rhone, France",
             "price": "$1,380",
             "section": "Northern Rhone",
             "nameZh": "保羅・嘉布列酒莊，克羅澤－埃米塔日「Domaine de Thalabert」紅葡萄酒，北隆河，法國"
@@ -5580,7 +5566,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2007",
-            "name": "Ermitage Le Pavillon, M. Chapoutier",
+            "name": "Ermitage Le Pavillon, M. Chapoutier, Northern Rhone, France",
             "price": "$3,760",
             "section": "M. Chapoutier",
             "nameZh": "莎普蒂爾酒莊，埃米塔日「Le Pavillon」紅葡萄酒，北隆河，法國"
@@ -5593,7 +5579,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2007",
-            "name": "Ermitage Ex-Voto, E. Guigal",
+            "name": "Ermitage Ex-Voto, E. Guigal, Northern Rhone, France",
             "price": "$6,380",
             "section": "E. Guigal",
             "nameZh": "吉佳樂酒莊，埃米塔日「Ex-Voto」紅葡萄酒，北隆河，法國"
@@ -5606,14 +5592,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2020",
-            "name": "Gigondas, Les Dentellis, Ogier",
+            "name": "Gigondas, Les Dentellis, Ogier, Southern Rhone, France",
             "price": "$980",
             "section": "Southern Rhone",
             "nameZh": "奧吉耶酒莊，吉貢達斯「Les Dentellis」紅葡萄酒，南隆河，法國"
           },
           {
             "v": "2010",
-            "name": "Heloise, Vin de Pays de Vaucluse, Chêne Bleu",
+            "name": "Heloise, Vin de Pays de Vaucluse, Chêne Bleu, Southern Rhone, France",
             "price": "$1,950",
             "section": "Southern Rhone",
             "nameZh": "藍橡木酒莊，「Heloise」沃克呂茲地區餐酒，南隆河，法國"
@@ -5626,21 +5612,21 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2013",
-            "name": "Château de Beaucastel, Châteauneuf-du-Pape",
+            "name": "Château de Beaucastel, Châteauneuf-du-Pape, Southern Rhone, France",
             "price": "$2,380",
             "section": "Château de Beaucastel",
             "nameZh": "博卡斯特酒莊，教皇新堡紅葡萄酒，南隆河，法國"
           },
           {
             "v": "2018",
-            "name": "Château de Beaucastel, Châteauneuf-du-Pape",
+            "name": "Château de Beaucastel, Châteauneuf-du-Pape, Southern Rhone, France",
             "price": "$2,380",
             "section": "Château de Beaucastel",
             "nameZh": "博卡斯特酒莊，教皇新堡紅葡萄酒，南隆河，法國"
           },
           {
             "v": "2012",
-            "name": "Château de Beaucastel \"Hommage à Jacques Perrin\", Châteauneuf-du-Pape",
+            "name": "Château de Beaucastel \"Hommage à Jacques Perrin\", Châteauneuf-du-Pape, Southern Rhone, France",
             "price": "$8,380",
             "section": "Château de Beaucastel",
             "nameZh": "博卡斯特酒莊，「向雅克・佩蘭致敬」特釀，教皇新堡，南隆河，法國"
@@ -5660,7 +5646,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2019",
-            "name": "Weingut Bründlmayer, Reserve Blauburgunder (Pinot Noir), Niederosterreich",
+            "name": "Weingut Bründlmayer, Reserve Blauburgunder (Pinot Noir), Niederosterreich, Austria",
             "price": "$1,800",
             "section": "Austria",
             "nameZh": "布倫德爾邁爾酒莊，珍藏級藍黑皮諾（黑皮諾），下奧地利"
@@ -5673,10 +5659,10 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2011",
-            "name": "Domaine Bessa Valley, 'BV by Enira' (Merlot, Syrah, Petit Verdot)",
+            "name": "Domaine Bessa Valley, 'BV by Enira' (Merlot, Syrah, Petit Verdot), Bulgaria",
             "price": "$1,345",
             "section": "Bulgaria",
-            "nameZh": "貝薩山谷酒莊，「BV by Enira」（梅洛、希拉、小維鐸）"
+            "nameZh": "貝薩山谷酒莊，「BV by Enira」（梅洛、希拉、小維鐸），保加利亞"
           }
         ],
         "nameZh": "保加利亞"
@@ -5686,10 +5672,10 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2016",
-            "name": "La Rioja Alta, Gran Reserva 904 Selection especial",
+            "name": "La Rioja Alta, Gran Reserva 904 Selection especial, Spain",
             "price": "$2,080",
             "section": "Rioja",
-            "nameZh": "里奧哈阿爾塔酒莊，特選904特級珍藏"
+            "nameZh": "里奧哈阿爾塔酒莊，特選904特級珍藏，西班牙"
           }
         ],
         "nameZh": "里奧哈"
@@ -5699,17 +5685,17 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2018",
-            "name": "Ferrer Bobet, 'Seleccio Especial Vinyes Velles'",
+            "name": "Ferrer Bobet, 'Seleccio Especial Vinyes Velles', Priorat, Spain",
             "price": "$2,580",
             "section": "Priorat",
-            "nameZh": "費雷爾・博貝酒莊，「Selecció Especial Vinyes Velles」"
+            "nameZh": "費雷爾・博貝酒莊，「Selecció Especial Vinyes Velles」，普里奧拉托，西班牙"
           },
           {
             "v": "2009",
-            "name": "Mas Doix, 'Doix'",
+            "name": "Mas Doix, 'Doix', Priorat, Spain",
             "price": "$2,820",
             "section": "Priorat",
-            "nameZh": "馬斯・多伊什酒莊，「Doix」"
+            "nameZh": "馬斯・多伊什酒莊，「Doix」，普里奧拉托，西班牙"
           }
         ],
         "nameZh": "普里奧拉托"
@@ -5719,17 +5705,17 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2008",
-            "name": "Dominio de Pingus, 'Flor de Pingus'",
+            "name": "Dominio de Pingus, 'Flor de Pingus', Ribera del Duero, Spain",
             "price": "$4,240",
             "section": "Ribera del Duero",
-            "nameZh": "平古斯酒莊，「Flor de Pingus」"
+            "nameZh": "平古斯酒莊，「Flor de Pingus」，博恩丘，杜埃羅河岸，西班牙"
           },
           {
             "v": "2010",
-            "name": "Vega Sicilia, 'Unico'",
+            "name": "Vega Sicilia, 'Unico', Ribera del Duero, Spain",
             "price": "$7,980",
             "section": "Ribera del Duero",
-            "nameZh": "貝加西西里亞酒莊，「Único」"
+            "nameZh": "貝加西西里亞酒莊，「Único」，杜埃羅河岸，西班牙"
           }
         ],
         "nameZh": "杜埃羅河岸"
@@ -5739,10 +5725,10 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2018",
-            "name": "Castell d'Encus, 'Acusp' (Pinot Noir)",
+            "name": "Castell d'Encus, 'Acusp' (Pinot Noir), Costers del Segre, Spain",
             "price": "$1,890",
             "section": "Costers del Segre",
-            "nameZh": "卡斯特爾德恩庫斯酒莊，「Acusp」（黑皮諾）"
+            "nameZh": "卡斯特爾德恩庫斯酒莊，「Acusp」（黑皮諾），塞格雷河畔，西班牙"
           }
         ],
         "nameZh": "塞格雷河畔"
@@ -5752,14 +5738,14 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2000",
-            "name": "Clos d'Agon 'Valmaña' (Merlot, Syrah, Cabernet Sauvignon)",
+            "name": "Clos d'Agon 'Valmaña' (Merlot, Syrah, Cabernet Sauvignon), Catalunya, Spain",
             "price": "$1,450",
             "section": "Catalunya",
             "nameZh": "阿貢酒莊「Valmaña」梅洛、希拉及赤霞珠混釀紅酒，加泰隆尼亞，西班牙"
           },
           {
             "v": "2000",
-            "name": "Clos d'Agon 'Clos d'Agon Tinto' (Cabernet Franc, Syrah, Petit Verdot, Cabernet Sauvignon)",
+            "name": "Clos d'Agon 'Clos d'Agon Tinto' (Cabernet Franc, Syrah, Petit Verdot, Cabernet Sauvignon), Catalunya, Spain",
             "price": "$1,980",
             "section": "Catalunya",
             "nameZh": "阿貢酒莊「Clos d'Agon Tinto」品麗珠、希拉、小維鐸及赤霞珠混釀紅酒，加泰隆尼亞，西班牙"
@@ -5772,10 +5758,10 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2009",
-            "name": "Dominio Do Bibei, 'Lacima' (Mencia)",
+            "name": "Dominio Do Bibei, 'Lacima' (Mencia), Ribeira Sacra, Spain",
             "price": "$1,630",
             "section": "Ribeira Sacra",
-            "nameZh": "多米尼奧・杜・比貝酒莊，「Lacima」（門西亞）"
+            "nameZh": "多米尼奧・杜・比貝酒莊，「Lacima」（門西亞），聖禮拜拉，西班牙"
           }
         ],
         "nameZh": "聖禮拜拉"
@@ -5785,10 +5771,10 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2016",
-            "name": "Bodega Otazu, 'Reserva Clásico' (Tempranillo)",
+            "name": "Bodega Otazu, 'Reserva Clásico' (Tempranillo), Navarra, Spain",
             "price": "$880",
             "section": "Navarra",
-            "nameZh": "奧塔蘇酒莊，「Reserva Clásico」（丹魄）"
+            "nameZh": "奧塔蘇酒莊，「Reserva Clásico」（丹魄），納瓦拉，西班牙"
           }
         ],
         "nameZh": "納瓦拉"
@@ -5798,10 +5784,10 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2010",
-            "name": "Bodegas Hispano Suizas, 'Bassus Premium' (Bobal, Cabernets, Merlot, Syrah)",
+            "name": "Bodegas Hispano Suizas, 'Bassus Premium' (Bobal, Cabernets, Merlot, Syrah), Valencia, Spain",
             "price": "$1,010",
             "section": "Valencia",
-            "nameZh": "西班牙瑞士酒莊，「Bassus Premium」（博巴爾、赤霞珠、梅洛、希拉）"
+            "nameZh": "西班牙瑞士酒莊，「Bassus Premium」（博巴爾、赤霞珠、梅洛、希拉），瓦倫西亞"
           }
         ],
         "nameZh": "瓦倫西亞"
@@ -6065,7 +6051,7 @@ window.WINE_DATA = [
           },
           {
             "v": "2019",
-            "name": "Sine Qua Non \"Distenta I\" Syrah, Santa Barbara, California",
+            "name": "Sine Qua Non \"Distenta I\" Syrah, Santa Barbara, California, United States",
             "price": "$7,380",
             "section": "Shiraz",
             "nameZh": "無名酒莊「Distenta I」希拉紅酒，聖巴巴拉，加州，美國"
@@ -6078,52 +6064,52 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2022",
-            "name": "Penfolds Bin 407 Cabernet Sauvignon, South Australia",
+            "name": "Penfolds Bin 407 Cabernet Sauvignon, South Australia, Australia",
             "price": "$1,870",
             "section": "Penfold's Selection",
-            "nameZh": "奔富「Bin 407」赤霞珠紅酒，南澳洲"
+            "nameZh": "奔富「Bin 407」赤霞珠紅酒，南澳洲，澳洲"
           },
           {
             "v": "2019",
-            "name": "Penfolds Bin 600 Shiraz Cabernet, California",
+            "name": "Penfolds Bin 600 Shiraz Cabernet, California, United States",
             "price": "$1,880",
             "section": "Penfold's Selection",
             "nameZh": "奔富「Bin 600」希拉及赤霞珠混釀紅酒，加州，美國"
           },
           {
             "v": "2020",
-            "name": "Penfolds Bin 600 Shiraz Cabernet, California",
+            "name": "Penfolds Bin 600 Shiraz Cabernet, California, United States",
             "price": "$1,880",
             "section": "Penfold's Selection",
             "nameZh": "奔富「Bin 600」希拉及赤霞珠混釀紅酒，加州，美國"
           },
           {
             "v": "2022",
-            "name": "Penfolds Bin 704 Cabernet Sauvignon, Napa Valley",
+            "name": "Penfolds Bin 704 Cabernet Sauvignon, Napa Valley, United States",
             "price": "$2,580",
             "section": "Penfold's Selection",
             "nameZh": "奔富「Bin 704」赤霞珠紅酒，納帕谷，美國"
           },
           {
             "v": "2019",
-            "name": "Penfolds Bin 149 Cabernet Sauvignon, Napa Valley & South Australia",
+            "name": "Penfolds Bin 149 Cabernet Sauvignon, Napa Valley & South Australia, Australia",
             "price": "$4,980",
             "section": "Penfold's Selection",
-            "nameZh": "奔富「Bin 149」赤霞珠紅酒，納帕谷及南澳洲"
+            "nameZh": "奔富「Bin 149」赤霞珠紅酒，納帕谷及南澳洲，澳洲"
           },
           {
             "v": "2012",
-            "name": "Penfolds Grange Shiraz, South Australia",
+            "name": "Penfolds Grange Shiraz, South Australia, Australia",
             "price": "$10,970",
             "section": "Penfold's Selection",
-            "nameZh": "奔富「Grange」希拉紅酒，南澳洲"
+            "nameZh": "奔富「Grange」希拉紅酒，南澳洲，澳洲"
           },
           {
             "v": "2021",
-            "name": "Penfolds FWT 585 Cabernet Sauvignon Petit Verdot Merlot, Vin de France",
+            "name": "Penfolds FWT 585 Cabernet Sauvignon Petit Verdot Merlot, Blaye, Bordeaux, France",
             "price": "$1,880",
             "section": "Penfold's Selection",
-            "nameZh": "奔富「FWT 585」赤霞珠、小維鐸及梅洛混釀紅酒，法國餐酒"
+            "nameZh": "奔富「FWT 585」赤霞珠、小維鐸及梅洛混釀紅酒，布萊，波爾多，法國"
           },
           {
             "v": "2023",
@@ -6160,7 +6146,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2011",
-            "name": "Grenache, Dark Blossom, Sine Qua Non, Califoria, USA",
+            "name": "Grenache, Dark Blossom, Sine Qua Non, California, USA",
             "price": "$6,180",
             "section": "Indigenous & Curiosities",
             "nameZh": "無名酒莊「Dark Blossom」歌海娜紅酒，加州，美國"
@@ -6242,17 +6228,17 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "NV",
-            "name": "Fonseca Ruby Port, Portugal",
+            "name": "Fonseca Ruby Port, Douro, Portugal",
             "price": "$680",
             "section": "Port",
-            "nameZh": "豐塞卡紅寶石砵酒，葡萄牙"
+            "nameZh": "豐塞卡紅寶石砵酒，杜羅河，葡萄牙"
           },
           {
             "v": "2019",
-            "name": "Taylor Fladgate Late Bottled Vintage Port, Portugal",
+            "name": "Taylor Fladgate Late Bottled Vintage Port, Douro, Portugal",
             "price": "$720",
             "section": "Port",
-            "nameZh": "泰來弗蓋特晚裝瓶年份砵酒，葡萄牙"
+            "nameZh": "泰來弗蓋特晚裝瓶年份砵酒，杜羅河，葡萄牙"
           }
         ],
         "nameZh": "砵酒"
@@ -6262,24 +6248,24 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "NV",
-            "name": "Broadbent 'Sercial' 10 Year Old Madeira",
+            "name": "Broadbent 'Sercial' 10 Year Old Madeira, Madeira, Portugal",
             "price": "$1,480",
             "section": "Madeira",
-            "nameZh": "布羅德本特「塞西亞爾」十年馬德拉酒"
+            "nameZh": "布羅德本特「塞西亞爾」十年馬德拉酒，馬德拉，葡萄牙"
           },
           {
             "v": "NV",
-            "name": "Broadbent 'Boal' 10 Year Old Madeira",
+            "name": "Broadbent 'Boal' 10 Year Old Madeira, Madeira, Portugal",
             "price": "$1,480",
             "section": "Madeira",
-            "nameZh": "布羅德本特「布爾」十年馬德拉酒"
+            "nameZh": "布羅德本特「布爾」十年馬德拉酒，馬德拉，葡萄牙"
           },
           {
             "v": "NV",
-            "name": "Broadbent 'Malmsey' 10 Year Old Madeira",
+            "name": "Broadbent 'Malmsey' 10 Year Old Madeira, Madeira, Portugal",
             "price": "$1,480",
             "section": "Madeira",
-            "nameZh": "布羅德本特「馬姆齊」十年馬德拉酒"
+            "nameZh": "布羅德本特「馬姆齊」十年馬德拉酒，馬德拉，葡萄牙"
           }
         ],
         "nameZh": "馬德拉酒"
@@ -6289,18 +6275,18 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "1918",
-            "name": "Ximenez Spinola PX Muy Viejo Solera",
+            "name": "Ximenez Spinola PX Muy Viejo Solera, Jerez, Spain",
             "price": "Glass $1918 · Bottle $2,380",
             "section": "Sherry",
-            "nameZh": "希梅內斯-斯皮諾拉酒莊，PX 極老索萊拉雪莉酒",
+            "nameZh": "希梅內斯-斯皮諾拉酒莊，PX 極老索萊拉雪莉酒，赫雷斯，西班牙",
             "priceZh": "杯裝 $1918 · 原瓶 $2,380"
           },
           {
             "v": "1964",
-            "name": "Ximenez-Spinola PX Old Harvest Solera",
+            "name": "Ximenez-Spinola PX Old Harvest Solera, Jerez, Spain",
             "price": "Glass $1964 · Bottle $1,380",
             "section": "Sherry",
-            "nameZh": "希梅內斯-斯皮諾拉酒莊，PX 老年份採收索萊拉雪莉酒",
+            "nameZh": "希梅內斯-斯皮諾拉酒莊，PX 老年份採收索萊拉雪莉酒，赫雷斯，西班牙",
             "priceZh": "杯裝 $1964 · 原瓶 $1,380"
           }
         ],
@@ -6311,10 +6297,10 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2013",
-            "name": "Propritors Vidal Icewine, Jackson-Triggs",
+            "name": "Propritors Vidal Icewine, Jackson-Triggs, Niagara Peninsula, Canada",
             "price": "$1,560 · 375 ml",
             "section": "Canada",
-            "nameZh": "傑克遜-崔格斯酒莊「Proprietors」維達爾冰酒，加拿大"
+            "nameZh": "傑克遜-崔格斯酒莊「Proprietors」維達爾冰酒，尼亞加拉半島，加拿大"
           }
         ],
         "nameZh": "加拿大"
@@ -6324,24 +6310,24 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2009",
-            "name": "Château d'Yquem, Sauternes",
+            "name": "Château d'Yquem, Sauternes, France",
             "price": "$7,880 · 375 ml",
             "section": "France",
-            "nameZh": "滴金酒莊，蘇玳"
+            "nameZh": "滴金酒莊，蘇玳，法國"
           },
           {
             "v": "2013",
-            "name": "Château Lafaurie Peyraguey, Sauternes",
+            "name": "Château Lafaurie Peyraguey, Sauternes, France",
             "price": "$1,950",
             "section": "France",
-            "nameZh": "拉福里佩拉蓋酒莊，蘇玳"
+            "nameZh": "拉福里佩拉蓋酒莊，蘇玳，法國"
           },
           {
             "v": "2015",
-            "name": "Château Rieussec, Sauternes",
+            "name": "Château Rieussec, Sauternes, France",
             "price": "$1,488",
             "section": "France",
-            "nameZh": "里厄塞克酒莊，蘇玳"
+            "nameZh": "里厄塞克酒莊，蘇玳，法國"
           }
         ],
         "nameZh": "法國"
@@ -6351,7 +6337,7 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2016",
-            "name": "Puchang, Clovine Sweet Muscat",
+            "name": "Puchang, Clovine Sweet Muscat, Xinjiang, China",
             "price": "$1,480",
             "section": "China",
             "nameZh": "蒲昌「Clovine」甜麝香葡萄酒，新疆，中國"
@@ -6364,10 +6350,10 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2011",
-            "name": "Reichsgraf von Kesselstatt 'Scharzhofberger', Riesling Trockenbeerenauslese",
+            "name": "Reichsgraf von Kesselstatt 'Scharzhofberger', Riesling Trockenbeerenauslese, Mosel, Germany",
             "price": "$7,980 · 375 ml",
             "section": "Germany",
-            "nameZh": "凱塞爾施塔特伯爵酒莊「Scharzhofberger」雷司令逐粒精選貴腐甜酒"
+            "nameZh": "凱塞爾施塔特伯爵酒莊「Scharzhofberger」雷司令逐粒精選貴腐甜酒，摩澤爾，德國"
           }
         ],
         "nameZh": "德國"
@@ -6377,31 +6363,31 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2019",
-            "name": "Az. Agricola Possa 'Sciacchetrà' Cinque Terre",
+            "name": "Az. Agricola Possa 'Sciacchetrà', Cinque Terre, Liguria, Italy",
             "price": "$1,750 · 375 ml",
             "section": "Italy",
-            "nameZh": "阿茲安達・阿格里科拉・波薩「Sciacchetrà」五漁村"
+            "nameZh": "阿茲安達・阿格里科拉・波薩「Sciacchetrà」，五漁村，利古利亞，意大利"
           },
           {
             "v": "2021",
-            "name": "Donnafugata 'Ben Ryé'",
+            "name": "Donnafugata 'Ben Ryé', Pantelleria, Italy",
             "price": "$1,280 · 375 ml",
             "section": "Italy",
-            "nameZh": "多娜佳塔「Ben Ryé」"
+            "nameZh": "多娜佳塔「Ben Ryé」，潘泰萊里亞，意大利"
           },
           {
             "v": "2022",
-            "name": "Donnafugata 'Ben Ryé'",
+            "name": "Donnafugata 'Ben Ryé', Pantelleria, Italy",
             "price": "$2,280",
             "section": "Italy",
-            "nameZh": "多娜佳塔「Ben Ryé」"
+            "nameZh": "多娜佳塔「Ben Ryé」，潘泰萊里亞，意大利"
           },
           {
             "v": "NV",
-            "name": "Marco de Bartoli, Vecchio Samperi",
+            "name": "Marco de Bartoli, Vecchio Samperi, Marsala, Italy",
             "price": "$1,880",
             "section": "Italy",
-            "nameZh": "馬可・德・巴爾托利「Vecchio Samperi」"
+            "nameZh": "馬可・德・巴爾托利「Vecchio Samperi」，馬沙拉，意大利"
           }
         ],
         "nameZh": "意大利"
@@ -6411,10 +6397,10 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2014",
-            "name": "Sweet Agnes Riesling, Seifried",
+            "name": "Sweet Agnes Riesling, Seifried, Nelson, New Zealand",
             "price": "$928 · 375 ml",
             "section": "New Zealand",
-            "nameZh": "西弗里德酒莊「Sweet Agnes」雷司令甜酒，紐西蘭"
+            "nameZh": "西弗里德酒莊「Sweet Agnes」雷司令甜酒，尼爾森，紐西蘭"
           }
         ],
         "nameZh": "紐西蘭"
@@ -6548,17 +6534,17 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "",
-            "name": "Kuno Kuheiji Honten Terroir Kurodasho Tako",
+            "name": "Kuno Kuheiji Honten Terroir Kurodasho Tako, Hyogo, Japan",
             "price": "$1,930",
             "section": "Hyogo",
-            "nameZh": "久野九平治本店 Terroir Kurodasho Tako"
+            "nameZh": "久野九平治本店 Terroir Kurodasho Tako，兵庫，日本"
           },
           {
             "v": "",
-            "name": "Kuno Kuheiji Honten Terroir Kurodasho Fukuchi",
+            "name": "Kuno Kuheiji Honten Terroir Kurodasho Fukuchi, Hyogo, Japan",
             "price": "$1,930",
             "section": "Hyogo",
-            "nameZh": "久野九平治本店 Terroir Kurodasho Fukuchi"
+            "nameZh": "久野九平治本店 Terroir Kurodasho Fukuchi，兵庫，日本"
           }
         ],
         "nameZh": "兵庫"
@@ -6568,10 +6554,10 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "",
-            "name": "Dassai 23 Junmai Daiginjo (half bottle)",
+            "name": "Dassai 23 Junmai Daiginjo (half bottle), Niigata, Japan",
             "price": "$780",
             "section": "Niigata",
-            "nameZh": "獺祭二十三，純米大吟釀（半瓶裝）"
+            "nameZh": "獺祭二十三，純米大吟釀（半瓶裝），新潟，日本"
           }
         ],
         "nameZh": "新潟"

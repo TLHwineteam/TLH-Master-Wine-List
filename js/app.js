@@ -1,5 +1,5 @@
 const C=window.WINE_DATA;
-updated='20 October 2026';
+updated='18 October 2026';
 const totalSelections=C.reduce((total,category)=>total+category.sections.reduce((sum,section)=>sum+section.items.length,0),0);let current=C[0].id;const nav=document.querySelector('#nav'),main=document.querySelector('#main'),q=document.querySelector('#q'),st=document.querySelector('#st'),meta=document.querySelector('#meta');const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));const n=c=>c.sections.reduce((a,s)=>a+s.items.length,0);
 const brandName=document.querySelector('#brand-name'),wineListTitle=document.querySelector('#wine-list-title');
 let lang=localStorage.getItem('wineListLanguage')==='zh'?'zh':'en';
@@ -161,6 +161,11 @@ function bindStockDots(){
 
   main.querySelectorAll('.stock-dot').forEach(dot=>{
 
+    dot.addEventListener(
+      'pointerup',
+      e=>e.stopPropagation()
+    );
+
     dot.addEventListener('click',e=>{
 
       e.preventDefault();
@@ -172,6 +177,14 @@ function bindStockDots(){
 
     });
 
+    dot.addEventListener(
+      'dblclick',
+      e=>{
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    );
+
     dot.addEventListener('keydown',e=>{
 
       if(
@@ -180,6 +193,7 @@ function bindStockDots(){
       ){
 
         e.preventDefault();
+        e.stopPropagation();
 
         confirmStockChange(
           dot.dataset.stockKey
@@ -208,9 +222,33 @@ function markedEntryHtml(x,index){return `<div class="marker-row" data-key="${es
 function updateMarkerUI(){const has=markedWines.length>0;document.querySelector('.status').classList.toggle('has-marker',has);markerStatus.hidden=!has;if(has){markerStatus.innerHTML=`<div class="marker-toolbar"><b>${lang==='zh'?'已選酒款':'Selected wine'}</b><button type="button" class="marker-clear-all">${lang==='zh'?'清除':'Clear'}</button></div><div class="marker-list">${markedWines.map(markedEntryHtml).join('')}</div>`;markerStatus.querySelector('.marker-clear-all').onclick=()=>{markedWines=[];updateMarkerUI();};markerStatus.querySelectorAll('.marker-remove').forEach(btn=>btn.onclick=e=>{e.stopPropagation();markedWines.splice(Number(btn.dataset.index),1);updateMarkerUI();});markerStatus.querySelectorAll('.marker-jump').forEach(btn=>btn.onclick=()=>jumpToMarked(Number(btn.dataset.index)));markerStatus.querySelectorAll('.format-btn').forEach(btn=>btn.onclick=e=>{e.stopPropagation();const x=markedWines[Number(btn.dataset.index)];if(!x)return;x.format=btn.dataset.format;updateMarkerUI();});markerStatus.querySelectorAll('.glass-step').forEach(btn=>btn.onclick=e=>{e.stopPropagation();const x=markedWines[Number(btn.dataset.index)];if(!x)return;x.glasses=Math.max(1,Math.min(5,x.glasses+Number(btn.dataset.step)));if(x.seats.length>x.glasses){x.seats=x.seats.slice(0,x.glasses);}updateMarkerUI();});markerStatus.querySelectorAll('.seat-btn').forEach(btn=>btn.onclick=e=>{e.stopPropagation();const x=markedWines[Number(btn.dataset.index)],seat=Number(btn.dataset.seat);if(!x)return;x.seats=x.seats.includes(seat)?x.seats.filter(n=>n!==seat):(x.seats.length<x.glasses?[...x.seats,seat].sort((a,b)=>a-b):x.seats);updateMarkerUI();});}const keys=new Set(markedWines.map(x=>x.key));document.querySelectorAll('.wine,.wotm-feature').forEach(el=>el.classList.toggle('marked',keys.has(el.dataset.wineKey)));}
 function addMarkedWine(data){if(isSoldOut(data.key)||markedWines[0]?.key===data.key)return;markedWines=[data];updateMarkerUI();}
 function jumpToMarked(index){const selected=markedWines[index];if(!selected)return;current=selected.categoryId;openCat='';activeGroup=null;q.value='';pendingJumpKey=selected.key;navR();render();requestAnimationFrame(()=>requestAnimationFrame(()=>{const target=[...document.querySelectorAll('.wine,.wotm-feature')].find(el=>el.dataset.wineKey===pendingJumpKey);if(target){target.classList.add('jump-pulse');target.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>target.classList.remove('jump-pulse'),1600);}pendingJumpKey='';}));}
-function bindMarkButtons(){main.querySelectorAll('.mark-wine').forEach(btn=>{let timer=null,done=false;const stop=()=>{if(timer)clearTimeout(timer);timer=null;btn.classList.remove('holding');};const start=e=>{e.preventDefault();done=false;stop();btn.classList.add('holding');timer=setTimeout(()=>{const key=btn.dataset.key;addMarkedWine({key,v:btn.dataset.v,name:btn.dataset.name,price:btn.dataset.price,type:btn.dataset.type,categoryId:btn.dataset.category,byGlass:isByTheGlass(btn.dataset.price),format:'bottle',glasses:1,seats:[]});done=true;btn.classList.remove('holding');},800);};btn.addEventListener('pointerdown',start);btn.addEventListener('pointerup',stop);btn.addEventListener('pointercancel',stop);btn.addEventListener('pointerleave',stop);btn.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();if(!done)btn.classList.remove('holding');});});updateMarkerUI();}
+function markedWineData(element){return{key:element.dataset.wineKey,v:element.dataset.v,name:element.dataset.name,price:element.dataset.price,type:element.dataset.type,categoryId:element.dataset.category,byGlass:isByTheGlass(element.dataset.price),format:'bottle',glasses:1,seats:[]};}
+function bindWineSelection(){
+  main.querySelectorAll('.wine,.wotm-feature').forEach(entry=>{
+    const selectWine=()=>addMarkedWine(markedWineData(entry));
+    let lastTapAt=0;
+    entry.addEventListener('pointerup',event=>{
+      if(event.pointerType!=='touch'||entry.classList.contains('sold-out'))return;
+      const now=Date.now();
+      if(now-lastTapAt<350){event.preventDefault();selectWine();lastTapAt=0;return;}
+      lastTapAt=now;
+    });
+    entry.addEventListener('dblclick',event=>{
+      if(entry.classList.contains('sold-out'))return;
+      event.preventDefault();
+      selectWine();
+    });
+    entry.addEventListener('keydown',event=>{
+      if((event.key==='Enter'||event.key===' ')&&!entry.classList.contains('sold-out')){
+        event.preventDefault();
+        selectWine();
+      }
+    });
+  });
+  updateMarkerUI();
+}
 // Navigation intentionally begins hierarchical browsing only after Sommelier Selection.
-const PRE_SOMMELIER_IDS=new Set(['c0','c1','c3','c4','c5']);
+const PRE_SOMMELIER_IDS=new Set(['c0','c3','c4','c5']);
 const GROUPS={
 
 c2:[
@@ -275,6 +313,7 @@ c7:[
  c18:[
   {name:'Champagne & Sparkling',nameZh:'香檳及氣泡酒',sections:['Champagne & Sparkling']},
   {name:'White Wines',nameZh:'白葡萄酒',sections:['White Wines']},
+  {name:'Red Wines',nameZh:'紅葡萄酒',sections:['France','Italy','Spain','USA']},
   {name:'France',nameZh:'法國',sections:['France']},
   {name:'Italy',nameZh:'意大利',sections:['Italy']},
   {name:'Spain',nameZh:'西班牙',sections:['Spain']},
@@ -328,15 +367,15 @@ let openCat='',activeGroup=null;
 function navR(){
 
  const navOrder = [
-  'c0', // Wine of the Month
-  'c1', // National Day Selection
-  'c2', // Wine by the Glass
-  'c6', // Premium Fine Wine Collection
-  'c7', // Sommelier Selection
-  'c3', // Cocktails, Aperitifs & Digestives
-  'c4', // Whiskies
-  'c5'  // Beers & Beverages
-];
+   'c0', // Wine of the Month
+   'c1', // National Day Selection
+   'c2', // Wine by the Glass
+   'c6', // Premium Fine Wine Collection
+   'c7', // Sommelier Selection
+   'c3', // Cocktails, Aperitifs & Digestives
+   'c4', // Whiskies
+   'c5'  // Beers & Beverages
+ ];
 
  const orderedC = [
    ...navOrder.map(id => C.find(c => c.id === id)),
@@ -367,40 +406,39 @@ function navR(){
 });
 }
 function card(x,category,section){
-  const key=wineKey(x),sold=isSoldOut(key),name=pick(x,'name'),price=pick(x,'price'),note=pick(x,'note');
-  return `<article class="wine ${sold?'sold-out':''}" data-wine-key="${esc(key)}">
-    <button class="row" aria-expanded="false">
+  const key=wineKey(x),sold=isSoldOut(key),name=pick(x,'name'),price=pick(x,'price');
+  const displayName=lang==='zh'&&x.nameZh?`<span class="primary-name">${esc(x.nameZh)}</span><span class="english-name">${esc(x.name)}</span>`:esc(name);
+  return `<article class="wine ${sold?'sold-out':''}" data-wine-key="${esc(key)}" data-category="${esc(category.id)}" data-type="${esc(wineType(section.name,category.title,x))}" data-v="${esc(x.v)}" data-name="${esc(name)}" data-price="${esc(price)}" tabindex="0" role="button" aria-label="${esc(lang==='zh'?'連按兩次以標記此酒':'Double-tap to select this wine')}">
+    <div class="row">
       <span class="v"><span>${x.v}</span>${stockDotHtml(key)}</span>
-      <span class="name">${esc(name)}</span>
+      <span class="name">${displayName}</span>
       <span class="price">
 ${esc(price).replace(/ · /g,'<br>')}
 </span>
-      <span class="plus">+</span>
-    </button>
-    <div class="inside"><div>${esc(note).replace(/\n/g,'<br>')}</div><button type="button" class="mark-wine" ${sold?'disabled aria-disabled="true"':''} data-key="${esc(key)}" data-category="${esc(category.id)}" data-type="${esc(wineType(section.name,category.title,x))}" data-v="${esc(x.v)}" data-name="${esc(name)}" data-price="${esc(price)}">☆ <span>${lang==='zh'?'按住以標記此酒':'Hold to mark this wine'}</span></button></div>
+    </div>
   </article>`
 }
 function featureNote(note){
-  return String(note??'').split(/\n\s*\n/).filter(Boolean).map(p=>`<p>${esc(p)}</p>`).join('');
+  return String(note??'').split(/\n\s*\n/).filter(Boolean).map(paragraph=>`<p>${esc(paragraph)}</p>`).join('');
 }
 function featureCard(x,category,section){
-  const key=wineKey(x),sold=isSoldOut(key);
+  const key=wineKey(x),sold=isSoldOut(key),name=pick(x,'name'),price=pick(x,'price');
+  const displayName=lang==='zh'&&x.nameZh?`<span class="primary-name">${esc(x.nameZh)}</span><span class="english-name">${esc(x.name)}</span>`:esc(name);
   const image=x.image?`<div class="feature-media"><img src="${esc(x.image)}" alt="${esc(lang==='zh'?(x.imageAltZh||x.imageAlt||pick(x,'name')):(x.imageAlt||x.name))}" loading="eager" onerror="this.closest('.feature-media').classList.add('image-error');this.remove()"><div class="feature-image-fallback">1982<br>Château Cos d’Estournel</div></div>`:'';
-  return `<section class="wotm-feature ${sold?'sold-out':''}" data-wine-key="${esc(key)}">
+  return `<section class="wotm-feature ${sold?'sold-out':''}" data-wine-key="${esc(key)}" data-category="${esc(category.id)}" data-type="${esc(wineType(section.name,category.title,x))}" data-v="${esc(x.v)}" data-name="${esc(name)}" data-price="${esc(price)}" tabindex="0" role="button" aria-label="${esc(lang==='zh'?'連按兩次以標記此酒':'Double-tap to select this wine')}">
     <div class="wotm-ribbon">${esc(ui().featured)}</div>
     <div class="wotm-grid">
       ${image}
       <div class="wotm-summary">
         <div class="wotm-vintage"><span>${esc(x.v)}</span>${stockDotHtml(key)}</div>
-        <h2>${esc(pick(x,'name'))}</h2>
-        <div class="wotm-prices">${String(pick(x,'price')??'').split(/\s*·\s*/).filter(Boolean).map(price=>`<div class="wotm-price-line">${esc(price)}</div>`).join('')}</div>
+        <h2>${displayName}</h2>
+        <div class="wotm-prices">${String(price??'').split(/\s*·\s*/).filter(Boolean).map(price=>`<div class="wotm-price-line">${esc(price)}</div>`).join('')}</div>
       </div>
     </div>
     <div class="wotm-copy">${featureNote(pick(x,'note'))}</div>
-    <button type="button" class="mark-wine feature-mark" ${sold?'disabled aria-disabled="true"':''} data-key="${esc(key)}" data-category="${esc(category.id)}" data-type="${esc(wineType(section.name,category.title,x))}" data-v="${esc(x.v)}" data-name="${esc(x.name)}" data-price="${esc(x.price)}">☆ <span>${lang==='zh'?'按住以標記此酒':'Hold to mark this wine'}</span></button>
   </section>`;
 }
-function bind(){main.querySelectorAll('.row').forEach(b=>b.onclick=()=>{const a=b.closest('.wine'),o=a.classList.toggle('open');b.setAttribute('aria-expanded',o)});bindStockDots();bindMarkButtons();}function render(){const query=q.value.trim().toLowerCase();if(query){let groups=[];C.forEach(c=>c.sections.forEach(s=>{let items=s.items.filter(x=>(c.title+' '+s.name+' '+x.v+' '+x.name+' '+x.price+' '+x.note).toLowerCase().includes(query));if(items.length)groups.push({title:c.title+' · '+s.name,items,category:c,section:s})}));let count=groups.reduce((a,g)=>a+g.items.length,0);st.textContent='Search results';meta.textContent=totalSelections+' selections · Updated '+updated;main.innerHTML=`<section class="hero"><div class="kicker">Search</div><h2>${esc(q.value)}</h2><p>${count} matching selections</p></section>`+(groups.length?groups.map(g=>`<section class="section"><h3>${esc(g.title)}</h3>${g.items.map(x=>card(x,g.category,g.section)).join('')}</section>`).join(''):'<div class="empty">No matching selection found.</div>');bind();return}let c=C.find(x=>x.id===current)||C[0];st.textContent='';meta.textContent=totalSelections+' '+ui().selections+' · '+ui().updated+' '+updated;const sectionKey=value=>String(value??'')
+function bind(){bindStockDots();bindWineSelection();}function render(){const query=q.value.trim().toLowerCase();if(query){let groups=[];C.forEach(c=>c.sections.forEach(s=>{let items=s.items.filter(x=>(c.title+' '+s.name+' '+x.v+' '+x.name+' '+x.price+' '+x.note).toLowerCase().includes(query));if(items.length)groups.push({title:c.title+(s.hideHeading?'':' · '+s.name),items,category:c,section:s})}));let count=groups.reduce((a,g)=>a+g.items.length,0);st.textContent='Search results';meta.textContent=totalSelections+' selections · Updated '+updated;main.innerHTML=`<section class="hero"><div class="kicker">Search</div><h2>${esc(q.value)}</h2><p>${count} matching selections</p></section>`+(groups.length?groups.map(g=>`<section class="section"><h3>${esc(g.title)}</h3>${g.items.map(x=>card(x,g.category,g.section)).join('')}</section>`).join(''):'<div class="empty">No matching selection found.</div>');bind();return}let c=C.find(x=>x.id===current)||C[0];st.textContent='';meta.textContent=totalSelections+' '+ui().selections+' · '+ui().updated+' '+updated;const sectionKey=value=>String(value??'')
   .normalize('NFD')
   .replace(/[\u0300-\u036f]/g,'')
   .toLowerCase()
@@ -416,10 +454,10 @@ if(c.id==='c0'&&!group){
   const item=c.sections[0]?.items?.[0];
   main.innerHTML=`<section class="hero hero-wotm"><div class="kicker">${esc(ui().brand)}</div><h2>${esc(ui().heroTitle)}</h2><p>${esc(ui().heroSub)}</p></section>`+(item?featureCard(item,c,c.sections[0]):`<div class="empty">${esc(ui().noFeature)}</div>`)+`<div class="legal">${esc(ui().legal)}</div>`;
   bindStockDots();
-  bindMarkButtons();
+  bindWineSelection();
   return;
 }
-main.innerHTML=`<section class="hero"><div class="kicker">${esc(ui().brand)}${group?' · '+esc(pick(c,'title')):''}</div><h2>${esc(group?pick(group,'name'):pick(c,'title'))}</h2></section>`+sections.map(s=>`<section class="section"><h3>${esc(pick(s,'name'))}</h3>${s.items.map(x=>card(x,c,s)).join('')}</section>`).join('')+`<div class="legal">${esc(ui().legalGeneral)}</div>`;bind()}q.oninput=render;
+main.innerHTML=`<section class="hero"><div class="kicker">${esc(ui().brand)}${group?' · '+esc(pick(c,'title')):''}</div><h2>${esc(group?pick(group,'name'):pick(c,'title'))}</h2></section>`+sections.map(s=>`<section class="section">${s.hideHeading?'':`<h3>${esc(pick(s,'name'))}</h3>`}${s.items.map(x=>card(x,c,s)).join('')}</section>`).join('')+`<div class="legal">${esc(ui().legalGeneral)}</div>`;bind()}q.oninput=render;
 navR();
 render();
 startStockSync();
