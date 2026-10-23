@@ -697,6 +697,8 @@ body.site-disabled-active .remote-lock-overlay{
 @media (min-width:601px) and (max-width:900px){:root{--sidebar-width:300px}}
 @media (min-width:901px) and (max-width:1400px){:root{--sidebar-width:320px}}
 @media (max-width:600px){
+  .nav-toggle{left:auto;right:max(0px,env(safe-area-inset-right,0px))}
+  .navigation-hidden .nav-toggle{left:0;right:auto}
   .page-strip{min-height:58px;gap:6px;padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px))}
   .page-thumb{width:82px;height:44px;flex-basis:82px}
   .page-thumb-page{min-height:30px;padding:3px 4px}
