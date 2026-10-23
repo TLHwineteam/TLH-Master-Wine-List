@@ -16,6 +16,9 @@
   font-size:12px;
   white-space:nowrap;
 }.main{max-width:1080px;margin:auto;padding:28px 34px 70px}.hero{background:linear-gradient(135deg,#fff,#fbf3e3);border:1px solid var(--line);border-radius:19px;padding:26px 28px;margin-bottom:22px}.kicker{font-size:11px;color:#93651f;font-weight:800;text-transform:uppercase;letter-spacing:.16em}.hero h2{font-family:Georgia,serif;font-size:36px;font-weight:500;line-height:1.15;margin:6px 0}.hero p{margin:0;color:var(--muted)}.section{margin:27px 0 34px}.section h3{margin:0 0 10px;padding:0 4px 10px;border-bottom:1px solid var(--line);font-size:12px;color:#76521d;letter-spacing:.14em;text-transform:uppercase}.wine{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:9px 0;overflow:hidden}.wine,.wotm-feature{touch-action:manipulation}.wine:not(.sold-out),.wotm-feature:not(.sold-out){cursor:pointer}.wine:focus-visible,.wotm-feature:focus-visible{outline:3px solid rgba(182,135,53,.55);outline-offset:3px}.row{width:100%;display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:13px;align-items:start;border:0;background:transparent;text-align:left;color:inherit;padding:17px 18px}.row:active{background:#faf7f1}.v{color:var(--muted);font-variant-numeric:tabular-nums}.name{font-weight:700;line-height:1.38}.primary-name,.english-name{display:block}.english-name{margin-top:3px;color:var(--muted);font-size:.94em;font-weight:500;line-height:1.35}.price{color:#76521d;font-weight:700;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}.legal{margin-top:42px;border-top:1px solid var(--line);padding-top:17px;color:var(--muted);font-size:12px}.empty{text-align:center;padding:70px;color:var(--muted)}
+.vintage{display:inline-block;padding:2px 5px;border-radius:4px;background:#f3f0e9;color:var(--muted);font-size:12px;font-weight:700;line-height:1.2;white-space:nowrap}
+.ingredients{display:block;margin-top:4px;color:var(--muted);font-size:.8em;font-weight:400;line-height:1.35;overflow-wrap:anywhere}
+.ingredients-zh{margin-top:2px}
 @media (max-width:900px) {
   .app {
     grid-template-columns:280px 1fr;
@@ -377,7 +380,9 @@ body{font-size:calc(16px * var(--font-scale))}
 }
 
 @media (max-width:600px){
-  .row{grid-template-columns:44px minmax(0,1fr)}
+  .row{grid-template-columns:64px minmax(0,1fr)}
+  .v{min-width:0}
+  .vintage{font-size:11px}
   .price{min-width:0;justify-self:stretch;text-align:left;white-space:normal}
 }
 

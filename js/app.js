@@ -568,10 +568,12 @@ function navR(){
 function card(x,category,section){
   const key=wineKey(x),sold=isSoldOut(key),name=pick(x,'name'),price=pick(x,'price');
   const displayName=lang==='zh'&&x.nameZh?`<span class="primary-name">${esc(x.nameZh)}</span><span class="english-name">${esc(x.name)}</span>`:esc(name);
+  const vintage=String(x.v??'').trim();
+  const ingredients=[x.ingredients,x.ingredientsZh].filter(Boolean).map((value,index)=>`<span class="ingredients${index?' ingredients-zh':''}">${esc(value)}</span>`).join('');
   return `<article class="wine ${sold?'sold-out':''}" data-wine-key="${esc(key)}" data-category="${esc(category.id)}" data-type="${esc(wineType(section.name,category.title,x))}" data-v="${esc(x.v)}" data-name="${esc(name)}" data-price="${esc(price)}" tabindex="0" role="button" aria-label="${esc(lang==='zh'?'連按兩次以標記此酒':'Double-tap to select this wine')}">
     <div class="row">
-      <span class="v"><span>${x.v}</span>${stockDotHtml(key)}</span>
-      <span class="name">${displayName}</span>
+      <span class="v">${vintage?`<span class="vintage">${esc(vintage)}</span>`:''}${stockDotHtml(key)}</span>
+      <span class="name">${displayName}${ingredients}</span>
       <span class="price">
 ${esc(price).replace(/ · /g,'<br>')}
 </span>
