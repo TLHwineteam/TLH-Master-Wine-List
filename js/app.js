@@ -374,15 +374,96 @@ function navChildren(c){
  return [];
 }
 let openCat='',activeGroup=null;
-function navigateToCategory(category){
+function pageTurnOverlay(direction){
+  if(!direction||window.matchMedia('(prefers-reduced-motion: reduce)').matches||typeof Element.prototype.animate!=='function')return null;
+  document.querySelectorAll('.page-turn-overlay').forEach(overlay=>overlay.remove());
+  const mainRect=main.getBoundingClientRect();
+  const statusBottom=Math.max(0,document.querySelector('.status').getBoundingClientRect().bottom);
+  const stripHeight=pageStrip.hidden?0:pageStrip.getBoundingClientRect().height;
+  const overlayTop=Math.max(statusBottom,Math.min(mainRect.top,window.innerHeight-stripHeight));
+  const overlayHeight=window.innerHeight-stripHeight-overlayTop;
+  if(overlayHeight<=0||mainRect.width<=0)return null;
+  const overlay=document.createElement('div');
+  overlay.className='page-turn-overlay';
+  overlay.setAttribute('aria-hidden','true');
+  Object.assign(overlay.style,{
+    left:`${mainRect.left}px`,
+    top:`${overlayTop}px`,
+    width:`${mainRect.width}px`,
+    height:`${overlayHeight}px`
+  });
+  const sheet=document.createElement('div');
+  sheet.className=`page-turn-sheet ${direction>0?'turn-forward':'turn-backward'}`;
+  sheet.setAttribute('aria-hidden','true');
+  sheet.inert=true;
+  Object.assign(sheet.style,{
+    left:'0',
+    top:`${mainRect.top-overlayTop}px`,
+    width:`${mainRect.width}px`,
+    maxWidth:'none',
+    margin:'0'
+  });
+  const surface=main.cloneNode(true);
+  surface.removeAttribute('id');
+  surface.classList.add('page-turn-surface');
+  surface.setAttribute('aria-hidden','true');
+  surface.inert=true;
+  Object.assign(surface.style,{
+    left:'0',
+    top:'0',
+    width:`${mainRect.width}px`,
+    maxWidth:'none',
+    margin:'0'
+  });
+  sheet.appendChild(surface);
+  overlay.appendChild(sheet);
+  document.body.appendChild(overlay);
+  return {overlay,sheet,surface,direction};
+}
+function navigateToCategory(category,turnDirection=0){
   if(!category)return;
+  const turningPage=pageTurnOverlay(turnDirection);
   current=category.id;
   activeGroup=null;
   openCat=navChildren(category).length?category.id:'';
   q.value='';
   navR();
   render();
-  window.scrollTo({top:0,behavior:'smooth'});
+  if(turningPage){
+    window.scrollTo(0,0);
+      turningPage.sheet.classList.add('is-turning');
+      const forward=turnDirection>0;
+    const origin=forward?'left center':'right center';
+    const angle=forward?-92:92;
+      const flatClip=forward
+        ?'polygon(0 0,100% 0,100% 14%,100% 28%,100% 42%,100% 56%,100% 70%,100% 84%,100% 100%,0 100%)'
+        :'polygon(100% 0,0 0,0 14%,0 28%,0 42%,0 56%,0 70%,0 84%,0 100%,100% 100%)';
+      const curlClip=forward
+        ?'polygon(0 0,100% 0,95% 14%,88% 28%,83% 42%,82% 56%,83% 70%,88% 84%,95% 100%,0 100%)'
+        :'polygon(100% 0,0 0,5% 14%,12% 28%,17% 42%,18% 56%,17% 70%,12% 84%,5% 100%,100% 100%)';
+      const edgeClip=forward
+        ?'polygon(0 0,8% 0,8% 14%,8% 28%,8% 42%,8% 56%,8% 70%,8% 84%,8% 100%,0 100%)'
+        :'polygon(100% 0,92% 0,92% 14%,92% 28%,92% 42%,92% 56%,92% 70%,92% 84%,92% 100%,100% 100%)';
+      const curlAnimation=turningPage.surface.animate([
+        {clipPath:flatClip},
+        {offset:.56,clipPath:curlClip},
+        {offset:.9,clipPath:edgeClip},
+        {clipPath:edgeClip}
+      ],{duration:780,easing:'ease-in-out'});
+      const animation=turningPage.sheet.animate([
+        {transformOrigin:origin,transform:'rotateY(0deg)',opacity:1,boxShadow:'0 0 8px rgba(32,27,22,.16)'},
+        {offset:.56,transformOrigin:origin,transform:`rotateY(${angle*.58}deg)`,opacity:.99,boxShadow:'0 0 24px rgba(32,27,22,.24)'},
+        {offset:.9,transformOrigin:origin,transform:`rotateY(${angle*.92}deg)`,opacity:.96,boxShadow:'0 0 26px rgba(32,27,22,.28)'},
+        {transformOrigin:origin,transform:`rotateY(${angle}deg)`,opacity:0,boxShadow:'0 0 8px rgba(32,27,22,.08)'}
+      ],{duration:780,easing:'ease-in-out'});
+    const removeOverlay=()=>turningPage.overlay.remove();
+      [animation,curlAnimation].forEach(effect=>{
+        effect.addEventListener('finish',removeOverlay,{once:true});
+        effect.addEventListener('cancel',removeOverlay,{once:true});
+      });
+  }else{
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
 }
 function renderPageStrip(){
   const show=navigationHidden&&!q.value.trim();
@@ -403,6 +484,12 @@ function renderPageStrip(){
     if(button.dataset.category===current)button.scrollIntoView({block:'nearest',inline:'nearest'});
   });
 }
+function turnCategoryBy(direction){
+  const currentIndex=C.findIndex(category=>category.id===current);
+  if(currentIndex<0)return;
+  const nextIndex=(currentIndex+direction+C.length)%C.length;
+  navigateToCategory(C[nextIndex],direction);
+}
 let pageSwipeStart=null;
 main.addEventListener('pointerdown',event=>{
   if(!navigationHidden||event.pointerType==='mouse'||event.target.closest('button,input,a,select,textarea'))return;
@@ -414,12 +501,28 @@ main.addEventListener('pointerup',event=>{
   const deltaY=event.clientY-pageSwipeStart.y;
   pageSwipeStart=null;
   if(Math.abs(deltaX)>70&&Math.abs(deltaX)>Math.abs(deltaY)*1.3){
-    const currentIndex=C.findIndex(category=>category.id===current);
-    const nextIndex=(currentIndex+(deltaX<0?1:-1)+C.length)%C.length;
-    navigateToCategory(C[nextIndex]);
+    turnCategoryBy(deltaX<0?1:-1);
   }
 });
 main.addEventListener('pointercancel',()=>{pageSwipeStart=null;});
+let pageWheelDelta=0,pageWheelTimer=null,pageWheelHandled=false;
+main.addEventListener('wheel',event=>{
+  if(!navigationHidden||event.ctrlKey||Math.abs(event.deltaX)<20||Math.abs(event.deltaX)<=Math.abs(event.deltaY)*1.2)return;
+  event.preventDefault();
+  clearTimeout(pageWheelTimer);
+  if(!pageWheelHandled){
+    pageWheelDelta+=event.deltaX;
+    if(Math.abs(pageWheelDelta)>=50){
+      pageWheelHandled=true;
+      turnCategoryBy(pageWheelDelta>0?1:-1);
+    }
+  }
+  pageWheelTimer=setTimeout(()=>{
+    pageWheelDelta=0;
+    pageWheelHandled=false;
+    pageWheelTimer=null;
+  },240);
+},{passive:false});
 function navR(){
 
  const navOrder = [
