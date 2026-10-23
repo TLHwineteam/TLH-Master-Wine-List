@@ -374,13 +374,6 @@ function navChildren(c){
  return [];
 }
 let openCat='',activeGroup=null;
-function categoryPreviewRows(category){
-  return category.sections.flatMap(section=>section.items.slice(0,2).map(item=>({
-    section:pick(section,'name'),
-    vintage:item.v||'',
-    name:pick(item,'name')
-  }))).slice(0,3);
-}
 function navigateToCategory(category){
   if(!category)return;
   current=category.id;
@@ -397,13 +390,10 @@ function renderPageStrip(){
   if(!show)return;
   pageStrip.setAttribute('aria-label',lang==='zh'?'葡萄酒酒單頁面':'Wine list pages');
   pageStrip.innerHTML=C.map((category,index)=>{
-    const rows=categoryPreviewRows(category);
     const active=category.id===current;
     return `<button class="page-thumb ${active?'active':''}" type="button" data-category="${esc(category.id)}" aria-current="${active?'page':'false'}" aria-label="${esc(lang==='zh'?'前往':'Go to')} ${esc(pick(category,'title'))}">
       <span class="page-thumb-page">
         <span class="page-thumb-title">${esc(pick(category,'title'))}</span>
-        <span class="page-thumb-rule"></span>
-        ${rows.map(row=>`<span class="page-thumb-row"><span>${esc(row.vintage)}</span><span>${esc(row.name)}</span></span>`).join('')}
       </span>
       <span class="page-thumb-number">${index+1}</span>
     </button>`;
