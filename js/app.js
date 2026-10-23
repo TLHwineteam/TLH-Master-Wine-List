@@ -5,6 +5,9 @@ const brandName=document.querySelector('#brand-name'),wineListTitle=document.que
 const navToggle=document.querySelector('#nav-toggle');
 const pageStrip=document.querySelector('#page-strip');
 let navigationHidden=false;
+const PAGE_SWIPE_MIN_DISTANCE=42;
+const PAGE_SWIPE_INTENT_DISTANCE=8;
+let pageSwipeStart=null;
 function updateNavigationToggle(){
   const hidden=navigationHidden;
   const label=lang==='zh'?(hidden?'顯示導覽列':'隱藏導覽列'):(hidden?'Show navigation':'Hide navigation');
@@ -13,6 +16,7 @@ function updateNavigationToggle(){
   navToggle.title=label;
   navToggle.querySelector('span').textContent=hidden?'›':'‹';
   document.body.classList.toggle('navigation-hidden',hidden);
+  setPageTouchListeners(hidden);
   renderPageStrip();
 }
 navToggle.addEventListener('click',()=>{navigationHidden=!navigationHidden;updateNavigationToggle();});
@@ -490,29 +494,83 @@ function turnCategoryBy(direction){
   const nextIndex=(currentIndex+direction+C.length)%C.length;
   navigateToCategory(C[nextIndex],direction);
 }
-let pageSwipeStart=null;
-main.addEventListener('pointerdown',event=>{
-  if(!navigationHidden||event.pointerType==='mouse'||event.target.closest('button,input,a,select,textarea'))return;
-  pageSwipeStart={x:event.clientX,y:event.clientY};
-});
-main.addEventListener('pointerup',event=>{
-  if(!pageSwipeStart)return;
-  const deltaX=event.clientX-pageSwipeStart.x;
-  const deltaY=event.clientY-pageSwipeStart.y;
+function updatePageSwipeAxis(x,y){
+  if(!pageSwipeStart||pageSwipeStart.axis)return;
+  const deltaX=x-pageSwipeStart.x,deltaY=y-pageSwipeStart.y;
+  if(Math.hypot(deltaX,deltaY)<PAGE_SWIPE_INTENT_DISTANCE)return;
+  pageSwipeStart.axis=Math.abs(deltaX)>=Math.abs(deltaY)*0.85?'horizontal':'vertical';
+}
+function finishPageSwipe(x,y){
+  const start=pageSwipeStart;
   pageSwipeStart=null;
-  if(Math.abs(deltaX)>70&&Math.abs(deltaX)>Math.abs(deltaY)*1.3){
+  if(!start||start.axis!=='horizontal')return;
+  const deltaX=x-start.x,deltaY=y-start.y;
+  if(Math.abs(deltaX)>=PAGE_SWIPE_MIN_DISTANCE&&Math.abs(deltaX)>=Math.abs(deltaY)*0.85){
     turnCategoryBy(deltaX<0?1:-1);
   }
+}
+function startPageTouch(event){
+  if(event.touches.length!==1||event.target.closest('button,input,a,select,textarea')){
+    pageSwipeStart=null;
+    return;
+  }
+  const touch=event.touches[0];
+  pageSwipeStart={x:touch.clientX,y:touch.clientY,axis:null,source:'touch'};
+}
+function movePageTouch(event){
+  if(!pageSwipeStart||pageSwipeStart.source!=='touch')return;
+  if(event.touches.length!==1){
+    pageSwipeStart=null;
+    return;
+  }
+  const touch=event.touches[0];
+  updatePageSwipeAxis(touch.clientX,touch.clientY);
+  if(pageSwipeStart?.axis==='horizontal'&&event.cancelable)event.preventDefault();
+}
+function endPageTouch(event){
+  if(pageSwipeStart?.source!=='touch')return;
+  const touch=event.changedTouches[0];
+  if(touch)finishPageSwipe(touch.clientX,touch.clientY);
+  else pageSwipeStart=null;
+}
+function cancelPageTouch(){
+  if(pageSwipeStart?.source==='touch')pageSwipeStart=null;
+}
+function setPageTouchListeners(enabled){
+  if(enabled){
+    main.addEventListener('touchstart',startPageTouch,{passive:true});
+    main.addEventListener('touchmove',movePageTouch,{passive:false});
+    main.addEventListener('touchend',endPageTouch,{passive:true});
+    main.addEventListener('touchcancel',cancelPageTouch,{passive:true});
+  }else{
+    main.removeEventListener('touchstart',startPageTouch);
+    main.removeEventListener('touchmove',movePageTouch);
+    main.removeEventListener('touchend',endPageTouch);
+    main.removeEventListener('touchcancel',cancelPageTouch);
+    cancelPageTouch();
+  }
+}
+main.addEventListener('pointerdown',event=>{
+  if(!navigationHidden||event.pointerType==='mouse'||event.pointerType==='touch'||event.target.closest('button,input,a,select,textarea'))return;
+  pageSwipeStart={x:event.clientX,y:event.clientY,axis:null,source:'pointer'};
 });
-main.addEventListener('pointercancel',()=>{pageSwipeStart=null;});
+main.addEventListener('pointermove',event=>{
+  if(pageSwipeStart?.source==='pointer')updatePageSwipeAxis(event.clientX,event.clientY);
+});
+main.addEventListener('pointerup',event=>{
+  if(pageSwipeStart?.source==='pointer')finishPageSwipe(event.clientX,event.clientY);
+});
+main.addEventListener('pointercancel',()=>{
+  if(pageSwipeStart?.source==='pointer')pageSwipeStart=null;
+});
 let pageWheelDelta=0,pageWheelTimer=null,pageWheelHandled=false;
 main.addEventListener('wheel',event=>{
-  if(!navigationHidden||event.ctrlKey||Math.abs(event.deltaX)<20||Math.abs(event.deltaX)<=Math.abs(event.deltaY)*1.2)return;
+  if(!navigationHidden||event.ctrlKey||Math.abs(event.deltaX)<3||Math.abs(event.deltaX)<Math.abs(event.deltaY)*1.05)return;
   event.preventDefault();
   clearTimeout(pageWheelTimer);
   if(!pageWheelHandled){
     pageWheelDelta+=event.deltaX;
-    if(Math.abs(pageWheelDelta)>=50){
+    if(Math.abs(pageWheelDelta)>=30){
       pageWheelHandled=true;
       turnCategoryBy(pageWheelDelta>0?1:-1);
     }

@@ -3042,7 +3042,7 @@ window.WINE_DATA = [
             "name": "Yihu Chardonnay Reserve, Mystic Island, Shandong, China",
             "price": "$2,380",
             "section": "Chardonnay",
-            "nameZh": "一湖酒莊，Mystic Island 莎當妮珍藏，山東，中國"
+            "nameZh": "仙島酒莊，Mystic Island 莎當妮珍藏，山東，中國"
           }
         ]
       },
@@ -3068,7 +3068,7 @@ window.WINE_DATA = [
             "name": "Yihu Cabernet Franc Blanc, Mystic Island, Shandong, China",
             "price": "$880",
             "section": "Indigenous & Curiosities",
-            "nameZh": "一湖酒莊，Mystic Island「Cabernet Franc Blanc」品麗珠白酒，山東，中國"
+            "nameZh": "仙島酒莊，Mystic Island「Cabernet Franc Blanc」品麗珠白酒，山東，中國"
           },
           {
             "v": "2023",
