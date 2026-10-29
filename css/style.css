@@ -252,6 +252,8 @@
 /* Traditional Chinese / English language toggle */
 .lang-toggle{margin-left:14px;min-width:72px;padding:7px 10px;border:1px solid #b68735;border-radius:7px;background:#fffaf0;color:#756a5d;font-size:13px;font-weight:700;letter-spacing:.04em;cursor:pointer;white-space:nowrap}
 .lang-toggle:hover,.lang-toggle:focus-visible{background:#f3e5c6;outline:none}
+.pdf-link{display:inline-flex;align-items:center;margin-right:10px;padding:7px 11px;border:1px solid #b68735;border-radius:7px;background:#fffaf0;color:#76521d;font-size:12px;font-weight:800;letter-spacing:.04em;text-decoration:none;white-space:nowrap}
+.pdf-link:hover,.pdf-link:focus-visible{background:#f3e5c6;outline:2px solid rgba(182,135,53,.28);outline-offset:2px}
 .lang-toggle span{opacity:.55}.lang-toggle span.active{color:#76521d;opacity:1}
 html[lang="zh-Hant-HK"] .wotm-summary h2{font-family:"Noto Serif TC","Songti TC","PMingLiU",serif}
 html[lang="zh-Hant-HK"] .wotm-copy{font-family:"PingFang HK","Microsoft JhengHei",sans-serif;letter-spacing:.01em}
