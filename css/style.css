@@ -646,58 +646,15 @@ body.site-disabled-active .remote-lock-overlay{
 }
 .page-thumb-number{color:#d4c6af;font-size:9px;line-height:1}
 .navigation-hidden .main{padding-bottom:100px;touch-action:pan-y pinch-zoom}
-.page-turn-overlay{
-  position:fixed;
-  z-index:20;
-  overflow:hidden;
-  perspective:1600px;
-  pointer-events:none;
-  background:transparent;
+.main.page-swipe-enter{
+  animation:page-swipe-in 360ms cubic-bezier(.22,1,.36,1) both;
+  will-change:transform,opacity;
 }
-.page-turn-overlay .page-turn-sheet{
-  position:absolute;
-  min-height:100%;
-  transform-style:preserve-3d;
-  backface-visibility:hidden;
-  background:transparent;
-  box-shadow:0 0 8px rgba(32,27,22,.18);
+@keyframes page-swipe-in{
+  from{opacity:.96;transform:translate3d(var(--page-swipe-offset,0),0,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
 }
-.page-turn-overlay .page-turn-surface{
-  position:relative;
-  max-width:none;
-  margin:0;
-  background:var(--paper);
-}
-.page-turn-sheet::after{
-  position:absolute;
-  top:0;
-  right:0;
-  bottom:0;
-  width:clamp(34px,5vw,88px);
-  border-radius:50% 0 0 50% / 8% 0 0 8%;
-  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.44) 48%,rgba(76,54,28,.2) 82%,rgba(255,255,255,.12));
-  box-shadow:inset 7px 0 12px rgba(255,255,255,.24),inset -4px 0 8px rgba(54,40,23,.18);
-  content:"";
-  opacity:0;
-  pointer-events:none;
-  transform:scaleX(.4);
-  transform-origin:right center;
-}
-.page-turn-sheet.turn-backward::after{
-  right:auto;
-  left:0;
-  border-radius:0 50% 50% 0 / 0 8% 8% 0;
-  background:linear-gradient(270deg,rgba(255,255,255,0),rgba(255,255,255,.44) 48%,rgba(76,54,28,.2) 82%,rgba(255,255,255,.12));
-  box-shadow:inset -7px 0 12px rgba(255,255,255,.24),inset 4px 0 8px rgba(54,40,23,.18);
-  transform-origin:left center;
-}
-.page-turn-sheet.is-turning::after{animation:soft-page-curl 780ms ease-in-out both}
-@keyframes soft-page-curl{
-  0%{opacity:0;transform:scaleX(.4)}
-  32%{opacity:.42;transform:scaleX(.9)}
-  68%{opacity:.82;transform:scaleX(1)}
-  100%{opacity:0;transform:scaleX(.35)}
-}
+@media (prefers-reduced-motion:reduce){.main.page-swipe-enter{animation:none}}
 .page-thumb:focus-visible{outline:2px solid #e6c477;outline-offset:3px}
 @media (min-width:601px) and (max-width:900px){:root{--sidebar-width:300px}}
 @media (min-width:901px) and (max-width:1400px){:root{--sidebar-width:320px}}

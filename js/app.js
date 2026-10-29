@@ -1,6 +1,70 @@
 const C=window.WINE_DATA;
-updated='18 October 2026';
-const totalSelections=C.reduce((total,category)=>total+category.sections.reduce((sum,section)=>sum+section.items.length,0),0);let current=C[0].id;const nav=document.querySelector('#nav'),main=document.querySelector('#main'),q=document.querySelector('#q'),st=document.querySelector('#st'),meta=document.querySelector('#meta');const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));const n=c=>c.sections.reduce((a,s)=>a+s.items.length,0);
+let updatedAt=null,updateDateUnavailable=false;let current=C[0].id;const nav=document.querySelector('#nav'),main=document.querySelector('#main'),q=document.querySelector('#q'),st=document.querySelector('#st'),meta=document.querySelector('#meta');const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&gt;','"':'&quot;',"'":'&#39;'}[m]));const n=c=>c.sections.reduce((a,s)=>a+s.items.length,0);
+const wineRegionWords=new Set('france italy germany australia china england spain portugal argentina chile austria switzerland canada usa japan scotland zealand burgundy bordeaux champagne alsace languedoc loire rhone provence tuscany piedmont veneto sicily sardinia rioja ribera priorat douro napa sonoma california washington oregon victoria central otago ningxia yunnan pauillac pomerol margaux estephe pessac leognan cote chalonnaise beaune gevrey chambertin vosne romanee chablis meursault puligny montrachet chassagne julien emilion medoc barsac sauternes fronsac'.split(' '));
+function wineIdentity(item){
+  const wineName=String(item.name??'').replace(/\b\d+(?:\.\d+)?\s*(?:ml|l)\b/gi,' ').replace(/\b(half\s+bottle|double\s+magnum|magnum|jeroboam|imperial|methuselah|salmanazar|balthazar|nebuchadnezzar)\b/gi,' ');
+  const parts=wineName.split(',');
+  let first=normalizeWineText(parts.shift()??'');
+  first=first.replace(/^chateau\s+/,'');
+  const rest=parts.map(normalizeWineText).join(' ').split(' ').filter(word=>word&&!wineRegionWords.has(word));
+  return `${String(item.v??'').trim().toLowerCase()}|${[first,...rest].join(' ')}`;
+}
+function normalizeWineText(value){
+  return String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/&/g,' ').replace(/[^a-z0-9]+/g,' ').trim();
+}
+function bottleFormat(item,category){
+  const name=String(item.name??'').toLowerCase();
+  const price=String(item.price??'').toLowerCase();
+  const categoryTitle=String(category.title??'').toLowerCase();
+  const text=`${name} ${price}`;
+  const sizeInName=name.match(/\b(\d+(?:\.\d+)?)\s*(ml|l)\b/);
+  if(sizeInName){
+    const millilitres=Number(sizeInName[1])*(sizeInName[2]==='l'?1000:1);
+    if(millilitres>=250)return `${millilitres}ml`;
+  }
+  if(/\bhalf\s+bottle\b/.test(name)||categoryTitle==='half bottles')return '375ml';
+  const priceSizes=/\b(\d+(?:\.\d+)?)\s*(ml|l)\b/g;
+  let sizeInPrice;
+  while((sizeInPrice=priceSizes.exec(price))!==null){
+    const millilitres=Number(sizeInPrice[1])*(sizeInPrice[2]==='l'?1000:1);
+    if(millilitres>=1000)return `${millilitres}ml`;
+  }
+  if(/\b(double\s+magnum|jeroboam)\b/.test(text))return '3000ml';
+  if(/\b(magnum)\b/.test(text))return '1500ml';
+  if(/\b(imperial|methuselah)\b/.test(text))return '6000ml';
+  if(/\bsalmanazar\b/.test(text))return '9000ml';
+  if(/\bbalthazar\b/.test(text))return '12000ml';
+  if(/\bnebuchadnezzar\b/.test(text))return '15000ml';
+  if(categoryTitle==='large formats')return '1500ml';
+  return '750ml';
+}
+function countDistinctBottles(){
+  const identities=new Set();
+  C.forEach(category=>category.sections.forEach(section=>section.items.forEach(item=>{
+    identities.add(`${wineIdentity(item)}|${bottleFormat(item,category)}`);
+  })));
+  return identities.size;
+}
+const totalSelections=countDistinctBottles();
+function updatedDateText(){
+  if(updateDateUnavailable)return lang==='zh'?'日期未能載入':'unavailable';
+  if(!updatedAt)return lang==='zh'?'讀取中…':'loading…';
+  return new Intl.DateTimeFormat(lang==='zh'?'zh-HK':'en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(updatedAt);
+}
+async function loadUpdatedDate(){
+  try{
+    const response=await fetch('data/wines.js',{method:'HEAD',cache:'no-store'});
+    if(!response.ok)throw new Error(`HTTP ${response.status}`);
+    const lastModified=response.headers.get('Last-Modified');
+    const parsedDate=lastModified?new Date(lastModified):null;
+    if(!parsedDate||Number.isNaN(parsedDate.getTime()))throw new Error('The server did not provide a valid Last-Modified date for data/wines.js');
+    updatedAt=parsedDate;
+  }catch(error){
+    updateDateUnavailable=true;
+    console.error('Wine-list update date unavailable:',error);
+  }
+  render();
+}
 const brandName=document.querySelector('#brand-name'),wineListTitle=document.querySelector('#wine-list-title');
 const navToggle=document.querySelector('#nav-toggle');
 const pageStrip=document.querySelector('#page-strip');
@@ -359,7 +423,8 @@ c7:[
   {name:'China',nameZh:'中國',sections:['China']},
   {name:'Germany',nameZh:'德國',sections:['Germany']},
   {name:'Italy',nameZh:'意大利',sections:['Italy']},
-  {name:'New Zealand',nameZh:'紐西蘭',sections:['New Zealand']}
+  {name:'New Zealand',nameZh:'紐西蘭',sections:['New Zealand']},
+  {name:'Hungary',nameZh:'匈牙利',sections:['Hungary']}
  ],
  c24:[
   {name:'Huangjiu',nameZh:'黃酒',sections:['Huangjiu']},
@@ -378,93 +443,20 @@ function navChildren(c){
  return [];
 }
 let openCat='',activeGroup=null;
-function pageTurnOverlay(direction){
-  if(!direction||window.matchMedia('(prefers-reduced-motion: reduce)').matches||typeof Element.prototype.animate!=='function')return null;
-  document.querySelectorAll('.page-turn-overlay').forEach(overlay=>overlay.remove());
-  const mainRect=main.getBoundingClientRect();
-  const statusBottom=Math.max(0,document.querySelector('.status').getBoundingClientRect().bottom);
-  const stripHeight=pageStrip.hidden?0:pageStrip.getBoundingClientRect().height;
-  const overlayTop=Math.max(statusBottom,Math.min(mainRect.top,window.innerHeight-stripHeight));
-  const overlayHeight=window.innerHeight-stripHeight-overlayTop;
-  if(overlayHeight<=0||mainRect.width<=0)return null;
-  const overlay=document.createElement('div');
-  overlay.className='page-turn-overlay';
-  overlay.setAttribute('aria-hidden','true');
-  Object.assign(overlay.style,{
-    left:`${mainRect.left}px`,
-    top:`${overlayTop}px`,
-    width:`${mainRect.width}px`,
-    height:`${overlayHeight}px`
-  });
-  const sheet=document.createElement('div');
-  sheet.className=`page-turn-sheet ${direction>0?'turn-forward':'turn-backward'}`;
-  sheet.setAttribute('aria-hidden','true');
-  sheet.inert=true;
-  Object.assign(sheet.style,{
-    left:'0',
-    top:`${mainRect.top-overlayTop}px`,
-    width:`${mainRect.width}px`,
-    maxWidth:'none',
-    margin:'0'
-  });
-  const surface=main.cloneNode(true);
-  surface.removeAttribute('id');
-  surface.classList.add('page-turn-surface');
-  surface.setAttribute('aria-hidden','true');
-  surface.inert=true;
-  Object.assign(surface.style,{
-    left:'0',
-    top:'0',
-    width:`${mainRect.width}px`,
-    maxWidth:'none',
-    margin:'0'
-  });
-  sheet.appendChild(surface);
-  overlay.appendChild(sheet);
-  document.body.appendChild(overlay);
-  return {overlay,sheet,surface,direction};
-}
-function navigateToCategory(category,turnDirection=0){
+function navigateToCategory(category,swipeDirection=0){
   if(!category)return;
-  const turningPage=pageTurnOverlay(turnDirection);
   current=category.id;
   activeGroup=null;
   openCat=navChildren(category).length?category.id:'';
   q.value='';
   navR();
   render();
-  if(turningPage){
-    window.scrollTo(0,0);
-      turningPage.sheet.classList.add('is-turning');
-      const forward=turnDirection>0;
-    const origin=forward?'left center':'right center';
-    const angle=forward?-92:92;
-      const flatClip=forward
-        ?'polygon(0 0,100% 0,100% 14%,100% 28%,100% 42%,100% 56%,100% 70%,100% 84%,100% 100%,0 100%)'
-        :'polygon(100% 0,0 0,0 14%,0 28%,0 42%,0 56%,0 70%,0 84%,0 100%,100% 100%)';
-      const curlClip=forward
-        ?'polygon(0 0,100% 0,95% 14%,88% 28%,83% 42%,82% 56%,83% 70%,88% 84%,95% 100%,0 100%)'
-        :'polygon(100% 0,0 0,5% 14%,12% 28%,17% 42%,18% 56%,17% 70%,12% 84%,5% 100%,100% 100%)';
-      const edgeClip=forward
-        ?'polygon(0 0,8% 0,8% 14%,8% 28%,8% 42%,8% 56%,8% 70%,8% 84%,8% 100%,0 100%)'
-        :'polygon(100% 0,92% 0,92% 14%,92% 28%,92% 42%,92% 56%,92% 70%,92% 84%,92% 100%,100% 100%)';
-      const curlAnimation=turningPage.surface.animate([
-        {clipPath:flatClip},
-        {offset:.56,clipPath:curlClip},
-        {offset:.9,clipPath:edgeClip},
-        {clipPath:edgeClip}
-      ],{duration:780,easing:'ease-in-out'});
-      const animation=turningPage.sheet.animate([
-        {transformOrigin:origin,transform:'rotateY(0deg)',opacity:1,boxShadow:'0 0 8px rgba(32,27,22,.16)'},
-        {offset:.56,transformOrigin:origin,transform:`rotateY(${angle*.58}deg)`,opacity:.99,boxShadow:'0 0 24px rgba(32,27,22,.24)'},
-        {offset:.9,transformOrigin:origin,transform:`rotateY(${angle*.92}deg)`,opacity:.96,boxShadow:'0 0 26px rgba(32,27,22,.28)'},
-        {transformOrigin:origin,transform:`rotateY(${angle}deg)`,opacity:0,boxShadow:'0 0 8px rgba(32,27,22,.08)'}
-      ],{duration:780,easing:'ease-in-out'});
-    const removeOverlay=()=>turningPage.overlay.remove();
-      [animation,curlAnimation].forEach(effect=>{
-        effect.addEventListener('finish',removeOverlay,{once:true});
-        effect.addEventListener('cancel',removeOverlay,{once:true});
-      });
+  if(swipeDirection){
+    window.scrollTo({top:0,behavior:'smooth'});
+    main.classList.remove('page-swipe-enter');
+    main.style.setProperty('--page-swipe-offset',swipeDirection>0?'20px':'-20px');
+    void main.offsetWidth;
+    main.classList.add('page-swipe-enter');
   }else{
     window.scrollTo({top:0,behavior:'smooth'});
   }
@@ -658,7 +650,7 @@ function featureCard(x,category,section){
     <div class="wotm-copy">${featureNote(pick(x,'note'))}</div>
   </section>`;
 }
-function bind(){bindStockDots();bindWineSelection();}function render(){const query=q.value.trim().toLowerCase();if(query){let groups=[];C.forEach(c=>c.sections.forEach(s=>{let items=s.items.filter(x=>(c.title+' '+s.name+' '+x.v+' '+x.name+' '+x.price+' '+x.note).toLowerCase().includes(query));if(items.length)groups.push({title:c.title+(s.hideHeading?'':' · '+s.name),items,category:c,section:s})}));let count=groups.reduce((a,g)=>a+g.items.length,0);st.textContent='Search results';meta.textContent=totalSelections+' selections · Updated '+updated;main.innerHTML=`<section class="hero"><div class="kicker">Search</div><h2>${esc(q.value)}</h2><p>${count} matching selections</p></section>`+(groups.length?groups.map(g=>`<section class="section"><h3>${esc(g.title)}</h3>${g.items.map(x=>card(x,g.category,g.section)).join('')}</section>`).join(''):'<div class="empty">No matching selection found.</div>');bind();return}let c=C.find(x=>x.id===current)||C[0];st.textContent='';meta.textContent=totalSelections+' '+ui().selections+' · '+ui().updated+' '+updated;const sectionKey=value=>String(value??'')
+function bind(){bindStockDots();bindWineSelection();}function render(){const query=q.value.trim().toLowerCase();if(query){let groups=[];C.forEach(c=>c.sections.forEach(s=>{let items=s.items.filter(x=>(c.title+' '+s.name+' '+x.v+' '+x.name+' '+x.price+' '+x.note).toLowerCase().includes(query));if(items.length)groups.push({title:c.title+(s.hideHeading?'':' · '+s.name),items,category:c,section:s})}));let count=groups.reduce((a,g)=>a+g.items.length,0);st.textContent='Search results';meta.textContent=totalSelections+' selections · Updated '+updatedDateText();main.innerHTML=`<section class="hero"><div class="kicker">Search</div><h2>${esc(q.value)}</h2><p>${count} matching selections</p></section>`+(groups.length?groups.map(g=>`<section class="section"><h3>${esc(g.title)}</h3>${g.items.map(x=>card(x,g.category,g.section)).join('')}</section>`).join(''):'<div class="empty">No matching selection found.</div>');bind();return}let c=C.find(x=>x.id===current)||C[0];st.textContent='';meta.textContent=totalSelections+' '+ui().selections+' · '+ui().updated+' '+updatedDateText();const sectionKey=value=>String(value??'')
   .normalize('NFD')
   .replace(/[\u0300-\u036f]/g,'')
   .toLowerCase()
@@ -680,6 +672,7 @@ if(c.id==='c0'&&!group){
 main.innerHTML=`<section class="hero"><div class="kicker">${esc(ui().brand)}${group?' · '+esc(pick(c,'title')):''}</div><h2>${esc(group?pick(group,'name'):pick(c,'title'))}</h2></section>`+sections.map(s=>`<section class="section">${s.hideHeading?'':`<h3>${esc(pick(s,'name'))}</h3>`}${s.items.map(x=>card(x,c,s)).join('')}</section>`).join('')+`<div class="legal">${esc(ui().legalGeneral)}</div>`;bind()}q.oninput=()=>{render();renderPageStrip();};
 navR();
 render();
+loadUpdatedDate();
 startStockSync();
 
 // Welcome cover: fade away on entry and return after five minutes of inactivity.
