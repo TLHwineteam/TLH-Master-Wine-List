@@ -68,7 +68,8 @@ async function loadUpdatedDate(){
 const brandName=document.querySelector('#brand-name'),wineListTitle=document.querySelector('#wine-list-title');
 const navToggle=document.querySelector('#nav-toggle');
 const pageStrip=document.querySelector('#page-strip');
-let navigationHidden=false;
+const NAVIGATION_HIDDEN_STORAGE_KEY='wineListNavigationHidden';
+let navigationHidden=localStorage.getItem(NAVIGATION_HIDDEN_STORAGE_KEY)==='true';
 const PAGE_SWIPE_MIN_DISTANCE=42;
 const PAGE_SWIPE_INTENT_DISTANCE=8;
 let pageSwipeStart=null;
@@ -83,7 +84,7 @@ function updateNavigationToggle(){
   setPageTouchListeners(hidden);
   renderPageStrip();
 }
-navToggle.addEventListener('click',()=>{navigationHidden=!navigationHidden;updateNavigationToggle();});
+navToggle.addEventListener('click',()=>{navigationHidden=!navigationHidden;localStorage.setItem(NAVIGATION_HIDDEN_STORAGE_KEY,String(navigationHidden));updateNavigationToggle();});
 let lang=localStorage.getItem('wineListLanguage')==='zh'?'zh':'en';
 let fontSize=localStorage.getItem('wineListFontSize')||'normal';
 if(!['normal','large'].includes(fontSize))fontSize='normal';
@@ -678,12 +679,17 @@ startStockSync();
 // Welcome cover: fade away on entry and return after five minutes of inactivity.
 const welcomeCover=document.querySelector('#welcome-cover');
 const WELCOME_IDLE_MS=5*60*1000;
+const WELCOME_DISMISSED_STORAGE_KEY='wineListWelcomeDismissed';
 let welcomeIdleTimer=null,welcomeVisible=true;
 function showWelcomeCover(){welcomeVisible=true;welcomeCover.classList.remove('is-hidden','returning');void welcomeCover.offsetWidth;welcomeCover.classList.add('returning');welcomeCover.setAttribute('aria-hidden','false');document.body.classList.add('welcome-active');clearTimeout(welcomeIdleTimer)}
-function hideWelcomeCover(){if(!welcomeVisible)return;welcomeVisible=false;welcomeCover.classList.add('is-hidden');welcomeCover.classList.remove('returning');welcomeCover.setAttribute('aria-hidden','true');document.body.classList.remove('welcome-active');resetWelcomeIdleTimer()}
+function hideWelcomeCover(){if(!welcomeVisible)return;welcomeVisible=false;sessionStorage.setItem(WELCOME_DISMISSED_STORAGE_KEY,'true');welcomeCover.classList.add('is-hidden');welcomeCover.classList.remove('returning');welcomeCover.setAttribute('aria-hidden','true');document.body.classList.remove('welcome-active');resetWelcomeIdleTimer()}
 function resetWelcomeIdleTimer(){if(welcomeVisible)return;clearTimeout(welcomeIdleTimer);welcomeIdleTimer=setTimeout(showWelcomeCover,WELCOME_IDLE_MS)}
 welcomeCover.addEventListener('click',hideWelcomeCover);
 welcomeCover.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();hideWelcomeCover()}});
 ['pointerdown','keydown','scroll','touchstart'].forEach(type=>document.addEventListener(type,resetWelcomeIdleTimer,{passive:true}));
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)resetWelcomeIdleTimer()});
-showWelcomeCover();
+if(sessionStorage.getItem(WELCOME_DISMISSED_STORAGE_KEY)==='true'){
+  hideWelcomeCover();
+}else{
+  showWelcomeCover();
+}
