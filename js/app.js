@@ -676,15 +676,15 @@ render();
 loadUpdatedDate();
 startStockSync();
 
-// Show the welcome cover once per browser tab, not on every return from the PDF.
+// Keep the welcome cover dismissed across tabs and repeated PDF returns.
 const welcomeCover=document.querySelector('#welcome-cover');
 const WELCOME_DISMISSED_STORAGE_KEY='wineListWelcomeDismissed';
 let welcomeVisible=true;
 function showWelcomeCover(){welcomeVisible=true;welcomeCover.classList.remove('is-hidden','returning');void welcomeCover.offsetWidth;welcomeCover.classList.add('returning');welcomeCover.setAttribute('aria-hidden','false');document.body.classList.add('welcome-active')}
-function hideWelcomeCover(){if(!welcomeVisible)return;welcomeVisible=false;sessionStorage.setItem(WELCOME_DISMISSED_STORAGE_KEY,'true');welcomeCover.classList.add('is-hidden');welcomeCover.classList.remove('returning');welcomeCover.setAttribute('aria-hidden','true');document.body.classList.remove('welcome-active')}
+function hideWelcomeCover(){if(!welcomeVisible)return;welcomeVisible=false;localStorage.setItem(WELCOME_DISMISSED_STORAGE_KEY,'true');welcomeCover.classList.add('is-hidden');welcomeCover.classList.remove('returning');welcomeCover.setAttribute('aria-hidden','true');document.body.classList.remove('welcome-active')}
 welcomeCover.addEventListener('click',hideWelcomeCover);
 welcomeCover.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();hideWelcomeCover()}});
-if(sessionStorage.getItem(WELCOME_DISMISSED_STORAGE_KEY)==='true'){
+if(localStorage.getItem(WELCOME_DISMISSED_STORAGE_KEY)==='true'){
   hideWelcomeCover();
 }else{
   showWelcomeCover();
