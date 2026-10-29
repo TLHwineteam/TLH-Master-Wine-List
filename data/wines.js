@@ -1,3 +1,4 @@
+window.WINE_DATA_UPDATED_AT = "2026-10-30T01:05:46+08:00";
 window.WINE_DATA = [
   {
     "id": "c0",
@@ -79,14 +80,6 @@ window.WINE_DATA = [
             "section": "White",
             "nameZh": "仙島酒莊，逸湖霞多麗珍藏，中國山東",
             "priceZh": "$2,380"
-          },
-          {
-            "v": "2020",
-            "name": "Château Palmer, Vin Blanc de Palmer, Bordeaux, France",
-            "price": "$5,800",
-            "section": "White",
-            "nameZh": "帕瑪堡瑪歌白酒，法國波爾多",
-            "priceZh": "$5,800"
           }
         ]
       },
@@ -535,7 +528,7 @@ window.WINE_DATA = [
           {
             "v": "1998",
             "name": "Château Mouton Rothschild, Bordeaux, Pauillac, France",
-            "price": "$13,680",
+            "price": "$14,800",
             "section": "Red",
             "nameZh": "木桐酒莊，紅葡萄酒，波雅克，波爾多，法國"
           },
@@ -1670,6 +1663,13 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "NV",
+            "name": "Jacques Selosse 'Substance' Blanc de Blancs Grand Cru Brut, Champagne, France",
+            "price": "$9,880",
+            "section": "Jacques Selosse",
+            "nameZh": "雅克・瑟洛斯，「Substance」白中白特級園香檳，香檳區，法國"
+          },
+          {
+            "v": "NV",
             "name": "Jacques Selosse 'Sous le Mont' Mareuil-sur-Aÿ Grand Cru, Champagne, France",
             "price": "$8,880",
             "section": "Jacques Selosse",
@@ -2316,13 +2316,6 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "NV",
-            "name": "Clément Klur 'Manekineko' Crémant d'Alsace Brut, Alsace, France",
-            "price": "$880",
-            "section": "Sparkling Wine",
-            "nameZh": "克萊芒・克呂爾，「招財貓」阿爾薩斯天然乾型氣泡酒，阿爾薩斯，法國"
-          },
-          {
-            "v": "NV",
             "name": "Lou Dumont Crémant de Bourgogne Blanc de Blancs, Burgundy, France",
             "price": "$800",
             "section": "Sparkling Wine",
@@ -2334,6 +2327,13 @@ window.WINE_DATA = [
             "price": "$1,280",
             "section": "Sparkling Wine",
             "nameZh": "銀色高地，「綻放」自然氣泡酒，寧夏，中國"
+          },
+          {
+            "v": "2018",
+            "name": "Wiston Estate Blanc de Noirs Brut, West Sussex, England",
+            "price": "$1,800",
+            "section": "Sparkling Wine",
+            "nameZh": "威斯頓酒莊，黑中白氣泡酒，西薩塞克斯，英格蘭"
           }
         ]
       }
@@ -2440,13 +2440,6 @@ window.WINE_DATA = [
             "price": "$1,760",
             "section": "Bordeaux",
             "nameZh": "特龍凱・拉朗德酒莊白酒，梅多克，波爾多，法國"
-          },
-          {
-            "v": "2020",
-            "name": "Château Palmer Blanc, Bordeaux, France",
-            "price": "$5,800",
-            "section": "Bordeaux",
-            "nameZh": "帕瑪酒莊白酒，瑪歌，波爾多，法國"
           },
           {
             "v": "2010",
@@ -3186,6 +3179,20 @@ window.WINE_DATA = [
             "nameZh": "莫斯伍德酒莊，莎當妮，瑪格麗特河，西澳洲"
           },
           {
+            "v": "2020",
+            "name": "Penfolds Bin 311, Tumbarumba, Australia",
+            "price": "$1,130",
+            "section": "Chardonnay",
+            "nameZh": "奔富 Bin 311 莎當妮，湯博倫巴，澳洲"
+          },
+          {
+            "v": "2023",
+            "name": "Far Niente, Napa Valley, USA",
+            "price": "$2,480",
+            "section": "Chardonnay",
+            "nameZh": "法尼恩特酒莊，莎當妮，納帕谷，加州，美國"
+          },
+          {
             "v": "2023",
             "name": "Escarpment Chardonnay Martinborough, New Zealand",
             "price": "$800",
@@ -3231,6 +3238,13 @@ window.WINE_DATA = [
             "price": "$1,350",
             "section": "Sauvignon Blanc",
             "nameZh": "梅麗・愛德華茲酒莊，長相思，俄羅斯河谷，加州，美國"
+          },
+          {
+            "v": "2025",
+            "name": "Cloudy Bay, Marlborough, New Zealand",
+            "price": "$805",
+            "section": "Sauvignon Blanc",
+            "nameZh": "雲霧之灣酒莊，長相思，馬爾堡，紐西蘭"
           }
         ],
         "nameZh": "長相思"
@@ -4193,7 +4207,7 @@ window.WINE_DATA = [
           {
             "v": "2019",
             "name": "Château Morillon, Saint-Émilion, France",
-            "price": "$910",
+            "price": "$1,000",
             "section": "Saint-Émilion",
             "nameZh": "莫里永酒莊，聖埃美隆，波爾多，法國"
           },
@@ -5036,34 +5050,6 @@ window.WINE_DATA = [
             "nameZh": "布爾洛托酒莊「Acclivi」巴羅洛內比奧羅紅酒，韋爾杜諾，皮埃蒙特，意大利"
           },
           {
-            "v": "2021",
-            "name": "Com. G.B. Burlotto \"Cannubi\", Piedmont, Barolo, Italy",
-            "price": "$4,080",
-            "section": "Barolo",
-            "nameZh": "布爾洛托酒莊「Cannubi」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2020",
-            "name": "Com. G.B. Burlotto \"Cannubi\", Piedmont, Barolo, Italy",
-            "price": "$4,080",
-            "section": "Barolo",
-            "nameZh": "布爾洛托酒莊「Cannubi」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2019",
-            "name": "Com. G.B. Burlotto \"Monvigliero\", Piedmont, Barolo, Italy",
-            "price": "$4,080",
-            "section": "Barolo",
-            "nameZh": "布爾洛托酒莊「Monvigliero」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
-            "v": "2020",
-            "name": "Com. G.B. Burlotto \"Monvigliero\", Piedmont, Barolo, Italy",
-            "price": "$4,080",
-            "section": "Barolo",
-            "nameZh": "布爾洛托酒莊「Monvigliero」巴羅洛內比奧羅紅酒，皮埃蒙特，意大利"
-          },
-          {
             "v": "2019",
             "name": "Gaja 'Conteisa', Piedmont, Barolo, Italy",
             "price": "$6,280",
@@ -5469,6 +5455,13 @@ window.WINE_DATA = [
             "price": "$4,280",
             "section": "Brunello di Montalcino",
             "nameZh": "拉馬吉亞酒莊，布魯內洛蒙塔奇諾珍藏紅酒，意大利"
+          },
+          {
+            "v": "2019",
+            "name": "Stella di Campalto 'Bacia' Brunello di Montalcino, Italy",
+            "price": "$5,680",
+            "section": "Brunello di Montalcino",
+            "nameZh": "史黛拉・迪坎帕托酒莊，「Bacia」蒙塔奇諾布魯內洛桑嬌維塞紅酒，托斯卡納，意大利"
           }
         ],
         "nameZh": "蒙塔奇諾布魯內洛"
@@ -5548,6 +5541,13 @@ window.WINE_DATA = [
       {
         "name": "Abruzzo",
         "items": [
+          {
+            "v": "2003",
+            "name": "Emidio Pepe Montepulciano d’Abruzzo, Abruzzo, Italy",
+            "price": "$4,280",
+            "section": "Abruzzo",
+            "nameZh": "埃米迪奧・佩佩酒莊，阿布魯佐蒙特普爾恰諾紅酒，阿布魯佐，意大利"
+          },
           {
             "v": "2019",
             "name": "Masciarelli 'Villa Gemma' Montepulciano d'Abruzzo Riserva, Abruzzo, Italy",

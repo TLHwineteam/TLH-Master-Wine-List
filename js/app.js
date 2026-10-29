@@ -49,16 +49,20 @@ const totalSelections=countDistinctBottles();
 function updatedDateText(){
   if(updateDateUnavailable)return lang==='zh'?'日期未能載入':'unavailable';
   if(!updatedAt)return lang==='zh'?'讀取中…':'loading…';
-  return new Intl.DateTimeFormat(lang==='zh'?'zh-HK':'en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(updatedAt);
+  return new Intl.DateTimeFormat(lang==='zh'?'zh-HK':'en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'Asia/Hong_Kong'}).format(updatedAt);
 }
 async function loadUpdatedDate(){
   try{
-    const response=await fetch('data/wines.js',{method:'HEAD',cache:'no-store'});
-    if(!response.ok)throw new Error(`HTTP ${response.status}`);
-    const lastModified=response.headers.get('Last-Modified');
-    const parsedDate=lastModified?new Date(lastModified):null;
-    if(!parsedDate||Number.isNaN(parsedDate.getTime()))throw new Error('The server did not provide a valid Last-Modified date for data/wines.js');
+    let timestamp=window.WINE_DATA_UPDATED_AT;
+    if(timestamp===undefined){
+      const response=await fetch('data/wines.js',{method:'HEAD',cache:'no-store'});
+      if(!response.ok)throw new Error(`HTTP ${response.status}`);
+      timestamp=response.headers.get('Last-Modified');
+    }
+    const parsedDate=typeof timestamp==='string'&&timestamp.trim()?new Date(timestamp):null;
+    if(!parsedDate||Number.isNaN(parsedDate.getTime()))throw new Error('No valid wine-list update timestamp is available; run make pdf-update and publish data/wines.js');
     updatedAt=parsedDate;
+    updateDateUnavailable=false;
   }catch(error){
     updateDateUnavailable=true;
     console.error('Wine-list update date unavailable:',error);
