@@ -57,7 +57,7 @@ WINE_REGION_WORDS = frozenset(
     "meursault puligny montrachet chassagne julien emilion medoc barsac sauternes "
     "fronsac".split()
 )
-DEFAULT_APP_URL = "https://tlhwineteam.github.io/TLH-Master-Wine-List/"
+DEFAULT_APP_URL = "https://tlhwineteam.github.io/TLH-Master-Wine-List/?from=pdf"
 A4_WIDTH, A4_HEIGHT = A4
 PRIORITY_CATEGORY_IDS = frozenset({"c1", "c2", "c6", "c7"})
 INDEX_REGIONAL_CATEGORY_IDS = frozenset(

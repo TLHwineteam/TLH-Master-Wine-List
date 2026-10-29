@@ -684,7 +684,8 @@ function showWelcomeCover(){welcomeVisible=true;welcomeCover.classList.remove('i
 function hideWelcomeCover(){if(!welcomeVisible)return;welcomeVisible=false;localStorage.setItem(WELCOME_DISMISSED_STORAGE_KEY,'true');welcomeCover.classList.add('is-hidden');welcomeCover.classList.remove('returning');welcomeCover.setAttribute('aria-hidden','true');document.body.classList.remove('welcome-active')}
 welcomeCover.addEventListener('click',hideWelcomeCover);
 welcomeCover.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();hideWelcomeCover()}});
-if(localStorage.getItem(WELCOME_DISMISSED_STORAGE_KEY)==='true'){
+const returningFromPdf=new URLSearchParams(window.location.search).get('from')==='pdf';
+if(returningFromPdf||localStorage.getItem(WELCOME_DISMISSED_STORAGE_KEY)==='true'){
   hideWelcomeCover();
 }else{
   showWelcomeCover();
