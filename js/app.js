@@ -1,4 +1,6 @@
 const C=window.WINE_DATA;
+let headingSphereFrame=0;
+const headingSphereMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 let updatedAt=null,updateDateUnavailable=false;let current=C[0].id;const nav=document.querySelector('#nav'),main=document.querySelector('#main'),q=document.querySelector('#q'),st=document.querySelector('#st'),meta=document.querySelector('#meta');const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&gt;','"':'&quot;',"'":'&#39;'}[m]));const n=c=>c.sections.reduce((a,s)=>a+s.items.length,0);
 const wineRegionWords=new Set('france italy germany australia china england spain portugal argentina chile austria switzerland canada usa japan scotland zealand burgundy bordeaux champagne alsace languedoc loire rhone provence tuscany piedmont veneto sicily sardinia rioja ribera priorat douro napa sonoma california washington oregon victoria central otago ningxia yunnan pauillac pomerol margaux estephe pessac leognan cote chalonnaise beaune gevrey chambertin vosne romanee chablis meursault puligny montrachet chassagne julien emilion medoc barsac sauternes fronsac'.split(' '));
 function wineIdentity(item){
@@ -90,6 +92,11 @@ function updateNavigationToggle(){
 }
 navToggle.addEventListener('click',()=>{navigationHidden=!navigationHidden;localStorage.setItem(NAVIGATION_HIDDEN_STORAGE_KEY,String(navigationHidden));updateNavigationToggle();});
 let lang=localStorage.getItem('wineListLanguage')==='zh'?'zh':'en';
+const searchCapsule=document.createElement('div');searchCapsule.className='search-capsule';
+q.before(searchCapsule);searchCapsule.appendChild(q);
+const searchSymbol=document.createElement('span');searchSymbol.className='search-symbol';searchSymbol.setAttribute('aria-hidden','true');
+searchSymbol.innerHTML='<svg viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+searchCapsule.appendChild(searchSymbol);
 let fontSize=localStorage.getItem('wineListFontSize')||'normal';
 if(!['normal','large'].includes(fontSize))fontSize='normal';
 const pick=(obj,key)=>lang==='zh'&&obj&&obj[key+'Zh']?obj[key+'Zh']:(obj?.[key]??'');
@@ -107,15 +114,145 @@ fontControls.querySelectorAll('.font-btn').forEach(btn=>btn.onclick=()=>{fontSiz
 const STAFF_SESSION_KEY='wineListStaffUnlockedUntil';
 const STAFF_SESSION_MS=8*60*60*1000;
 const STAFF_PASSWORD='Marco';
+const managerLightField=document.createElement('div');
+managerLightField.className='manager-light-field';
+managerLightField.setAttribute('aria-hidden','true');
+managerLightField.innerHTML='<span class="light-ribbon"></span><span class="light-ribbon light-ribbon-pink"></span><span class="light-ribbon light-ribbon-prism"></span><span class="nebula-layer"></span><span class="nebula-layer nebula-layer-ice"></span><span class="celestial-bloom"></span>';
+const lightDepthField=document.createElement('div');
+lightDepthField.className='light-depth-field';
+for(let index=0;index<3;index++){
+  const wave=document.createElement('span');
+  wave.className='depth-wave'+(index===1?' depth-wave-recede':'');
+  wave.style.setProperty('--depth-delay',`${-index*4.3}s`);
+  lightDepthField.appendChild(wave);
+}
+const depthColours=['#6cf5ff','#ff63cf','#ac8cff','#ffb976'];
+for(let index=0;index<24;index++){
+  const star=document.createElement('span');
+  const angle=index*137.508*Math.PI/180,radius=14+(index%5)*6;
+  star.className='depth-star'+(index%4===0?' depth-star-recede':'');
+  star.style.setProperty('--star-x',`${(Math.cos(angle)*radius).toFixed(2)}vmin`);
+  star.style.setProperty('--star-y',`${(Math.sin(angle)*radius).toFixed(2)}vmin`);
+  star.style.setProperty('--star-angle',`${index*137.508}deg`);
+  star.style.setProperty('--star-colour',depthColours[index%depthColours.length]);
+  star.style.setProperty('--depth-duration',`${7.5+(index%5)*.8}s`);
+  star.style.setProperty('--depth-delay',`${-index*1.13}s`);
+  lightDepthField.appendChild(star);
+}
+managerLightField.appendChild(lightDepthField);
+document.body.prepend(managerLightField);
+let managerWheelActiveUntil=0;
+function showManagerImpact(element,event){
+  if(!element||!document.documentElement.classList.contains('manager-mode')||document.hidden||
+    element.querySelector(':scope > .manager-impact'))return;
+  const impact=document.createElement('span');
+  impact.className='manager-impact';
+  impact.setAttribute('aria-hidden','true');
+  impact.innerHTML='<span class="impact-ring"></span><span class="impact-streak"></span>';
+  if(event){
+    const box=element.getBoundingClientRect();
+    impact.style.setProperty('--impact-x',`${Math.max(0,Math.min(100,(event.clientX-box.left)/Math.max(1,box.width)*100))}%`);
+    impact.style.setProperty('--impact-y',`${Math.max(0,Math.min(100,(event.clientY-box.top)/Math.max(1,box.height)*100))}%`);
+  }
+  element.classList.add('manager-impact-host');
+  element.appendChild(impact);
+  const timeout=setTimeout(finish,1400);
+  function finish(){
+    clearTimeout(timeout);
+    impact.remove();
+    element.classList.remove('manager-impact-host');
+  }
+  impact.addEventListener('animationend',event=>{
+    if(event.target===impact)finish();
+  });
+}
+function showManagerSectionImpact(){
+  [main.querySelector('.hero'),nav.querySelector('.navsub.active,.navcat.active'),
+    pageStrip.querySelector('.page-thumb.active .page-thumb-page')].forEach(element=>showManagerImpact(element));
+}
+main.addEventListener('pointerdown',event=>{
+  if(event.button===0)showManagerImpact(event.target.closest('.wine,.wotm-feature'),event);
+},{passive:true});
+const managerEffectsObserver='IntersectionObserver' in window?new IntersectionObserver(entries=>{
+  let headingChanged=false;
+  entries.forEach(entry=>{
+    entry.target.classList.toggle('manager-effect-visible',entry.isIntersecting);
+    if(entry.target.classList.contains('hero'))headingChanged=true;
+    if(entry.isIntersecting&&entry.target.matches('.section h3')&&performance.now()<managerWheelActiveUntil){
+      showManagerImpact(entry.target);
+    }
+  });
+  if(headingChanged)startHeadingSphere();
+},{rootMargin:'96px 0px'}):null;
+if(managerEffectsObserver)document.documentElement.classList.add('manager-effects-ready');
+function observeManagerEffects(){
+  if(!managerEffectsObserver)return;
+  managerEffectsObserver.disconnect();
+  document.querySelectorAll('.hero,.wotm-feature,.wine,.section h3,.navcat,.navsub,.feature-media img')
+    .forEach(element=>managerEffectsObserver.observe(element));
+}
 const staffButton=document.createElement('button');staffButton.type='button';staffButton.className='staff-mode-btn';fontControls.insertAdjacentElement('afterend',staffButton);
 const staffDialog=document.createElement('dialog');staffDialog.className='staff-dialog';staffDialog.innerHTML='<form class="staff-dialog-card"><h3 class="staff-dialog-title"></h3><p class="staff-dialog-copy"></p><input class="staff-password" type="password" autocomplete="current-password" spellcheck="false"><p class="staff-error" hidden></p><div class="staff-dialog-actions"><button type="button" class="staff-cancel"></button><button type="submit" class="staff-unlock"></button></div></form>';document.body.appendChild(staffDialog);
 function staffUnlocked(){return Number(localStorage.getItem(STAFF_SESSION_KEY)||0)>Date.now();}
-function updateStaffUI(){const unlocked=staffUnlocked();staffButton.classList.toggle('unlocked',unlocked);staffButton.textContent=unlocked?'🔓 Marco':'🔒';staffButton.setAttribute('aria-label',lang==='zh'?(unlocked?'職員模式已啟用，按此鎖定':'解鎖職員模式'):(unlocked?'Staff mode active. Press to lock':'Unlock staff mode'));staffButton.title=staffButton.getAttribute('aria-label');}
+function updateStaffUI(){const unlocked=staffUnlocked();document.documentElement.classList.toggle('manager-mode',unlocked);document.documentElement.classList.toggle('manager-effects-paused',document.hidden);const wheel=document.querySelector('.navigation-wheel');if(wheel)wheel.hidden=!unlocked;staffButton.classList.toggle('unlocked',unlocked);staffButton.textContent=unlocked?'🔓 Marco':'🔒';staffButton.setAttribute('aria-label',lang==='zh'?(unlocked?'職員模式已啟用，按此鎖定':'解鎖職員模式'):(unlocked?'Staff mode active. Press to lock':'Unlock staff mode'));staffButton.title=staffButton.getAttribute('aria-label');startHeadingSphere();}
 function lockStaffMode(){localStorage.removeItem(STAFF_SESSION_KEY);updateStaffUI();}
 function showStaffLogin(){const input=staffDialog.querySelector('.staff-password'),error=staffDialog.querySelector('.staff-error');staffDialog.querySelector('.staff-dialog-title').textContent=lang==='zh'?'職員登入':'Staff login';staffDialog.querySelector('.staff-dialog-copy').textContent=lang==='zh'?'輸入密碼以啟用職員模式八小時。':'Enter the password to enable staff mode for eight hours.';staffDialog.querySelector('.staff-cancel').textContent=lang==='zh'?'取消':'Cancel';staffDialog.querySelector('.staff-unlock').textContent=lang==='zh'?'解鎖':'Unlock';error.textContent=lang==='zh'?'密碼不正確。':'Incorrect password.';error.hidden=true;input.value='';staffDialog.showModal();setTimeout(()=>input.focus(),50);}
 staffDialog.querySelector('.staff-cancel').onclick=()=>staffDialog.close();staffDialog.querySelector('form').onsubmit=e=>{e.preventDefault();const input=staffDialog.querySelector('.staff-password'),error=staffDialog.querySelector('.staff-error');if(input.value===STAFF_PASSWORD){localStorage.setItem(STAFF_SESSION_KEY,String(Date.now()+STAFF_SESSION_MS));staffDialog.close();updateStaffUI();}else{error.hidden=false;input.select();}};
-staffButton.onclick=()=>{if(staffUnlocked()){if(confirm(lang==='zh'?'鎖定職員模式？':'Lock staff mode?'))lockStaffMode();}else showStaffLogin();};
+staffButton.onclick=()=>{if(staffUnlocked()){lockStaffMode();}else{localStorage.setItem(STAFF_SESSION_KEY,String(Date.now()+STAFF_SESSION_MS));updateStaffUI();}};
 setInterval(updateStaffUI,60000);updateStaffUI();
+window.addEventListener('storage',event=>{if(event.key===STAFF_SESSION_KEY||event.key===null)updateStaffUI();});
+window.addEventListener('focus',updateStaffUI);
+document.addEventListener('visibilitychange',updateStaffUI);
+headingSphereMotion.addEventListener('change',startHeadingSphere);
+const navigationWheel=document.createElement('div');
+navigationWheel.className='navigation-wheel';
+navigationWheel.tabIndex=0;
+navigationWheel.setAttribute('role','group');
+navigationWheel.innerHTML='<span class="wheel-projection" aria-hidden="true"></span><span class="wheel-energy" aria-hidden="true"></span><span class="wheel-orbit" aria-hidden="true"></span><span class="wheel-core" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M8 7l4-4 4 4M12 3v18M8 17l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+document.body.appendChild(navigationWheel);
+let wheelPointer=null,wheelAngle=0,wheelRotation=0;
+function wheelLabel(){return lang==='zh'?'旋轉以捲動本頁：順時針向下，逆時針向上；到達頁首或頁尾即停止。亦可使用上下方向鍵。':'Rotate to scroll this page only: clockwise down, counterclockwise up. Stops at the top and bottom. Or use the Up and Down arrow keys.';}
+function pointerWheelAngle(event){const box=navigationWheel.getBoundingClientRect();return Math.atan2(event.clientY-box.top-box.height/2,event.clientX-box.left-box.width/2);}
+function rotateNavigationWheel(delta){
+  if(!staffUnlocked()){updateStaffUI();return;}
+  const now=performance.now();
+  if(now>managerWheelActiveUntil){
+    showManagerImpact(navigationWheel);
+    showManagerImpact(main.querySelector('.section h3.manager-effect-visible'));
+  }
+  managerWheelActiveUntil=now+500;
+  wheelRotation+=delta*180/Math.PI;
+  navigationWheel.style.setProperty('--wheel-angle',`${wheelRotation}deg`);
+  const maximum=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
+  const target=Math.max(0,Math.min(maximum,window.scrollY+delta*320));
+  window.scrollTo({top:target,behavior:'instant'});
+}
+navigationWheel.addEventListener('pointerdown',event=>{
+  if(!staffUnlocked()||event.button!==0)return;
+  event.preventDefault();
+  wheelPointer=event.pointerId;wheelAngle=pointerWheelAngle(event);
+  navigationWheel.setPointerCapture(event.pointerId);
+  navigationWheel.classList.add('turning');
+});
+navigationWheel.addEventListener('pointermove',event=>{
+  if(event.pointerId!==wheelPointer)return;
+  const angle=pointerWheelAngle(event);
+  const delta=Math.atan2(Math.sin(angle-wheelAngle),Math.cos(angle-wheelAngle));
+  wheelAngle=angle;
+  rotateNavigationWheel(delta);
+});
+function releaseNavigationWheel(){wheelPointer=null;navigationWheel.classList.remove('turning');}
+navigationWheel.addEventListener('lostpointercapture',releaseNavigationWheel);
+navigationWheel.addEventListener('pointerup',releaseNavigationWheel);
+navigationWheel.addEventListener('pointercancel',releaseNavigationWheel);
+navigationWheel.addEventListener('keydown',event=>{
+  const direction={ArrowDown:1,ArrowRight:1,PageDown:3,ArrowUp:-1,ArrowLeft:-1,PageUp:-3}[event.key];
+  if(direction){event.preventDefault();rotateNavigationWheel(direction*.5);}
+});
+navigationWheel.addEventListener('focus',()=>navigationWheel.setAttribute('aria-label',wheelLabel()));
+navigationWheel.setAttribute('aria-label',wheelLabel());
+navigationWheel.title=wheelLabel();
+updateStaffUI();
 let markedWines=[];
 let pendingJumpKey='';
 const markerStatus=document.createElement('div');markerStatus.className='marker-status';markerStatus.hidden=true;document.querySelector('.status').appendChild(markerStatus);
@@ -204,7 +341,7 @@ function stockDotHtml(key){
 async function confirmStockChange(key){
 
   if(!staffUnlocked()){
-    showStaffLogin();
+    staffButton.click();
     return;
   }
 
@@ -312,7 +449,7 @@ function jumpToMarked(index){const selected=markedWines[index];if(!selected)retu
 function markedWineData(element){return{key:element.dataset.wineKey,v:element.dataset.v,name:element.dataset.name,price:element.dataset.price,type:element.dataset.type,categoryId:element.dataset.category,byGlass:isByTheGlass(element.dataset.price),format:'bottle',glasses:1,seats:[]};}
 function bindWineSelection(){
   main.querySelectorAll('.wine,.wotm-feature').forEach(entry=>{
-    const selectWine=()=>addMarkedWine(markedWineData(entry));
+    const selectWine=()=>{addMarkedWine(markedWineData(entry));showManagerImpact(entry);};
     let lastTapAt=0;
     entry.addEventListener('pointerup',event=>{
       if(event.pointerType!=='touch'||entry.classList.contains('sold-out'))return;
@@ -333,6 +470,7 @@ function bindWineSelection(){
     });
   });
   updateMarkerUI();
+  bindWineAi();
 }
 // Navigation intentionally begins hierarchical browsing only after Sommelier Selection.
 const PRE_SOMMELIER_IDS=new Set(['c0','c3','c4','c5']);
@@ -456,6 +594,7 @@ function navigateToCategory(category,swipeDirection=0){
   q.value='';
   navR();
   render();
+  showManagerSectionImpact();
   if(swipeDirection){
     window.scrollTo({top:0,behavior:'smooth'});
     main.classList.remove('page-swipe-enter');
@@ -596,19 +735,10 @@ function navR(){
    ...C.filter(c => !navOrder.includes(c.id))
  ];
 
- nav.innerHTML=orderedC.map(c=>{const kids=navChildren(c),has=kids.length>0,open=has&&c.id===openCat;
-  return `<div class="navgroup"><button data-cat="${c.id}" class="navcat ${c.id===current&&!activeGroup?'active':''}" ${has?`aria-expanded="${open}"`:''}><span>${
-  ['Wine of the Month',
-   'National Day Selection',
-   'Wine by the Glass',
-   'Premium Collection',
-   'Sommelier Selection'
-  ].includes(c.title)
-    ? '<span class="featured-star">★</span>' + esc(pick(c,'title'))
-    : esc(pick(c,'title'))
-}</span>${has?`<span class="chev">${open?'−':'+'}</span>`:''}</button>${has?`<div class="subnav ${open?'show':''}">${kids.map(g=>`<button class="navsub ${c.id===current&&activeGroup===g.name?'active':''}" data-cat="${c.id}" data-group="${esc(g.name)}">${esc(pick(g,'name'))}</button>`).join('')}</div>`:''}</div>`
+ nav.innerHTML=orderedC.map(c=>{const kids=navChildren(c),has=kids.length>0,open=has&&c.id===openCat,featured=navOrder.slice(0,5).includes(c.id);
+  return `<div class="navgroup"><button data-cat="${c.id}" class="navcat ${featured?'nav-featured':''} ${c.id===current&&!activeGroup?'active':''}" aria-current="${c.id===current&&!activeGroup?'page':'false'}" ${has?`aria-expanded="${open}"`:''}><span>${esc(pick(c,'title'))}</span>${has?`<span class="chev">${open?'−':'+'}</span>`:''}${featured?'<span class="nav-capsule-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l2.4 6.6L21 12l-6.6 2.4L12 21l-2.4-6.6L3 12l6.6-2.4L12 3Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></span>':''}</button>${has?`<div class="subnav ${open?'show':''}">${kids.map(g=>`<button class="navsub ${c.id===current&&activeGroup===g.name?'active':''}" aria-current="${c.id===current&&activeGroup===g.name?'page':'false'}" data-cat="${c.id}" data-group="${esc(g.name)}">${esc(pick(g,'name'))}</button>`).join('')}</div>`:''}</div>`
  }).join('');
- nav.querySelectorAll('.navcat').forEach(btn=>btn.onclick=()=>{const id=btn.dataset.cat,c=C.find(x=>x.id===id),has=navChildren(c).length>0;current=id;activeGroup=null;q.value='';openCat=has?(openCat===id?'':id):'';navR();render();scrollTo({top:0,behavior:'smooth'})});
+ nav.querySelectorAll('.navcat').forEach(btn=>btn.onclick=()=>{const id=btn.dataset.cat,c=C.find(x=>x.id===id),has=navChildren(c).length>0;current=id;activeGroup=null;q.value='';openCat=has?(openCat===id?'':id):'';navR();render();showManagerSectionImpact();scrollTo({top:0,behavior:'smooth'})});
  nav.querySelectorAll('.navsub').forEach(btn=>btn.onclick=()=>{
     current = btn.dataset.cat;
     openCat = current;
@@ -616,9 +746,65 @@ function navR(){
     q.value='';
     navR();
     render();
+    showManagerSectionImpact();
     scrollTo({top:0,behavior:'smooth'});
 });
  renderPageStrip();
+}
+function wineResearchPrompt(wine,category){
+  return `Prepare a rigorous master-sommelier-level briefing on this exact wine.
+Wine: ${wine.name}
+Vintage: ${wine.v||'Not specified'}
+List category: ${category.title}
+Restaurant list price: ${wine.price} (HKD; service charge is additional).
+
+Respond in ${lang==='zh'?'Traditional Chinese, retaining original producer and wine names':'English'}.
+Cover:
+1. Producer, appellation, grape varieties, and the exact cuvée identity.
+2. Viticulture: terroir, soils, climate, vineyard practices, vine age and yields where documented.
+3. Winemaking: fermentation, extraction, vessels, oak, maturation, blending and dosage where relevant.
+4. This vintage: conditions, quality, style, maturity, drinking window and storage considerations.
+5. Sensory profile, service temperature, decanting and Cantonese fine-dining pairings for Tin Lung Heen.
+6. Critical acclaim: name the critic, publication, review date, exact vintage and score only when verified.
+7. Business relevance: guest positioning, comparisons, selling points and a concise tableside pitch. Do not claim profitability, margins, purchase costs or sales performance without actual data.
+
+Use reliable producer, appellation and identifiable critic sources. Cite links and dates. Distinguish documented facts, vintage-specific evidence, inference and unknowns. Never invent technical details, quotations, awards, scores or tasting experience. If browsing is unavailable, say so and label unverified claims. End with a short factual summary and questions worth confirming with the producer.`;
+}
+async function showWineAi(wine,category,feedback){
+  if(!staffUnlocked()){updateStaffUI();return;}
+  feedback.hidden=true;
+  feedback.textContent='';
+  try{
+    if(!navigator.clipboard?.writeText)throw new Error('Clipboard API unavailable');
+    const copying=navigator.clipboard.writeText(wineResearchPrompt(wine,category));
+    // Keep the native launch in the original click gesture, before awaiting copy.
+    const link=document.createElement('a');
+    link.href='ms-copilot://';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    await copying;
+  }catch(error){
+    console.error('Wine AI prompt handoff failed:',error);
+    feedback.textContent=lang==='zh'?'未能複製提示詞。請確認使用 HTTPS 並允許剪貼簿存取，然後再按「詢問 AI」。':'Prompt not copied. Use HTTPS and allow clipboard access, then press Ask AI again.';
+    feedback.hidden=false;
+  }
+}
+function bindWineAi(){
+  main.querySelectorAll('.wine,.wotm-feature').forEach(entry=>{
+    const category=C.find(category=>category.id===entry.dataset.category);
+    const wine=category?.sections.flatMap(section=>section.items).find(wine=>wineKey(wine)===entry.dataset.wineKey);
+    if(!wine)return;
+    const button=document.createElement('button');button.type='button';button.className='wine-ai-button';
+    button.textContent=lang==='zh'?'✧ 詢問 AI':'✧ Ask AI';
+    button.setAttribute('aria-label',`${lang==='zh'?'詢問 AI：':'Ask AI about'} ${wine.v||''} ${wine.name}`);
+    button.title=lang==='zh'?'複製提示詞並開啟 Copilot 應用程式；請在該處貼上並傳送。':'Copy prompt and open the Copilot app; paste and send there.';
+    const feedback=document.createElement('p');feedback.className='wine-ai-status';feedback.hidden=true;feedback.setAttribute('role','status');
+    ['pointerup','dblclick','keydown'].forEach(type=>button.addEventListener(type,event=>event.stopPropagation()));
+    button.onclick=event=>{event.stopPropagation();void showWineAi(wine,category,feedback);};
+    const controls=entry.classList.contains('wine')?entry.querySelector('.row'):entry;
+    controls.append(button,feedback);
+  });
 }
 function card(x,category,section){
   const key=wineKey(x),sold=isSoldOut(key),name=pick(x,'name'),price=pick(x,'price');
@@ -655,7 +841,112 @@ function featureCard(x,category,section){
     <div class="wotm-copy">${featureNote(pick(x,'note'))}</div>
   </section>`;
 }
-function bind(){bindStockDots();bindWineSelection();}function render(){const query=q.value.trim().toLowerCase();if(query){let groups=[];C.forEach(c=>c.sections.forEach(s=>{let items=s.items.filter(x=>(c.title+' '+s.name+' '+x.v+' '+x.name+' '+x.price+' '+x.note).toLowerCase().includes(query));if(items.length)groups.push({title:c.title+(s.hideHeading?'':' · '+s.name),items,category:c,section:s})}));let count=groups.reduce((a,g)=>a+g.items.length,0);st.textContent='Search results';meta.textContent=totalSelections+' selections · Updated '+updatedDateText();main.innerHTML=`<section class="hero"><div class="kicker">Search</div><h2>${esc(q.value)}</h2><p>${count} matching selections</p></section>`+(groups.length?groups.map(g=>`<section class="section"><h3>${esc(g.title)}</h3>${g.items.map(x=>card(x,g.category,g.section)).join('')}</section>`).join(''):'<div class="empty">No matching selection found.</div>');bind();return}let c=C.find(x=>x.id===current)||C[0];st.textContent='';meta.textContent=totalSelections+' '+ui().selections+' · '+ui().updated+' '+updatedDateText();const sectionKey=value=>String(value??'')
+function startHeadingSphere(){
+  cancelAnimationFrame(headingSphereFrame);headingSphereFrame=0;
+  const canvas=document.querySelector('.heading-sphere canvas');
+  const hero=canvas?.closest('.hero');
+  if(!canvas||!staffUnlocked()||document.hidden||(managerEffectsObserver&&!hero.classList.contains('manager-effect-visible')))return;
+  const context=canvas.getContext('2d');
+  if(!context){console.error('Holographic heading sphere: 2D canvas is unavailable');return;}
+  const size=180,ratio=Math.min(window.devicePixelRatio||1,3);
+  canvas.width=size*ratio;canvas.height=size*ratio;context.scale(ratio,ratio);
+  const points=Array.from({length:128},(_,index)=>{
+    const y=1-2*(index+.5)/128,r=Math.sqrt(1-y*y),angle=index*Math.PI*(3-Math.sqrt(5));
+    return {x:Math.cos(angle)*r,y,z:Math.sin(angle)*r};
+  });
+  const edges=[];
+  points.forEach((point,i)=>points.slice(i+1).forEach((other,j)=>{
+    if(Math.hypot(point.x-other.x,point.y-other.y,point.z-other.z)<.38)edges.push([i,i+j+1]);
+  }));
+  const glow=context.createRadialGradient(78,66,8,90,78,79);
+  glow.addColorStop(0,'rgba(10,18,57,.7)');
+  glow.addColorStop(.65,'rgba(73,83,194,.12)');
+  glow.addColorStop(.83,'rgba(34,220,255,.2)');
+  glow.addColorStop(.9,'rgba(233,98,255,.15)');
+  glow.addColorStop(1,'rgba(0,173,255,0)');
+  function draw(time){
+    if(!canvas.isConnected||!document.documentElement.classList.contains('manager-mode')||document.hidden||
+      (managerEffectsObserver&&!hero.classList.contains('manager-effect-visible'))){headingSphereFrame=0;return;}
+    const elapsed=headingSphereMotion.matches?0:time*.00015;
+    const sine=Math.sin(elapsed),cosine=Math.cos(elapsed);
+    function project(point){
+      const x=point.x*cosine+point.z*sine;
+      const z=-point.x*sine+point.z*cosine;
+      const scale=65/(1-z*.13);
+      return {x:90+x*scale,y:78+point.y*scale,z};
+    }
+    const projected=points.map(project);
+    context.clearRect(0,0,size,size);
+    context.fillStyle=glow;context.fillRect(0,0,size,size);
+    edges.forEach(([i,j],index)=>{
+      const a=projected[i],b=projected[j];
+      const depth=((a.z+b.z)/2+1)/2;
+      const current=.5+.5*Math.sin(elapsed*3+index*.17);
+      context.strokeStyle=`rgba(${index%3?'61,222,255':'235,116,255'},${.08+depth*.45+current*.18})`;
+      context.lineWidth=.35+depth*.4;
+      context.beginPath();context.moveTo(a.x,a.y);context.lineTo(b.x,b.y);context.stroke();
+    });
+    // Fine orbiting strands carry light around, rather than flattening the sphere.
+    for(let strand=0;strand<4;strand++){
+      const tilt=.4+strand*.75,radius=1.04+strand*.035;
+      let previous=null;
+      for(let step=0;step<=80;step++){
+        const theta=step/80*Math.PI*2+elapsed*(strand%2?-.7:.7);
+        const point=project({x:Math.cos(theta)*radius,y:Math.sin(theta)*Math.cos(tilt)*radius,z:Math.sin(theta)*Math.sin(tilt)*radius});
+        if(previous){
+          const light=(.5+.5*Math.sin(step*.12-elapsed*4+strand))**4;
+          context.strokeStyle=`rgba(${strand%2?'255,135,234':'136,245,255'},${(.1+light*.65)*(.6+(point.z+1)*.2)})`;
+          context.lineWidth=.4+light*.5;
+          context.beginPath();context.moveTo(previous.x,previous.y);context.lineTo(point.x,point.y);context.stroke();
+        }
+        previous=point;
+      }
+    }
+    projected.slice().sort((a,b)=>a.z-b.z).forEach((point,index)=>{
+      context.fillStyle=`rgba(${index%4?'164,248,255':'255,178,239'},${.35+(point.z+1)*.3})`;
+      context.beginPath();context.arc(point.x,point.y,.45+(point.z+1)*.35,0,Math.PI*2);context.fill();
+    });
+    for(let spark=0;spark<16;spark++){
+      const [i,j]=edges[(spark*23)%edges.length],a=projected[i],b=projected[j];
+      const travel=(elapsed*.8+spark*.37)%1;
+      const x=a.x+(b.x-a.x)*travel,y=a.y+(b.y-a.y)*travel;
+      const alpha=.3+((a.z+b.z)/2+1)*.25;
+      context.fillStyle=`rgba(${spark%2?'255,115,223':'49,231,255'},${alpha*.25})`;
+      context.beginPath();context.arc(x,y,3,0,Math.PI*2);context.fill();
+      context.fillStyle=`rgba(235,255,255,${alpha})`;
+      context.beginPath();context.arc(x,y,.9,0,Math.PI*2);context.fill();
+    }
+    context.lineWidth=.65;
+    for(const radius of [26,38,50]){
+      context.strokeStyle=radius===38?'rgba(234,134,255,.65)':'rgba(98,239,255,.65)';
+      context.beginPath();context.ellipse(90,160,radius,radius*.19,0,0,Math.PI*2);context.stroke();
+      const phase=elapsed*2+radius;
+      context.fillStyle='rgba(223,255,255,.95)';
+      context.beginPath();context.arc(90+Math.cos(phase)*radius,160+Math.sin(phase)*radius*.19,1,0,Math.PI*2);context.fill();
+    }
+    if(!headingSphereMotion.matches)headingSphereFrame=requestAnimationFrame(draw);
+  }
+  draw(performance.now());
+}
+function bind(){
+  bindStockDots();
+  bindWineSelection();
+  const hero=main.querySelector('.hero');
+  if(hero){
+    const copy=document.createElement('div');
+    copy.className='hero-copy';
+    while(hero.firstChild)copy.appendChild(hero.firstChild);
+    hero.appendChild(copy);
+    const sphere=document.createElement('span');
+    sphere.className='heading-sphere';
+    sphere.setAttribute('aria-hidden','true');
+    sphere.innerHTML='<canvas></canvas>';
+    hero.appendChild(sphere);
+  }
+  observeManagerEffects();
+  startHeadingSphere();
+}
+function render(){const query=q.value.trim().toLowerCase();if(query){let groups=[];C.forEach(c=>c.sections.forEach(s=>{let items=s.items.filter(x=>(c.title+' '+s.name+' '+x.v+' '+x.name+' '+x.price+' '+x.note).toLowerCase().includes(query));if(items.length)groups.push({title:c.title+(s.hideHeading?'':' · '+s.name),items,category:c,section:s})}));let count=groups.reduce((a,g)=>a+g.items.length,0);st.textContent='Search results';meta.textContent=totalSelections+' selections · Updated '+updatedDateText();main.innerHTML=`<section class="hero"><div class="kicker">Search</div><h2>${esc(q.value)}</h2><p>${count} matching selections</p></section>`+(groups.length?groups.map(g=>`<section class="section"><h3>${esc(g.title)}</h3>${g.items.map(x=>card(x,g.category,g.section)).join('')}</section>`).join(''):'<div class="empty">No matching selection found.</div>');bind();return}let c=C.find(x=>x.id===current)||C[0];st.textContent='';meta.textContent=totalSelections+' '+ui().selections+' · '+ui().updated+' '+updatedDateText();const sectionKey=value=>String(value??'')
   .normalize('NFD')
   .replace(/[\u0300-\u036f]/g,'')
   .toLowerCase()
@@ -670,8 +961,7 @@ let sections=group
 if(c.id==='c0'&&!group){
   const item=c.sections[0]?.items?.[0];
   main.innerHTML=`<section class="hero hero-wotm"><div class="kicker">${esc(ui().brand)}</div><h2>${esc(ui().heroTitle)}</h2><p>${esc(ui().heroSub)}</p></section>`+(item?featureCard(item,c,c.sections[0]):`<div class="empty">${esc(ui().noFeature)}</div>`)+`<div class="legal">${esc(ui().legal)}</div>`;
-  bindStockDots();
-  bindWineSelection();
+  bind();
   return;
 }
 main.innerHTML=`<section class="hero"><div class="kicker">${esc(ui().brand)}${group?' · '+esc(pick(c,'title')):''}</div><h2>${esc(group?pick(group,'name'):pick(c,'title'))}</h2></section>`+sections.map(s=>`<section class="section">${s.hideHeading?'':`<h3>${esc(pick(s,'name'))}</h3>`}${s.items.map(x=>card(x,c,s)).join('')}</section>`).join('')+`<div class="legal">${esc(ui().legalGeneral)}</div>`;bind()}q.oninput=()=>{render();renderPageStrip();};
@@ -680,16 +970,15 @@ render();
 loadUpdatedDate();
 startStockSync();
 
-// Keep the welcome cover dismissed across tabs and repeated PDF returns.
+// Normal openings show the welcome cover; PDF returns go straight to the list.
 const welcomeCover=document.querySelector('#welcome-cover');
-const WELCOME_DISMISSED_STORAGE_KEY='wineListWelcomeDismissed';
 let welcomeVisible=true;
 function showWelcomeCover(){welcomeVisible=true;welcomeCover.classList.remove('is-hidden','returning');void welcomeCover.offsetWidth;welcomeCover.classList.add('returning');welcomeCover.setAttribute('aria-hidden','false');document.body.classList.add('welcome-active')}
-function hideWelcomeCover(){if(!welcomeVisible)return;welcomeVisible=false;localStorage.setItem(WELCOME_DISMISSED_STORAGE_KEY,'true');welcomeCover.classList.add('is-hidden');welcomeCover.classList.remove('returning');welcomeCover.setAttribute('aria-hidden','true');document.body.classList.remove('welcome-active')}
+function hideWelcomeCover(){if(!welcomeVisible)return;welcomeVisible=false;welcomeCover.classList.add('is-hidden');welcomeCover.classList.remove('returning');welcomeCover.setAttribute('aria-hidden','true');document.body.classList.remove('welcome-active')}
 welcomeCover.addEventListener('click',hideWelcomeCover);
 welcomeCover.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();hideWelcomeCover()}});
 const returningFromPdf=new URLSearchParams(window.location.search).get('from')==='pdf';
-if(returningFromPdf||localStorage.getItem(WELCOME_DISMISSED_STORAGE_KEY)==='true'){
+if(returningFromPdf){
   hideWelcomeCover();
 }else{
   showWelcomeCover();

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <defs>
+    <linearGradient id="spectrum" x1="24" y1="64" x2="230" y2="186" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ff52e8"/>
+      <stop offset=".3" stop-color="#ce8cff"/>
+      <stop offset=".5" stop-color="#f0eaff"/>
+      <stop offset=".75" stop-color="#43eaff"/>
+      <stop offset="1" stop-color="#487bff"/>
+    </linearGradient>
+    <linearGradient id="filament" x1="220" y1="40" x2="34" y2="228" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#bbfbff"/>
+      <stop offset=".42" stop-color="#33dcff"/>
+      <stop offset=".65" stop-color="#7981ff"/>
+      <stop offset="1" stop-color="#ff7bdf"/>
+    </linearGradient>
+    <filter id="halo" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5"/>
+    </filter>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="1.5"/>
+    </filter>
+  </defs>
+  <circle cx="128" cy="128" r="99" stroke="url(#spectrum)" stroke-width="8" opacity=".6" filter="url(#halo)"/>
+  <circle cx="128" cy="128" r="99" stroke="url(#spectrum)" stroke-width="2" opacity=".95"/>
+  <circle cx="128" cy="128" r="98" stroke="url(#filament)" stroke-width=".65"/>
+  <circle cx="128" cy="128" r="94" stroke="#c3dcff" stroke-width=".5" opacity=".25"/>
+  <circle cx="128" cy="128" r="109" stroke="url(#spectrum)" stroke-width=".6" opacity=".25"/>
+  <g stroke="url(#spectrum)" stroke-linecap="round">
+    <path d="M35 105C26 78 49 61 57 55S91 26 112 31" stroke-width="1.1" opacity=".6"/>
+    <path d="M170 37C196 44 211 66 219 95S232 151 221 173" stroke-width=".8" opacity=".7"/>
+    <path d="M208 192C195 210 165 225 141 226S91 229 68 211" stroke-width="1" opacity=".65"/>
+    <path d="M36 173C28 162 32 145 28 132S27 101 35 83" stroke-width=".8" opacity=".6"/>
+    <path d="M51 74C70 41 105 26 133 27" stroke-width="3" opacity=".45" filter="url(#soft)"/>
+    <path d="M224 112C229 143 219 176 198 198" stroke-width="3" opacity=".5" filter="url(#soft)"/>
+  </g>
+  <g stroke="#e7ffff" stroke-linecap="round">
+    <path d="M174 40A99 99 0 0 1 206 67" stroke-width="1.6"/>
+    <path d="M30 136A99 99 0 0 1 37 91" stroke-width="1.1"/>
+    <path d="M165 220A99 99 0 0 1 140 226" stroke-width="1.4"/>
+  </g>
+</svg>
