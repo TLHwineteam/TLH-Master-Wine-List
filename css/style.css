@@ -2171,7 +2171,7 @@ html.manager-mode:lang(en) .hero h2{font-style:oblique 8deg}
 /* Keep touch-screen textures bounded when the viewport rotates to landscape. */
 @media (any-pointer:coarse){
   .manager-mode body::before{inset:-8%;filter:none}
-  .manager-mode body::after{inset:55% -8% -10%}
+  .manager-mode body::after{inset:55% -8% auto;height:min(55vmin,260px)}
   .manager-mode :is(.light-ribbon,.nebula-layer,.celestial-bloom),
   .manager-mode .nebula-layer::after{will-change:auto}
   .manager-mode .light-ribbon{
@@ -2198,6 +2198,13 @@ html.manager-mode:lang(en) .hero h2{font-style:oblique 8deg}
   }
   .manager-mode .navigation-wheel,.manager-mode .nav :is(.navcat,.navsub),
   .manager-mode .page-thumb-page{-webkit-backdrop-filter:none;backdrop-filter:none}
+}
+@media (orientation:landscape) and (max-height:500px) and (any-pointer:coarse){
+  .manager-mode .navigation-wheel{
+    right:calc(16px + env(safe-area-inset-right,0px));
+    bottom:calc(16px + env(safe-area-inset-bottom,0px));
+  }
+  html.manager-mode .page-strip{right:calc(160px + env(safe-area-inset-right,0px))}
 }
 .manager-mode.manager-effects-ready .main :is(.hero,.wotm-feature,.wine):not(.manager-effect-visible){
   -webkit-backdrop-filter:none;backdrop-filter:none;
