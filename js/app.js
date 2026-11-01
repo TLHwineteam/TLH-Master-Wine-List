@@ -218,6 +218,7 @@ staffButton.onclick=()=>{if(staffUnlocked()){lockStaffMode();}else{localStorage.
 setInterval(updateStaffUI,60000);updateStaffUI();
 window.addEventListener('storage',event=>{if(event.key===STAFF_SESSION_KEY||event.key===null)updateStaffUI();});
 window.addEventListener('focus',updateStaffUI);
+window.addEventListener('pageshow',updateStaffUI);
 document.addEventListener('visibilitychange',updateStaffUI);
 headingSphereMotion.addEventListener('change',startHeadingSphere);
 const navigationWheel=document.createElement('div');
@@ -1050,6 +1051,7 @@ function showWelcomeCover(){
   if(staffUnlocked()||document.documentElement.classList.contains('manager-mode')){
     hideWelcomeCover();return;
   }
+  if(!welcomeCover.isConnected)document.body.prepend(welcomeCover);
   welcomeCover.hidden=false;
   welcomeCover.classList.remove('is-hidden','returning');
   void welcomeCover.offsetWidth;
@@ -1062,6 +1064,7 @@ function hideWelcomeCover(){
   welcomeCover.classList.remove('returning');
   welcomeCover.setAttribute('aria-hidden','true');
   document.body.classList.remove('welcome-active');
+  if(staffUnlocked()||document.documentElement.classList.contains('manager-mode'))welcomeCover.remove();
 }
 welcomeCover.addEventListener('click',hideWelcomeCover);
 welcomeCover.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();hideWelcomeCover()}});
