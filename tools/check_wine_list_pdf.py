@@ -145,7 +145,7 @@ def main() -> None:
     if len(reader.pages) < 26:
         fail("document is missing page 26")
     sparkling_page = reader.pages[25].extract_text() or ""
-    for wine in ("Sparkling Wine", "Clément Klur", "Lou Dumont", "Silver Heights"):
+    for wine in ("Sparkling Wine", "Lou Dumont", "Silver Heights", "Wiston Estate"):
         if wine not in sparkling_page:
             fail(f"page 26 must contain the Sparkling Wine category and {wine}")
 

@@ -5,11 +5,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import sys
 import unicodedata
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -401,11 +402,48 @@ def count_distinct_wines(data: list[dict[str, Any]]) -> int:
     return len(identities)
 
 
+UPDATED_AT_PATTERN = re.compile(
+    r'^window\.WINE_DATA_UPDATED_AT[ \t]*=[ \t]*"([^"]*)";[ \t]*$',
+    re.MULTILINE,
+)
+HONG_KONG_TIME = timezone(timedelta(hours=8))
+
+
+def stamp_updated_date(path: Path) -> None:
+    try:
+        source = path.read_text(encoding="utf-8")
+        stat = path.stat()
+        timestamp = datetime.fromtimestamp(stat.st_mtime, HONG_KONG_TIME).isoformat(
+            timespec="seconds"
+        )
+        assignment = f'window.WINE_DATA_UPDATED_AT = "{timestamp}";'
+        if UPDATED_AT_PATTERN.search(source):
+            stamped_source = UPDATED_AT_PATTERN.sub(assignment, source, count=1)
+        else:
+            stamped_source = f"{assignment}\n{source}"
+        if stamped_source != source:
+            path.write_text(stamped_source, encoding="utf-8")
+            # Stamping metadata must not become a new wine-data modification.
+            os.utime(path, ns=(stat.st_atime_ns, stat.st_mtime_ns))
+    except OSError as error:
+        raise WineDataError(f"could not save update date in {path}: {error}") from error
+
+
 def updated_date_for_file(path: Path) -> str:
     try:
-        modified_at = datetime.fromtimestamp(path.stat().st_mtime, timezone.utc)
+        source = path.read_text(encoding="utf-8")
+        match = UPDATED_AT_PATTERN.search(source)
+        if match:
+            modified_at = datetime.fromisoformat(match.group(1))
+            if modified_at.utcoffset() is None:
+                raise ValueError("update timestamp must include a time zone")
+        else:
+            modified_at = datetime.fromtimestamp(path.stat().st_mtime, timezone.utc)
     except OSError as error:
         raise WineDataError(f"could not read modification date for {path}: {error}") from error
+    except ValueError as error:
+        raise WineDataError(f"invalid update timestamp in {path}: {error}") from error
+    modified_at = modified_at.astimezone(HONG_KONG_TIME)
     month = modified_at.strftime("%B")
     return f"{modified_at.day} {month} {modified_at.year}"
 
@@ -1477,6 +1515,7 @@ def main() -> None:
         data = load_wine_data(args.data)
         fonts = register_fonts(args.cjk_font)
         wine_count = count_distinct_wines(data)
+        stamp_updated_date(args.data)
         updated_date = updated_date_for_file(args.data)
         build_pdf(
             data,

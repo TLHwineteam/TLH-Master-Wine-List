@@ -194,7 +194,21 @@ function observeManagerEffects(){
 const staffButton=document.createElement('button');staffButton.type='button';staffButton.className='staff-mode-btn';fontControls.insertAdjacentElement('afterend',staffButton);
 const staffDialog=document.createElement('dialog');staffDialog.className='staff-dialog';staffDialog.innerHTML='<form class="staff-dialog-card"><h3 class="staff-dialog-title"></h3><p class="staff-dialog-copy"></p><input class="staff-password" type="password" autocomplete="current-password" spellcheck="false"><p class="staff-error" hidden></p><div class="staff-dialog-actions"><button type="button" class="staff-cancel"></button><button type="submit" class="staff-unlock"></button></div></form>';document.body.appendChild(staffDialog);
 function staffUnlocked(){return Number(localStorage.getItem(STAFF_SESSION_KEY)||0)>Date.now();}
-function updateStaffUI(){const unlocked=staffUnlocked();document.documentElement.classList.toggle('manager-mode',unlocked);document.documentElement.classList.toggle('manager-effects-paused',document.hidden);const wheel=document.querySelector('.navigation-wheel');if(wheel)wheel.hidden=!unlocked;staffButton.classList.toggle('unlocked',unlocked);staffButton.textContent=unlocked?'🔓 Marco':'🔒';staffButton.setAttribute('aria-label',lang==='zh'?(unlocked?'職員模式已啟用，按此鎖定':'解鎖職員模式'):(unlocked?'Staff mode active. Press to lock':'Unlock staff mode'));staffButton.title=staffButton.getAttribute('aria-label');startHeadingSphere();}
+function updateStaffUI(){
+  const unlocked=staffUnlocked();
+  document.documentElement.classList.toggle('manager-mode',unlocked);
+  document.documentElement.classList.toggle('manager-effects-paused',document.hidden);
+  const wheel=document.querySelector('.navigation-wheel');
+  if(wheel){
+    wheel.hidden=!unlocked;
+    if(!unlocked||document.hidden){releaseNavigationWheel();stopNavigationWheelScroll();}
+  }
+  staffButton.classList.toggle('unlocked',unlocked);
+  staffButton.textContent=unlocked?'🔓 Marco':'🔒';
+  staffButton.setAttribute('aria-label',lang==='zh'?(unlocked?'職員模式已啟用，按此鎖定':'解鎖職員模式'):(unlocked?'Staff mode active. Press to lock':'Unlock staff mode'));
+  staffButton.title=staffButton.getAttribute('aria-label');
+  startHeadingSphere();
+}
 function lockStaffMode(){localStorage.removeItem(STAFF_SESSION_KEY);updateStaffUI();}
 function showStaffLogin(){const input=staffDialog.querySelector('.staff-password'),error=staffDialog.querySelector('.staff-error');staffDialog.querySelector('.staff-dialog-title').textContent=lang==='zh'?'職員登入':'Staff login';staffDialog.querySelector('.staff-dialog-copy').textContent=lang==='zh'?'輸入密碼以啟用職員模式八小時。':'Enter the password to enable staff mode for eight hours.';staffDialog.querySelector('.staff-cancel').textContent=lang==='zh'?'取消':'Cancel';staffDialog.querySelector('.staff-unlock').textContent=lang==='zh'?'解鎖':'Unlock';error.textContent=lang==='zh'?'密碼不正確。':'Incorrect password.';error.hidden=true;input.value='';staffDialog.showModal();setTimeout(()=>input.focus(),50);}
 staffDialog.querySelector('.staff-cancel').onclick=()=>staffDialog.close();staffDialog.querySelector('form').onsubmit=e=>{e.preventDefault();const input=staffDialog.querySelector('.staff-password'),error=staffDialog.querySelector('.staff-error');if(input.value===STAFF_PASSWORD){localStorage.setItem(STAFF_SESSION_KEY,String(Date.now()+STAFF_SESSION_MS));staffDialog.close();updateStaffUI();}else{error.hidden=false;input.select();}};
@@ -210,10 +224,41 @@ navigationWheel.tabIndex=0;
 navigationWheel.setAttribute('role','group');
 navigationWheel.innerHTML='<span class="wheel-projection" aria-hidden="true"></span><span class="wheel-energy" aria-hidden="true"></span><span class="wheel-orbit" aria-hidden="true"></span><span class="wheel-core" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M8 7l4-4 4 4M12 3v18M8 17l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
 document.body.appendChild(navigationWheel);
-let wheelPointer=null,wheelAngle=0,wheelRotation=0;
+let wheelPointer=null,wheelAngle=null,wheelRotation=0,wheelSensitivity=320,wheelBounds=null;
+let wheelScrollFrame=0,wheelScrollTarget=null,wheelScrollPosition=0,wheelFrameAt=0,wheelScrollSpeed=1.2;
 function wheelLabel(){return lang==='zh'?'旋轉以捲動本頁：順時針向下，逆時針向上；到達頁首或頁尾即停止。亦可使用上下方向鍵。':'Rotate to scroll this page only: clockwise down, counterclockwise up. Stops at the top and bottom. Or use the Up and Down arrow keys.';}
-function pointerWheelAngle(event){const box=navigationWheel.getBoundingClientRect();return Math.atan2(event.clientY-box.top-box.height/2,event.clientX-box.left-box.width/2);}
-function rotateNavigationWheel(delta){
+function pointerWheelAngle(event){
+  const box=wheelBounds??navigationWheel.getBoundingClientRect();
+  const x=event.clientX-box.left-box.width/2,y=event.clientY-box.top-box.height/2;
+  if(Math.hypot(x,y)<Math.max(14,box.width*.24))return null;
+  return Math.atan2(y,x);
+}
+function stopNavigationWheelScroll(){
+  cancelAnimationFrame(wheelScrollFrame);
+  wheelScrollFrame=0;wheelScrollTarget=null;wheelFrameAt=0;
+}
+function stepNavigationWheelScroll(time){
+  wheelScrollFrame=0;
+  if(wheelScrollTarget===null)return;
+  if(document.hidden||!document.documentElement.classList.contains('manager-mode')){
+    stopNavigationWheelScroll();return;
+  }
+  const maximum=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
+  wheelScrollTarget=Math.max(0,Math.min(maximum,wheelScrollTarget));
+  wheelScrollPosition=Math.max(0,Math.min(maximum,wheelScrollPosition));
+  const difference=wheelScrollTarget-wheelScrollPosition;
+  if(Math.abs(difference)<.5||headingSphereMotion.matches){
+    window.scrollTo({top:wheelScrollTarget,behavior:'instant'});
+    stopNavigationWheelScroll();return;
+  }
+  const elapsed=wheelFrameAt?Math.min(32,Math.max(1,time-wheelFrameAt)):1000/60;
+  wheelFrameAt=time;
+  const step=Math.min(Math.abs(difference)*(1-Math.exp(-elapsed/55)),elapsed*wheelScrollSpeed);
+  wheelScrollPosition+=Math.sign(difference)*step;
+  window.scrollTo({top:wheelScrollPosition,behavior:'instant'});
+  wheelScrollFrame=requestAnimationFrame(stepNavigationWheelScroll);
+}
+function rotateNavigationWheel(delta,pixelsPerRadian=320){
   if(!staffUnlocked()){updateStaffUI();return;}
   const now=performance.now();
   if(now>managerWheelActiveUntil){
@@ -224,12 +269,25 @@ function rotateNavigationWheel(delta){
   wheelRotation+=delta*180/Math.PI;
   navigationWheel.style.setProperty('--wheel-angle',`${wheelRotation}deg`);
   const maximum=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
-  const target=Math.max(0,Math.min(maximum,window.scrollY+delta*320));
-  window.scrollTo({top:target,behavior:'instant'});
+  const target=Math.max(0,Math.min(maximum,(wheelScrollTarget??window.scrollY)+delta*pixelsPerRadian));
+  if(headingSphereMotion.matches){
+    stopNavigationWheelScroll();
+    window.scrollTo({top:target,behavior:'instant'});return;
+  }
+  if(wheelScrollTarget===null)wheelScrollPosition=window.scrollY;
+  wheelScrollTarget=target;
+  wheelScrollSpeed=pixelsPerRadian===120 ? .8 : 1.2;
+  if(!wheelScrollFrame){
+    wheelFrameAt=0;
+    wheelScrollFrame=requestAnimationFrame(stepNavigationWheelScroll);
+  }
 }
 navigationWheel.addEventListener('pointerdown',event=>{
-  if(!staffUnlocked()||event.button!==0)return;
+  if(!staffUnlocked()||event.button!==0||wheelPointer!==null)return;
   event.preventDefault();
+  stopNavigationWheelScroll();
+  wheelSensitivity=event.pointerType==='touch'?120:320;
+  wheelBounds=navigationWheel.getBoundingClientRect();
   wheelPointer=event.pointerId;wheelAngle=pointerWheelAngle(event);
   navigationWheel.setPointerCapture(event.pointerId);
   navigationWheel.classList.add('turning');
@@ -237,17 +295,31 @@ navigationWheel.addEventListener('pointerdown',event=>{
 navigationWheel.addEventListener('pointermove',event=>{
   if(event.pointerId!==wheelPointer)return;
   const angle=pointerWheelAngle(event);
+  if(angle===null||wheelAngle===null){wheelAngle=angle;return;}
   const delta=Math.atan2(Math.sin(angle-wheelAngle),Math.cos(angle-wheelAngle));
   wheelAngle=angle;
-  rotateNavigationWheel(delta);
+  if(Math.abs(delta)<=Math.PI/2+1e-6)rotateNavigationWheel(delta,wheelSensitivity);
 });
-function releaseNavigationWheel(){wheelPointer=null;navigationWheel.classList.remove('turning');}
+function releaseNavigationWheel(event){
+  const pointer=wheelPointer;
+  wheelPointer=null;wheelAngle=null;wheelBounds=null;navigationWheel.classList.remove('turning');
+  if(pointer!==null&&navigationWheel.hasPointerCapture(pointer))navigationWheel.releasePointerCapture(pointer);
+  if(event?.type==='pointercancel'||(pointer!==null&&event?.type==='lostpointercapture'))stopNavigationWheelScroll();
+}
 navigationWheel.addEventListener('lostpointercapture',releaseNavigationWheel);
 navigationWheel.addEventListener('pointerup',releaseNavigationWheel);
 navigationWheel.addEventListener('pointercancel',releaseNavigationWheel);
 navigationWheel.addEventListener('keydown',event=>{
   const direction={ArrowDown:1,ArrowRight:1,PageDown:3,ArrowUp:-1,ArrowLeft:-1,PageUp:-3}[event.key];
   if(direction){event.preventDefault();rotateNavigationWheel(direction*.5);}
+});
+document.addEventListener('pointerdown',event=>{
+  if(!navigationWheel.contains(event.target))stopNavigationWheelScroll();
+},{passive:true});
+window.addEventListener('wheel',stopNavigationWheelScroll,{passive:true});
+const wheelOrientation=window.matchMedia('(orientation:landscape)');
+wheelOrientation.addEventListener('change',()=>{
+  releaseNavigationWheel();stopNavigationWheelScroll();
 });
 navigationWheel.addEventListener('focus',()=>navigationWheel.setAttribute('aria-label',wheelLabel()));
 navigationWheel.setAttribute('aria-label',wheelLabel());
@@ -929,6 +1001,7 @@ function startHeadingSphere(){
   draw(performance.now());
 }
 function bind(){
+  stopNavigationWheelScroll();
   bindStockDots();
   bindWineSelection();
   const hero=main.querySelector('.hero');

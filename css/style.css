@@ -1816,13 +1816,13 @@ html.manager-mode{--muted:#dceefa}
   0%{opacity:0;transform:translate3d(-50%,-50%,-1400px) rotateX(22deg) rotateZ(-20deg)}
   20%{opacity:.3}
   65%{opacity:.55}
-  100%{opacity:0;transform:translate3d(-50%,-50%,470px) rotateX(22deg) rotateZ(25deg)}
+  100%{opacity:0;transform:translate3d(-50%,-50%,var(--depth-wave-near,470px)) rotateX(22deg) rotateZ(25deg)}
 }
 @keyframes glassDepthStar{
   0%{opacity:0;transform:translate3d(var(--star-x),var(--star-y),-1500px) rotate(var(--star-angle)) scaleX(.25)}
   15%{opacity:.35}
   65%{opacity:.85}
-  100%{opacity:0;transform:translate3d(var(--star-x),var(--star-y),490px) rotate(var(--star-angle)) scaleX(1.4)}
+  100%{opacity:0;transform:translate3d(var(--star-x),var(--star-y),var(--depth-star-near,490px)) rotate(var(--star-angle)) scaleX(1.4)}
 }
 @keyframes glassNebulaTide{
   0%,100%{transform:translate3d(-5%,-4%,0) rotate(-12deg) scale(.83,1.03) skew(-7deg,4deg)}
@@ -2168,12 +2168,46 @@ html.manager-mode:lang(en) .hero h2{font-style:oblique 8deg}
   from{transform:translate3d(-65%,0,0) skewX(-12deg)}
   to{transform:translate3d(65%,0,0) skewX(12deg)}
 }
+/* Keep touch-screen textures bounded when the viewport rotates to landscape. */
+@media (any-pointer:coarse){
+  .manager-mode body::before{inset:-8%;filter:none}
+  .manager-mode body::after{inset:55% -8% -10%}
+  .manager-mode :is(.light-ribbon,.nebula-layer,.celestial-bloom),
+  .manager-mode .nebula-layer::after{will-change:auto}
+  .manager-mode .light-ribbon{
+    left:-30vmin;top:-15vmin;
+    width:min(145vmin,620px);height:min(90vmin,380px);filter:blur(6px);
+  }
+  .manager-mode .light-ribbon-pink{left:auto;right:-35vmin;top:20%;filter:blur(10px)}
+  .manager-mode .light-ribbon-prism{left:-10vmin;top:55%;filter:blur(4px)}
+  .manager-mode .nebula-layer{
+    --nebula-texture:url("../images/manager-nebula-colour.webp");
+    width:min(120vmin,480px);-webkit-mask:none;mask:none;
+  }
+  .manager-mode .nebula-layer-ice{--nebula-texture:url("../images/manager-nebula-ice.webp")}
+  .manager-mode .nebula-layer::before{display:none}
+  .manager-mode .nebula-layer::after{filter:none;-webkit-mask:none;mask:none}
+  .manager-mode .celestial-bloom{width:min(80vmin,360px)}
+  .manager-mode .manager-light-field::before{inset:0;filter:none}
+  .manager-mode .manager-light-field::after{inset:0}
+  .manager-mode .light-depth-field{--depth-wave-near:120px;--depth-star-near:180px}
+  .manager-mode .depth-star:nth-of-type(n + 18){display:none}
+  .manager-mode :is(.side,.shell>.status,.page-strip){
+    -webkit-backdrop-filter:blur(6px) saturate(145%);
+    backdrop-filter:blur(6px) saturate(145%);
+  }
+  .manager-mode .navigation-wheel,.manager-mode .nav :is(.navcat,.navsub),
+  .manager-mode .page-thumb-page{-webkit-backdrop-filter:none;backdrop-filter:none}
+}
+.manager-mode.manager-effects-ready .main :is(.hero,.wotm-feature,.wine):not(.manager-effect-visible){
+  -webkit-backdrop-filter:none;backdrop-filter:none;
+}
 .manager-mode.manager-effects-ready :is(.hero,.wotm-feature,.wine,.section h3,.navcat,.navsub,.feature-media img):not(.manager-effect-visible),
 .manager-mode.manager-effects-ready :is(.hero,.wotm-feature,.wine,.section h3,.navcat,.navsub):not(.manager-effect-visible)::before,
 .manager-mode.manager-effects-ready :is(.hero,.wotm-feature,.wine,.section h3,.navcat,.navsub):not(.manager-effect-visible)::after,
 .manager-mode.manager-effects-ready :is(.hero,.wotm-feature,.wine,.section h3,.navcat,.navsub):not(.manager-effect-visible)>.manager-impact,
 .manager-mode.manager-effects-ready :is(.hero,.wotm-feature,.wine,.section h3,.navcat,.navsub):not(.manager-effect-visible)>.manager-impact>*{
-  animation-play-state:paused!important;
+  animation-play-state:paused!important;will-change:auto!important;
 }
 @media (prefers-reduced-motion:reduce){
   .manager-mode *,.manager-mode *::before,.manager-mode *::after{animation:none!important;will-change:auto!important}
