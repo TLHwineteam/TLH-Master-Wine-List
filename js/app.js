@@ -845,6 +845,11 @@ Cover:
 
 Use reliable producer, appellation and identifiable critic sources. Cite links and dates. Distinguish documented facts, vintage-specific evidence, inference and unknowns. Never invent technical details, quotations, awards, scores or tasting experience. If browsing is unavailable, say so and label unverified claims. End with a short factual summary and questions worth confirming with the producer.`;
 }
+function wineAiDestination(){
+  const mobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)||
+    (navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  return mobile?'https://copilot.microsoft.com/':'ms-copilot://';
+}
 async function showWineAi(wine,category,feedback){
   if(!staffUnlocked()){updateStaffUI();return;}
   feedback.hidden=true;
@@ -852,13 +857,22 @@ async function showWineAi(wine,category,feedback){
   try{
     if(!navigator.clipboard?.writeText)throw new Error('Clipboard API unavailable');
     const copying=navigator.clipboard.writeText(wineResearchPrompt(wine,category));
-    // Keep the native launch in the original click gesture, before awaiting copy.
+    // Keep navigation in the original click gesture, before awaiting copy.
     const link=document.createElement('a');
-    link.href='ms-copilot://';
+    const destination=wineAiDestination();
+    link.href=destination;
+    if(destination.startsWith('https:')){
+      link.target='_blank';
+      link.rel='noopener noreferrer';
+    }
     document.body.appendChild(link);
     link.click();
     link.remove();
     await copying;
+    if(destination.startsWith('https:')){
+      feedback.textContent=lang==='zh'?'提示詞已複製。請在 Copilot 貼上並傳送。如新分頁未開啟，請允許彈出式視窗後重試，或自行開啟 copilot.microsoft.com。':'Prompt copied. Paste and send it in Copilot. If no tab opened, allow pop-ups and retry, or open copilot.microsoft.com manually.';
+      feedback.hidden=false;
+    }
   }catch(error){
     console.error('Wine AI prompt handoff failed:',error);
     feedback.textContent=lang==='zh'?'未能複製提示詞。請確認使用 HTTPS 並允許剪貼簿存取，然後再按「詢問 AI」。':'Prompt not copied. Use HTTPS and allow clipboard access, then press Ask AI again.';
@@ -873,7 +887,9 @@ function bindWineAi(){
     const button=document.createElement('button');button.type='button';button.className='wine-ai-button';
     button.textContent=lang==='zh'?'✧ 詢問 AI':'✧ Ask AI';
     button.setAttribute('aria-label',`${lang==='zh'?'詢問 AI：':'Ask AI about'} ${wine.v||''} ${wine.name}`);
-    button.title=lang==='zh'?'複製提示詞並開啟 Copilot 應用程式；請在該處貼上並傳送。':'Copy prompt and open the Copilot app; paste and send there.';
+    button.title=wineAiDestination().startsWith('https:')
+      ?(lang==='zh'?'複製提示詞並開啟 Copilot 網站；請在該處貼上並傳送。':'Copy prompt and open the Copilot website; paste and send there.')
+      :(lang==='zh'?'複製提示詞並開啟 Copilot 應用程式；請在該處貼上並傳送。':'Copy prompt and open the Copilot app; paste and send there.');
     const feedback=document.createElement('p');feedback.className='wine-ai-status';feedback.hidden=true;feedback.setAttribute('role','status');
     ['pointerup','dblclick','keydown'].forEach(type=>button.addEventListener(type,event=>event.stopPropagation()));
     button.onclick=event=>{event.stopPropagation();void showWineAi(wine,category,feedback);};
