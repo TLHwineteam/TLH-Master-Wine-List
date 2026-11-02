@@ -1,4 +1,4 @@
-window.WINE_DATA_UPDATED_AT = "2026-10-30T01:05:46+08:00";
+window.WINE_DATA_UPDATED_AT = "2026-11-03T03:29:10+08:00";
 window.WINE_DATA = [
   {
     "id": "c0",
@@ -6253,20 +6253,20 @@ window.WINE_DATA = [
         "name": "Sherry",
         "items": [
           {
-            "v": "1918",
+            "v": "Solera 1918",
             "name": "Ximenez Spinola PX Muy Viejo Solera, Jerez, Spain",
-            "price": "Glass $1918 · Bottle $2,380",
+            "price": "$2,380",
             "section": "Sherry",
             "nameZh": "希梅內斯-斯皮諾拉酒莊，PX 極老索萊拉雪莉酒，赫雷斯，西班牙",
-            "priceZh": "杯裝 $1918 · 原瓶 $2,380"
+            "priceZh": "$2,380"
           },
           {
-            "v": "1964",
+            "v": "Solera 1964",
             "name": "Ximenez-Spinola PX Old Harvest Solera, Jerez, Spain",
-            "price": "Glass $1964 · Bottle $1,380",
+            "price": "$1,380",
             "section": "Sherry",
             "nameZh": "希梅內斯-斯皮諾拉酒莊，PX 老年份採收索萊拉雪莉酒，赫雷斯，西班牙",
-            "priceZh": "杯裝 $1964 · 原瓶 $1,380"
+            "priceZh": "$1,380"
           }
         ],
         "nameZh": "雪莉酒"
