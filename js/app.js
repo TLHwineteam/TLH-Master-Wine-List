@@ -142,6 +142,131 @@ for(let index=0;index<24;index++){
 }
 managerLightField.appendChild(lightDepthField);
 document.body.prepend(managerLightField);
+const managerDataCanvas=document.createElement('canvas');
+managerDataCanvas.className='manager-data-flow';
+managerDataCanvas.setAttribute('aria-hidden','true');
+managerLightField.appendChild(managerDataCanvas);
+let managerDataFrame=0,managerDataContext=null;
+function startManagerDataFlow(){
+  cancelAnimationFrame(managerDataFrame);managerDataFrame=0;
+  if(document.hidden||!document.documentElement.classList.contains('manager-mode')){
+    managerDataCanvas.width=managerDataCanvas.height=1;
+    return;
+  }
+  if(!managerDataContext){
+    managerDataContext=managerDataCanvas.getContext('2d');
+    if(!managerDataContext){console.error('Manager data-flow background: 2D canvas is unavailable');return;}
+  }
+  // Background detail does not need a full-device-DPR backing surface.
+  const scale=Math.min(1,900/Math.max(innerWidth,innerHeight));
+  const width=Math.max(1,Math.round(innerWidth*scale)),height=Math.max(1,Math.round(innerHeight*scale));
+  managerDataCanvas.width=width;managerDataCanvas.height=height;
+  const context=managerDataContext,short=Math.min(width,height);
+  const compact=window.matchMedia('(any-pointer:coarse)').matches;
+  const columns=compact?44:64,rows=compact?12:16;
+  const colours=['#a69bff','#e38dff','#b0eaff','#f0efff'];
+  const bubbleSprites=['#ff96c9','#93f8ff','#c6abff'].map(colour=>{
+    const sprite=document.createElement('canvas');
+    sprite.width=sprite.height=128;
+    const paint=sprite.getContext('2d');
+    if(!paint){console.error('Manager bubble texture: 2D canvas is unavailable');return null;}
+    const rim=paint.createRadialGradient(64,64,33,64,64,61);
+    rim.addColorStop(0,'transparent');rim.addColorStop(.7,'rgba(151,115,255,.04)');
+    rim.addColorStop(.87,colour);rim.addColorStop(.95,'rgba(194,130,255,.18)');rim.addColorStop(1,'transparent');
+    paint.fillStyle=rim;paint.fillRect(0,0,128,128);
+    paint.save();paint.beginPath();paint.arc(64,64,56,0,Math.PI*2);paint.clip();
+    const pearl=paint.createRadialGradient(37,25,1,39,30,51);
+    pearl.addColorStop(0,'#f1ffff');pearl.addColorStop(.2,'rgba(153,255,244,.85)');
+    pearl.addColorStop(.48,'rgba(179,142,255,.38)');pearl.addColorStop(1,'transparent');
+    paint.fillStyle=pearl;paint.fillRect(0,0,128,128);
+    const blush=paint.createRadialGradient(92,100,0,92,100,57);
+    blush.addColorStop(0,'rgba(255,235,195,.9)');blush.addColorStop(.25,'rgba(255,127,205,.6)');
+    blush.addColorStop(.65,'rgba(119,134,255,.15)');blush.addColorStop(1,'transparent');
+    paint.fillStyle=blush;paint.fillRect(0,0,128,128);paint.restore();
+    paint.strokeStyle='rgba(236,255,255,.75)';paint.lineWidth=1.2;
+    paint.beginPath();paint.arc(64,64,55,Math.PI*1.12,Math.PI*1.42);paint.stroke();
+    return sprite;
+  }).filter(Boolean);
+  const routes=[];
+  for(let side=0;side<4;side++){
+    for(let index=0;index<6;index++){
+      const lane=(index-2.5)*.026;
+      const points=[[.5+lane,.5],[.5+lane,.37-index*.014],
+        [.18+index*.047,.2+index*.018],[.18+index*.047,.025]];
+      const angle=side*Math.PI/2;
+      const rotated=points.map(([x,y])=>({
+        x:(.5+(x-.5)*Math.cos(angle)-(y-.5)*Math.sin(angle))*width,
+        y:(.5+(x-.5)*Math.sin(angle)+(y-.5)*Math.cos(angle))*height
+      }));
+      const lengths=rotated.slice(1).map((point,i)=>Math.hypot(point.x-rotated[i].x,point.y-rotated[i].y));
+      routes.push({points:rotated,lengths,total:lengths.reduce((sum,length)=>sum+length,0)});
+    }
+  }
+  function draw(time){
+    managerDataFrame=0;
+    if(document.hidden||!document.documentElement.classList.contains('manager-mode'))return;
+    const t=headingSphereMotion.matches?0:time*.00024;
+    context.clearRect(0,0,width,height);
+    context.lineWidth=.65;context.strokeStyle='rgba(55,235,210,.17)';
+    routes.forEach((route,index)=>{
+      context.beginPath();
+      route.points.forEach((point,i)=>i?context.lineTo(point.x,point.y):context.moveTo(point.x,point.y));
+      context.stroke();
+      let distance=((t*.18+index*.137)%1)*route.total;
+      let segment=0;
+      while(segment<route.lengths.length-1&&distance>route.lengths[segment]){
+        distance-=route.lengths[segment++];
+      }
+      const a=route.points[segment],b=route.points[segment+1],fraction=distance/route.lengths[segment];
+      const x=a.x+(b.x-a.x)*fraction,y=a.y+(b.y-a.y)*fraction;
+      context.fillStyle='rgba(65,255,225,.1)';
+      context.beginPath();context.arc(x,y,5,0,Math.PI*2);context.fill();
+      context.fillStyle='rgba(152,255,240,.7)';
+      context.beginPath();context.arc(x,y,1.5,0,Math.PI*2);context.fill();
+    });
+    const chip=short*.065;
+    context.strokeStyle='rgba(91,255,225,.32)';
+    context.strokeRect(width*.5-chip,height*.5-chip,chip*2,chip*2);
+    context.strokeRect(width*.5-chip*.72,height*.5-chip*.72,chip*1.44,chip*1.44);
+    for(let sheet=0;sheet<2;sheet++){
+      const phase=t*(sheet?-.7:1)+sheet*2.7;
+      for(let row=0;row<rows;row++){
+        const v=row/(rows-1)*2-1;
+        context.fillStyle=colours[(row+sheet)%colours.length];
+        for(let column=0;column<columns;column++){
+          const u=column/(columns-1);
+          const twist=u*Math.PI*2.3+phase;
+          const depth=Math.sin(twist+v*.65);
+          const spread=(.07+.06*(1+Math.cos(u*Math.PI*3-phase)))*short;
+          const x=u*width+Math.sin(phase*.55+v)*short*.035;
+          const y=height*(sheet?.66:.34)+Math.sin(twist)*short*.16+
+            v*spread*Math.cos(twist*.65)+Math.sin(v*2+phase)*short*.025;
+          const radius=(.55+(depth+1)*.65)*(1-Math.abs(v)*.28);
+          context.globalAlpha=(.16+(depth+1)*.22)*(1-Math.abs(v)*.5);
+          context.beginPath();context.arc(x,y,radius,0,Math.PI*2);context.fill();
+        }
+      }
+    }
+    context.globalAlpha=1;
+    if(bubbleSprites.length){
+      for(let index=0;index<(compact?8:12);index++){
+        const progress=(t*(.1+index%3*.025)+index*.173)%1;
+        const radius=Math.min(compact?64:88,short*(.035+(index%4)*.025));
+        const x=(.08+(index*.271)% .84)*width+Math.sin(t*.5+index*2)*short*.055;
+        const y=height+radius-progress*(height+radius*2);
+        const swell=1+Math.sin(t*.7+index)*.08;
+        context.globalAlpha=.48*Math.min(1,progress*10,(1-progress)*10);
+        context.drawImage(bubbleSprites[index%bubbleSprites.length],
+          x-radius*swell,y-radius/swell,radius*2*swell,radius*2/swell);
+      }
+      context.globalAlpha=1;
+    }
+    if(!headingSphereMotion.matches)managerDataFrame=requestAnimationFrame(draw);
+  }
+  draw(performance.now());
+}
+window.addEventListener('resize',startManagerDataFlow);
+headingSphereMotion.addEventListener('change',startManagerDataFlow);
 let managerWheelActiveUntil=0;
 function showManagerImpact(element,event){
   if(!element||!document.documentElement.classList.contains('manager-mode')||document.hidden||
@@ -210,6 +335,7 @@ function updateStaffUI(){
   staffButton.setAttribute('aria-label',lang==='zh'?(unlocked?'職員模式已啟用，按此鎖定':'解鎖職員模式'):(unlocked?'Staff mode active. Press to lock':'Unlock staff mode'));
   staffButton.title=staffButton.getAttribute('aria-label');
   startHeadingSphere();
+  startManagerDataFlow();
 }
 function lockStaffMode(){localStorage.removeItem(STAFF_SESSION_KEY);updateStaffUI();}
 function showStaffLogin(){const input=staffDialog.querySelector('.staff-password'),error=staffDialog.querySelector('.staff-error');staffDialog.querySelector('.staff-dialog-title').textContent=lang==='zh'?'職員登入':'Staff login';staffDialog.querySelector('.staff-dialog-copy').textContent=lang==='zh'?'輸入密碼以啟用職員模式八小時。':'Enter the password to enable staff mode for eight hours.';staffDialog.querySelector('.staff-cancel').textContent=lang==='zh'?'取消':'Cancel';staffDialog.querySelector('.staff-unlock').textContent=lang==='zh'?'解鎖':'Unlock';error.textContent=lang==='zh'?'密碼不正確。':'Incorrect password.';error.hidden=true;input.value='';staffDialog.showModal();setTimeout(()=>input.focus(),50);}
@@ -225,7 +351,7 @@ const navigationWheel=document.createElement('div');
 navigationWheel.className='navigation-wheel';
 navigationWheel.tabIndex=0;
 navigationWheel.setAttribute('role','group');
-navigationWheel.innerHTML='<span class="wheel-projection" aria-hidden="true"></span><span class="wheel-energy" aria-hidden="true"></span><span class="wheel-orbit" aria-hidden="true"></span><span class="wheel-core" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M8 7l4-4 4 4M12 3v18M8 17l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+navigationWheel.innerHTML='<span class="wheel-projection" aria-hidden="true"></span><span class="wheel-energy" aria-hidden="true"></span><span class="wheel-orbit" aria-hidden="true"></span><span class="wheel-telemetry" aria-hidden="true"></span><span class="wheel-core" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M8 7l4-4 4 4M12 3v18M8 17l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
 document.body.appendChild(navigationWheel);
 let wheelPointer=null,wheelAngle=null,wheelRotation=0,wheelSensitivity=320,wheelBounds=null;
 let wheelScrollFrame=0,wheelScrollTarget=null,wheelScrollPosition=0,wheelFrameAt=0,wheelScrollSpeed=1.2;

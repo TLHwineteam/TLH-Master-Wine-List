@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
+  <defs>
+    <linearGradient id="spectral" x1="25" y1="30" x2="210" y2="205" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#b3ffff"/><stop offset=".25" stop-color="#65deff"/>
+      <stop offset=".48" stop-color="#c5a0ff"/><stop offset=".72" stop-color="#ff79de"/>
+      <stop offset="1" stop-color="#ffe4c2"/>
+    </linearGradient>
+  </defs>
+  <g stroke="url(#spectral)" transform="rotate(-90 120 120)">
+    <circle cx="120" cy="120" r="115" stroke-width=".6" opacity=".65"/>
+    <circle cx="120" cy="120" r="110" stroke-width="3" stroke-dasharray="1 4.76" opacity=".85"/>
+    <circle cx="120" cy="120" r="101" stroke-width="2" stroke-dasharray="92 12 28 8 44 14 112 18 42 13 67 185"/>
+    <circle cx="120" cy="120" r="95" stroke-width=".7" opacity=".8"/>
+    <circle cx="120" cy="120" r="90" stroke-width="5" stroke-dasharray="1 6.85" opacity=".6"/>
+    <circle cx="120" cy="120" r="83" stroke-width="1.5" stroke-dasharray="54 19 120 30 55 18 90 136"/>
+    <circle cx="120" cy="120" r="77" stroke-width=".6" opacity=".8"/>
+    <circle cx="120" cy="120" r="66" stroke-width="2" stroke-dasharray="2 7.42" opacity=".75"/>
+    <circle cx="120" cy="120" r="59" stroke-width=".7" opacity=".6"/>
+    <path d="M120 2v12m118 106h-12M120 238v-12M2 120h12" stroke-width="2"/>
+    <path d="m171 32-5 9m42 28-9 5m9 97-9-5m-28 42-5-9m-97 9 5-9m-42-28 9-5m-9-97 9 5m28-42 5 9" opacity=".85"/>
+    <path d="M120 20v6m94 94h6m-100 94v6m-94-100h-6" stroke-width="4"/>
+  </g>
+  <g fill="#ccfaff" font-family="monospace" font-size="7" text-anchor="middle" opacity=".85">
+    <text x="120" y="49">000</text><text x="194" y="122">090</text>
+    <text x="120" y="196">180</text><text x="46" y="122">270</text>
+  </g>
+  <g fill="#edb7ff">
+    <circle cx="50" cy="50" r="2"/><circle cx="190" cy="190" r="2"/>
+    <circle cx="190" cy="50" r="1.5"/><circle cx="50" cy="190" r="1.5"/>
+  </g>
+  <g stroke="#c1ffff" opacity=".7">
+    <path d="M111 12h18m-18 216h18M12 111v18m216-18v18"/>
+    <path d="M73 63h7v7m80-7h7v7m0 90v7h-7m-80 0h-7v-7"/>
+  </g>
+</svg>

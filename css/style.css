@@ -1411,6 +1411,7 @@ html.manager-mode{--muted:#dceefa}
   animation:glassDepthFloor 18s ease-in-out infinite alternate;
 }
 .manager-light-field{display:none}
+.manager-data-flow{position:absolute;inset:0;z-index:2;width:100%;height:100%;pointer-events:none}
 .manager-mode .manager-light-field{
   display:block;position:fixed;inset:0;overflow:hidden;
   z-index:-1;pointer-events:none;contain:layout paint;
@@ -2005,6 +2006,32 @@ html.manager-mode .side{
   color:#efffff;border-color:#c9ffff;background:radial-gradient(circle at 30% 20%,#8ce9f0,#176d84 65%,#153a60);
   box-shadow:inset 0 1px rgba(255,255,255,.9),0 0 15px rgba(106,248,255,.45);
 }
+/* Spectral edge facets surround a dark, stable reading surface. */
+.manager-mode{
+  --opal-pane:
+    radial-gradient(ellipse at 2% 5%,rgba(143,248,255,.52),transparent 30%),
+    radial-gradient(ellipse at 97% 95%,rgba(255,154,214,.44),transparent 30%),
+    linear-gradient(168deg,transparent 12%,rgba(150,133,255,.24) 15%,transparent 23% 73%,rgba(255,207,167,.18) 78%,transparent 83%),
+    linear-gradient(94deg,rgba(49,31,96,.65),rgba(9,24,49,.97) 28% 72%,rgba(68,29,100,.72)),
+    conic-gradient(from 120deg,#463790,#324d88,#7854a3,#28536b,#77518c,#463790);
+}
+.manager-mode .side .search-capsule,.manager-mode .nav :is(.navcat,.navsub){
+  background:var(--opal-pane);
+  border-color:#c3b9f5;
+  box-shadow:inset 0 1px 2px rgba(238,255,255,.8),inset 0 -2px 3px rgba(193,133,255,.4),
+    inset 3px 0 5px rgba(93,220,255,.2),inset -3px 0 5px rgba(255,140,201,.22),
+    -2px 0 12px rgba(109,172,255,.2),2px 0 14px rgba(218,115,255,.23),0 8px 18px rgba(0,4,24,.4);
+}
+.manager-mode .nav .navcat::before{
+  background:
+    linear-gradient(110deg,transparent 20%,rgba(192,225,255,.17) 32%,transparent 40% 62%,rgba(255,177,229,.15) 70%,transparent 80%),
+    radial-gradient(ellipse at 3% 0%,rgba(170,255,250,.3),transparent 35%);
+}
+.manager-mode .nav .nav-capsule-orb{
+  background:
+    linear-gradient(135deg,rgba(245,255,255,.35),transparent 35% 64%,rgba(255,190,224,.3) 68%,transparent 80%),
+    conic-gradient(from 35deg,#265d81,#765fa9,#354c82,#9066a3,#317c86,#265d81);
+}
 html.manager-mode .page-strip{
   left:max(8px,env(safe-area-inset-left,0px));right:max(8px,env(safe-area-inset-right,0px));
   bottom:max(6px,env(safe-area-inset-bottom,0px));min-height:78px;
@@ -2103,7 +2130,11 @@ html.manager-mode:lang(en) .hero h2{font-style:oblique 8deg}
 }
 .manager-mode .nav :is(.navcat.active,.navsub.active),
 .manager-mode .page-thumb.active .page-thumb-page{
-  background:linear-gradient(125deg,#146680,#314b89)!important;
+  background:
+    radial-gradient(ellipse at 0% 12%,rgba(134,255,242,.5),transparent 40%),
+    radial-gradient(ellipse at 100% 88%,rgba(244,161,242,.42),transparent 38%),
+    linear-gradient(160deg,transparent 18%,rgba(158,167,255,.2) 22%,transparent 30% 72%,rgba(255,211,167,.17) 78%,transparent 84%),
+    linear-gradient(100deg,#18445f,#17374e 34% 64%,#4c387b)!important;
   color:#f2ffff!important;border-color:#e4ffff;
   box-shadow:inset 0 2px 3px #efffff,inset 0 -2px 5px rgba(104,255,247,.7),
     0 0 0 2px rgba(167,255,255,.65),0 0 22px rgba(43,246,255,.8),
@@ -2120,6 +2151,18 @@ html.manager-mode:lang(en) .hero h2{font-style:oblique 8deg}
 .manager-mode .navigation-wheel.turning{
   box-shadow:0 0 0 2px rgba(192,255,255,.8),0 0 28px rgba(42,241,255,.75),
     0 0 50px rgba(235,107,255,.55);
+}
+.manager-mode .wheel-telemetry{
+  position:absolute;inset:1px;pointer-events:none;border-radius:50%;
+  background:url("../images/manager-wheel-hud.svg") center / contain no-repeat;
+  transform:rotate(var(--wheel-angle));
+}
+.manager-mode .wheel-energy{filter:drop-shadow(0 3px 2px rgba(38,28,92,.55))}
+.manager-mode .wheel-core{
+  background:
+    linear-gradient(135deg,rgba(198,248,255,.2),transparent 35% 68%,rgba(251,173,239,.18) 72%,transparent 85%),
+    conic-gradient(from 25deg,#142c53,#4a437f,#21355c,#65477d,#16374d,#142c53);
+  border-color:#b9bfee;
 }
 .manager-impact{display:none}
 .manager-mode .page-thumb-page{position:relative;isolation:isolate;overflow:hidden}
