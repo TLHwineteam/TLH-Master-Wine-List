@@ -4,7 +4,7 @@ catch(error){catalogueError=String(error.message||error);console.error('Catalogu
 let C=catalogue?catalogue.getData():window.WINE_DATA;
 let headingSphereFrame=0;
 const headingSphereMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
-const phoneGraphics=window.matchMedia('(any-pointer:coarse) and (max-width:600px), (any-pointer:coarse) and (max-height:500px)');
+const phoneLayout=window.matchMedia('(any-pointer:coarse) and (max-width:600px), (any-pointer:coarse) and (max-height:500px)');
 let searchRenderTimer=0;
 let updatedAt=null,updateDateUnavailable=false;let current=C[0].id;const nav=document.querySelector('#nav'),main=document.querySelector('#main'),q=document.querySelector('#q'),st=document.querySelector('#st'),meta=document.querySelector('#meta');const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));const n=c=>c.sections.reduce((a,s)=>a+s.items.length,0);
 const wineRegionWords=new Set('france italy germany australia china england spain portugal argentina chile austria switzerland canada usa japan scotland zealand burgundy bordeaux champagne alsace languedoc loire rhone provence tuscany piedmont veneto sicily sardinia rioja ribera priorat douro napa sonoma california washington oregon victoria central otago ningxia yunnan pauillac pomerol margaux estephe pessac leognan cote chalonnaise beaune gevrey chambertin vosne romanee chablis meursault puligny montrachet chassagne julien emilion medoc barsac sauternes fronsac'.split(' '));
@@ -110,11 +110,71 @@ const pick=(obj,key)=>lang==='zh'&&obj&&obj[key+'Zh']?obj[key+'Zh']:(obj?.[key]?
 const ui=()=>lang==='zh'?{brand:'天龍軒',search:'搜尋酒款',selections:'款精選',updated:'更新於',featured:'重點推介',heroTitle:'每月精選佳釀',heroSub:'精選珍稀佳釀，細味酒莊與年份故事',legal:'所有價格均以港幣計算，另收加一服務費。售價超過港幣10,000元的酒款均按現況出售，開瓶後恕不退換。',legalGeneral:'所有價格均以港幣計算，另收加一服務費。所有酒款均經品質檢查。售價超過港幣10,000元的酒款均按現況出售，開瓶後恕不退換。',noFeature:'暫未有精選酒款。'}:{brand:'Tin Lung Heen',search:'Search wines',selections:'selections',updated:'Updated',featured:'Featured selection',heroTitle:'Wine of the Month',heroSub:'A rare bottle selected for a closer look',legal:'All prices are in HK$ and subject to 10% service charge. Wines priced over HK$10,000 are sold "AS-IS"; no return or refund after the wine is opened.',legalGeneral:'All prices are in HK$ and subject to 10% service charge. All wines are inspected for quality. Wines priced over HK$10,000 are sold "AS-IS"; no return or refund after the wine is opened.',noFeature:'No featured wine found.'};
 const langToggle=document.createElement('button');langToggle.type='button';langToggle.className='lang-toggle';meta.insertAdjacentElement('afterend',langToggle);
 const fontControls=document.createElement('div');fontControls.className='font-controls';fontControls.setAttribute('role','group');fontControls.setAttribute('aria-label','Text size');fontControls.innerHTML='<button type="button" class="font-btn" data-size="normal" aria-label="Normal text">A</button><button type="button" class="font-btn" data-size="large" aria-label="Large text">A+</button>';langToggle.insertAdjacentElement('afterend',fontControls);
+const fullscreenButton=document.querySelector('#fullscreen-toggle');
+let fullscreenBusy=false;
+function fullscreenElement(){return document.fullscreenElement||document.webkitFullscreenElement;}
+function fullscreenAPI(){
+  const root=document.documentElement;
+  if(document.fullscreenEnabled!==false&&typeof root.requestFullscreen==='function'&&typeof document.exitFullscreen==='function'){
+    return {enter:()=>root.requestFullscreen({navigationUI:'hide'}),exit:()=>document.exitFullscreen()};
+  }
+  if(document.webkitFullscreenEnabled!==false&&typeof root.webkitRequestFullscreen==='function'&&typeof document.webkitExitFullscreen==='function'){
+    return {enter:()=>root.webkitRequestFullscreen(),exit:()=>document.webkitExitFullscreen()};
+  }
+  return null;
+}
+function updateFullscreenUI(){
+  const active=!!fullscreenElement(),available=!!fullscreenAPI();
+  const label=lang==='zh'?(active?'退出全螢幕':'進入全螢幕'):(active?'Exit fullscreen':'Enter fullscreen');
+  fullscreenButton.hidden=!available&&!active;
+  fullscreenButton.disabled=fullscreenBusy||!available;
+  fullscreenButton.title=label;fullscreenButton.setAttribute('aria-label',label);
+  fullscreenButton.setAttribute('aria-pressed',String(active));
+  fullscreenButton.querySelector('path').setAttribute('d',active?'M3 8h5V3m8 0v5h5M8 21v-5H3m18 0h-5v5':'M8 3H3v5m13-5h5v5M3 16v5h5m8 0h5v-5');
+  fullscreenButton.closest('.status').classList.toggle('fullscreen-available',!fullscreenButton.hidden);
+}
+function waitForFullscreen(action,active){
+  return new Promise((resolve,reject)=>{
+    let settled=false;
+    const change=()=>{if(!!fullscreenElement()===active)finish();};
+    const failed=()=>finish(new Error('The browser rejected the fullscreen transition.'));
+    const finish=error=>{
+      if(settled)return;
+      settled=true;clearTimeout(timer);
+      ['fullscreenchange','webkitfullscreenchange'].forEach(name=>document.removeEventListener(name,change));
+      ['fullscreenerror','webkitfullscreenerror'].forEach(name=>document.removeEventListener(name,failed));
+      if(error)reject(error);else resolve();
+    };
+    const timer=setTimeout(()=>finish(new Error('The browser did not confirm the fullscreen transition.')),10000);
+    ['fullscreenchange','webkitfullscreenchange'].forEach(name=>document.addEventListener(name,change));
+    ['fullscreenerror','webkitfullscreenerror'].forEach(name=>document.addEventListener(name,failed));
+    try{
+      // Older WebKit reports completion through events instead of a promise.
+      const result=action();
+      if(result&&typeof result.then==='function')result.then(change,finish);
+      change();
+    }catch(error){finish(error);}
+  });
+}
+async function toggleFullscreen(){
+  if(fullscreenBusy)return;
+  const api=fullscreenAPI();
+  if(!api){updateFullscreenUI();return;}
+  fullscreenBusy=true;updateFullscreenUI();
+  const entering=!fullscreenElement();
+  try{await waitForFullscreen(entering?api.enter:api.exit,entering);}
+  catch(error){
+    console.error('Wine-list fullscreen transition failed:',error);
+    alert(lang==='zh'?'瀏覽器未能切換全螢幕。請嘗試在 Safari 開啟網站，然後再次點按。iPadOS 仍可能保留系統狀態列。':'The browser could not switch fullscreen mode. Try opening the site in Safari and tapping again. iPadOS may still retain its system status bar.');
+  }finally{fullscreenBusy=false;updateFullscreenUI();}
+}
+fullscreenButton.addEventListener('click',toggleFullscreen);
+['fullscreenchange','webkitfullscreenchange'].forEach(name=>document.addEventListener(name,updateFullscreenUI));
 function updateLanguageUI(){
   langToggle.innerHTML=
     lang==='zh'
       ? '<span class="active">繁</span><span>/</span><span>EN</span>'
-      : '<span>繁</span><span>/</span><span class="active">EN</span>';langToggle.setAttribute('aria-label',lang==='zh'?'切換至英文':'Switch to Traditional Chinese');document.documentElement.lang=lang==='zh'?'zh-Hant-HK':'en-GB';brandName.textContent=lang==='zh'?'天龍軒':'Tin Lung Heen';wineListTitle.textContent=lang==='zh'?'葡萄酒及飲料全單':'Master Wine List';q.placeholder=ui().search;updateNavigationToggle();}
+      : '<span>繁</span><span>/</span><span class="active">EN</span>';langToggle.setAttribute('aria-label',lang==='zh'?'切換至英文':'Switch to Traditional Chinese');document.documentElement.lang=lang==='zh'?'zh-Hant-HK':'en-GB';brandName.textContent=lang==='zh'?'天龍軒':'Tin Lung Heen';wineListTitle.textContent=lang==='zh'?'葡萄酒及飲料全單':'Master Wine List';q.placeholder=ui().search;updateNavigationToggle();updateFullscreenUI();}
 langToggle.onclick=()=>{lang=lang==='zh'?'en':'zh';localStorage.setItem('wineListLanguage',lang);updateLanguageUI();updateStaffUI();navR();render();};updateLanguageUI();
 function updateFontUI(){document.documentElement.dataset.fontSize=fontSize;fontControls.querySelectorAll('.font-btn').forEach(btn=>{const active=btn.dataset.size===fontSize;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active));});}
 fontControls.querySelectorAll('.font-btn').forEach(btn=>btn.onclick=()=>{fontSize=btn.dataset.size;localStorage.setItem('wineListFontSize',fontSize);updateFontUI();});updateFontUI();
@@ -154,7 +214,6 @@ managerDataCanvas.setAttribute('aria-hidden','true');
 managerLightField.appendChild(managerDataCanvas);
 let managerDataFrame=0,managerDataContext=null;
 let managerDataScene=null;
-let managerDataScrolling=false,managerDataScrollTimer=0;
 function startManagerDataFlow(){
   cancelAnimationFrame(managerDataFrame);managerDataFrame=0;
   if(document.hidden||!document.documentElement.classList.contains('manager-mode')){
@@ -162,24 +221,21 @@ function startManagerDataFlow(){
     managerDataScene=null;
     return;
   }
-  if(phoneGraphics.matches&&managerDataScrolling)return;
   if(!managerDataContext){
     managerDataContext=managerDataCanvas.getContext('2d');
     if(!managerDataContext){console.error('Manager data-flow background: 2D canvas is unavailable');return;}
   }
   // Background detail does not need a full-device-DPR backing surface.
-  const phone=phoneGraphics.matches;
-  const scale=Math.min(1,(phone?600:900)/Math.max(innerWidth,innerHeight));
+  const scale=Math.min(1,900/Math.max(innerWidth,innerHeight));
   const width=Math.max(1,Math.round(innerWidth*scale)),height=Math.max(1,Math.round(innerHeight*scale));
-  const compact=window.matchMedia('(any-pointer:coarse)').matches;
-  const sceneKey=[width,height,phone,compact,headingSphereMotion.matches].join(':');
+  const sceneKey=[width,height,headingSphereMotion.matches].join(':');
   if(managerDataScene?.key===sceneKey){
-    managerDataScene.draw(performance.now(),true);
+    managerDataScene.draw(performance.now());
     return;
   }
   managerDataCanvas.width=width;managerDataCanvas.height=height;
   const context=managerDataContext,short=Math.min(width,height);
-  const columns=phone?32:compact?44:64,rows=phone?8:compact?12:16;
+  const columns=64,rows=16;
   const colours=['#a69bff','#e38dff','#b0eaff','#f0efff'];
   const waveRows=Array.from({length:rows},(_,index)=>{
     const v=index/(rows-1)*2-1;
@@ -187,26 +243,6 @@ function startManagerDataFlow(){
       size:1-Math.abs(v)*.28,alpha:1-Math.abs(v)*.5};
   });
   const waveColumns=new Float64Array(columns*5);
-  const atmosphere=phone?document.createElement('canvas'):null;
-  if(atmosphere){
-    atmosphere.width=atmosphere.height=192;
-    const paint=atmosphere.getContext('2d');
-    if(paint){
-      [[42,58,'101,219,255'],[129,70,'198,111,255'],[80,140,'255,127,201']].forEach(([x,y,rgb],colourIndex)=>{
-        const glow=paint.createRadialGradient(x,y,0,x,y,72);
-        glow.addColorStop(0,`rgba(${rgb},.75)`);glow.addColorStop(.4,`rgba(${rgb},.28)`);
-        glow.addColorStop(1,`rgba(${rgb},0)`);
-        paint.fillStyle=glow;paint.fillRect(0,0,192,192);
-        for(let lobe=0;lobe<8;lobe++){
-          const angle=lobe*2.4+colourIndex,radius=18+lobe*2;
-          const cx=x+Math.sin(angle)*34,cy=y+Math.cos(angle)*30;
-          const wisp=paint.createRadialGradient(cx,cy,0,cx,cy,radius);
-          wisp.addColorStop(0,`rgba(${rgb},.2)`);wisp.addColorStop(1,`rgba(${rgb},0)`);
-          paint.fillStyle=wisp;paint.fillRect(0,0,192,192);
-        }
-      });
-    }else console.error('Manager atmosphere texture: 2D canvas is unavailable');
-  }
   const bubbleSprites=['#ff96c9','#93f8ff','#c6abff'].map(colour=>{
     const sprite=document.createElement('canvas');
     sprite.width=sprite.height=128;
@@ -231,7 +267,7 @@ function startManagerDataFlow(){
   }).filter(Boolean);
   const routes=[];
   for(let side=0;side<4;side++){
-    for(let index=0;index<(phone?2:6);index++){
+    for(let index=0;index<6;index++){
       const lane=(index-2.5)*.026;
       const points=[[.5+lane,.5],[.5+lane,.37-index*.014],
         [.18+index*.047,.2+index*.018],[.18+index*.047,.025]];
@@ -244,47 +280,15 @@ function startManagerDataFlow(){
       routes.push({points:rotated,lengths,total:lengths.reduce((sum,length)=>sum+length,0)});
     }
   }
-  const ribbons=phone?Array.from({length:3},(_,index)=>{
-    const gradient=context.createLinearGradient(0,0,width,height);
-    gradient.addColorStop(0,'rgba(61,239,255,0)');
-    gradient.addColorStop(.3,index%2?'rgba(181,129,255,.2)':'rgba(61,239,255,.18)');
-    gradient.addColorStop(.65,'rgba(255,111,211,.2)');
-    gradient.addColorStop(1,'rgba(131,171,255,0)');
-    return gradient;
-  }):[];
   let paintedAt=-Infinity,sceneTime=0;
-  function draw(time,force=false){
+  function draw(time){
     managerDataFrame=0;
     if(document.hidden||!document.documentElement.classList.contains('manager-mode'))return;
-    if(phone&&managerDataScrolling)return;
-    if(!force&&phone&&!headingSphereMotion.matches&&time-paintedAt<1000/30){
-      managerDataFrame=requestAnimationFrame(draw);return;
-    }
     // Resume from the last visual phase instead of jumping by the idle duration.
     sceneTime+=Number.isFinite(paintedAt)?Math.max(0,Math.min(50,time-paintedAt)):0;
     paintedAt=time;
-    const t=headingSphereMotion.matches?0:sceneTime*(phone?.00032:.00024);
+    const t=headingSphereMotion.matches?0:sceneTime*.00024;
     context.clearRect(0,0,width,height);
-    if(atmosphere){
-      for(let layer=0;layer<3;layer++){
-        const size=Math.min(420,short*1.65)*(1+Math.sin(t*1.2+layer)*.12);
-        context.save();
-        context.globalAlpha=.65+Math.sin(t*.7+layer*2)*.14;
-        context.translate(width*(layer%2?.83:.17)+Math.sin(t*.8+layer)*short*.18,
-          height*(.15+layer*.34)+Math.cos(t*.6+layer)*short*.12);
-        context.rotate(t*(layer%2?-.12:.15)+layer*2);
-        context.drawImage(atmosphere,-size/2,-size/2,size,size);
-        context.restore();
-      }
-    }
-    ribbons.forEach((gradient,index)=>{
-      const y=height*(.18+index*.3),drift=Math.sin(t*.8+index)*short*.22;
-      context.strokeStyle=gradient;context.lineWidth=short*(.022+index*.014);
-      context.beginPath();context.moveTo(-width*.2,y+drift);
-      context.bezierCurveTo(width*.24,y-short*.5-drift,width*.62,y+short*.55+drift,width*1.2,y-drift);
-      context.stroke();
-      context.lineWidth=.8;context.stroke();
-    });
     context.lineWidth=.65;context.strokeStyle='rgba(55,235,210,.17)';
     routes.forEach((route,index)=>{
       context.beginPath();
@@ -302,12 +306,10 @@ function startManagerDataFlow(){
       context.fillStyle='rgba(152,255,240,.7)';
       context.beginPath();context.arc(x,y,1.5,0,Math.PI*2);context.fill();
     });
-    if(!phone){
-      const chip=short*.065;
-      context.strokeStyle='rgba(91,255,225,.32)';
-      context.strokeRect(width*.5-chip,height*.5-chip,chip*2,chip*2);
-      context.strokeRect(width*.5-chip*.72,height*.5-chip*.72,chip*1.44,chip*1.44);
-    }
+    const chip=short*.065;
+    context.strokeStyle='rgba(91,255,225,.32)';
+    context.strokeRect(width*.5-chip,height*.5-chip,chip*2,chip*2);
+    context.strokeRect(width*.5-chip*.72,height*.5-chip*.72,chip*1.44,chip*1.44);
     for(let sheet=0;sheet<2;sheet++){
       const phase=t*(sheet?-.7:1)+sheet*2.7;
       for(let column=0;column<columns;column++){
@@ -334,13 +336,13 @@ function startManagerDataFlow(){
     }
     context.globalAlpha=1;
     if(bubbleSprites.length){
-      for(let index=0;index<(phone?6:compact?8:12);index++){
-        const progress=(t*((phone?.16:.1)+index%3*.025)+index*.173)%1;
-        const radius=Math.min(compact?64:88,short*(phone?.055+(index%3)*.045:.035+(index%4)*.025));
+      for(let index=0;index<12;index++){
+        const progress=(t*(.1+index%3*.025)+index*.173)%1;
+        const radius=Math.min(88,short*(.035+(index%4)*.025));
         const x=(.08+(index*.271)% .84)*width+Math.sin(t*.5+index*2)*short*.055;
         const y=height+radius-progress*(height+radius*2);
         const swell=1+Math.sin(t*.7+index)*.08;
-        context.globalAlpha=(phone?.58:.48)*Math.min(1,progress*10,(1-progress)*10);
+        context.globalAlpha=.48*Math.min(1,progress*10,(1-progress)*10);
         context.drawImage(bubbleSprites[index%bubbleSprites.length],
           x-radius*swell,y-radius/swell,radius*2*swell,radius*2/swell);
       }
@@ -352,46 +354,14 @@ function startManagerDataFlow(){
   draw(performance.now());
 }
 window.addEventListener('resize',startManagerDataFlow);
+window.addEventListener('resize',startHeadingSphere);
 headingSphereMotion.addEventListener('change',startManagerDataFlow);
-phoneGraphics.addEventListener('change',()=>{
-  startManagerDataFlow();startHeadingSphere();
-});
-window.addEventListener('scroll',()=>{
-  if(!phoneGraphics.matches||!document.documentElement.classList.contains('manager-mode'))return;
-  managerDataScrolling=true;
-  document.documentElement.classList.add('manager-scrolling');
-  finishPhoneImpact();
-  cancelAnimationFrame(managerDataFrame);managerDataFrame=0;
-  cancelAnimationFrame(headingSphereFrame);headingSphereFrame=0;
-  clearTimeout(managerDataScrollTimer);
-  managerDataScrollTimer=setTimeout(()=>{
-    managerDataScrolling=false;document.documentElement.classList.remove('manager-scrolling');
-    startManagerDataFlow();startHeadingSphere();
-  },180);
-},{passive:true,capture:true});
 let managerWheelActiveUntil=0;
-let phoneImpact=null,phoneImpactTimer=0;
-function finishPhoneImpact(){
-  clearTimeout(phoneImpactTimer);
-  if(phoneImpact){phoneImpact.parentElement?.classList.remove('manager-impact-host');phoneImpact.remove();phoneImpact=null;}
-}
+const managerImpacts=new Set();
+function finishManagerImpacts(){managerImpacts.forEach(finish=>finish());}
 function showManagerImpact(element,event){
   if(!element||!document.documentElement.classList.contains('manager-mode')||document.hidden||
     element.querySelector(':scope > .manager-impact'))return;
-  if(phoneGraphics.matches){
-    if(headingSphereMotion.matches||managerDataScrolling)return;
-    finishPhoneImpact();
-    phoneImpact=document.createElement('span');phoneImpact.className='manager-impact manager-impact-phone';
-    phoneImpact.setAttribute('aria-hidden','true');
-    if(event){
-      const box=element.getBoundingClientRect();
-      phoneImpact.style.setProperty('--impact-x',`${Math.max(0,Math.min(100,(event.clientX-box.left)/Math.max(1,box.width)*100))}%`);
-      phoneImpact.style.setProperty('--impact-y',`${Math.max(0,Math.min(100,(event.clientY-box.top)/Math.max(1,box.height)*100))}%`);
-    }
-    element.classList.add('manager-impact-host');element.appendChild(phoneImpact);
-    phoneImpactTimer=setTimeout(finishPhoneImpact,600);
-    return;
-  }
   const impact=document.createElement('span');
   impact.className='manager-impact';
   impact.setAttribute('aria-hidden','true');
@@ -404,17 +374,18 @@ function showManagerImpact(element,event){
   element.classList.add('manager-impact-host');
   element.appendChild(impact);
   const timeout=setTimeout(finish,1400);
+  managerImpacts.add(finish);
   function finish(){
     clearTimeout(timeout);
     impact.remove();
     element.classList.remove('manager-impact-host');
+    managerImpacts.delete(finish);
   }
   impact.addEventListener('animationend',event=>{
     if(event.target===impact)finish();
   });
 }
 function showManagerSectionImpact(){
-  if(phoneGraphics.matches){showManagerImpact(main.querySelector('.hero'));return;}
   [main.querySelector('.hero'),nav.querySelector('.navsub.active,.navcat.active'),
     pageStrip.querySelector('.page-thumb.active .page-thumb-page')].forEach(element=>showManagerImpact(element));
 }
@@ -447,7 +418,7 @@ function updateStaffUI(){
   const changed=document.documentElement.classList.contains('manager-mode')!==unlocked;
   document.documentElement.classList.toggle('manager-mode',unlocked);
   document.documentElement.classList.toggle('manager-effects-paused',document.hidden);
-  if(!unlocked||document.hidden)finishPhoneImpact();
+  if(!unlocked||document.hidden)finishManagerImpacts();
   if(unlocked)hideWelcomeCover();
   const wheel=document.querySelector('.navigation-wheel');
   if(wheel){
@@ -1307,20 +1278,18 @@ function startHeadingSphere(){
   const hero=canvas?.closest('.hero');
   if(canvas&&(!staffUnlocked()||document.hidden))canvas.width=canvas.height=1;
   if(!canvas||!staffUnlocked()||document.hidden||(managerEffectsObserver&&!hero.classList.contains('manager-effect-visible')))return;
-  const phone=phoneGraphics.matches;
-  if(phone&&managerDataScrolling)return;
   const context=canvas.getContext('2d');
   if(!context){console.error('Holographic heading sphere: 2D canvas is unavailable');return;}
-  const size=180,ratio=phone?.8:Math.min(window.devicePixelRatio||1,3);
+  const size=180,ratio=Math.min(window.devicePixelRatio||1,3);
   canvas.width=size*ratio;canvas.height=size*ratio;context.scale(ratio,ratio);
-  const pointCount=phone?64:128;
+  const pointCount=128;
   const points=Array.from({length:pointCount},(_,index)=>{
     const y=1-2*(index+.5)/pointCount,r=Math.sqrt(1-y*y),angle=index*Math.PI*(3-Math.sqrt(5));
     return {x:Math.cos(angle)*r,y,z:Math.sin(angle)*r};
   });
   const edges=[];
   points.forEach((point,i)=>points.slice(i+1).forEach((other,j)=>{
-    if(Math.hypot(point.x-other.x,point.y-other.y,point.z-other.z)<(phone?.54:.38))edges.push([i,i+j+1]);
+    if(Math.hypot(point.x-other.x,point.y-other.y,point.z-other.z)<.38)edges.push([i,i+j+1]);
   }));
   const glow=context.createRadialGradient(78,66,8,90,78,79);
   glow.addColorStop(0,'rgba(10,18,57,.7)');
@@ -1328,13 +1297,9 @@ function startHeadingSphere(){
   glow.addColorStop(.83,'rgba(34,220,255,.2)');
   glow.addColorStop(.9,'rgba(233,98,255,.15)');
   glow.addColorStop(1,'rgba(0,173,255,0)');
-  let paintedAt=-Infinity;
   function draw(time){
     if(!canvas.isConnected||!document.documentElement.classList.contains('manager-mode')||document.hidden||
       (managerEffectsObserver&&!hero.classList.contains('manager-effect-visible'))){headingSphereFrame=0;return;}
-    if(phone&&managerDataScrolling){headingSphereFrame=0;return;}
-    if(phone&&time-paintedAt<1000/15){headingSphereFrame=requestAnimationFrame(draw);return;}
-    paintedAt=time;
     const elapsed=headingSphereMotion.matches?0:time*.00015;
     const sine=Math.sin(elapsed),cosine=Math.cos(elapsed);
     function project(point){
@@ -1355,8 +1320,8 @@ function startHeadingSphere(){
       context.beginPath();context.moveTo(a.x,a.y);context.lineTo(b.x,b.y);context.stroke();
     });
     // Fine orbiting strands carry light around, rather than flattening the sphere.
-    const steps=phone?32:80;
-    for(let strand=0;strand<(phone?2:4);strand++){
+    const steps=80;
+    for(let strand=0;strand<4;strand++){
       const tilt=.4+strand*.75,radius=1.04+strand*.035;
       let previous=null;
       for(let step=0;step<=steps;step++){
@@ -1375,7 +1340,7 @@ function startHeadingSphere(){
       context.fillStyle=`rgba(${index%4?'164,248,255':'255,178,239'},${.35+(point.z+1)*.3})`;
       context.beginPath();context.arc(point.x,point.y,.45+(point.z+1)*.35,0,Math.PI*2);context.fill();
     });
-    for(let spark=0;spark<(phone?6:16);spark++){
+    for(let spark=0;spark<16;spark++){
       const [i,j]=edges[(spark*23)%edges.length],a=projected[i],b=projected[j];
       const travel=(elapsed*.8+spark*.37)%1;
       const x=a.x+(b.x-a.x)*travel,y=a.y+(b.y-a.y)*travel;
@@ -1440,7 +1405,7 @@ function handleWineSearch(event){
   clearTimeout(searchRenderTimer);
   if(event.isComposing)return;
   const update=()=>{render();renderPageStrip();};
-  if(phoneGraphics.matches&&q.value.trim())searchRenderTimer=setTimeout(update,150);
+  if(phoneLayout.matches&&q.value.trim())searchRenderTimer=setTimeout(update,150);
   else update();
 }
 q.oninput=handleWineSearch;
