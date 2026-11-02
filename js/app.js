@@ -827,23 +827,23 @@ function navR(){
  renderPageStrip();
 }
 function wineResearchPrompt(wine,category){
-  return `Prepare a rigorous master-sommelier-level briefing on this exact wine.
+  return `Give me a quick, action-ready pre-service briefing for this exact wine at Tin Lung Heen.
 Wine: ${wine.name}
 Vintage: ${wine.v||'Not specified'}
 List category: ${category.title}
 Restaurant list price: ${wine.price} (HKD; service charge is additional).
 
-Respond in ${lang==='zh'?'Traditional Chinese, retaining original producer and wine names':'English'}.
-Cover:
-1. Producer, appellation, grape varieties, and the exact cuvée identity.
-2. Viticulture: terroir, soils, climate, vineyard practices, vine age and yields where documented.
-3. Winemaking: fermentation, extraction, vessels, oak, maturation, blending and dosage where relevant.
-4. This vintage: conditions, quality, style, maturity, drinking window and storage considerations.
-5. Sensory profile, service temperature, decanting and Cantonese fine-dining pairings for Tin Lung Heen.
-6. Critical acclaim: name the critic, publication, review date, exact vintage and score only when verified.
-7. Business relevance: guest positioning, comparisons, selling points and a concise tableside pitch. Do not claim profitability, margins, purchase costs or sales performance without actual data.
+Respond in ${lang==='zh'?'Traditional Chinese, retaining original producer and wine names. Keep the briefing under 350 Chinese characters, excluding original wine names and source links':'English. Keep the briefing under 180 words, excluding source links'}.
+Use these five short headings, with no introduction or long paragraphs:
+1. SAY: A natural two-sentence tableside pitch I can use immediately. Include one memorable, verified selling point.
+2. TASTE: Region and main grapes, then three flavour cues and a few words on body, acidity and tannin/sweetness as relevant.
+3. SERVE: Suggested temperature, whether to decant and for how long. Flag any mature-bottle fragility or sediment; check condition before deciding.
+4. PAIR: Two specific Cantonese dish suggestions, each with a short reason. These are pairing ideas, not claims about our current menu.
+5. REMEMBER: Who to recommend it to and one useful vintage or service caution.
 
-Use reliable producer, appellation and identifiable critic sources. Cite links and dates. Distinguish documented facts, vintage-specific evidence, inference and unknowns. Never invent technical details, quotations, awards, scores or tasting experience. If browsing is unavailable, say so and label unverified claims. End with a short factual summary and questions worth confirming with the producer.`;
+Keep it practical and easy to scan before approaching a table. Skip vineyard/winemaking essays, critic-score lists and business analysis.
+Match the exact producer, cuvée and vintage. Never invent facts, awards, scores or personal tasting experience. Label typical style and service advice as guidance, not a confirmed tasting of this bottle. If uncertain, say "not verified" rather than guess.
+If browsing is available, add at most two reliable source links after the briefing, preferably the producer. If browsing is unavailable, say so briefly.`;
 }
 function wineAiDestination(){
   const mobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)||
