@@ -350,7 +350,39 @@ body{font-size:calc(16px * var(--font-scale))}
 .seat-label{color:#8c7c67;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
 @media (max-width:520px){.seat-controls-wrapper{align-items:flex-start;flex-direction:column;gap:5px}}
 
-/* Persistent stock-status controls */
+/* Manager catalogue controls use static glass surfaces, including on phones. */
+.catalogue-toolbar{margin:18px 34px 0;padding:14px 16px;border:1px solid rgba(135,226,255,.4);border-radius:16px;background:linear-gradient(125deg,#142c40,#2b2341);color:#e7f8ff}
+.catalogue-toolbar[hidden],.catalogue-dialog [hidden]{display:none!important}
+.catalogue-toolbar-actions,.catalogue-dialog-actions{display:flex;flex-wrap:wrap;gap:8px}
+.catalogue-toolbar button,.catalogue-dialog button,.catalogue-manage{min-height:44px;padding:8px 14px;border:1px solid #87d7e5;border-radius:12px;background:linear-gradient(120deg,#193c49,#342c50);color:#f1fcff;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.catalogue-toolbar button:disabled,.catalogue-dialog button:disabled{opacity:.5;cursor:not-allowed}
+.catalogue-scope{margin:10px 0 0;font-size:12px;line-height:1.55}
+.catalogue-entry-controls{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:10px;padding:0 16px 10px}
+.catalogue-manage{min-height:38px;padding:6px 12px;font-size:12px}
+.catalogue-hidden-label{color:#ffb6bc;font-size:12px;font-weight:700}
+.catalogue-dialog{box-sizing:border-box;width:min(620px,calc(100% - 24px));max-height:calc(100dvh - 24px);padding:0;border:1px solid #94dce7;border-radius:20px;background:linear-gradient(145deg,#102835,#29243b);color:#effbff;overflow:auto;overscroll-behavior:contain}
+.catalogue-dialog::backdrop{background:rgba(5,13,24,.78)}
+.catalogue-dialog-card{padding:22px}
+.catalogue-dialog-heading{display:flex;align-items:start;justify-content:space-between;gap:12px;margin-bottom:16px}
+.catalogue-dialog-heading h2{margin:0;font-size:24px;line-height:1.2;color:#edfcff}
+.catalogue-dialog-heading button{flex-shrink:0;min-width:44px}
+.catalogue-dialog p{font-size:14px;line-height:1.55}
+.catalogue-item-name{font-weight:700;overflow-wrap:anywhere}
+.catalogue-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.catalogue-fields label{display:flex;flex-direction:column;gap:7px;min-width:0;font-size:13px;font-weight:700}
+.catalogue-fields input,.catalogue-fields select{box-sizing:border-box;width:100%;min-height:44px;padding:10px;border:1px solid #7996b0;border-radius:9px;background:#10212f;color:#f1fbff;font:inherit;font-size:16px}
+.catalogue-dialog .catalogue-error,.catalogue-toolbar .catalogue-error{color:#ffd1d5}
+.catalogue-dialog .catalogue-danger{border-color:#fca8b1;background:#4b2435;color:#ffe9eb}
+.catalogue-delete-warning{margin-top:20px;padding:12px;border:1px solid #fca8b1;border-radius:10px}
+.catalogue-toolbar button:focus-visible,.catalogue-dialog :is(button,input,select):focus-visible,.catalogue-manage:focus-visible{outline:2px solid #80f3e5;outline-offset:3px}
+@media(max-width:600px){
+  .catalogue-toolbar{margin:12px 14px 0;padding:12px}
+  .catalogue-fields{grid-template-columns:minmax(0,1fr)}
+  .catalogue-dialog-card{padding:18px}
+  .catalogue-entry-controls{padding:0 12px 10px}
+}
+
+/* Sold-out appearance is now used for manager-only hidden entries. */
 .v{display:flex;flex-direction:column;align-items:flex-start;gap:7px}
 .stock-dot{position:relative;display:inline-block;width:28px;height:28px;min-width:28px;flex:0 0 28px;padding:0;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 1px rgba(32,27,22,.28),0 1px 3px rgba(32,27,22,.25);cursor:pointer;touch-action:none;-webkit-user-select:none;user-select:none;transition:transform .16s ease,box-shadow .16s ease,background .16s ease}.stock-dot.in-stock{background:#2f9e44}.stock-dot.sold-out{background:#c92a2a}.stock-dot.holding{transform:scale(1.28);box-shadow:0 0 0 5px rgba(182,135,53,.32)}
 .wine.sold-out{border-color:rgba(201,42,42,.42)}.wine.sold-out .row,.wotm-feature.sold-out .wotm-grid{opacity:.48}.wine.sold-out .stock-dot,.wotm-feature.sold-out .stock-dot{opacity:1}

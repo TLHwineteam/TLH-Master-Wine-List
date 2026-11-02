@@ -1,9 +1,12 @@
-const C=window.WINE_DATA;
+let catalogue=null,catalogueError='',catalogueUIReady=false,catalogueToolbar,catalogueDialog;
+try{catalogue=new WineCatalogue(window.WINE_DATA,localStorage);if(catalogue.cacheError)catalogueError='Offline cache unavailable. Reconnect to load the authoritative Firebase catalogue.';}
+catch(error){catalogueError=String(error.message||error);console.error('Catalogue could not be loaded:',error);}
+let C=catalogue?catalogue.getData():window.WINE_DATA;
 let headingSphereFrame=0;
 const headingSphereMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 const phoneGraphics=window.matchMedia('(any-pointer:coarse) and (max-width:600px), (any-pointer:coarse) and (max-height:500px)');
 let searchRenderTimer=0;
-let updatedAt=null,updateDateUnavailable=false;let current=C[0].id;const nav=document.querySelector('#nav'),main=document.querySelector('#main'),q=document.querySelector('#q'),st=document.querySelector('#st'),meta=document.querySelector('#meta');const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&gt;','"':'&quot;',"'":'&#39;'}[m]));const n=c=>c.sections.reduce((a,s)=>a+s.items.length,0);
+let updatedAt=null,updateDateUnavailable=false;let current=C[0].id;const nav=document.querySelector('#nav'),main=document.querySelector('#main'),q=document.querySelector('#q'),st=document.querySelector('#st'),meta=document.querySelector('#meta');const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));const n=c=>c.sections.reduce((a,s)=>a+s.items.length,0);
 const wineRegionWords=new Set('france italy germany australia china england spain portugal argentina chile austria switzerland canada usa japan scotland zealand burgundy bordeaux champagne alsace languedoc loire rhone provence tuscany piedmont veneto sicily sardinia rioja ribera priorat douro napa sonoma california washington oregon victoria central otago ningxia yunnan pauillac pomerol margaux estephe pessac leognan cote chalonnaise beaune gevrey chambertin vosne romanee chablis meursault puligny montrachet chassagne julien emilion medoc barsac sauternes fronsac'.split(' '));
 function wineIdentity(item){
   const wineName=String(item.name??'').replace(/\b\d+(?:\.\d+)?\s*(?:ml|l)\b/gi,' ').replace(/\b(half\s+bottle|double\s+magnum|magnum|jeroboam|imperial|methuselah|salmanazar|balthazar|nebuchadnezzar)\b/gi,' ');
@@ -45,11 +48,12 @@ function bottleFormat(item,category){
 function countDistinctBottles(){
   const identities=new Set();
   C.forEach(category=>category.sections.forEach(section=>section.items.forEach(item=>{
+    if(item.catalogueHidden)return;
     identities.add(`${wineIdentity(item)}|${bottleFormat(item,category)}`);
   })));
   return identities.size;
 }
-const totalSelections=countDistinctBottles();
+let totalSelections=countDistinctBottles();
 function updatedDateText(){
   if(updateDateUnavailable)return lang==='zh'?'日期未能載入':'unavailable';
   if(!updatedAt)return lang==='zh'?'讀取中…':'loading…';
@@ -57,7 +61,7 @@ function updatedDateText(){
 }
 async function loadUpdatedDate(){
   try{
-    let timestamp=window.WINE_DATA_UPDATED_AT;
+    let timestamp=catalogue?.state.updatedAt||window.WINE_DATA_UPDATED_AT;
     if(timestamp===undefined){
       const response=await fetch('data/wines.js',{method:'HEAD',cache:'no-store'});
       if(!response.ok)throw new Error(`HTTP ${response.status}`);
@@ -394,6 +398,7 @@ const staffDialog=document.createElement('dialog');staffDialog.className='staff-
 function staffUnlocked(){return Number(localStorage.getItem(STAFF_SESSION_KEY)||0)>Date.now();}
 function updateStaffUI(){
   const unlocked=staffUnlocked();
+  const changed=document.documentElement.classList.contains('manager-mode')!==unlocked;
   document.documentElement.classList.toggle('manager-mode',unlocked);
   document.documentElement.classList.toggle('manager-effects-paused',document.hidden);
   if(unlocked)hideWelcomeCover();
@@ -408,6 +413,11 @@ function updateStaffUI(){
   staffButton.title=staffButton.getAttribute('aria-label');
   startHeadingSphere();
   startManagerDataFlow();
+  if(catalogueUIReady){
+    updateCatalogueUI();
+    if(!unlocked&&catalogueDialog.open)catalogueDialog.close();
+    if(changed){navR();render();}
+  }
 }
 function lockStaffMode(){localStorage.removeItem(STAFF_SESSION_KEY);updateStaffUI();}
 function showStaffLogin(){const input=staffDialog.querySelector('.staff-password'),error=staffDialog.querySelector('.staff-error');staffDialog.querySelector('.staff-dialog-title').textContent=lang==='zh'?'職員登入':'Staff login';staffDialog.querySelector('.staff-dialog-copy').textContent=lang==='zh'?'輸入密碼以啟用職員模式八小時。':'Enter the password to enable staff mode for eight hours.';staffDialog.querySelector('.staff-cancel').textContent=lang==='zh'?'取消':'Cancel';staffDialog.querySelector('.staff-unlock').textContent=lang==='zh'?'解鎖':'Unlock';error.textContent=lang==='zh'?'密碼不正確。':'Incorrect password.';error.hidden=true;input.value='';staffDialog.showModal();setTimeout(()=>input.focus(),50);}
@@ -530,14 +540,7 @@ let markedWines=[];
 let pendingJumpKey='';
 const markerStatus=document.createElement('div');markerStatus.className='marker-status';markerStatus.hidden=true;document.querySelector('.status').appendChild(markerStatus);
 function wineKey(x){return [x.v,x.name,x.price].join('|');}
-const STOCK_STORAGE_KEY='wineListStockStatus';
 const FIREBASE_CONFIG={apiKey:'AIzaSyDMUG0cwI9VLZ9Ol2IrUclNOLs1w68M2lg',authDomain:'tin-lung-heen-wine-stock.firebaseapp.com',databaseURL:'https://tin-lung-heen-wine-stock-default-rtdb.asia-southeast1.firebasedatabase.app',projectId:'tin-lung-heen-wine-stock',storageBucket:'tin-lung-heen-wine-stock.firebasestorage.app',messagingSenderId:'657467145069',appId:'1:657467145069:web:7ec4e0e022c2d110e87864'};
-let stockStatus={};
-try{stockStatus=JSON.parse(localStorage.getItem(STOCK_STORAGE_KEY)||'{}')||{};}catch(e){stockStatus={};}
-function isSoldOut(key){return stockStatus[key]==='out';}
-function saveLocalStockStatus(){localStorage.setItem(STOCK_STORAGE_KEY,JSON.stringify(stockStatus));}
-function stockId(key){let h=2166136261;for(let i=0;i<key.length;i++){h^=key.charCodeAt(i);h=Math.imul(h,16777619);}return 'w'+(h>>>0).toString(36);}
-const initialLocalStockStatus={...stockStatus};
 const REMOTE_LOCK_SESSION_KEY='wineListRemoteUnlockUntil';
 const REMOTE_LOCK_SESSION_MS=8*60*60*1000;
 const REMOTE_LOCK_PASSWORD_SHA256='1f542ab39a9dc8885a5fc9044782838dc79883f8bd7073def13994ac5fa082f5';
@@ -589,135 +592,53 @@ function startSiteEnabledSync(){
 }
 function startRemoteLockSync(){const settingsRef=stockDatabase.ref('settings/remoteLock');settingsRef.on('value',snapshot=>{const settings=snapshot.val()||{};remoteLockEnabled=settings.enabled===true;remoteLockTitle.textContent=settings.title||'Service Suspended';remoteLockMessage.textContent=settings.message||'Please contact management.';applyRemoteLock();},error=>console.error('Remote lock unavailable:',error));}
 setInterval(()=>{if(remoteLockEnabled)applyRemoteLock();},60000);
-let stockDatabase=null,stockRef=null,stockSyncReady=false;
-function applySharedStock(records){const shared={};Object.values(records||{}).forEach(record=>{if(record&&record.key&&record.status==='out')shared[record.key]='out';});stockStatus=shared;saveLocalStockStatus();if(markedWines[0]&&isSoldOut(markedWines[0].key))markedWines=[];render();updateMarkerUI();}
-async function writeSharedStock(key,sold){saveLocalStockStatus();if(!stockRef)return;const itemRef=stockRef.child(stockId(key));if(sold)await itemRef.set({key,status:'out',updatedAt:firebase.database.ServerValue.TIMESTAMP});else await itemRef.remove();}
-function startStockSync(){if(!window.firebase){console.warn('Firebase SDK unavailable; using this device only.');return;}try{if(!firebase.apps.length)firebase.initializeApp(FIREBASE_CONFIG);stockDatabase=firebase.database();
-startSiteEnabledSync();
-startRemoteLockSync();stockRef=stockDatabase.ref('wineStock');stockRef.once('value').then(snapshot=>{if(!snapshot.exists()&&Object.keys(initialLocalStockStatus).length){const seed={};Object.keys(initialLocalStockStatus).forEach(key=>{if(initialLocalStockStatus[key]==='out')seed[stockId(key)]={key,status:'out',updatedAt:firebase.database.ServerValue.TIMESTAMP};});if(Object.keys(seed).length)return stockRef.update(seed);}}).catch(console.error);stockRef.on('value',snapshot=>{stockSyncReady=true;applySharedStock(snapshot.val());},error=>{stockSyncReady=false;console.error('Stock sync unavailable:',error);});}catch(error){console.error('Firebase startup failed:',error);}}
-function stockDotHtml(key){
-  const sold=isSoldOut(key);
-
-  const label=lang==='zh'
-    ? (sold?'售罄，按一下改為有貨':'有貨，按一下改為售罄')
-    : (sold?'Sold out. Tap once to mark in stock':'In stock. Tap once to mark sold out');
-
-  return `<span
-    class="stock-dot ${sold?'sold-out':'in-stock'}"
-    data-stock-key="${esc(key)}"
-    role="button"
-    tabindex="0"
-    aria-label="${esc(label)}"
-    title="${esc(label)}"
-  ></span>`;
-}
-async function confirmStockChange(key){
-
-  if(!staffUnlocked()){
-    staffButton.click();
-    return;
-  }
-
-  const sold=isSoldOut(key);
-  const nextSold=!sold;
-
-  if(nextSold){
-    stockStatus[key]='out';
-  }else{
-    delete stockStatus[key];
-  }
-
-  saveLocalStockStatus();
-
-  if(nextSold && markedWines[0]?.key===key){
-    markedWines=[];
-  }
-
-  render();
-  updateMarkerUI();
-
+let stockDatabase=null,catalogueAuth=null,catalogueConnected=false,catalogueManager=false,catalogueBusy=false;
+function catalogueCanWrite(){return Boolean(catalogue&&catalogue.ready&&catalogueConnected&&catalogueManager&&staffUnlocked()&&!catalogueBusy);}
+function startSettingsAndCatalogueSync(){
+  if(!window.firebase){catalogueError='Firebase is unavailable. Reconnect to load the shared catalogue.';updateCatalogueUI();return;}
   try{
-    await writeSharedStock(key,nextSold);
-  }catch(error){
-
-    console.error(
-      'Unable to sync stock change:',
-      error
-    );
-
-    alert(
-      lang==='zh'
-        ? '未能同步至其他裝置，請檢查網絡後再試。'
-        : 'Could not sync to other devices. Please check the connection and try again.'
-    );
-
-  }
-
-}
-function bindStockDots(){
-
-  main.querySelectorAll('.stock-dot').forEach(dot=>{
-
-    dot.addEventListener(
-      'pointerup',
-      e=>e.stopPropagation()
-    );
-
-    dot.addEventListener('click',e=>{
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      confirmStockChange(
-        dot.dataset.stockKey
-      );
-
+    if(!firebase.apps.length)firebase.initializeApp(FIREBASE_CONFIG);
+    stockDatabase=firebase.database();
+    startSiteEnabledSync();
+    startRemoteLockSync();
+    stockDatabase.ref('.info/connected').on('value',snapshot=>{
+      catalogueConnected=snapshot.val()===true;updateCatalogueUI();
+    },error=>{catalogueConnected=false;catalogueError=error.message;console.error('Catalogue connection unavailable:',error);updateCatalogueUI();});
+    if(catalogue)catalogue.connect(stockDatabase.ref('wineCatalogue/v1'),{
+      canWrite:()=>catalogueConnected&&catalogueManager&&staffUnlocked(),
+      onChange:refreshCatalogue,
+      onStatus:error=>{catalogueError=error?String(error.message||error):'';if(error)console.error('Shared catalogue unavailable:',error);updateCatalogueUI();}
     });
-
-    dot.addEventListener(
-      'dblclick',
-      e=>{
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    );
-
-    dot.addEventListener('keydown',e=>{
-
-      if(
-        (e.key==='Enter' || e.key===' ')
-        && !e.repeat
-      ){
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        confirmStockChange(
-          dot.dataset.stockKey
-        );
-
-      }
-
-    });
-
-    dot.addEventListener(
-      'contextmenu',
-      e=>e.preventDefault()
-    );
-
-  });
-
+    if(!firebase.auth)throw new Error('Firebase Authentication SDK unavailable.');
+    catalogueAuth=firebase.auth();
+    let managerRef=null,authGeneration=0;
+    catalogueAuth.onAuthStateChanged(user=>{
+      const generation=++authGeneration;
+      if(managerRef)managerRef.off();
+      managerRef=null;catalogueManager=false;updateCatalogueUI();
+      if(!user)return;
+      managerRef=stockDatabase.ref('catalogueManagers/'+user.uid);
+      managerRef.on('value',snapshot=>{
+        if(generation!==authGeneration)return;
+        catalogueManager=snapshot.val()===true;
+        catalogueError=catalogueManager?'':'This account is not an authorised catalogue manager. Ask the Firebase administrator to grant access.';
+        updateCatalogueUI();
+      },error=>{
+        catalogueManager=false;catalogueError=error.message;console.error('Catalogue manager permission unavailable:',error);updateCatalogueUI();
+      });
+    },error=>{catalogueManager=false;catalogueError=error.message;console.error('Catalogue sign-in unavailable:',error);updateCatalogueUI();});
+  }catch(error){catalogueError=String(error.message||error);console.error('Firebase catalogue startup failed:',error);updateCatalogueUI();}
 }
 function markerText(x){return (x.v?x.v+' · ':'')+x.name;}
 function wineType(sectionName,categoryTitle,x){const text=(sectionName+' '+categoryTitle+' '+(x.style||'')+' '+(x.name||'')).toLowerCase();if(/champagne|sparkling|prosecco|cava|franciacorta|sekt/.test(text))return'sparkling';if(/dessert|sauternes|barsac|tokaji|moscato|sweet|port|madeira|sherry/.test(text))return'dessert';if(/rosé|rose/.test(text))return'rose';if(/red|rouge|rosso|tinto|barolo|barbaresco|burgundy rouge/.test(text))return'red';if(/white|blanc|bianco|chablis|riesling|sauvignon|chardonnay/.test(text))return'white';return'other';}
 function typeIcon(type){return{sparkling:'✦',white:'●',red:'●',rose:'●',dessert:'◆',other:'○'}[type]||'○';}
-function findWineLocation(key){for(const category of C){for(const section of category.sections){const item=section.items.find(x=>wineKey(x)===key);if(item)return{category,section,item};}}return null;}
+function findWineLocation(key){for(const category of C){for(const section of category.sections){const item=section.items.find(x=>!x.catalogueHidden&&wineKey(x)===key);if(item)return{category,section,item};}}return null;}
 function isByTheGlass(price){return /\bglass\b/i.test(String(price||''));}
 function servingChoices(x){if(x.categoryId==='c0')return[{id:'bottle',label:'Bottle (1.5L)'},{id:'glass',label:'Glass (100ml)'},{id:'carafe',label:'Carafe (375ml)'}];if(x.byGlass)return[{id:'bottle',label:lang==='zh'?'原瓶':'Bottle'},{id:'glass',label:lang==='zh'?'杯裝':'Glass'}];return[];}
 function serviceControlsHtml(x,index){const choices=servingChoices(x);if(!choices.length)return'';const formats=`<div class="format-controls">${choices.map(choice=>`<button type="button" class="format-btn ${x.format===choice.id?'active':''}" data-index="${index}" data-format="${choice.id}">${choice.label}</button>`).join('')}</div>`;if(x.format!=='glass')return `<div class="service-controls">${formats}</div>`;const seats=Array.from({length:6},(_,i)=>`<button type="button" class="seat-btn ${x.seats.includes(i+1)?'active':''}" data-index="${index}" data-seat="${i+1}">S${i+1}</button>`).join('');return `<div class="service-controls">${formats}<div class="glass-controls"><div class="glass-quantity"><button type="button" class="glass-step" data-index="${index}" data-step="-1" aria-label="Decrease glasses">−</button><span>${x.glasses} ${x.glasses===1?(lang==='zh'?'杯':'glass'):(lang==='zh'?'杯':'glasses')}</span><button type="button" class="glass-step" data-index="${index}" data-step="1" aria-label="Increase glasses">+</button></div><div class="seat-controls-wrapper"><span class="seat-label">${lang==='zh'?'內部使用':'For Internal Use'}</span><div class="seat-controls" aria-label="Seat codes">${seats}</div></div></div></div>`;}
 function markedEntryHtml(x,index){return `<div class="marker-row" data-key="${esc(x.key)}"><div class="marker-row-main"><button type="button" class="marker-jump" data-index="${index}" title="${lang==='zh'?'前往此酒':'Jump to this wine'}"><span class="wine-type type-${esc(x.type)}" aria-hidden="true">${typeIcon(x.type)}</span><span class="marker-status-label">${esc(markerText(x))}</span></button><button type="button" class="marker-remove" data-index="${index}" aria-label="${lang==='zh'?'移除此酒':'Remove this wine'}">×</button></div>${serviceControlsHtml(x,index)}</div>`;}
 function updateMarkerUI(){const has=markedWines.length>0;document.querySelector('.status').classList.toggle('has-marker',has);markerStatus.hidden=!has;if(has){markerStatus.innerHTML=`<div class="marker-toolbar"><b>${lang==='zh'?'已選酒款':'Selected wine'}</b><button type="button" class="marker-clear-all">${lang==='zh'?'清除':'Clear'}</button></div><div class="marker-list">${markedWines.map(markedEntryHtml).join('')}</div>`;markerStatus.querySelector('.marker-clear-all').onclick=()=>{markedWines=[];updateMarkerUI();};markerStatus.querySelectorAll('.marker-remove').forEach(btn=>btn.onclick=e=>{e.stopPropagation();markedWines.splice(Number(btn.dataset.index),1);updateMarkerUI();});markerStatus.querySelectorAll('.marker-jump').forEach(btn=>btn.onclick=()=>jumpToMarked(Number(btn.dataset.index)));markerStatus.querySelectorAll('.format-btn').forEach(btn=>btn.onclick=e=>{e.stopPropagation();const x=markedWines[Number(btn.dataset.index)];if(!x)return;x.format=btn.dataset.format;updateMarkerUI();});markerStatus.querySelectorAll('.glass-step').forEach(btn=>btn.onclick=e=>{e.stopPropagation();const x=markedWines[Number(btn.dataset.index)];if(!x)return;x.glasses=Math.max(1,Math.min(5,x.glasses+Number(btn.dataset.step)));if(x.seats.length>x.glasses){x.seats=x.seats.slice(0,x.glasses);}updateMarkerUI();});markerStatus.querySelectorAll('.seat-btn').forEach(btn=>btn.onclick=e=>{e.stopPropagation();const x=markedWines[Number(btn.dataset.index)],seat=Number(btn.dataset.seat);if(!x)return;x.seats=x.seats.includes(seat)?x.seats.filter(n=>n!==seat):(x.seats.length<x.glasses?[...x.seats,seat].sort((a,b)=>a-b):x.seats);updateMarkerUI();});}const keys=new Set(markedWines.map(x=>x.key));document.querySelectorAll('.wine,.wotm-feature').forEach(el=>el.classList.toggle('marked',keys.has(el.dataset.wineKey)));}
-function addMarkedWine(data){if(isSoldOut(data.key)||markedWines[0]?.key===data.key)return;markedWines=[data];updateMarkerUI();}
+function addMarkedWine(data){if(markedWines[0]?.key===data.key)return;markedWines=[data];updateMarkerUI();}
 function jumpToMarked(index){const selected=markedWines[index];if(!selected)return;current=selected.categoryId;openCat='';activeGroup=null;q.value='';pendingJumpKey=selected.key;navR();render();requestAnimationFrame(()=>requestAnimationFrame(()=>{const target=[...document.querySelectorAll('.wine,.wotm-feature')].find(el=>el.dataset.wineKey===pendingJumpKey);if(target){target.classList.add('jump-pulse');target.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>target.classList.remove('jump-pulse'),1600);}pendingJumpKey='';}));}
 function markedWineData(element){return{key:element.dataset.wineKey,v:element.dataset.v,name:element.dataset.name,price:element.dataset.price,type:element.dataset.type,categoryId:element.dataset.category,byGlass:isByTheGlass(element.dataset.price),format:'bottle',glasses:1,seats:[]};}
 function bindWineSelection(){
@@ -1103,26 +1024,220 @@ function bindWineAi(){
     controls.append(button,feedback);
   });
 }
+function catalogueText(english,chinese){return lang==='zh'?chinese:english;}
+function catalogueEntryKey(item,category,section){
+  return catalogue?catalogue.key(category,section,item):'';
+}
+function catalogueActionHtml(item,category,section){
+  if(!staffUnlocked()||!catalogue)return '';
+  return `<div class="catalogue-entry-controls">${item.catalogueHidden?`<span class="catalogue-hidden-label">${catalogueText('Hidden from customers','已對顧客隱藏')}</span>`:''}<button type="button" class="catalogue-manage" data-catalogue-key="${esc(catalogueEntryKey(item,category,section))}">${catalogueText('Manage item','管理酒款')}</button></div>`;
+}
+function updateCatalogueUI(){
+  catalogueToolbar.hidden=!staffUnlocked();
+  catalogueToolbar.querySelector('[data-action="add"]').textContent=catalogueText('+ Add item','＋ 新增酒款');
+  catalogueToolbar.querySelector('[data-action="export"]').textContent=catalogueText('Export wines.js','匯出 wines.js');
+  catalogueToolbar.querySelector('[data-action="add"]').disabled=!catalogueCanWrite()||catalogue.pending;
+  catalogueToolbar.querySelector('[data-action="export"]').disabled=!catalogue?.ready||!catalogueConnected||catalogue.pending;
+  const authButton=catalogueToolbar.querySelector('[data-action="auth"]');
+  authButton.textContent=catalogueAuth?.currentUser?catalogueText('Sign out','登出'):catalogueText('Sign in to edit','登入以編輯');
+  authButton.disabled=!catalogueAuth||catalogueBusy||Boolean(catalogue?.pending);
+  const saving=catalogueBusy||catalogue?.pending;
+  if(catalogueDialog.open)catalogueDialog.querySelectorAll('button,input,select').forEach(control=>{
+    control.disabled=saving||((control.dataset.action==='visibility'||control.dataset.action==='confirm-delete')&&!catalogueCanWrite());
+  });
+  const status=catalogueToolbar.querySelector('.catalogue-scope');
+  const scope=saving?catalogueText('Saving to Firebase. Keep this page open until confirmed.','正在儲存至 Firebase，確認前請保持本頁開啟。')
+    :!catalogueConnected?catalogueText('Offline: showing the last available catalogue. Editing and export are disabled.','離線：顯示最近可用的酒單，暫停編輯及匯出。')
+    :!catalogue?.ready?catalogueText('Loading the shared catalogue…','正在讀取共用酒單……')
+    :catalogueManager?catalogueText('Live Firebase catalogue: saved changes automatically reach connected devices.','Firebase 即時酒單：儲存後會自動更新其他已連線裝置。')
+    :catalogueText('Live catalogue. Sign in with an authorised Google account to edit.','即時酒單。請使用已獲授權的 Google 帳戶登入以編輯。');
+  status.textContent=catalogueError
+    ?catalogueText('Catalogue unavailable: ','酒單管理暫不可用：')+catalogueError
+    :scope+' '+catalogueText('Export wines.js and regenerate the PDF when a new PDF is needed.','需要新 PDF 時，請匯出 wines.js 並重新生成。');
+  status.classList.toggle('catalogue-error',Boolean(catalogueError));
+}
+function refreshCatalogue(){
+  C=catalogue.getData();
+  totalSelections=countDistinctBottles();
+  if(catalogue.state.updatedAt){updatedAt=new Date(catalogue.state.updatedAt);updateDateUnavailable=false;}
+  markedWines=markedWines.filter(selected=>C.some(category=>category.sections.some(section=>
+    section.items.some(item=>!item.catalogueHidden&&wineKey(item)===selected.key))));
+  navR();render();renderPageStrip();updateCatalogueUI();
+}
+function showCatalogueError(error){
+  console.error('Catalogue action failed:',error);
+  const target=catalogueDialog.querySelector('.catalogue-error');
+  target.textContent=catalogueText('Not saved: ','未能儲存：')+String(error.message||error);
+  target.hidden=false;
+}
+function showCatalogueDialog(key=null){
+  if(!staffUnlocked()||!catalogue?.ready||!catalogueConnected||catalogue.pending){updateStaffUI();return;}
+  const heading=catalogueText(key?'Manage item':'Add item',key?'管理酒款':'新增酒款');
+  let content='';
+  if(key){
+    let location;
+    try{location=catalogue.find(key);}catch(error){console.error('Catalogue item unavailable:',error);alert(error.message);return;}
+    const item=location.item;
+    content=`<p class="catalogue-item-name">${esc(item.v)} ${esc(pick(item,'name'))}</p>
+      <p>${catalogueText('Hide keeps the entry for restocking. Delete removes it from the active catalogue and the next export.',
+        '隱藏可保留酒款以便補貨後恢復；刪除會從目前酒單及下次匯出的檔案移除酒款。')}</p>
+      <div class="catalogue-dialog-actions">
+        <button type="button" data-action="visibility">${item.catalogueHidden?catalogueText('Restore to customers','恢復顯示給顧客'):catalogueText('Hide temporarily','暫時隱藏')}</button>
+        <button type="button" class="catalogue-danger" data-action="delete">${catalogueText('Delete permanently','永久刪除')}</button>
+      </div>
+      <div class="catalogue-delete-warning" hidden>
+        <p>${catalogueText('Permanently remove this entry? There is no restore button after deletion. Export a backup first if you may need it again.',
+          '確定永久移除此酒款？刪除後沒有恢復按鈕。如日後可能需要，請先匯出備份。')}</p>
+        <button type="button" class="catalogue-danger" data-action="confirm-delete">${catalogueText('Confirm permanent deletion','確認永久刪除')}</button>
+      </div>`;
+  }else{
+    const categories=C.map(category=>`<option value="${esc(category.id)}" ${category.id===current?'selected':''}>${esc(pick(category,'title'))}</option>`).join('');
+    content=`<div class="catalogue-fields">
+      <label>${catalogueText('Category','類別')}<select name="category" required>${categories}</select></label>
+      <label>${catalogueText('Section','分類')}<select name="section" required></select></label>
+      <label>${catalogueText('Vintage / identifier','年份／識別標示')}<input name="v" value="NV" maxlength="50" required></label>
+      <label>${catalogueText('English name, producer and region','英文名稱、酒莊及產區')}<input name="name" maxlength="500" required></label>
+      <label>${catalogueText('Traditional Chinese name','繁體中文名稱')}<input name="nameZh" maxlength="500" required lang="zh-Hant"></label>
+      <label>${catalogueText('Price (HK$)','價格（港幣）')}<input name="amount" type="number" inputmode="numeric" min="1" max="100000000" step="1" required></label>
+      <label>${catalogueText('Optional glass price (HK$)','杯裝價格（港幣，可留空）')}<input name="glassAmount" type="number" inputmode="numeric" min="1" max="100000000" step="1"></label>
+      <label>${catalogueText('Size, if not a standard bottle (optional)','容量，非標準瓶裝時填寫（可留空）')}<input name="size" placeholder="375 ml / 1.5 L / 50 ml" maxlength="30" pattern="[0-9]+([.][0-9]+)?\\s*(ml|mL|L|l)"></label>
+      </div><p>${catalogueText('Use NV for non-vintage wines, or a label such as Solera 1918. Names and prices will be exported in both languages.',
+        '無年份酒款請使用 NV，或填寫 Solera 1918 等標示。名稱及價格將以中英文匯出。')}</p>
+      <div class="catalogue-dialog-actions"><button type="submit">${catalogueText('Save new item','儲存新酒款')}</button></div>`;
+  }
+  catalogueDialog.dataset.key=key||'';
+  catalogueDialog.innerHTML=`<form class="catalogue-dialog-card"><div class="catalogue-dialog-heading"><h2 id="catalogue-title">${heading}</h2><button type="button" data-action="close" aria-label="${catalogueText('Close','關閉')}">×</button></div>${content}<p class="catalogue-error" role="alert" hidden></p></form>`;
+  if(!key){
+    const categorySelect=catalogueDialog.querySelector('[name="category"]');
+    const fillSections=()=>{
+      const category=C.find(value=>value.id===categorySelect.value);
+      catalogueDialog.querySelector('[name="section"]').innerHTML=category.sections.map(section=>
+        `<option value="${esc(section.name)}">${esc(pick(section,'name'))}</option>`).join('');
+    };
+    categorySelect.onchange=fillSections;
+    fillSections();
+  }
+  catalogueDialog.showModal();
+  updateCatalogueUI();
+}
+function setupCatalogueUI(){
+  catalogueToolbar=document.createElement('section');
+  catalogueToolbar.className='catalogue-toolbar';
+  catalogueToolbar.hidden=true;
+  catalogueToolbar.innerHTML='<div class="catalogue-toolbar-actions"><button type="button" data-action="auth"></button><button type="button" data-action="add"></button><button type="button" data-action="export"></button></div><p class="catalogue-scope" role="status"></p>';
+  main.before(catalogueToolbar);
+  catalogueDialog=document.createElement('dialog');
+  catalogueDialog.className='catalogue-dialog';
+  catalogueDialog.setAttribute('aria-labelledby','catalogue-title');
+  document.body.appendChild(catalogueDialog);
+  catalogueToolbar.querySelector('[data-action="auth"]').onclick=async()=>{
+    if(!staffUnlocked()||!catalogueAuth)return;
+    try{
+      if(catalogueAuth.currentUser)await catalogueAuth.signOut();
+      else await catalogueAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    }catch(error){catalogueError=String(error.message||error);console.error('Catalogue sign-in failed:',error);updateCatalogueUI();}
+  };
+  catalogueToolbar.querySelector('[data-action="add"]').onclick=()=>showCatalogueDialog();
+  catalogueToolbar.querySelector('[data-action="export"]').onclick=()=>{
+    if(!staffUnlocked()||!catalogue?.ready||!catalogueConnected||catalogue.pending){updateStaffUI();return;}
+    let url;
+    try{
+      url=URL.createObjectURL(new Blob([catalogue.exportSource()],{type:'text/javascript;charset=utf-8'}));
+      const link=document.createElement('a');link.href=url;link.download='wines.js';
+      document.body.appendChild(link);link.click();link.remove();
+      catalogueToolbar.querySelector('.catalogue-scope').textContent=catalogueText(
+        'Export requested. Save wines.js as data/wines.js, run make pdf-update, and publish the new PDF. Connected apps already receive your saved catalogue changes. This page cannot confirm the download was saved.',
+        '已啟動匯出。請將 wines.js 儲存為 data/wines.js，再執行 make pdf-update 並發佈新的 PDF。已連線的網頁會自動收到已儲存的修改。本頁無法確認下載是否已儲存。');
+    }catch(error){
+      console.error('Catalogue export failed:',error);
+      catalogueToolbar.querySelector('.catalogue-scope').textContent=catalogueText('Export failed: ','匯出失敗：')+error.message;
+    }finally{if(url)setTimeout(()=>URL.revokeObjectURL(url),60000);}
+  };
+  main.addEventListener('click',event=>{
+    const button=event.target.closest('.catalogue-manage');
+    if(button){event.stopPropagation();showCatalogueDialog(button.dataset.catalogueKey);}
+  });
+  for(const type of ['pointerup','dblclick','keydown']){
+    main.addEventListener(type,event=>{
+      if(event.target.closest('.catalogue-entry-controls'))event.stopPropagation();
+    },true);
+  }
+  catalogueDialog.addEventListener('cancel',event=>{if(catalogueBusy)event.preventDefault();});
+  catalogueDialog.addEventListener('click',async event=>{
+    const action=event.target.closest('button')?.dataset.action;
+    if(action==='close'){catalogueDialog.close();return;}
+    if(!action)return;
+    if(!staffUnlocked()){catalogueDialog.close();updateStaffUI();return;}
+    if(action==='delete'){
+      catalogueDialog.querySelector('.catalogue-delete-warning').hidden=false;
+      catalogueDialog.querySelector('[data-action="confirm-delete"]').focus();
+      return;
+    }
+    if(catalogueBusy)return;
+    if(!catalogueCanWrite()){
+      showCatalogueError(new Error(catalogueText('Connect and sign in as an authorised manager before saving.','請先連線並以獲授權的管理員帳戶登入。')));
+      return;
+    }
+    try{
+      catalogueBusy=true;updateCatalogueUI();
+      const key=catalogueDialog.dataset.key;
+      if(action==='visibility')await catalogue.setHidden(key,!catalogue.find(key).item.catalogueHidden);
+      else if(action==='confirm-delete')await catalogue.remove(key);
+      else return;
+      refreshCatalogue();catalogueDialog.close();
+    }catch(error){showCatalogueError(error);}
+    finally{catalogueBusy=false;updateCatalogueUI();}
+  });
+  catalogueDialog.addEventListener('submit',async event=>{
+    event.preventDefault();
+    if(!staffUnlocked()){catalogueDialog.close();updateStaffUI();return;}
+    const form=event.target;
+    if(!form.reportValidity())return;
+    if(catalogueBusy)return;
+    if(!catalogueCanWrite()){
+      showCatalogueError(new Error(catalogueText('Connect and sign in as an authorised manager before saving.','請先連線並以獲授權的管理員帳戶登入。')));
+      return;
+    }
+    try{
+      const values=new FormData(form),amount=Number(values.get('amount')),glass=values.get('glassAmount');
+      const size=String(values.get('size')||'').trim();
+      const money=value=>'$'+Number(value).toLocaleString('en-US');
+      const price=glass?`Glass ${money(glass)} · Bottle ${money(amount)}`:money(amount);
+      const priceZh=glass?`杯裝 ${money(glass)} · 原瓶 ${money(amount)}`:money(amount);
+      const categoryId=String(values.get('category'));
+      catalogueBusy=true;updateCatalogueUI();
+      await catalogue.add(categoryId,String(values.get('section')),{
+        v:String(values.get('v')).trim(),name:String(values.get('name')).trim(),
+        nameZh:String(values.get('nameZh')).trim(),
+        price:price+(size?` · ${size}`:''),priceZh:priceZh+(size?` · ${size}`:'')
+      });
+      current=categoryId;activeGroup=null;q.value='';openCat=categoryId;
+      refreshCatalogue();catalogueDialog.close();
+    }catch(error){showCatalogueError(error);}
+    finally{catalogueBusy=false;updateCatalogueUI();}
+  });
+}
 function card(x,category,section){
-  const key=wineKey(x),sold=isSoldOut(key),name=pick(x,'name'),price=pick(x,'price');
+  const key=wineKey(x),sold=Boolean(x.catalogueHidden),name=pick(x,'name'),price=pick(x,'price');
   const displayName=lang==='zh'&&x.nameZh?`<span class="primary-name">${esc(x.nameZh)}</span><span class="english-name">${esc(x.name)}</span>`:esc(name);
   const vintage=String(x.v??'').trim();
   const ingredients=[x.ingredients,lang==='zh'?x.ingredientsZh:null].filter(Boolean).map((value,index)=>`<span class="ingredients${index?' ingredients-zh':''}">${esc(value)}</span>`).join('');
   return `<article class="wine ${sold?'sold-out':''}" data-wine-key="${esc(key)}" data-category="${esc(category.id)}" data-type="${esc(wineType(section.name,category.title,x))}" data-v="${esc(x.v)}" data-name="${esc(name)}" data-price="${esc(price)}" tabindex="0" role="button" aria-label="${esc(lang==='zh'?'連按兩次以標記此酒':'Double-tap to select this wine')}">
     <div class="row">
-      <span class="v">${vintage?`<span class="vintage">${esc(vintage)}</span>`:''}${stockDotHtml(key)}</span>
+      <span class="v">${vintage?`<span class="vintage">${esc(vintage)}</span>`:''}</span>
       <span class="name">${displayName}${ingredients}</span>
       <span class="price">
 ${esc(price).replace(/ · /g,'<br>')}
 </span>
     </div>
+    ${catalogueActionHtml(x,category,section)}
   </article>`
 }
 function featureNote(note){
   return String(note??'').split(/\n\s*\n/).filter(Boolean).map(paragraph=>`<p>${esc(paragraph)}</p>`).join('');
 }
 function featureCard(x,category,section){
-  const key=wineKey(x),sold=isSoldOut(key),name=pick(x,'name'),price=pick(x,'price');
+  const key=wineKey(x),sold=Boolean(x.catalogueHidden),name=pick(x,'name'),price=pick(x,'price');
   const displayName=lang==='zh'&&x.nameZh?`<span class="primary-name">${esc(x.nameZh)}</span><span class="english-name">${esc(x.name)}</span>`:esc(name);
   const image=x.image?`<div class="feature-media"><img src="${esc(x.image)}" alt="${esc(lang==='zh'?(x.imageAltZh||x.imageAlt||pick(x,'name')):(x.imageAlt||x.name))}" loading="eager" onerror="this.closest('.feature-media').classList.add('image-error');this.remove()"><div class="feature-image-fallback">1982<br>Château Cos d’Estournel</div></div>`:'';
   return `<section class="wotm-feature ${sold?'sold-out':''}" data-wine-key="${esc(key)}" data-category="${esc(category.id)}" data-type="${esc(wineType(section.name,category.title,x))}" data-v="${esc(x.v)}" data-name="${esc(name)}" data-price="${esc(price)}" tabindex="0" role="button" aria-label="${esc(lang==='zh'?'連按兩次以標記此酒':'Double-tap to select this wine')}">
@@ -1130,12 +1245,13 @@ function featureCard(x,category,section){
     <div class="wotm-grid">
       ${image}
       <div class="wotm-summary">
-        <div class="wotm-vintage"><span>${esc(x.v)}</span>${stockDotHtml(key)}</div>
+        <div class="wotm-vintage"><span>${esc(x.v)}</span></div>
         <h2>${displayName}</h2>
         <div class="wotm-prices">${String(price??'').split(/\s*·\s*/).filter(Boolean).map(price=>`<div class="wotm-price-line">${esc(price)}</div>`).join('')}</div>
       </div>
     </div>
     <div class="wotm-copy">${featureNote(pick(x,'note'))}</div>
+    ${catalogueActionHtml(x,category,section)}
   </section>`;
 }
 function startHeadingSphere(){
@@ -1228,7 +1344,6 @@ function startHeadingSphere(){
 function bind(){
   clearTimeout(searchRenderTimer);
   stopNavigationWheelScroll();
-  bindStockDots();
   bindWineSelection();
   const hero=main.querySelector('.hero');
   if(hero){
@@ -1245,7 +1360,7 @@ function bind(){
   observeManagerEffects();
   startHeadingSphere();
 }
-function render(){const query=q.value.trim().toLowerCase();if(query){let groups=[];C.forEach(c=>c.sections.forEach(s=>{let items=s.items.filter(x=>(c.title+' '+s.name+' '+x.v+' '+x.name+' '+x.price+' '+x.note).toLowerCase().includes(query));if(items.length)groups.push({title:c.title+(s.hideHeading?'':' · '+s.name),items,category:c,section:s})}));let count=groups.reduce((a,g)=>a+g.items.length,0);st.textContent='Search results';meta.textContent=totalSelections+' selections · Updated '+updatedDateText();main.innerHTML=`<section class="hero"><div class="kicker">Search</div><h2>${esc(q.value)}</h2><p>${count} matching selections</p></section>`+(groups.length?groups.map(g=>`<section class="section"><h3>${esc(g.title)}</h3>${g.items.map(x=>card(x,g.category,g.section)).join('')}</section>`).join(''):'<div class="empty">No matching selection found.</div>');bind();return}let c=C.find(x=>x.id===current)||C[0];st.textContent='';meta.textContent=totalSelections+' '+ui().selections+' · '+ui().updated+' '+updatedDateText();const sectionKey=value=>String(value??'')
+function render(){const query=q.value.trim().toLowerCase();const visible=item=>staffUnlocked()||!item.catalogueHidden;if(query){let groups=[];C.forEach(c=>c.sections.forEach(s=>{let items=s.items.filter(x=>visible(x)&&(c.title+' '+s.name+' '+x.v+' '+x.name+' '+x.nameZh+' '+x.price+' '+x.note).toLowerCase().includes(query));if(items.length)groups.push({title:c.title+(s.hideHeading?'':' · '+s.name),items,category:c,section:s})}));let count=groups.reduce((a,g)=>a+g.items.length,0);st.textContent='Search results';meta.textContent=totalSelections+' selections · Updated '+updatedDateText();main.innerHTML=`<section class="hero"><div class="kicker">Search</div><h2>${esc(q.value)}</h2><p>${count} matching selections</p></section>`+(groups.length?groups.map(g=>`<section class="section"><h3>${esc(g.title)}</h3>${g.items.map(x=>card(x,g.category,g.section)).join('')}</section>`).join(''):'<div class="empty">No matching selection found.</div>');bind();return}let c=C.find(x=>x.id===current)||C[0];st.textContent='';meta.textContent=totalSelections+' '+ui().selections+' · '+ui().updated+' '+updatedDateText();const sectionKey=value=>String(value??'')
   .normalize('NFD')
   .replace(/[\u0300-\u036f]/g,'')
   .toLowerCase()
@@ -1257,9 +1372,10 @@ let group=activeGroup?navChildren(c).find(g=>g.name===activeGroup):null;
 let sections=group
   ?c.sections.filter(s=>group.sections.some(name=>sectionKey(name)===sectionKey(s.name)))
   :c.sections;
+sections=sections.map(section=>({...section,items:section.items.filter(visible)})).filter(section=>section.items.length);
 if(c.id==='c0'&&!group){
-  const item=c.sections[0]?.items?.[0];
-  main.innerHTML=`<section class="hero hero-wotm"><div class="kicker">${esc(ui().brand)}</div><h2>${esc(ui().heroTitle)}</h2><p>${esc(ui().heroSub)}</p></section>`+(item?featureCard(item,c,c.sections[0]):`<div class="empty">${esc(ui().noFeature)}</div>`)+`<div class="legal">${esc(ui().legal)}</div>`;
+  const section=sections[0],item=section?.items?.[0];
+  main.innerHTML=`<section class="hero hero-wotm"><div class="kicker">${esc(ui().brand)}</div><h2>${esc(ui().heroTitle)}</h2><p>${esc(ui().heroSub)}</p></section>`+(item?featureCard(item,c,section):`<div class="empty">${esc(ui().noFeature)}</div>`)+`<div class="legal">${esc(ui().legal)}</div>`;
   bind();
   return;
 }
@@ -1273,10 +1389,13 @@ function handleWineSearch(event){
 }
 q.oninput=handleWineSearch;
 q.addEventListener('compositionend',handleWineSearch);
+setupCatalogueUI();
+catalogueUIReady=true;
+updateCatalogueUI();
 navR();
 render();
 loadUpdatedDate();
-startStockSync();
+startSettingsAndCatalogueSync();
 
 // Customer openings show the welcome cover; manager sessions and PDF returns bypass it.
 function showWelcomeCover(){
