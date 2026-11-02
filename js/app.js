@@ -149,11 +149,13 @@ managerDataCanvas.className='manager-data-flow';
 managerDataCanvas.setAttribute('aria-hidden','true');
 managerLightField.appendChild(managerDataCanvas);
 let managerDataFrame=0,managerDataContext=null;
+let managerDataScene=null;
 let managerDataScrolling=false,managerDataScrollTimer=0;
 function startManagerDataFlow(){
   cancelAnimationFrame(managerDataFrame);managerDataFrame=0;
   if(document.hidden||!document.documentElement.classList.contains('manager-mode')){
     managerDataCanvas.width=managerDataCanvas.height=1;
+    managerDataScene=null;
     return;
   }
   if(phoneGraphics.matches&&managerDataScrolling)return;
@@ -165,11 +167,35 @@ function startManagerDataFlow(){
   const phone=phoneGraphics.matches;
   const scale=Math.min(1,(phone?600:900)/Math.max(innerWidth,innerHeight));
   const width=Math.max(1,Math.round(innerWidth*scale)),height=Math.max(1,Math.round(innerHeight*scale));
+  const compact=window.matchMedia('(any-pointer:coarse)').matches;
+  const sceneKey=[width,height,phone,compact,headingSphereMotion.matches].join(':');
+  if(managerDataScene?.key===sceneKey){
+    managerDataScene.draw(performance.now(),true);
+    return;
+  }
   managerDataCanvas.width=width;managerDataCanvas.height=height;
   const context=managerDataContext,short=Math.min(width,height);
-  const compact=window.matchMedia('(any-pointer:coarse)').matches;
   const columns=phone?32:compact?44:64,rows=phone?8:compact?12:16;
   const colours=['#a69bff','#e38dff','#b0eaff','#f0efff'];
+  const waveRows=Array.from({length:rows},(_,index)=>{
+    const v=index/(rows-1)*2-1;
+    return {v,sine:Math.sin(v*.65),cosine:Math.cos(v*.65),
+      size:1-Math.abs(v)*.28,alpha:1-Math.abs(v)*.5};
+  });
+  const waveColumns=new Float64Array(columns*5);
+  const atmosphere=phone?document.createElement('canvas'):null;
+  if(atmosphere){
+    atmosphere.width=atmosphere.height=192;
+    const paint=atmosphere.getContext('2d');
+    if(paint){
+      [[55,70,'101,219,255'],[117,91,'198,111,255'],[95,133,'255,127,201']].forEach(([x,y,rgb])=>{
+        const glow=paint.createRadialGradient(x,y,0,x,y,58);
+        glow.addColorStop(0,`rgba(${rgb},.6)`);glow.addColorStop(.4,`rgba(${rgb},.22)`);
+        glow.addColorStop(1,`rgba(${rgb},0)`);
+        paint.fillStyle=glow;paint.fillRect(0,0,192,192);
+      });
+    }else console.error('Manager atmosphere texture: 2D canvas is unavailable');
+  }
   const bubbleSprites=['#ff96c9','#93f8ff','#c6abff'].map(colour=>{
     const sprite=document.createElement('canvas');
     sprite.width=sprite.height=128;
@@ -207,17 +233,31 @@ function startManagerDataFlow(){
       routes.push({points:rotated,lengths,total:lengths.reduce((sum,length)=>sum+length,0)});
     }
   }
-  let paintedAt=-Infinity;
-  function draw(time){
+  let paintedAt=-Infinity,sceneTime=0;
+  function draw(time,force=false){
     managerDataFrame=0;
     if(document.hidden||!document.documentElement.classList.contains('manager-mode'))return;
     if(phone&&managerDataScrolling)return;
-    if(phone&&!headingSphereMotion.matches&&time-paintedAt<1000/30){
+    if(!force&&phone&&!headingSphereMotion.matches&&time-paintedAt<1000/30){
       managerDataFrame=requestAnimationFrame(draw);return;
     }
+    // Resume from the last visual phase instead of jumping by the idle duration.
+    sceneTime+=Number.isFinite(paintedAt)?Math.max(0,Math.min(50,time-paintedAt)):0;
     paintedAt=time;
-    const t=headingSphereMotion.matches?0:time*.00024;
+    const t=headingSphereMotion.matches?0:sceneTime*.00024;
     context.clearRect(0,0,width,height);
+    if(atmosphere){
+      for(let layer=0;layer<2;layer++){
+        const size=Math.min(360,short*1.25)*(1+Math.sin(t*.5+layer)*.08);
+        context.save();
+        context.globalAlpha=.55+Math.sin(t*.4+layer*2)*.12;
+        context.translate(width*(layer?.78:.22)+Math.sin(t*.3+layer)*short*.07,
+          height*(layer?.7:.25)+Math.cos(t*.25+layer)*short*.06);
+        context.rotate(t*(layer?-.08:.1)+layer*2);
+        context.drawImage(atmosphere,-size/2,-size/2,size,size);
+        context.restore();
+      }
+    }
     context.lineWidth=.65;context.strokeStyle='rgba(55,235,210,.17)';
     routes.forEach((route,index)=>{
       context.beginPath();
@@ -243,19 +283,24 @@ function startManagerDataFlow(){
     }
     for(let sheet=0;sheet<2;sheet++){
       const phase=t*(sheet?-.7:1)+sheet*2.7;
+      for(let column=0;column<columns;column++){
+        const u=column/(columns-1),twist=u*Math.PI*2.3+phase,offset=column*5;
+        waveColumns[offset]=u*width;
+        waveColumns[offset+1]=Math.sin(twist);
+        waveColumns[offset+2]=Math.cos(twist);
+        waveColumns[offset+3]=height*(sheet?.66:.34)+waveColumns[offset+1]*short*.16;
+        waveColumns[offset+4]=(.07+.06*(1+Math.cos(u*Math.PI*3-phase)))*short*Math.cos(twist*.65);
+      }
       for(let row=0;row<rows;row++){
-        const v=row/(rows-1)*2-1;
+        const {v,sine,cosine,size,alpha}=waveRows[row];
+        const shiftX=Math.sin(phase*.55+v)*short*.035,shiftY=Math.sin(v*2+phase)*short*.025;
         context.fillStyle=colours[(row+sheet)%colours.length];
         for(let column=0;column<columns;column++){
-          const u=column/(columns-1);
-          const twist=u*Math.PI*2.3+phase;
-          const depth=Math.sin(twist+v*.65);
-          const spread=(.07+.06*(1+Math.cos(u*Math.PI*3-phase)))*short;
-          const x=u*width+Math.sin(phase*.55+v)*short*.035;
-          const y=height*(sheet?.66:.34)+Math.sin(twist)*short*.16+
-            v*spread*Math.cos(twist*.65)+Math.sin(v*2+phase)*short*.025;
-          const radius=(.55+(depth+1)*.65)*(1-Math.abs(v)*.28);
-          context.globalAlpha=(.16+(depth+1)*.22)*(1-Math.abs(v)*.5);
+          const offset=column*5;
+          const depth=waveColumns[offset+1]*cosine+waveColumns[offset+2]*sine;
+          const x=waveColumns[offset]+shiftX,y=waveColumns[offset+3]+v*waveColumns[offset+4]+shiftY;
+          const radius=(.55+(depth+1)*.65)*size;
+          context.globalAlpha=(.16+(depth+1)*.22)*alpha;
           context.beginPath();context.arc(x,y,radius,0,Math.PI*2);context.fill();
         }
       }
@@ -276,6 +321,7 @@ function startManagerDataFlow(){
     }
     if(!headingSphereMotion.matches)managerDataFrame=requestAnimationFrame(draw);
   }
+  managerDataScene={key:sceneKey,draw};
   draw(performance.now());
 }
 window.addEventListener('resize',startManagerDataFlow);
