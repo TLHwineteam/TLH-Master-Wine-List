@@ -1,4 +1,4 @@
-window.WINE_DATA_UPDATED_AT = "2026-11-03T03:29:10+08:00";
+window.WINE_DATA_UPDATED_AT = "2026-11-03T04:26:05+08:00";
 window.WINE_DATA = [
   {
     "id": "c0",
@@ -80,6 +80,14 @@ window.WINE_DATA = [
             "section": "White",
             "nameZh": "仙島酒莊，逸湖霞多麗珍藏，中國山東",
             "priceZh": "$2,380"
+          },
+          {
+            "v": "2012",
+            "name": "Corton-Charlemagne Grand Cru, Domaine Ponsot, Burgundy, France",
+            "price": "$7,980",
+            "section": "White",
+            "nameZh": "龐索酒莊，科爾登查理曼特級園白葡萄酒，勃艮第，法國",
+            "priceZh": "$7,980"
           }
         ]
       },
@@ -88,11 +96,11 @@ window.WINE_DATA = [
         "nameZh": "紅葡萄酒",
         "items": [
           {
-            "v": "2023",
-            "name": "Penfolds, CWT 521 Cabernet & Marselan, Yunnan & Ningxia, China",
+            "v": "2021",
+            "name": "Penfolds FWT 585 Cabernet Sauvignon Petit Verdot Merlot, Blaye, Bordeaux, France",
             "price": "Glass $388 · Bottle $1,880",
             "section": "Red",
-            "nameZh": "奔富 CWT 521 赤霞珠及馬瑟蘭，中國雲南及寧夏",
+            "nameZh": "奔富「FWT 585」赤霞珠、小維鐸及梅洛混釀紅酒，布萊，波爾多，法國",
             "priceZh": "杯裝 $388 · 原瓶 $1,880"
           },
           {
@@ -261,7 +269,7 @@ window.WINE_DATA = [
         "nameZh": "紅葡萄酒",
         "items": [
           {
-            "v": "2016",
+            "v": "2018",
             "name": "Tempranillo, \"Reserva Clásico\", Bodega Otazu, Navarra, Spain",
             "price": "Glass $180 · Bottle $880",
             "section": "Red",
@@ -930,18 +938,20 @@ window.WINE_DATA = [
             "v": "2020",
             "name": "Château Anseillan, Pauillac, Bordeaux, France",
             "price": "$1,880",
-            "section": "Red Bordeaux"
+            "section": "Red Bordeaux",
+            "nameZh": "安賽蘭酒莊，波雅克，波爾多，法國"
           },
           {
             "v": "2012",
             "name": "Château Pichon-Longueville Comtesse de Lalande, Pauillac, Bordeaux, France",
             "price": "$3,680",
-            "section": "Red Bordeaux"
+            "section": "Red Bordeaux",
+            "nameZh": "碧尚女爵酒莊，二級酒莊紅葡萄酒，波雅克，波爾多，法國"
           },
           {
-            "v": "2013",
+            "v": "2005",
             "name": "Château Palmer, Bordeaux, Margaux, France",
-            "price": "$5,280",
+            "price": "$8,380",
             "section": "Red Bordeaux",
             "nameZh": "帕瑪酒莊，瑪歌，波爾多，法國"
           },
@@ -2790,13 +2800,6 @@ window.WINE_DATA = [
             "price": "$1,380",
             "section": "Trentino Alto Adige",
             "nameZh": "特蘭酒莊，「Quartz」長相思，特倫蒂諾－上阿迪傑，意大利"
-          },
-          {
-            "v": "2021",
-            "name": "Cantina Terlan 'Vorberg Pinot Bianco Riserva', Trentino-Alto Adige, Trentino Alto Adige, Italy",
-            "price": "$1,180",
-            "section": "Trentino Alto Adige",
-            "nameZh": "特蘭酒莊，「Vorberg」珍藏級白皮諾，特倫蒂諾－上阿迪傑，意大利"
           }
         ],
         "nameZh": "特倫蒂諾－上阿迪傑"
@@ -3852,13 +3855,6 @@ window.WINE_DATA = [
             "price": "$8,380",
             "section": "Château Palmer",
             "nameZh": "帕瑪酒莊，瑪歌，波爾多，法國"
-          },
-          {
-            "v": "2013",
-            "name": "Château Palmer, Bordeaux, Margaux, France",
-            "price": "$5,280",
-            "section": "Château Palmer",
-            "nameZh": "帕瑪酒莊，瑪歌，波爾多，法國"
           }
         ],
         "nameZh": "帕瑪酒莊"
@@ -4692,13 +4688,6 @@ window.WINE_DATA = [
       {
         "name": "Château de Beaucastel",
         "items": [
-          {
-            "v": "2013",
-            "name": "Château de Beaucastel, Châteauneuf-du-Pape, Southern Rhone, France",
-            "price": "$2,380",
-            "section": "Château de Beaucastel",
-            "nameZh": "博卡斯特酒莊，教皇新堡紅葡萄酒，南隆河，法國"
-          },
           {
             "v": "2018",
             "name": "Château de Beaucastel, Châteauneuf-du-Pape, Southern Rhone, France",
@@ -5796,7 +5785,7 @@ window.WINE_DATA = [
         "name": "Navarra",
         "items": [
           {
-            "v": "2016",
+            "v": "2018",
             "name": "Bodega Otazu, 'Reserva Clásico' (Tempranillo), Navarra, Spain",
             "price": "$880",
             "section": "Navarra",
@@ -5829,14 +5818,6 @@ window.WINE_DATA = [
         "name": "Cabernet Sauvignon",
         "nameZh": "赤霞珠",
         "items": [
-          {
-            "v": "2023",
-            "name": "Penfolds CWT 521 Cabernet Marselan, Yunnan & Ningxia, China",
-            "price": "$1,880",
-            "section": "Cabernet Sauvignon",
-            "nameZh": "奔富「CWT 521」赤霞珠及馬瑟蘭混釀紅酒，中國雲南及寧夏",
-            "priceZh": "$1,880"
-          },
           {
             "v": "2013",
             "name": "Cabernet Sauvignon, Ao Yun, Yunnan, China",

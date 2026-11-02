@@ -2301,7 +2301,7 @@ html.manager-mode:lang(en) .hero h2{font-style:oblique 8deg}
   .manager-mode .wine:hover,.manager-mode .wine:focus-within{transform:none;transition:none}
   .manager-mode .manager-impact :is(.impact-ring,.impact-streak){display:none}
 }
-/* Phone manager mode favours reliable scrolling over the full desktop scene. */
+/* Phone motion stays in bounded canvases, not continuously repainting cards. */
 @media (any-pointer:coarse) and (max-width:600px), (any-pointer:coarse) and (max-height:500px){
   .manager-mode *,.manager-mode *::before,.manager-mode *::after,.manager-mode *::backdrop{
     animation:none!important;will-change:auto!important;transition:none!important;
@@ -2315,6 +2315,25 @@ html.manager-mode:lang(en) .hero h2{font-style:oblique 8deg}
   }
   .manager-mode .main :is(.wine.marked,.wotm-feature.marked){
     box-shadow:inset 4px 0 #b0ffdc,inset 0 1px #e4fff1,0 3px 6px rgba(0,4,22,.35);
+  }
+}
+@keyframes phoneGlassTap{
+  from{opacity:.7;transform:translate(-50%,-50%) scale(.3)}
+  to{opacity:0;transform:translate(-50%,-50%) scale(1.15)}
+}
+@media (prefers-reduced-motion:no-preference) and (any-pointer:coarse) and (max-width:600px),
+       (prefers-reduced-motion:no-preference) and (any-pointer:coarse) and (max-height:500px){
+  .manager-mode .navigation-wheel .wheel-energy{animation:wheelEnergyOrbit 32s linear infinite!important}
+  .manager-mode .manager-impact-phone{
+    inset:auto;left:var(--impact-x,50%);top:var(--impact-y,50%);
+    width:96px;height:96px;border:1px solid rgba(164,255,244,.65);border-radius:50%;
+    background:radial-gradient(circle,rgba(174,157,255,.03) 35%,rgba(255,129,224,.22) 63%,rgba(86,239,255,.18) 68%,transparent 73%);
+    animation:phoneGlassTap .55s ease-out both!important;
+  }
+  .manager-mode.manager-scrolling .navigation-wheel .wheel-energy,
+  .manager-mode.manager-effects-paused .navigation-wheel .wheel-energy{animation-play-state:paused!important}
+  .manager-mode :is(.wine,.navcat,.navsub,.page-thumb,.catalogue-manage):active{
+    box-shadow:inset 0 0 0 2px rgba(151,251,239,.75);
   }
 }
 .manager-mode.manager-effects-paused *,.manager-mode.manager-effects-paused *::before,
