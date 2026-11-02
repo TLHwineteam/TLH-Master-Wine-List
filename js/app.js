@@ -1,6 +1,8 @@
 const C=window.WINE_DATA;
 let headingSphereFrame=0;
 const headingSphereMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+const phoneGraphics=window.matchMedia('(any-pointer:coarse) and (max-width:600px), (any-pointer:coarse) and (max-height:500px)');
+let searchRenderTimer=0;
 let updatedAt=null,updateDateUnavailable=false;let current=C[0].id;const nav=document.querySelector('#nav'),main=document.querySelector('#main'),q=document.querySelector('#q'),st=document.querySelector('#st'),meta=document.querySelector('#meta');const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&gt;','"':'&quot;',"'":'&#39;'}[m]));const n=c=>c.sections.reduce((a,s)=>a+s.items.length,0);
 const wineRegionWords=new Set('france italy germany australia china england spain portugal argentina chile austria switzerland canada usa japan scotland zealand burgundy bordeaux champagne alsace languedoc loire rhone provence tuscany piedmont veneto sicily sardinia rioja ribera priorat douro napa sonoma california washington oregon victoria central otago ningxia yunnan pauillac pomerol margaux estephe pessac leognan cote chalonnaise beaune gevrey chambertin vosne romanee chablis meursault puligny montrachet chassagne julien emilion medoc barsac sauternes fronsac'.split(' '));
 function wineIdentity(item){
@@ -147,23 +149,26 @@ managerDataCanvas.className='manager-data-flow';
 managerDataCanvas.setAttribute('aria-hidden','true');
 managerLightField.appendChild(managerDataCanvas);
 let managerDataFrame=0,managerDataContext=null;
+let managerDataScrolling=false,managerDataScrollTimer=0;
 function startManagerDataFlow(){
   cancelAnimationFrame(managerDataFrame);managerDataFrame=0;
   if(document.hidden||!document.documentElement.classList.contains('manager-mode')){
     managerDataCanvas.width=managerDataCanvas.height=1;
     return;
   }
+  if(phoneGraphics.matches&&managerDataScrolling)return;
   if(!managerDataContext){
     managerDataContext=managerDataCanvas.getContext('2d');
     if(!managerDataContext){console.error('Manager data-flow background: 2D canvas is unavailable');return;}
   }
   // Background detail does not need a full-device-DPR backing surface.
-  const scale=Math.min(1,900/Math.max(innerWidth,innerHeight));
+  const phone=phoneGraphics.matches;
+  const scale=Math.min(1,(phone?600:900)/Math.max(innerWidth,innerHeight));
   const width=Math.max(1,Math.round(innerWidth*scale)),height=Math.max(1,Math.round(innerHeight*scale));
   managerDataCanvas.width=width;managerDataCanvas.height=height;
   const context=managerDataContext,short=Math.min(width,height);
   const compact=window.matchMedia('(any-pointer:coarse)').matches;
-  const columns=compact?44:64,rows=compact?12:16;
+  const columns=phone?32:compact?44:64,rows=phone?8:compact?12:16;
   const colours=['#a69bff','#e38dff','#b0eaff','#f0efff'];
   const bubbleSprites=['#ff96c9','#93f8ff','#c6abff'].map(colour=>{
     const sprite=document.createElement('canvas');
@@ -188,7 +193,7 @@ function startManagerDataFlow(){
     return sprite;
   }).filter(Boolean);
   const routes=[];
-  for(let side=0;side<4;side++){
+  for(let side=0;side<(phone?0:4);side++){
     for(let index=0;index<6;index++){
       const lane=(index-2.5)*.026;
       const points=[[.5+lane,.5],[.5+lane,.37-index*.014],
@@ -202,9 +207,15 @@ function startManagerDataFlow(){
       routes.push({points:rotated,lengths,total:lengths.reduce((sum,length)=>sum+length,0)});
     }
   }
+  let paintedAt=-Infinity;
   function draw(time){
     managerDataFrame=0;
     if(document.hidden||!document.documentElement.classList.contains('manager-mode'))return;
+    if(phone&&managerDataScrolling)return;
+    if(phone&&!headingSphereMotion.matches&&time-paintedAt<1000/30){
+      managerDataFrame=requestAnimationFrame(draw);return;
+    }
+    paintedAt=time;
     const t=headingSphereMotion.matches?0:time*.00024;
     context.clearRect(0,0,width,height);
     context.lineWidth=.65;context.strokeStyle='rgba(55,235,210,.17)';
@@ -224,10 +235,12 @@ function startManagerDataFlow(){
       context.fillStyle='rgba(152,255,240,.7)';
       context.beginPath();context.arc(x,y,1.5,0,Math.PI*2);context.fill();
     });
-    const chip=short*.065;
-    context.strokeStyle='rgba(91,255,225,.32)';
-    context.strokeRect(width*.5-chip,height*.5-chip,chip*2,chip*2);
-    context.strokeRect(width*.5-chip*.72,height*.5-chip*.72,chip*1.44,chip*1.44);
+    if(!phone){
+      const chip=short*.065;
+      context.strokeStyle='rgba(91,255,225,.32)';
+      context.strokeRect(width*.5-chip,height*.5-chip,chip*2,chip*2);
+      context.strokeRect(width*.5-chip*.72,height*.5-chip*.72,chip*1.44,chip*1.44);
+    }
     for(let sheet=0;sheet<2;sheet++){
       const phase=t*(sheet?-.7:1)+sheet*2.7;
       for(let row=0;row<rows;row++){
@@ -249,7 +262,7 @@ function startManagerDataFlow(){
     }
     context.globalAlpha=1;
     if(bubbleSprites.length){
-      for(let index=0;index<(compact?8:12);index++){
+      for(let index=0;index<(phone?4:compact?8:12);index++){
         const progress=(t*(.1+index%3*.025)+index*.173)%1;
         const radius=Math.min(compact?64:88,short*(.035+(index%4)*.025));
         const x=(.08+(index*.271)% .84)*width+Math.sin(t*.5+index*2)*short*.055;
@@ -267,8 +280,21 @@ function startManagerDataFlow(){
 }
 window.addEventListener('resize',startManagerDataFlow);
 headingSphereMotion.addEventListener('change',startManagerDataFlow);
+phoneGraphics.addEventListener('change',()=>{
+  startManagerDataFlow();startHeadingSphere();
+});
+window.addEventListener('scroll',()=>{
+  if(!phoneGraphics.matches||!document.documentElement.classList.contains('manager-mode'))return;
+  managerDataScrolling=true;
+  cancelAnimationFrame(managerDataFrame);managerDataFrame=0;
+  clearTimeout(managerDataScrollTimer);
+  managerDataScrollTimer=setTimeout(()=>{
+    managerDataScrolling=false;startManagerDataFlow();
+  },180);
+},{passive:true,capture:true});
 let managerWheelActiveUntil=0;
 function showManagerImpact(element,event){
+  if(phoneGraphics.matches)return;
   if(!element||!document.documentElement.classList.contains('manager-mode')||document.hidden||
     element.querySelector(':scope > .manager-impact'))return;
   const impact=document.createElement('span');
@@ -1006,9 +1032,17 @@ async function showWineAi(wine,category,feedback){
   }
 }
 function bindWineAi(){
+  const lookup=new Map(C.map(category=>{
+    const wines=new Map();
+    category.sections.forEach(section=>section.items.forEach(wine=>{
+      const key=wineKey(wine);
+      if(!wines.has(key))wines.set(key,wine);
+    }));
+    return [category.id,{category,wines}];
+  }));
   main.querySelectorAll('.wine,.wotm-feature').forEach(entry=>{
-    const category=C.find(category=>category.id===entry.dataset.category);
-    const wine=category?.sections.flatMap(section=>section.items).find(wine=>wineKey(wine)===entry.dataset.wineKey);
+    const data=lookup.get(entry.dataset.category);
+    const category=data?.category,wine=data?.wines.get(entry.dataset.wineKey);
     if(!wine)return;
     const button=document.createElement('button');button.type='button';button.className='wine-ai-button';
     button.textContent=lang==='zh'?'✧ 詢問 AI':'✧ Ask AI';
@@ -1141,11 +1175,12 @@ function startHeadingSphere(){
       context.fillStyle='rgba(223,255,255,.95)';
       context.beginPath();context.arc(90+Math.cos(phase)*radius,160+Math.sin(phase)*radius*.19,1,0,Math.PI*2);context.fill();
     }
-    if(!headingSphereMotion.matches)headingSphereFrame=requestAnimationFrame(draw);
+    if(!headingSphereMotion.matches&&!phoneGraphics.matches)headingSphereFrame=requestAnimationFrame(draw);
   }
   draw(performance.now());
 }
 function bind(){
+  clearTimeout(searchRenderTimer);
   stopNavigationWheelScroll();
   bindStockDots();
   bindWineSelection();
@@ -1182,7 +1217,16 @@ if(c.id==='c0'&&!group){
   bind();
   return;
 }
-main.innerHTML=`<section class="hero"><div class="kicker">${esc(ui().brand)}${group?' · '+esc(pick(c,'title')):''}</div><h2>${esc(group?pick(group,'name'):pick(c,'title'))}</h2></section>`+sections.map(s=>`<section class="section">${s.hideHeading?'':`<h3>${esc(pick(s,'name'))}</h3>`}${s.items.map(x=>card(x,c,s)).join('')}</section>`).join('')+`<div class="legal">${esc(ui().legalGeneral)}</div>`;bind()}q.oninput=()=>{render();renderPageStrip();};
+main.innerHTML=`<section class="hero"><div class="kicker">${esc(ui().brand)}${group?' · '+esc(pick(c,'title')):''}</div><h2>${esc(group?pick(group,'name'):pick(c,'title'))}</h2></section>`+sections.map(s=>`<section class="section">${s.hideHeading?'':`<h3>${esc(pick(s,'name'))}</h3>`}${s.items.map(x=>card(x,c,s)).join('')}</section>`).join('')+`<div class="legal">${esc(ui().legalGeneral)}</div>`;bind()}
+function handleWineSearch(event){
+  clearTimeout(searchRenderTimer);
+  if(event.isComposing)return;
+  const update=()=>{render();renderPageStrip();};
+  if(phoneGraphics.matches&&q.value.trim())searchRenderTimer=setTimeout(update,150);
+  else update();
+}
+q.oninput=handleWineSearch;
+q.addEventListener('compositionend',handleWineSearch);
 navR();
 render();
 loadUpdatedDate();

@@ -2269,6 +2269,22 @@ html.manager-mode:lang(en) .hero h2{font-style:oblique 8deg}
   .manager-mode .wine:hover,.manager-mode .wine:focus-within{transform:none;transition:none}
   .manager-mode .manager-impact :is(.impact-ring,.impact-streak){display:none}
 }
+/* Phone manager mode favours reliable scrolling over the full desktop scene. */
+@media (any-pointer:coarse) and (max-width:600px), (any-pointer:coarse) and (max-height:500px){
+  .manager-mode *,.manager-mode *::before,.manager-mode *::after,.manager-mode *::backdrop{
+    animation:none!important;will-change:auto!important;transition:none!important;
+    -webkit-backdrop-filter:none!important;backdrop-filter:none!important;filter:none!important;
+  }
+  .manager-mode body::before,.manager-mode body::after,
+  .manager-mode .manager-light-field::before,.manager-mode .manager-light-field::after,
+  .manager-mode :is(.light-ribbon,.nebula-layer,.celestial-bloom,.light-depth-field){display:none}
+  .manager-mode .main :is(.hero,.wotm-feature,.wine){
+    box-shadow:inset 0 1px rgba(223,248,255,.55),0 3px 6px rgba(0,4,22,.35);
+  }
+  .manager-mode .main :is(.wine.marked,.wotm-feature.marked){
+    box-shadow:inset 4px 0 #b0ffdc,inset 0 1px #e4fff1,0 3px 6px rgba(0,4,22,.35);
+  }
+}
 .manager-mode.manager-effects-paused *,.manager-mode.manager-effects-paused *::before,
 .manager-mode.manager-effects-paused *::after{animation-play-state:paused!important}
 @media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
