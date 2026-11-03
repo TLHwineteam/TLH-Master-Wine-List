@@ -1,4 +1,4 @@
-window.WINE_DATA_UPDATED_AT = "2026-11-03T04:26:05+08:00";
+window.WINE_DATA_UPDATED_AT = "2026-11-04T01:01:20+08:00";
 window.WINE_DATA = [
   {
     "id": "c0",
@@ -28,8 +28,8 @@ window.WINE_DATA = [
   },
   {
     "id": "c1",
-    "title": "National Day Selection",
-    "titleZh": "國慶精選",
+    "title": "Seasonal Selection",
+    "titleZh": "季節精選",
     "sections": [
       {
         "name": "Champagne",
@@ -783,25 +783,11 @@ window.WINE_DATA = [
             "nameZh": "俠龍酒莊，蒙哈榭特級園莎當妮白葡萄酒，勃艮第，法國"
           },
           {
-            "v": "2022",
-            "name": "Mercurey \"Les Rochelles\" Blanc, Domaine Mia, Burgundy, Cote Chalonnaise, France",
-            "price": "$1,280",
-            "section": "Bourgogne Blanc",
-            "nameZh": "米婭酒莊，「Les Rochelles」梅爾居雷白葡萄酒，莎當妮，勃艮第，夏隆內丘，法國"
-          },
-          {
             "v": "2023",
             "name": "Puligny-Montrachet, Les Enseignères, Domaine Joseph Pascal, France",
             "price": "$2,080",
             "section": "Bourgogne Blanc",
             "nameZh": "約瑟夫・帕斯卡酒莊，Les Enseignères 普里尼－蒙哈榭白酒，莎當妮，博恩丘，法國"
-          },
-          {
-            "v": "2020",
-            "name": "Chablis Grand Cru, Les Preuses, Domaine William Fèvre, Burgundy, France",
-            "price": "$2,480",
-            "section": "Bourgogne Blanc",
-            "nameZh": "威廉費爾酒莊，「普樂斯園」夏布利特級園霞多麗白葡萄酒，勃艮第，法國"
           },
           {
             "v": "2023",
@@ -816,6 +802,13 @@ window.WINE_DATA = [
             "price": "$3,380",
             "section": "Bourgogne Blanc",
             "nameZh": "布魯諾・柯林酒莊，莫爾若一級園夏山－蒙哈榭白葡萄酒，莎當妮，博恩丘，法國"
+          },
+          {
+            "v": "2020",
+            "name": "Puligny-Montrachet, 1er Cru Clos de la Pucelle Monopole, Domaine Jean Chartron, Burgundy, France",
+            "price": "$4,280",
+            "section": "Bourgogne Blanc",
+            "nameZh": "俠龍酒莊，普里尼－蒙哈榭一級園「少女園」獨佔園白葡萄酒，勃艮第，法國"
           },
           {
             "v": "2018",
@@ -836,13 +829,6 @@ window.WINE_DATA = [
             "price": "$2,680",
             "section": "Bourgogne Rouge",
             "nameZh": "皮耶吉拉丹酒莊，莫雷聖丹尼「光輝山」一級園黑皮諾紅葡萄酒，勃艮第，法國"
-          },
-          {
-            "v": "2022",
-            "name": "Pommard 1er Cru, Clos de la Commaraine Monopole, Domaine de la Commaraine, Burgundy, France",
-            "price": "$4,380",
-            "section": "Bourgogne Rouge",
-            "nameZh": "科瑪萊訥酒莊，玻瑪「科瑪萊訥圍牆園」獨佔一級園黑皮諾紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2022",
@@ -878,6 +864,13 @@ window.WINE_DATA = [
             "price": "$1,550",
             "section": "Bourgogne Rouge",
             "nameZh": "尼古拉・布爾蓋酒莊，熱夫雷－香貝丹「Les Crais」紅葡萄酒，勃艮第，法國"
+          },
+          {
+            "v": "2021",
+            "name": "Chambolle-Musigny, 1er Cru Les Charmes, Domaine Amiot-Servelle, Burgundy, France",
+            "price": "$3,280",
+            "section": "Bourgogne Rouge",
+            "nameZh": "阿米歐－瑟維爾酒莊，香波－慕西尼一級園「夏姆園」紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2022",
@@ -2457,6 +2450,13 @@ window.WINE_DATA = [
             "price": "$26,500",
             "section": "Bordeaux",
             "nameZh": "奧比昂酒莊，白葡萄酒，佩薩克雷奧良，波爾多，法國"
+          },
+          {
+            "v": "2013",
+            "name": "Smith Haut Lafitte Blanc, Bordeaux, France",
+            "price": "$2,880",
+            "section": "Bordeaux",
+            "nameZh": "史密斯拉菲酒莊白葡萄酒，波爾多，法國"
           }
         ],
         "nameZh": "波爾多"
@@ -2619,6 +2619,13 @@ window.WINE_DATA = [
             "price": "$2,080",
             "section": "Puligny-Montrachet",
             "nameZh": "約瑟夫・帕斯卡酒莊，Les Enseignères 普里尼－蒙哈榭白酒，莎當妮，博恩丘，法國"
+          },
+          {
+            "v": "2020",
+            "name": "Puligny-Montrachet, 1er Cru Clos de la Pucelle Monopole, Domaine Jean Chartron, Burgundy, France",
+            "price": "$4,280",
+            "section": "Puligny-Montrachet",
+            "nameZh": "俠龍酒莊，普里尼－蒙哈榭一級園「少女園」獨佔園白葡萄酒，勃艮第，法國"
           }
         ],
         "nameZh": "普里尼－蒙哈榭"
@@ -3796,6 +3803,13 @@ window.WINE_DATA = [
             "nameZh": "力士金酒莊，瑪歌，波爾多，法國"
           },
           {
+            "v": "2014",
+            "name": "Château Rauzan-Ségla, Bordeaux, Margaux, France",
+            "price": "$2,280",
+            "section": "Margaux",
+            "nameZh": "露仙歌酒莊，瑪歌，波爾多，法國"
+          },
+          {
             "v": "2018",
             "name": "Château Rauzan-Ségla, Bordeaux, Margaux, France",
             "price": "$2,880",
@@ -3889,6 +3903,13 @@ window.WINE_DATA = [
             "price": "$1,430",
             "section": "Pauillac",
             "nameZh": "上波雅克酒莊，波雅克，波爾多，法國"
+          },
+          {
+            "v": "2013",
+            "name": "Château Pontet Canet, Pauillac, Bordeaux, France",
+            "price": "$2,480",
+            "section": "Pauillac",
+            "nameZh": "龐特卡奈酒莊，波雅克，波爾多，法國"
           },
           {
             "v": "2015",
@@ -4236,10 +4257,17 @@ window.WINE_DATA = [
         "items": [
           {
             "v": "2022",
-            "name": "Domaine Jean Fournier Cuvée Saint-Urbain, Burgundy, Marsannay, France",
+            "name": "Domaine Jean Fournier, Cuvée Saint-Urbain, Burgundy, Marsannay, France",
             "price": "$1,680",
             "section": "Marsannay",
             "nameZh": "讓・富尼耶酒莊，「聖烏爾班」特釀，馬沙內，勃艮第，法國"
+          },
+          {
+            "v": "2023",
+            "name": "Domaine Charlopin Tissier, Les Longeroies, Marsannay, Burgundy, France",
+            "price": "$1,580",
+            "section": "Marsannay",
+            "nameZh": "Charlopin Tissier 酒莊，「Les Longeroies」馬沙內紅葡萄酒，勃艮第，法國"
           }
         ],
         "nameZh": "馬沙內"
@@ -4335,6 +4363,13 @@ window.WINE_DATA = [
             "price": "$2,080",
             "section": "Chambolle-Musigny",
             "nameZh": "法蘭索瓦貝爾托酒莊，香波慕西尼黑皮諾紅葡萄酒，勃艮第，香波－慕西尼，法國"
+          },
+          {
+            "v": "2021",
+            "name": "Chambolle-Musigny, 1er Cru Les Charmes, Domaine Amiot-Servelle, Burgundy, France",
+            "price": "$3,280",
+            "section": "Chambolle-Musigny",
+            "nameZh": "阿米歐－瑟維爾酒莊，香波－慕西尼一級園「夏姆園」紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2013",
@@ -5743,6 +5778,19 @@ window.WINE_DATA = [
         "nameZh": "杜埃羅河岸"
       },
       {
+        "name": "Arlanza",
+        "nameZh": "阿爾蘭薩",
+        "items": [
+          {
+            "v": "2021",
+            "name": "Viñedos Olvidados de Valtravieso, 'Cerro Cerezo' (Tempranillo), Arlanza, Spain",
+            "price": "$2,280",
+            "section": "Arlanza",
+            "nameZh": "Viñedos Olvidados de Valtravieso 酒莊，「Cerro Cerezo」丹魄紅葡萄酒，阿爾蘭薩，西班牙"
+          }
+        ]
+      },
+      {
         "name": "Costers del Segre",
         "items": [
           {
@@ -6044,6 +6092,13 @@ window.WINE_DATA = [
             "price": "$980",
             "section": "Pinot Noir",
             "nameZh": "雷瓦酒莊，黑皮諾紅葡萄酒，中奧塔哥，紐西蘭"
+          },
+          {
+            "v": "2025",
+            "name": "Hamilton Russell, Hemel-en-Aarde Valley, South Africa",
+            "price": "$1,280",
+            "section": "Pinot Noir",
+            "nameZh": "漢密爾頓羅素酒莊，黑皮諾紅葡萄酒，Hemel-en-Aarde 谷，南非"
           }
         ],
         "nameZh": "黑皮諾"

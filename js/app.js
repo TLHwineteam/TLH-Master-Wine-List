@@ -214,6 +214,7 @@ managerDataCanvas.setAttribute('aria-hidden','true');
 managerLightField.appendChild(managerDataCanvas);
 let managerDataFrame=0,managerDataContext=null;
 let managerDataScene=null;
+let managerScrollPaused=false,managerScrollTimer=0;
 function startManagerDataFlow(){
   cancelAnimationFrame(managerDataFrame);managerDataFrame=0;
   if(document.hidden||!document.documentElement.classList.contains('manager-mode')){
@@ -221,21 +222,23 @@ function startManagerDataFlow(){
     managerDataScene=null;
     return;
   }
+  if(phoneLayout.matches&&managerScrollPaused)return;
   if(!managerDataContext){
     managerDataContext=managerDataCanvas.getContext('2d');
     if(!managerDataContext){console.error('Manager data-flow background: 2D canvas is unavailable');return;}
   }
   // Background detail does not need a full-device-DPR backing surface.
-  const scale=Math.min(1,900/Math.max(innerWidth,innerHeight));
+  const phone=phoneLayout.matches;
+  const scale=Math.min(1,(phone?600:900)/Math.max(innerWidth,innerHeight));
   const width=Math.max(1,Math.round(innerWidth*scale)),height=Math.max(1,Math.round(innerHeight*scale));
-  const sceneKey=[width,height,headingSphereMotion.matches].join(':');
+  const sceneKey=[width,height,phone,headingSphereMotion.matches].join(':');
   if(managerDataScene?.key===sceneKey){
     managerDataScene.draw(performance.now());
     return;
   }
   managerDataCanvas.width=width;managerDataCanvas.height=height;
   const context=managerDataContext,short=Math.min(width,height);
-  const columns=64,rows=16;
+  const columns=phone?32:64,rows=phone?8:16;
   const colours=['#a69bff','#e38dff','#b0eaff','#f0efff'];
   const waveRows=Array.from({length:rows},(_,index)=>{
     const v=index/(rows-1)*2-1;
@@ -243,6 +246,19 @@ function startManagerDataFlow(){
       size:1-Math.abs(v)*.28,alpha:1-Math.abs(v)*.5};
   });
   const waveColumns=new Float64Array(columns*5);
+  const atmosphere=phone?document.createElement('canvas'):null;
+  if(atmosphere){
+    atmosphere.width=atmosphere.height=192;
+    const paint=atmosphere.getContext('2d');
+    if(paint){
+      [[42,58,'101,219,255'],[129,70,'198,111,255'],[80,140,'255,127,201']].forEach(([x,y,rgb])=>{
+        const glow=paint.createRadialGradient(x,y,0,x,y,76);
+        glow.addColorStop(0,`rgba(${rgb},.8)`);glow.addColorStop(.4,`rgba(${rgb},.3)`);
+        glow.addColorStop(1,`rgba(${rgb},0)`);
+        paint.fillStyle=glow;paint.fillRect(0,0,192,192);
+      });
+    }else console.error('Manager atmosphere texture: 2D canvas is unavailable');
+  }
   const bubbleSprites=['#ff96c9','#93f8ff','#c6abff'].map(colour=>{
     const sprite=document.createElement('canvas');
     sprite.width=sprite.height=128;
@@ -267,7 +283,7 @@ function startManagerDataFlow(){
   }).filter(Boolean);
   const routes=[];
   for(let side=0;side<4;side++){
-    for(let index=0;index<6;index++){
+    for(let index=0;index<(phone?2:6);index++){
       const lane=(index-2.5)*.026;
       const points=[[.5+lane,.5],[.5+lane,.37-index*.014],
         [.18+index*.047,.2+index*.018],[.18+index*.047,.025]];
@@ -284,11 +300,25 @@ function startManagerDataFlow(){
   function draw(time){
     managerDataFrame=0;
     if(document.hidden||!document.documentElement.classList.contains('manager-mode'))return;
+    if(phone&&managerScrollPaused)return;
+    if(phone&&!headingSphereMotion.matches&&time-paintedAt<1000/24){
+      managerDataFrame=requestAnimationFrame(draw);return;
+    }
     // Resume from the last visual phase instead of jumping by the idle duration.
     sceneTime+=Number.isFinite(paintedAt)?Math.max(0,Math.min(50,time-paintedAt)):0;
     paintedAt=time;
     const t=headingSphereMotion.matches?0:sceneTime*.00024;
     context.clearRect(0,0,width,height);
+    if(atmosphere){
+      for(let layer=0;layer<3;layer++){
+        const size=Math.min(420,short*1.6);
+        context.save();context.globalAlpha=.7;
+        context.translate(width*(layer%2?.8:.2)+Math.sin(t+layer)*short*.14,
+          height*(.15+layer*.34)+Math.cos(t*.6+layer)*short*.1);
+        context.rotate(t*(layer%2?-.12:.15)+layer*2);
+        context.drawImage(atmosphere,-size/2,-size/2,size,size);context.restore();
+      }
+    }
     context.lineWidth=.65;context.strokeStyle='rgba(55,235,210,.17)';
     routes.forEach((route,index)=>{
       context.beginPath();
@@ -336,13 +366,13 @@ function startManagerDataFlow(){
     }
     context.globalAlpha=1;
     if(bubbleSprites.length){
-      for(let index=0;index<12;index++){
+      for(let index=0;index<(phone?6:12);index++){
         const progress=(t*(.1+index%3*.025)+index*.173)%1;
         const radius=Math.min(88,short*(.035+(index%4)*.025));
         const x=(.08+(index*.271)% .84)*width+Math.sin(t*.5+index*2)*short*.055;
         const y=height+radius-progress*(height+radius*2);
         const swell=1+Math.sin(t*.7+index)*.08;
-        context.globalAlpha=.48*Math.min(1,progress*10,(1-progress)*10);
+        context.globalAlpha=(phone?.6:.48)*Math.min(1,progress*10,(1-progress)*10);
         context.drawImage(bubbleSprites[index%bubbleSprites.length],
           x-radius*swell,y-radius/swell,radius*2*swell,radius*2/swell);
       }
@@ -356,16 +386,35 @@ function startManagerDataFlow(){
 window.addEventListener('resize',startManagerDataFlow);
 window.addEventListener('resize',startHeadingSphere);
 headingSphereMotion.addEventListener('change',startManagerDataFlow);
+phoneLayout.addEventListener('change',()=>{
+  clearTimeout(managerScrollTimer);managerScrollPaused=false;
+  document.documentElement.classList.remove('manager-scrolling');
+  finishManagerImpacts();startManagerDataFlow();startHeadingSphere();
+});
+window.addEventListener('scroll',()=>{
+  if(!phoneLayout.matches||!document.documentElement.classList.contains('manager-mode'))return;
+  managerScrollPaused=true;document.documentElement.classList.add('manager-scrolling');
+  cancelAnimationFrame(managerDataFrame);managerDataFrame=0;
+  cancelAnimationFrame(headingSphereFrame);headingSphereFrame=0;
+  finishManagerImpacts();clearTimeout(managerScrollTimer);
+  managerScrollTimer=setTimeout(()=>{
+    managerScrollPaused=false;document.documentElement.classList.remove('manager-scrolling');
+    startManagerDataFlow();startHeadingSphere();
+  },200);
+},{passive:true,capture:true});
 let managerWheelActiveUntil=0;
 const managerImpacts=new Set();
 function finishManagerImpacts(){managerImpacts.forEach(finish=>finish());}
 function showManagerImpact(element,event){
   if(!element||!document.documentElement.classList.contains('manager-mode')||document.hidden||
     element.querySelector(':scope > .manager-impact'))return;
+  const phone=phoneLayout.matches;
+  if(phone&&(managerScrollPaused||headingSphereMotion.matches))return;
+  if(phone)finishManagerImpacts();
   const impact=document.createElement('span');
-  impact.className='manager-impact';
+  impact.className='manager-impact'+(phone?' manager-impact-phone':'');
   impact.setAttribute('aria-hidden','true');
-  impact.innerHTML='<span class="impact-ring"></span><span class="impact-streak"></span>';
+  if(!phone)impact.innerHTML='<span class="impact-ring"></span><span class="impact-streak"></span>';
   if(event){
     const box=element.getBoundingClientRect();
     impact.style.setProperty('--impact-x',`${Math.max(0,Math.min(100,(event.clientX-box.left)/Math.max(1,box.width)*100))}%`);
@@ -373,7 +422,7 @@ function showManagerImpact(element,event){
   }
   element.classList.add('manager-impact-host');
   element.appendChild(impact);
-  const timeout=setTimeout(finish,1400);
+  const timeout=setTimeout(finish,phone?600:1400);
   managerImpacts.add(finish);
   function finish(){
     clearTimeout(timeout);
@@ -386,6 +435,7 @@ function showManagerImpact(element,event){
   });
 }
 function showManagerSectionImpact(){
+  if(phoneLayout.matches){showManagerImpact(main.querySelector('.hero'));return;}
   [main.querySelector('.hero'),nav.querySelector('.navsub.active,.navcat.active'),
     pageStrip.querySelector('.page-thumb.active .page-thumb-page')].forEach(element=>showManagerImpact(element));
 }
@@ -738,7 +788,7 @@ c7:[
   {name:'Northern Italy',nameZh:'意大利北部',sections:['Trentino Alto Adige',"Valle D' Aosta"]}
  ],
  c21:[
-  {name:'Spain',nameZh:'西班牙',sections:['Rioja','Priorat','Ribera del Duero','Costers del Segre','Catalunya','Ribeira Sacra','Navarra','Valencia']},
+  {name:'Spain',nameZh:'西班牙',sections:['Rioja','Priorat','Ribera del Duero','Arlanza','Costers del Segre','Catalunya','Ribeira Sacra','Navarra','Valencia']},
   {name:'Austria',nameZh:'奧地利',sections:['Austria']},
   {name:'Bulgaria',nameZh:'保加利亞',sections:['Bulgaria']}
  ],
@@ -933,7 +983,7 @@ function navR(){
 
  const navOrder = [
    'c0', // Wine of the Month
-   'c1', // National Day Selection
+   'c1', // Seasonal Selection
    'c2', // Wine by the Glass
    'c6', // Premium Fine Wine Collection
    'c7', // Sommelier Selection
@@ -1278,18 +1328,20 @@ function startHeadingSphere(){
   const hero=canvas?.closest('.hero');
   if(canvas&&(!staffUnlocked()||document.hidden))canvas.width=canvas.height=1;
   if(!canvas||!staffUnlocked()||document.hidden||(managerEffectsObserver&&!hero.classList.contains('manager-effect-visible')))return;
+  const phone=phoneLayout.matches;
+  if(phone&&managerScrollPaused)return;
   const context=canvas.getContext('2d');
   if(!context){console.error('Holographic heading sphere: 2D canvas is unavailable');return;}
-  const size=180,ratio=Math.min(window.devicePixelRatio||1,3);
+  const size=180,ratio=phone?1:Math.min(window.devicePixelRatio||1,3);
   canvas.width=size*ratio;canvas.height=size*ratio;context.scale(ratio,ratio);
-  const pointCount=128;
+  const pointCount=phone?64:128;
   const points=Array.from({length:pointCount},(_,index)=>{
     const y=1-2*(index+.5)/pointCount,r=Math.sqrt(1-y*y),angle=index*Math.PI*(3-Math.sqrt(5));
     return {x:Math.cos(angle)*r,y,z:Math.sin(angle)*r};
   });
   const edges=[];
   points.forEach((point,i)=>points.slice(i+1).forEach((other,j)=>{
-    if(Math.hypot(point.x-other.x,point.y-other.y,point.z-other.z)<.38)edges.push([i,i+j+1]);
+    if(Math.hypot(point.x-other.x,point.y-other.y,point.z-other.z)<(phone?.54:.38))edges.push([i,i+j+1]);
   }));
   const glow=context.createRadialGradient(78,66,8,90,78,79);
   glow.addColorStop(0,'rgba(10,18,57,.7)');
@@ -1297,9 +1349,15 @@ function startHeadingSphere(){
   glow.addColorStop(.83,'rgba(34,220,255,.2)');
   glow.addColorStop(.9,'rgba(233,98,255,.15)');
   glow.addColorStop(1,'rgba(0,173,255,0)');
+  let paintedAt=-Infinity;
   function draw(time){
     if(!canvas.isConnected||!document.documentElement.classList.contains('manager-mode')||document.hidden||
       (managerEffectsObserver&&!hero.classList.contains('manager-effect-visible'))){headingSphereFrame=0;return;}
+    if(phone&&managerScrollPaused){headingSphereFrame=0;return;}
+    if(phone&&!headingSphereMotion.matches&&time-paintedAt<1000/12){
+      headingSphereFrame=requestAnimationFrame(draw);return;
+    }
+    paintedAt=time;
     const elapsed=headingSphereMotion.matches?0:time*.00015;
     const sine=Math.sin(elapsed),cosine=Math.cos(elapsed);
     function project(point){
@@ -1320,8 +1378,8 @@ function startHeadingSphere(){
       context.beginPath();context.moveTo(a.x,a.y);context.lineTo(b.x,b.y);context.stroke();
     });
     // Fine orbiting strands carry light around, rather than flattening the sphere.
-    const steps=80;
-    for(let strand=0;strand<4;strand++){
+    const steps=phone?32:80;
+    for(let strand=0;strand<(phone?2:4);strand++){
       const tilt=.4+strand*.75,radius=1.04+strand*.035;
       let previous=null;
       for(let step=0;step<=steps;step++){
@@ -1340,7 +1398,7 @@ function startHeadingSphere(){
       context.fillStyle=`rgba(${index%4?'164,248,255':'255,178,239'},${.35+(point.z+1)*.3})`;
       context.beginPath();context.arc(point.x,point.y,.45+(point.z+1)*.35,0,Math.PI*2);context.fill();
     });
-    for(let spark=0;spark<16;spark++){
+    for(let spark=0;spark<(phone?6:16);spark++){
       const [i,j]=edges[(spark*23)%edges.length],a=projected[i],b=projected[j];
       const travel=(elapsed*.8+spark*.37)%1;
       const x=a.x+(b.x-a.x)*travel,y=a.y+(b.y-a.y)*travel;
