@@ -1,4 +1,4 @@
-window.WINE_DATA_UPDATED_AT = "2026-11-04T01:01:20+08:00";
+window.WINE_DATA_UPDATED_AT = "2026-11-04T15:59:04+08:00";
 window.WINE_DATA = [
   {
     "id": "c0",
@@ -320,7 +320,8 @@ window.WINE_DATA = [
             "v": "2019",
             "name": "Cabernet Sauvignon, Château Clerc-Milon, Pauillac, Bordeaux, France",
             "price": "Glass $538 · Bottle $2,680",
-            "section": "Red"
+            "section": "Red",
+            "nameZh": "克拉米倫酒莊，赤霞珠紅葡萄酒，波雅克，波爾多，法國"
           }
         ]
       },
@@ -1636,7 +1637,8 @@ window.WINE_DATA = [
             "v": "NV",
             "name": "Krug, Grande Cuvée 174ème Édition, Champagne, France",
             "price": "$4,580",
-            "section": "Krug"
+            "section": "Krug",
+            "nameZh": "庫克，陳年香檳第174版"
           }
         ],
         "nameZh": "庫克"
@@ -1868,7 +1870,8 @@ window.WINE_DATA = [
             "v": "NV",
             "name": "Pol Roger Brut Réserve, Champagne, France",
             "price": "$1,580",
-            "section": "Non-Vintage"
+            "section": "Non-Vintage",
+            "nameZh": "寶祿爵香檳，Brut Réserve 珍藏乾型香檳，香檳區，法國"
           }
         ],
         "nameZh": "無年份香檳"
@@ -2164,7 +2167,8 @@ window.WINE_DATA = [
             "v": "NV",
             "name": "Lou Dumont Crémant de Bourgogne Blanc de Blancs, France",
             "price": "$800",
-            "section": "Sparkling Wine"
+            "section": "Sparkling Wine",
+            "nameZh": "Lou Dumont，勃艮第白中白氣泡酒，勃艮第，法國"
           }
         ]
       }
@@ -2672,7 +2676,8 @@ window.WINE_DATA = [
             "v": "2022",
             "name": "Chassagne-Montrachet, Olivier Leflaive, Burgundy, France",
             "price": "$2,280",
-            "section": "Chassagne-Montrachet"
+            "section": "Chassagne-Montrachet",
+            "nameZh": "奧利維・勒弗萊夫酒莊，夏山－蒙哈榭白葡萄酒，勃艮第，法國"
           }
         ],
         "nameZh": "夏山－蒙哈榭"
@@ -3327,13 +3332,15 @@ window.WINE_DATA = [
             "v": "2014",
             "name": "Garrus Rosé, Château d’Esclans, Provence, France",
             "price": "$2,710",
-            "section": "Provence"
+            "section": "Provence",
+            "nameZh": "艾斯克蘭酒莊（Château d’Esclans），「Garrus」粉紅葡萄酒，普羅旺斯，法國"
           },
           {
             "v": "2018",
             "name": "Whispering Angel Rosé, Château d’Esclans, Provence, France",
             "price": "$1,028",
-            "section": "Provence"
+            "section": "Provence",
+            "nameZh": "艾斯克蘭酒莊（Château d’Esclans），「天使之語」粉紅葡萄酒，普羅旺斯，法國"
           }
         ],
         "nameZh": "普羅旺斯"
@@ -3467,7 +3474,8 @@ window.WINE_DATA = [
             "v": "2019",
             "name": "Gevrey-Chambertin, Bouchard Père & Fils, Burgundy, France",
             "price": "$980 · 375 ml",
-            "section": "Red Wines"
+            "section": "Red Wines",
+            "nameZh": "布夏父子酒莊，熱夫雷－香貝丹紅葡萄酒，勃艮第，法國"
           }
         ],
         "nameZh": "紅葡萄酒"
@@ -3929,31 +3937,36 @@ window.WINE_DATA = [
             "v": "2019",
             "name": "Château Clerc-Milon, Pauillac, Bordeaux, France",
             "price": "$2,680",
-            "section": "Pauillac"
+            "section": "Pauillac",
+            "nameZh": "克拉米倫酒莊，波雅克，波爾多，法國"
           },
           {
             "v": "2008",
             "name": "Château Lynch-Bages, Pauillac, Bordeaux, France",
             "price": "$4,080",
-            "section": "Pauillac"
+            "section": "Pauillac",
+            "nameZh": "靚次伯酒莊，波雅克，波爾多，法國"
           },
           {
             "v": "2011",
             "name": "Château Lynch-Bages, Pauillac, Bordeaux, France",
             "price": "$3,880",
-            "section": "Pauillac"
+            "section": "Pauillac",
+            "nameZh": "靚次伯酒莊，波雅克，波爾多，法國"
           },
           {
             "v": "2012",
             "name": "Château Pichon-Longueville Comtesse de Lalande, Pauillac, Bordeaux, France",
             "price": "$3,680",
-            "section": "Pauillac"
+            "section": "Pauillac",
+            "nameZh": "碧尚女爵酒莊，二級酒莊紅葡萄酒，波雅克，波爾多，法國"
           },
           {
             "v": "2020",
             "name": "Anseillan de Château Lafite Rothschild, Pauillac, Bordeaux, France",
             "price": "$1,880",
-            "section": "Pauillac"
+            "section": "Pauillac",
+            "nameZh": "安賽蘭酒莊，波雅克，波爾多，法國"
           }
         ],
         "nameZh": "波雅克"
@@ -4450,19 +4463,22 @@ window.WINE_DATA = [
             "v": "2022",
             "name": "Vosne-Romanée, 1er Cru Les Petits Monts, Domaine Mongeard-Mugneret, Burgundy, France",
             "price": "$4,080",
-            "section": "Vosne-Romanée"
+            "section": "Vosne-Romanée",
+            "nameZh": "沃恩羅曼尼一級園「小蒙特園」，大手掌酒莊"
           },
           {
             "v": "2020",
             "name": "Vosne-Romanée, 1er Cru Aux Brûlées, Domaine Michel Gros, Burgundy, France",
             "price": "$4,580",
-            "section": "Vosne-Romanée"
+            "section": "Vosne-Romanée",
+            "nameZh": "米歇爾・格羅酒莊，沃恩－羅曼尼一級園「Aux Brûlées」紅葡萄酒，勃艮第，法國"
           },
           {
             "v": "2021",
             "name": "Vosne-Romanée, 1er Cru Aux Brûlées, Domaine Michel Gros, Burgundy, France",
             "price": "$4,580",
-            "section": "Vosne-Romanée"
+            "section": "Vosne-Romanée",
+            "nameZh": "米歇爾・格羅酒莊，沃恩－羅曼尼一級園「Aux Brûlées」紅葡萄酒，勃艮第，法國"
           }
         ],
         "nameZh": "沃恩－羅曼尼"
@@ -6247,13 +6263,15 @@ window.WINE_DATA = [
             "v": "NV",
             "name": "Graham's '20 Years Old' Tawny Port, Portugal",
             "price": "$398 · 100 ml",
-            "section": "Port"
+            "section": "Port",
+            "nameZh": "格拉漢酒莊，20年陳年茶色砵酒，葡萄牙"
           },
           {
             "v": "NV",
             "name": "Penfolds Father 10 Years Grand Tawny, Australia",
             "price": "$1,750",
-            "section": "Port"
+            "section": "Port",
+            "nameZh": "奔富酒莊，「Father」10年陳年茶色加烈葡萄酒，澳洲"
           }
         ],
         "nameZh": "砵酒"
@@ -6442,7 +6460,8 @@ window.WINE_DATA = [
             "v": "2010",
             "name": "Tokaji Esszencia, Château Pajzos, Hungary",
             "price": "$2,880",
-            "section": "Hungary"
+            "section": "Hungary",
+            "nameZh": "Pajzos 酒莊，托卡伊「Esszencia」貴腐精華甜酒，匈牙利"
           }
         ]
       }
