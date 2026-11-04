@@ -2300,6 +2300,23 @@ html.manager-mode:lang(en) .hero h2{font-style:oblique 8deg}
 html:fullscreen{background:var(--paper)}
 html:-webkit-full-screen{background:var(--paper)}
 
+/* iPadOS still draws its status icons over this Home Screen safe area. */
+@media (display-mode:standalone){
+  :root{--home-screen-top:env(safe-area-inset-top,0px);scroll-padding-top:calc(var(--home-screen-top) + 96px)}
+  html::before{
+    content:"";position:fixed;inset:0 0 auto;height:var(--home-screen-top);
+    z-index:12000;pointer-events:none;background:var(--dark);
+  }
+  .app{padding-top:var(--home-screen-top);min-height:100dvh}
+  html:not(.manager-mode) .shell>.status{
+    top:var(--home-screen-top);height:auto;min-height:57px;padding-top:0;
+  }
+  .manager-mode .shell>.status{top:calc(var(--home-screen-top) + 8px)}
+  @media (min-width:601px){
+    .side{top:var(--home-screen-top)}
+  }
+}
+
 /* Keep phone colour and depth without stacking filtered, animated surfaces. */
 @media (any-pointer:coarse) and (max-width:600px), (any-pointer:coarse) and (max-height:500px){
   .manager-mode *,.manager-mode *::before,.manager-mode *::after,.manager-mode *::backdrop{

@@ -1,0 +1,9 @@
+{
+  "name": "Tin Lung Heen Master Wine List",
+  "short_name": "Tin Lung Heen",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#171411",
+  "theme_color": "#171411"
+}
