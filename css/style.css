@@ -1429,18 +1429,7 @@ html.manager-mode{--muted:#dceefa}
   animation:glassChromaticDrift 8s ease-in-out infinite alternate;
 }
 .manager-mode body::after{
-  inset:48% -55% -65%;
-  transform-origin:50% 0;
-  background:
-    linear-gradient(90deg,transparent 20%,rgba(255,83,213,.2) 32%,transparent 46%,
-      rgba(71,220,255,.16) 72%,transparent 85%),
-    repeating-linear-gradient(90deg,transparent 0 119px,rgba(164,138,255,.16) 120px 121px),
-    repeating-linear-gradient(0deg,transparent 0 89px,rgba(110,207,255,.2) 90px 91px);
-  -webkit-mask:linear-gradient(transparent,#000 22%,#000 70%,transparent);
-  mask:linear-gradient(transparent,#000 22%,#000 70%,transparent);
-  filter:none;
-  opacity:.65;
-  animation:glassDepthFloor 18s ease-in-out infinite alternate;
+  display:none;
 }
 .manager-light-field{display:none}
 .manager-data-flow{position:absolute;inset:0;z-index:2;width:100%;height:100%;pointer-events:none}
@@ -1584,9 +1573,7 @@ html.manager-mode{--muted:#dceefa}
     radial-gradient(circle at 12% 35%,#d1ffff 0 1px,rgba(50,234,255,.4) 2px,transparent 5px),
     radial-gradient(circle at 43% 17%,#ffe4fa 0 1px,rgba(255,66,213,.4) 2px,transparent 5px),
     radial-gradient(circle at 84% 46%,#d1ffff 0 1px,rgba(50,234,255,.4) 2px,transparent 6px),
-    radial-gradient(circle at 65% 82%,#ffe4fa 0 1px,rgba(255,66,213,.4) 2px,transparent 5px),
-    linear-gradient(180deg,transparent,#60f4ff,transparent) 9% 25% / 1px 110px no-repeat,
-    linear-gradient(180deg,transparent,#ff83e3,transparent) 88% 55% / 1px 150px no-repeat;
+    radial-gradient(circle at 65% 82%,#ffe4fa 0 1px,rgba(255,66,213,.4) 2px,transparent 5px);
   animation:glassBokehDrift 8s ease-in-out infinite alternate-reverse;
 }
 
@@ -1826,7 +1813,6 @@ html.manager-mode{--muted:#dceefa}
   box-shadow:inset 0 2px 3px rgba(198,229,255,.4),inset 0 -5px 8px rgba(0,3,22,.6),0 5px 10px rgba(0,3,20,.55);
   color:#d8f5ff;font-size:14px;text-shadow:none;
 }
-.wheel-core svg{width:24px;height:24px}
 .manager-mode .wheel-projection{
   inset:auto 8px -12px;height:15px;
   border:.5px solid rgba(132,177,255,.3);
@@ -2115,7 +2101,28 @@ html.manager-mode .page-strip{
 .manager-mode .status :is(.pdf-link,.fullscreen-toggle){min-width:44px}
 .manager-mode .status .lang-toggle{min-width:68px;gap:2px}
 .manager-mode .status .staff-mode-btn{min-width:88px}
-.manager-mode .status .staff-mode-btn.unlocked{border-color:#9cefff;color:#d9ffff}
+.manager-mode .status .staff-mode-btn.unlocked{
+  min-width:126px;min-height:48px;gap:8px;padding:7px 12px 7px 10px;
+  margin:4px 16px 4px 0;
+  border:1px solid #e8a4ff;border-radius:11px 4px 11px 4px;
+  color:#d9ffff;background:linear-gradient(120deg,#0b2848,#201334);
+  box-shadow:inset 0 1px rgba(223,251,255,.55),-2px 0 9px rgba(36,221,255,.25),
+    2px 0 10px rgba(244,80,224,.3);
+}
+.manager-mode .status .staff-mode-btn.unlocked:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.manager-badge-wolf{
+  width:32px;height:32px;flex-shrink:0;object-fit:contain;padding:2px;border-radius:7px;
+  border:1px solid rgba(115,236,255,.7);
+}
+.manager-badge-name{
+  color:#e4faff;font-size:14px;font-weight:700;letter-spacing:.08em;
+  text-shadow:0 0 6px rgba(94,220,255,.4);
+}
+@media (max-width:600px){
+  .manager-mode .status .staff-mode-btn.unlocked{min-width:100px;gap:6px;padding:7px 8px}
+  .manager-badge-wolf{width:28px;height:28px}
+  .manager-badge-name{font-size:12px;letter-spacing:.04em}
+}
 .manager-mode .status .font-controls{padding:2px;gap:2px;min-height:48px}
 .manager-mode .status .font-btn{
   width:44px;min-height:44px;border:0;border-radius:21px;padding:8px 0;
@@ -2243,6 +2250,59 @@ html.manager-mode:lang(en) .hero h2{font-style:oblique 8deg}
   from{transform:translate3d(-65%,0,0) skewX(-12deg)}
   to{transform:translate3d(65%,0,0) skewX(12deg)}
 }
+.manager-mode .wheel-core{
+  display:grid;place-items:center;padding:0;cursor:grab;touch-action:none;pointer-events:auto;
+  min-width:44px;min-height:44px;
+}
+.manager-mode .wheel-core:focus-visible{outline:2px solid #e4ffff;outline-offset:3px}
+.wheel-core canvas{width:100%;height:100%;position:absolute;inset:0;pointer-events:none;border-radius:50%}
+.wheel-aura{
+  position:absolute;inset:-28px;width:calc(100% + 56px);height:calc(100% + 56px);
+  pointer-events:none;z-index:-1;
+}
+.manager-mode .navigation-wheel.moving,.manager-mode .navigation-wheel.moving .wheel-core{cursor:grabbing}
+.manager-mode .navigation-wheel.docked{
+  position:absolute;left:50%;top:43.333333%;transform:translate(-50%,-50%);
+  width:var(--wheel-dock-size);height:var(--wheel-dock-size);
+  background:transparent;backdrop-filter:none;
+}
+.manager-mode .navigation-wheel{pointer-events:auto}
+.manager-mode .navigation-wheel.docked .wheel-core{inset:calc(50% - 22px);background:rgba(7,15,44,.65)}
+.manager-mode .navigation-wheel.docked .wheel-projection{display:none}
+.manager-mode .heading-sphere.wheel-dock-target{
+  outline:2px solid #63ffff;outline-offset:4px;border-radius:50%;
+}
+
+/* Saturated atmosphere on larger displays; phone rendering stays budgeted. */
+@media (min-width:601px) and (min-height:501px){
+  .manager-mode body{
+    background:
+      radial-gradient(ellipse at 5% 30%,rgba(255,0,185,.32),transparent 48%),
+      radial-gradient(ellipse at 95% 55%,rgba(0,218,255,.3),transparent 48%),#070b24;
+  }
+  .manager-mode body::before{
+    background:
+      radial-gradient(ellipse at 52% 43%,rgba(3,5,21,.85) 6%,transparent 48%),
+      radial-gradient(ellipse at 8% 25%,rgba(255,0,187,.68),transparent 42%),
+      radial-gradient(ellipse at 92% 40%,rgba(0,216,255,.62),transparent 40%),
+      radial-gradient(ellipse at 55% 90%,rgba(103,46,255,.55),transparent 45%),#070b24;
+    filter:blur(20px);
+  }
+  .manager-mode .light-ribbon{filter:blur(4px);opacity:.85}
+  .manager-mode .light-ribbon-pink{filter:blur(7px)}
+  .manager-mode .light-ribbon-prism{filter:blur(2px);opacity:.7}
+  .manager-mode .nebula-layer{opacity:.52}
+  .manager-mode .nebula-layer-ice{opacity:.48}
+  .manager-mode .nebula-layer::after{filter:none;opacity:.65}
+  .manager-mode .main :is(.hero,.wotm-feature,.wine):not(.marked):not(.sold-out){
+    backdrop-filter:blur(3px) saturate(175%);
+    box-shadow:inset 0 2px 2px rgba(232,255,255,.8),inset 1px 0 rgba(0,239,255,.7),
+      inset 0 -3px 5px rgba(3,9,30,.5),0 5px 0 #10182f,0 6px 0 rgba(123,115,255,.7),
+      0 22px 25px rgba(1,4,20,.55),-12px 8px 26px rgba(0,225,255,.23),
+      12px 8px 28px rgba(255,20,205,.28);
+  }
+}
+
 /* Use raster cloud textures on touch WebKit without reducing layers or effects. */
 @media (any-pointer:coarse){
   .manager-mode .nebula-layer{--nebula-texture:url("../images/manager-nebula-colour.webp")}

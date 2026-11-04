@@ -214,12 +214,127 @@ managerDataCanvas.setAttribute('aria-hidden','true');
 managerLightField.appendChild(managerDataCanvas);
 let managerDataFrame=0,managerDataContext=null;
 let managerDataScene=null;
+let wheelCorePaintedAt=-Infinity,wheelCoreContext=null,wheelCoreGlow=null;
+let wheelAuraContext=null,wheelAuraGradient=null,wheelAuraSprites=null;
 let managerScrollPaused=false,managerScrollTimer=0;
+function releaseWheelCore(){
+  const canvas=document.querySelector('.wheel-core canvas');
+  if(canvas)canvas.width=canvas.height=1;
+  const aura=document.querySelector('.wheel-aura');
+  if(aura)aura.width=aura.height=1;
+  wheelAuraSprites?.forEach(sprite=>{sprite.width=sprite.height=1;});
+  wheelAuraSprites=null;
+  wheelCorePaintedAt=-Infinity;
+}
+function drawWheelAura(phase,phone){
+  const canvas=document.querySelector('.wheel-aura');
+  if(!canvas)return;
+  if(!wheelAuraContext){
+    wheelAuraContext=canvas.getContext('2d');
+    if(!wheelAuraContext){console.error('Navigation wheel outer corona: 2D canvas is unavailable');return;}
+  }
+  const context=wheelAuraContext,size=phone?128:256;
+  if(canvas.width!==size){
+    canvas.width=canvas.height=size;context.setTransform(size/128,0,0,size/128,0,0);
+    wheelAuraGradient=context.createLinearGradient(14,64,114,64);
+    wheelAuraGradient.addColorStop(0,'#ff35df');wheelAuraGradient.addColorStop(.45,'#a57aff');
+    wheelAuraGradient.addColorStop(.7,'#c4f5ff');wheelAuraGradient.addColorStop(1,'#00dcff');
+  }
+  if(!wheelAuraSprites){
+    wheelAuraSprites=['41,204,255','226,57,255'].map(rgb=>{
+      const sprite=document.createElement('canvas');sprite.width=sprite.height=32;
+      const paint=sprite.getContext('2d');
+      if(!paint){console.error('Navigation wheel corona mist: 2D canvas is unavailable');return null;}
+      const glow=paint.createRadialGradient(16,16,0,16,16,16);
+      glow.addColorStop(0,`rgba(${rgb},.8)`);glow.addColorStop(.35,`rgba(${rgb},.4)`);
+      glow.addColorStop(1,`rgba(${rgb},0)`);
+      paint.fillStyle=glow;paint.fillRect(0,0,32,32);return sprite;
+    }).filter(Boolean);
+  }
+  const t=phase*.001,puffs=phone?12:24;
+  context.clearRect(0,0,128,128);
+  if(wheelAuraSprites.length===2)for(let index=0;index<puffs;index++){
+    const angle=index/puffs*Math.PI*2+t*.18;
+    const breath=.5+.5*Math.sin(t*.7+index*1.9),radius=52+breath*2;
+    context.save();context.translate(64+Math.cos(angle)*radius,64+Math.sin(angle)*radius);
+    context.rotate(angle+Math.sin(t*.4+index)*.7);
+    context.globalAlpha=.35+breath*.3;
+    context.drawImage(wheelAuraSprites[Math.cos(angle)>0?0:1],-9,-7,18,14+breath*6);
+    context.restore();
+  }
+  context.strokeStyle=wheelAuraGradient;
+  for(let arc=0;arc<3;arc++){
+    const start=-t*.32+arc*Math.PI*2/3;
+    context.globalAlpha=.16;context.lineWidth=5;
+    context.beginPath();context.arc(64,64,51,start,start+Math.PI*.57);context.stroke();
+    context.globalAlpha=.95;context.lineWidth=.9;context.stroke();
+    context.strokeStyle='#e6fbff';context.globalAlpha=.8;context.lineWidth=.7;
+    context.beginPath();context.arc(64,64,51,start+.2,start+.38);context.stroke();
+    context.strokeStyle=wheelAuraGradient;
+  }
+  context.globalAlpha=1;
+}
+function drawWheelCore(time,phase){
+  const canvas=document.querySelector('.wheel-core canvas');
+  if(!canvas)return;
+  if(canvas.closest('.navigation-wheel').hidden){if(canvas.width!==1)releaseWheelCore();return;}
+  const phone=phoneLayout.matches,size=phone?64:128;
+  if(!headingSphereMotion.matches&&time-wheelCorePaintedAt<1000/(phone?12:30))return;
+  if(!wheelCoreContext){
+    wheelCoreContext=canvas.getContext('2d');
+    if(!wheelCoreContext){console.error('Navigation wheel filament ring: 2D canvas is unavailable');return;}
+  }
+  const context=wheelCoreContext;
+  if(canvas.width!==size){
+    canvas.width=canvas.height=size;context.setTransform(size/64,0,0,size/64,0,0);
+    wheelCoreGlow=context.createRadialGradient(32,32,1,32,32,32);
+    wheelCoreGlow.addColorStop(0,'rgba(0,101,255,.3)');
+    wheelCoreGlow.addColorStop(.7,'rgba(0,125,255,.5)');
+    wheelCoreGlow.addColorStop(1,'rgba(0,90,255,0)');
+  }
+  wheelCorePaintedAt=time;
+  const t=phase*.001,count=phone?14:28;
+  context.clearRect(0,0,64,64);context.fillStyle=wheelCoreGlow;context.fillRect(0,0,64,64);
+  for(let index=0;index<count;index++){
+    const angle=index*2.39996+t*.35;
+    const radius=21+Math.sin(index*1.7+t*.8)*2;
+    const minor=radius*(.86+.1*Math.sin(index*.7-t*.6));
+    const travel=t*(.55+index%3*.12)+index*.83;
+    context.lineWidth=.35+(index%4)*.08;
+    context.strokeStyle=index%3?'rgba(152,218,255,.5)':'rgba(238,251,255,.8)';
+    context.beginPath();context.ellipse(32,32,radius,minor,angle,0,Math.PI*2);context.stroke();
+    const x=Math.cos(travel)*radius,y=Math.sin(travel)*minor;
+    context.fillStyle='#edfbff';context.beginPath();
+    context.arc(32+x*Math.cos(angle)-y*Math.sin(angle),32+x*Math.sin(angle)+y*Math.cos(angle),.65,0,Math.PI*2);
+    context.fill();
+  }
+  const bands=phone?3:5,particles=phone?32:64;
+  for(let band=0;band<bands;band++){
+    const alpha=.8-band*.12;
+    context.fillStyle=band%2?`rgba(166,151,255,${alpha})`:`rgba(255,115,223,${alpha})`;
+    for(let index=0;index<particles;index++){
+      const angle=index/particles*Math.PI*2-t*.22+band*.035;
+      const ripple=(Math.sin(angle*3-t*1.3)+Math.sin(angle*5+t*.8))*(.55+band*.18);
+      const radius=24.5+band*.9+ripple;
+      context.beginPath();
+      context.arc(32+Math.cos(angle)*radius,32+Math.sin(angle)*radius,.42+(1-band/bands)*.18,0,Math.PI*2);
+      context.fill();
+    }
+  }
+  context.lineWidth=.6;
+  for(let arc=0;arc<2;arc++){
+    context.strokeStyle=arc?'rgba(181,180,255,.85)':'rgba(255,197,245,.9)';
+    const start=-t*.4+arc*Math.PI;
+    context.beginPath();context.arc(32,32,24.2,start,start+Math.PI*.9);context.stroke();
+  }
+  drawWheelAura(phase,phone);
+}
 function startManagerDataFlow(){
   cancelAnimationFrame(managerDataFrame);managerDataFrame=0;
   if(document.hidden||!document.documentElement.classList.contains('manager-mode')){
     managerDataCanvas.width=managerDataCanvas.height=1;
     managerDataScene=null;
+    releaseWheelCore();
     return;
   }
   if(phoneLayout.matches&&managerScrollPaused)return;
@@ -227,19 +342,29 @@ function startManagerDataFlow(){
     managerDataContext=managerDataCanvas.getContext('2d');
     if(!managerDataContext){console.error('Manager data-flow background: 2D canvas is unavailable');return;}
   }
-  // Background detail does not need a full-device-DPR backing surface.
   const phone=phoneLayout.matches;
-  const scale=Math.min(1,(phone?600:900)/Math.max(innerWidth,innerHeight));
-  const width=Math.max(1,Math.round(innerWidth*scale)),height=Math.max(1,Math.round(innerHeight*scale));
-  const sceneKey=[width,height,phone,headingSphereMotion.matches].join(':');
+  const touch=window.matchMedia('(any-pointer:coarse)').matches;
+  const viewportWidth=Math.max(1,innerWidth),viewportHeight=Math.max(1,innerHeight);
+  // Keep Retina particles crisp without allocating an unbounded full-screen canvas.
+  const scale=phone?Math.min(1,600/Math.max(viewportWidth,viewportHeight)):
+    Math.min(window.devicePixelRatio||1,2,(touch?2048:2560)/Math.max(viewportWidth,viewportHeight),
+      Math.sqrt(3000000/(viewportWidth*viewportHeight)));
+  const backingWidth=Math.max(1,Math.floor(viewportWidth*scale));
+  const backingHeight=Math.max(1,Math.floor(viewportHeight*scale));
+  const width=phone?Math.max(1,Math.round(viewportWidth*scale)):viewportWidth;
+  const height=phone?Math.max(1,Math.round(viewportHeight*scale)):viewportHeight;
+  const sceneKey=[width,height,backingWidth,backingHeight,phone,touch,headingSphereMotion.matches].join(':');
   if(managerDataScene?.key===sceneKey){
     managerDataScene.draw(performance.now());
     return;
   }
-  managerDataCanvas.width=width;managerDataCanvas.height=height;
+  managerDataCanvas.width=phone?width:backingWidth;managerDataCanvas.height=phone?height:backingHeight;
+  wheelCorePaintedAt=-Infinity;
   const context=managerDataContext,short=Math.min(width,height);
+  context.setTransform(managerDataCanvas.width/width,0,0,managerDataCanvas.height/height,0,0);
   const columns=phone?32:64,rows=phone?8:16;
-  const colours=['#a69bff','#e38dff','#b0eaff','#f0efff'];
+  const colours=phone?['#a69bff','#e38dff','#b0eaff','#f0efff']:
+    ['#00edff','#ff32d5','#8270ff','#ddffff'];
   const waveRows=Array.from({length:rows},(_,index)=>{
     const v=index/(rows-1)*2-1;
     return {v,sine:Math.sin(v*.65),cosine:Math.cos(v*.65),
@@ -281,27 +406,12 @@ function startManagerDataFlow(){
     paint.beginPath();paint.arc(64,64,55,Math.PI*1.12,Math.PI*1.42);paint.stroke();
     return sprite;
   }).filter(Boolean);
-  const routes=[];
-  for(let side=0;side<4;side++){
-    for(let index=0;index<(phone?2:6);index++){
-      const lane=(index-2.5)*.026;
-      const points=[[.5+lane,.5],[.5+lane,.37-index*.014],
-        [.18+index*.047,.2+index*.018],[.18+index*.047,.025]];
-      const angle=side*Math.PI/2;
-      const rotated=points.map(([x,y])=>({
-        x:(.5+(x-.5)*Math.cos(angle)-(y-.5)*Math.sin(angle))*width,
-        y:(.5+(x-.5)*Math.sin(angle)+(y-.5)*Math.cos(angle))*height
-      }));
-      const lengths=rotated.slice(1).map((point,i)=>Math.hypot(point.x-rotated[i].x,point.y-rotated[i].y));
-      routes.push({points:rotated,lengths,total:lengths.reduce((sum,length)=>sum+length,0)});
-    }
-  }
   let paintedAt=-Infinity,sceneTime=0;
   function draw(time){
     managerDataFrame=0;
     if(document.hidden||!document.documentElement.classList.contains('manager-mode'))return;
     if(phone&&managerScrollPaused)return;
-    if(phone&&!headingSphereMotion.matches&&time-paintedAt<1000/24){
+    if(!headingSphereMotion.matches&&time-paintedAt<1000/(phone?24:touch?30:60)){
       managerDataFrame=requestAnimationFrame(draw);return;
     }
     // Resume from the last visual phase instead of jumping by the idle duration.
@@ -319,27 +429,6 @@ function startManagerDataFlow(){
         context.drawImage(atmosphere,-size/2,-size/2,size,size);context.restore();
       }
     }
-    context.lineWidth=.65;context.strokeStyle='rgba(55,235,210,.17)';
-    routes.forEach((route,index)=>{
-      context.beginPath();
-      route.points.forEach((point,i)=>i?context.lineTo(point.x,point.y):context.moveTo(point.x,point.y));
-      context.stroke();
-      let distance=((t*.18+index*.137)%1)*route.total;
-      let segment=0;
-      while(segment<route.lengths.length-1&&distance>route.lengths[segment]){
-        distance-=route.lengths[segment++];
-      }
-      const a=route.points[segment],b=route.points[segment+1],fraction=distance/route.lengths[segment];
-      const x=a.x+(b.x-a.x)*fraction,y=a.y+(b.y-a.y)*fraction;
-      context.fillStyle='rgba(65,255,225,.1)';
-      context.beginPath();context.arc(x,y,5,0,Math.PI*2);context.fill();
-      context.fillStyle='rgba(152,255,240,.7)';
-      context.beginPath();context.arc(x,y,1.5,0,Math.PI*2);context.fill();
-    });
-    const chip=short*.065;
-    context.strokeStyle='rgba(91,255,225,.32)';
-    context.strokeRect(width*.5-chip,height*.5-chip,chip*2,chip*2);
-    context.strokeRect(width*.5-chip*.72,height*.5-chip*.72,chip*1.44,chip*1.44);
     for(let sheet=0;sheet<2;sheet++){
       const phase=t*(sheet?-.7:1)+sheet*2.7;
       for(let column=0;column<columns;column++){
@@ -378,6 +467,7 @@ function startManagerDataFlow(){
       }
       context.globalAlpha=1;
     }
+    drawWheelCore(time,headingSphereMotion.matches?0:sceneTime);
     if(!headingSphereMotion.matches)managerDataFrame=requestAnimationFrame(draw);
   }
   managerDataScene={key:sceneKey,draw};
@@ -474,10 +564,15 @@ function updateStaffUI(){
   if(wheel){
     wheel.hidden=!unlocked;
     if(!unlocked||document.hidden){releaseNavigationWheel();stopNavigationWheelScroll();}
+    syncNavigationWheelDock();
   }
   staffButton.classList.toggle('unlocked',unlocked);
-  staffButton.textContent=unlocked?'🔓 Marco':'🔒';
-  staffButton.setAttribute('aria-label',lang==='zh'?(unlocked?'職員模式已啟用，按此鎖定':'解鎖職員模式'):(unlocked?'Staff mode active. Press to lock':'Unlock staff mode'));
+  if(unlocked){
+    if(!staffButton.querySelector('.manager-badge-name')){
+      staffButton.innerHTML='<img class="manager-badge-wolf" src="images/manager-marco-wolf.png" alt="" width="36" height="36"><span class="manager-badge-name">MARCO</span>';
+    }
+  }else staffButton.textContent='🔒';
+  staffButton.setAttribute('aria-label',lang==='zh'?(unlocked?'Marco：職員模式已啟用，按此鎖定':'解鎖職員模式'):(unlocked?'Marco: staff mode active. Press to lock':'Unlock staff mode'));
   staffButton.title=staffButton.getAttribute('aria-label');
   startHeadingSphere();
   startManagerDataFlow();
@@ -501,11 +596,69 @@ const navigationWheel=document.createElement('div');
 navigationWheel.className='navigation-wheel';
 navigationWheel.tabIndex=0;
 navigationWheel.setAttribute('role','group');
-navigationWheel.innerHTML='<span class="wheel-projection" aria-hidden="true"></span><span class="wheel-energy" aria-hidden="true"></span><span class="wheel-orbit" aria-hidden="true"></span><span class="wheel-telemetry" aria-hidden="true"></span><span class="wheel-core" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M8 7l4-4 4 4M12 3v18M8 17l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+navigationWheel.innerHTML='<canvas class="wheel-aura" width="1" height="1" aria-hidden="true"></canvas><span class="wheel-projection" aria-hidden="true"></span><span class="wheel-energy" aria-hidden="true"></span><span class="wheel-orbit" aria-hidden="true"></span><span class="wheel-telemetry" aria-hidden="true"></span><button type="button" class="wheel-core"><canvas width="1" height="1" aria-hidden="true"></canvas></button>';
 document.body.appendChild(navigationWheel);
 let wheelPointer=null,wheelAngle=null,wheelRotation=0,wheelSensitivity=320,wheelBounds=null;
 let wheelScrollFrame=0,wheelScrollTarget=null,wheelScrollPosition=0,wheelFrameAt=0,wheelScrollSpeed=1.2;
-function wheelLabel(){return lang==='zh'?'旋轉以捲動本頁：順時針向下，逆時針向上；到達頁首或頁尾即停止。亦可使用上下方向鍵。':'Rotate to scroll this page only: clockwise down, counterclockwise up. Stops at the top and bottom. Or use the Up and Down arrow keys.';}
+let wheelDocked=true,wheelPosition=null,wheelMove=null;
+function wheelLabel(){return lang==='zh'?'轉動外圈以捲動本頁，亦可使用上下方向鍵。拖曳中央以移動；拖到球體上收起，拖出即可使用。按中央或 D 鍵亦可收起或取出。':'Turn the outer ring to scroll this page, or use Up/Down. Drag the centre to move; drop onto the sphere to dock and drag out to use. Activate the centre or press D to dock/undock.';}
+function wheelViewportPosition(x,y,size){
+  const view=window.visualViewport;
+  const left=(view?.offsetLeft||0)+8;
+  const top=Math.max((view?.offsetTop||0)+8,document.querySelector('#home-screen-status').getBoundingClientRect().bottom+8);
+  const right=left+(view?.width||innerWidth)-size-16;
+  const bottom=(view?.offsetTop||0)+(view?.height||innerHeight)-size-8;
+  return {x:Math.max(left,Math.min(Math.max(left,right),x)),y:Math.max(top,Math.min(Math.max(top,bottom),y))};
+}
+function wheelSphereTarget(){
+  const sphere=main.querySelector('.heading-sphere');
+  if(!sphere||!staffUnlocked())return null;
+  const box=sphere.getBoundingClientRect(),bar=document.querySelector('.status').getBoundingClientRect();
+  const x=box.left+box.width*.5,y=box.top+box.height*78/180;
+  if(!box.width||x<0||x>innerWidth||y<Math.max(0,bar.bottom)||y>innerHeight)return null;
+  return {sphere,box,x,y};
+}
+function wheelOverSphere(){
+  const target=wheelSphereTarget(),box=navigationWheel.getBoundingClientRect();
+  return !!target&&Math.hypot((box.left+box.width/2-target.x)/(target.box.width*.5),
+    (box.top+box.height/2-target.y)/(target.box.height*.5))<=1;
+}
+function syncNavigationWheelDock(){
+  const unlocked=staffUnlocked(),target=wheelSphereTarget(),sphere=main.querySelector('.heading-sphere');
+  const parent=wheelDocked&&sphere?sphere:document.body;
+  if(navigationWheel.parentElement!==parent)parent.appendChild(navigationWheel);
+  navigationWheel.classList.toggle('docked',wheelDocked);
+  navigationWheel.hidden=!unlocked||(wheelDocked&&!target);
+  navigationWheel.setAttribute('aria-label',wheelLabel());navigationWheel.title=wheelLabel();
+  const core=navigationWheel.querySelector('.wheel-core');
+  core.setAttribute('aria-label',lang==='zh'?(wheelDocked?'取出導覽輪；拖曳以移動':'收起至球體；拖曳以移動'):
+    (wheelDocked?'Undock wheel; drag to move':'Dock wheel into sphere; drag to move'));
+  core.setAttribute('aria-pressed',String(wheelDocked));
+  if(wheelDocked&&sphere){
+    const size=Math.max(1,Math.min(128,sphere.getBoundingClientRect().width*.8));
+    navigationWheel.style.setProperty('--wheel-dock-size',`${size}px`);
+    navigationWheel.style.removeProperty('left');navigationWheel.style.removeProperty('top');
+  }else if(wheelPosition){
+    wheelPosition=wheelViewportPosition(wheelPosition.x,wheelPosition.y,navigationWheel.offsetWidth);
+    navigationWheel.style.left=`${wheelPosition.x}px`;navigationWheel.style.top=`${wheelPosition.y}px`;
+  }else{
+    navigationWheel.style.removeProperty('left');navigationWheel.style.removeProperty('top');
+  }
+  navigationWheel.style.right=wheelDocked||wheelPosition?'auto':'';
+  navigationWheel.style.bottom=wheelDocked||wheelPosition?'auto':'';
+}
+function setNavigationWheelDocked(docked){
+  stopNavigationWheelScroll();wheelDocked=docked;
+  main.querySelector('.wheel-dock-target')?.classList.remove('wheel-dock-target');
+  syncNavigationWheelDock();
+}
+navigationWheel.querySelector('.wheel-core').addEventListener('click',event=>{
+  if(event.detail===0&&staffUnlocked())setNavigationWheelDocked(!wheelDocked);
+});
+window.addEventListener('scroll',()=>{if(wheelDocked&&!wheelMove)syncNavigationWheelDock();},{passive:true});
+window.addEventListener('resize',()=>{releaseNavigationWheel();syncNavigationWheelDock();});
+window.visualViewport?.addEventListener('resize',()=>{releaseNavigationWheel();syncNavigationWheelDock();});
+window.visualViewport?.addEventListener('scroll',()=>{if(!wheelMove)syncNavigationWheelDock();});
 function pointerWheelAngle(event){
   const box=wheelBounds??navigationWheel.getBoundingClientRect();
   const x=event.clientX-box.left-box.width/2,y=event.clientY-box.top-box.height/2;
@@ -563,16 +716,39 @@ function rotateNavigationWheel(delta,pixelsPerRadian=320){
 }
 navigationWheel.addEventListener('pointerdown',event=>{
   if(!staffUnlocked()||event.button!==0||wheelPointer!==null)return;
-  event.preventDefault();
+  event.preventDefault();event.stopPropagation();
   stopNavigationWheelScroll();
   wheelSensitivity=event.pointerType==='touch'?120:320;
   wheelBounds=navigationWheel.getBoundingClientRect();
   wheelPointer=event.pointerId;wheelAngle=pointerWheelAngle(event);
+  if(wheelDocked||event.target.closest('.wheel-core')){
+    wheelMove={x:event.clientX,y:event.clientY,docked:wheelDocked,position:wheelPosition,
+      offsetX:(event.clientX-wheelBounds.left)/wheelBounds.width,
+      offsetY:(event.clientY-wheelBounds.top)/wheelBounds.height,moved:false};
+    navigationWheel.classList.add('moving');
+    if(wheelDocked){
+      wheelDocked=false;syncNavigationWheelDock();
+      const size=navigationWheel.offsetWidth;
+      wheelPosition=wheelViewportPosition(event.clientX-wheelMove.offsetX*size,event.clientY-wheelMove.offsetY*size,size);
+      syncNavigationWheelDock();
+    }
+  }
   navigationWheel.setPointerCapture(event.pointerId);
-  navigationWheel.classList.add('turning');
+  if(!wheelMove)navigationWheel.classList.add('turning');
 });
 navigationWheel.addEventListener('pointermove',event=>{
   if(event.pointerId!==wheelPointer)return;
+  if(wheelMove){
+    if(!wheelMove.moved&&Math.hypot(event.clientX-wheelMove.x,event.clientY-wheelMove.y)<5)return;
+    wheelMove.moved=true;wheelDocked=false;
+    navigationWheel.classList.remove('docked');
+    const size=navigationWheel.offsetWidth;
+    wheelPosition=wheelViewportPosition(event.clientX-wheelMove.offsetX*size,event.clientY-wheelMove.offsetY*size,size);
+    syncNavigationWheelDock();
+    const sphere=main.querySelector('.heading-sphere');
+    sphere?.classList.toggle('wheel-dock-target',wheelOverSphere());
+    return;
+  }
   const angle=pointerWheelAngle(event);
   if(angle===null||wheelAngle===null){wheelAngle=angle;return;}
   const delta=Math.atan2(Math.sin(angle-wheelAngle),Math.cos(angle-wheelAngle));
@@ -580,8 +756,18 @@ navigationWheel.addEventListener('pointermove',event=>{
   if(Math.abs(delta)<=Math.PI/2+1e-6)rotateNavigationWheel(delta,wheelSensitivity);
 });
 function releaseNavigationWheel(event){
+  if(event?.pointerId!==undefined&&event.pointerId!==wheelPointer)return;
   const pointer=wheelPointer;
+  const move=wheelMove,drop=move?.moved&&event?.type==='pointerup'&&wheelOverSphere();
+  wheelMove=null;
   wheelPointer=null;wheelAngle=null;wheelBounds=null;navigationWheel.classList.remove('turning');
+  navigationWheel.classList.remove('moving');
+  if(move){
+    if(event?.type!=='pointerup'){wheelPosition=move.position;wheelDocked=move.docked;}
+    else if(!move.moved){wheelPosition=move.position;wheelDocked=!move.docked;}
+    else if(drop){wheelPosition=move.position;wheelDocked=true;}
+    setNavigationWheelDocked(wheelDocked);
+  }
   if(pointer!==null&&navigationWheel.hasPointerCapture(pointer))navigationWheel.releasePointerCapture(pointer);
   if(event?.type==='pointercancel'||(pointer!==null&&event?.type==='lostpointercapture'))stopNavigationWheelScroll();
 }
@@ -589,6 +775,10 @@ navigationWheel.addEventListener('lostpointercapture',releaseNavigationWheel);
 navigationWheel.addEventListener('pointerup',releaseNavigationWheel);
 navigationWheel.addEventListener('pointercancel',releaseNavigationWheel);
 navigationWheel.addEventListener('keydown',event=>{
+  if(event.key.toLowerCase()==='d'&&!event.repeat&&!event.altKey&&!event.ctrlKey&&!event.metaKey&&staffUnlocked()){
+    event.preventDefault();setNavigationWheelDocked(!wheelDocked);return;
+  }
+  if(wheelDocked)return;
   const direction={ArrowDown:1,ArrowRight:1,PageDown:3,ArrowUp:-1,ArrowLeft:-1,PageUp:-3}[event.key];
   if(direction){event.preventDefault();rotateNavigationWheel(direction*.5);}
 });
@@ -908,7 +1098,7 @@ function finishPageSwipe(x,y){
   }
 }
 function startPageTouch(event){
-  if(event.touches.length!==1||event.target.closest('button,input,a,select,textarea')){
+  if(event.touches.length!==1||event.target.closest('button,input,a,select,textarea,.navigation-wheel')){
     pageSwipeStart=null;
     return;
   }
@@ -949,7 +1139,7 @@ function setPageTouchListeners(enabled){
   }
 }
 main.addEventListener('pointerdown',event=>{
-  if(!navigationHidden||event.pointerType==='mouse'||event.pointerType==='touch'||event.target.closest('button,input,a,select,textarea'))return;
+  if(!navigationHidden||event.pointerType==='mouse'||event.pointerType==='touch'||event.target.closest('button,input,a,select,textarea,.navigation-wheel'))return;
   pageSwipeStart={x:event.clientX,y:event.clientY,axis:null,source:'pointer'};
 });
 main.addEventListener('pointermove',event=>{
@@ -1422,6 +1612,7 @@ function startHeadingSphere(){
 }
 function bind(){
   clearTimeout(searchRenderTimer);
+  releaseNavigationWheel();
   stopNavigationWheelScroll();
   bindWineSelection();
   const hero=main.querySelector('.hero');
@@ -1436,6 +1627,7 @@ function bind(){
     sphere.innerHTML='<canvas></canvas>';
     hero.appendChild(sphere);
   }
+  syncNavigationWheelDock();
   observeManagerEffects();
   startHeadingSphere();
 }
