@@ -2317,6 +2317,25 @@ html.home-screen:not(.manager-mode) .app{background:var(--paper)}
 .home-screen .app{min-height:calc(100dvh - var(--home-screen-top))}
 html.home-screen:not(.manager-mode) .shell>.status{
   top:var(--home-screen-top);height:auto;min-height:57px;padding-top:0;
+  background:var(--dark);color:#f4ead9;border-bottom-color:rgba(182,135,53,.38);
+  -webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none;
+}
+.home-screen:not(.manager-mode) .status .meta{color:#d4c6af}
+.home-screen:not(.manager-mode) .status :is(.pdf-link,.fullscreen-toggle,.lang-toggle,.font-controls,.staff-mode-btn){
+  background:#29241f;color:#e6c477;border-color:#b68735;
+}
+.home-screen:not(.manager-mode) .status .font-btn{color:#e0d6c9}
+.home-screen:not(.manager-mode) .status .lang-toggle span{opacity:.78}
+.home-screen:not(.manager-mode) .status .lang-toggle span.active{color:#f2d99c;opacity:1}
+.home-screen:not(.manager-mode) .status :is(.pdf-link,.fullscreen-toggle,.lang-toggle,.font-btn,.staff-mode-btn):hover{
+  background:#3b3023;
+}
+.home-screen:not(.manager-mode) .status :is(.pdf-link,.fullscreen-toggle,.lang-toggle,.font-btn,.staff-mode-btn):focus-visible{
+  outline:2px solid #e6c477;outline-offset:2px;
+}
+.home-screen:not(.manager-mode) .status .font-btn:focus-visible{outline-offset:-3px}
+.home-screen:not(.manager-mode) .status .font-btn.active{
+  background:#b68735;color:#171411;
 }
 .home-screen.manager-mode .shell>.status{top:calc(var(--home-screen-top) + 8px)}
 @media (min-width:601px){
