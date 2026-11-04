@@ -2301,20 +2301,26 @@ html:fullscreen{background:var(--paper)}
 html:-webkit-full-screen{background:var(--paper)}
 
 /* iPadOS still draws its status icons over this Home Screen safe area. */
-@media (display-mode:standalone){
-  :root{--home-screen-top:env(safe-area-inset-top,0px);scroll-padding-top:calc(var(--home-screen-top) + 96px)}
-  html::before{
-    content:"";position:fixed;inset:0 0 auto;height:var(--home-screen-top);
-    z-index:12000;pointer-events:none;background:var(--dark);
-  }
-  .app{padding-top:var(--home-screen-top);min-height:100dvh}
-  html:not(.manager-mode) .shell>.status{
-    top:var(--home-screen-top);height:auto;min-height:57px;padding-top:0;
-  }
-  .manager-mode .shell>.status{top:calc(var(--home-screen-top) + 8px)}
-  @media (min-width:601px){
-    .side{top:var(--home-screen-top)}
-  }
+#home-screen-status{display:none}
+html.home-screen{
+  --home-screen-top:env(safe-area-inset-top,0px);
+  scroll-padding-top:calc(var(--home-screen-top) + 96px);
+  background-color:var(--dark);
+}
+.home-screen body{padding-top:var(--home-screen-top)}
+html.home-screen:not(.manager-mode) body{background:var(--dark)}
+html.home-screen:not(.manager-mode) .app{background:var(--paper)}
+.home-screen #home-screen-status{
+  display:block;position:fixed;inset:0 0 auto;height:var(--home-screen-top);
+  z-index:12000;pointer-events:none;background-color:var(--dark);
+}
+.home-screen .app{min-height:calc(100dvh - var(--home-screen-top))}
+html.home-screen:not(.manager-mode) .shell>.status{
+  top:var(--home-screen-top);height:auto;min-height:57px;padding-top:0;
+}
+.home-screen.manager-mode .shell>.status{top:calc(var(--home-screen-top) + 8px)}
+@media (min-width:601px){
+  .home-screen .side{top:var(--home-screen-top)}
 }
 
 /* Keep phone colour and depth without stacking filtered, animated surfaces. */

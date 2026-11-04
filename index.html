@@ -8,8 +8,17 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Tin Lung Heen" />
   <link rel="manifest" href="manifest.webmanifest" />
+  <script>
+    const homeScreenDisplay=window.matchMedia('(display-mode: standalone)');
+    function updateHomeScreenDisplay(){
+      document.documentElement.classList.toggle('home-screen',navigator.standalone===true||homeScreenDisplay.matches);
+    }
+    homeScreenDisplay.addEventListener('change',updateHomeScreenDisplay);
+    window.addEventListener('pageshow',updateHomeScreenDisplay);
+    updateHomeScreenDisplay();
+  </script>
   <title>Tin Lung Heen Master Wine List</title>
-  <link rel="stylesheet" href="css/style.css?v=home-screen-chrome-20261104-1" />
+  <link rel="stylesheet" href="css/style.css?v=home-screen-chrome-20261104-2" />
 
   <style id="remote-lock-styles">
     body.remote-lock-active{overflow:hidden}
@@ -28,6 +37,7 @@
   </style>
 </head>
 <body>
+  <div id="home-screen-status" aria-hidden="true"></div>
   <div id="welcome-cover" class="welcome-cover" role="button" tabindex="0" aria-label="Enter the Tin Lung Heen Master Wine List" hidden aria-hidden="true">
     <div class="welcome-cover-inner">
       <div class="welcome-identity">
@@ -72,8 +82,8 @@
   <script defer src="https://www.gstatic.com/firebasejs/12.4.0/firebase-app-compat.js"></script>
   <script defer src="https://www.gstatic.com/firebasejs/12.4.0/firebase-auth-compat.js"></script>
   <script defer src="https://www.gstatic.com/firebasejs/12.4.0/firebase-database-compat.js"></script>
-  <script defer src="data/wines.js?v=home-screen-chrome-20261104-1"></script>
-  <script defer src="js/catalogue.js?v=home-screen-chrome-20261104-1"></script>
-  <script defer src="js/app.js?v=home-screen-chrome-20261104-1"></script>
+  <script defer src="data/wines.js?v=home-screen-chrome-20261104-2"></script>
+  <script defer src="js/catalogue.js?v=home-screen-chrome-20261104-2"></script>
+  <script defer src="js/app.js?v=home-screen-chrome-20261104-2"></script>
 </body>
 </html>
