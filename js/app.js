@@ -3,6 +3,9 @@ try{catalogue=new WineCatalogue(window.WINE_DATA,localStorage);if(catalogue.cach
 catch(error){catalogueError=String(error.message||error);console.error('Catalogue could not be loaded:',error);}
 let C=catalogue?catalogue.getData():window.WINE_DATA;
 let headingSphereFrame=0;
+let headingSphere=null,spherePosition=null,sphereGesture=null,sphereRotation=0;
+let sphereCategoryAngle=0,sphereCategoryChanging=false;
+const SPHERE_CATEGORY_STEP=Math.PI/4;
 const headingSphereMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 const phoneLayout=window.matchMedia('(any-pointer:coarse) and (max-width:600px), (any-pointer:coarse) and (max-height:500px)');
 let searchRenderTimer=0;
@@ -560,6 +563,8 @@ function updateStaffUI(){
   document.documentElement.classList.toggle('manager-effects-paused',document.hidden);
   if(!unlocked||document.hidden)finishManagerImpacts();
   if(unlocked)hideWelcomeCover();
+  if(!unlocked||document.hidden)releaseSphereGesture();
+  syncSpherePlacement();
   const wheel=document.querySelector('.navigation-wheel');
   if(wheel){
     wheel.hidden=!unlocked;
@@ -596,12 +601,12 @@ const navigationWheel=document.createElement('div');
 navigationWheel.className='navigation-wheel';
 navigationWheel.tabIndex=0;
 navigationWheel.setAttribute('role','group');
-navigationWheel.innerHTML='<canvas class="wheel-aura" width="1" height="1" aria-hidden="true"></canvas><span class="wheel-projection" aria-hidden="true"></span><span class="wheel-energy" aria-hidden="true"></span><span class="wheel-orbit" aria-hidden="true"></span><span class="wheel-telemetry" aria-hidden="true"></span><button type="button" class="wheel-core"><canvas width="1" height="1" aria-hidden="true"></canvas></button>';
+navigationWheel.innerHTML='<canvas class="wheel-aura" width="1" height="1" aria-hidden="true"></canvas><span class="wheel-projection" aria-hidden="true"></span><span class="wheel-energy" aria-hidden="true"></span><span class="wheel-orbit" aria-hidden="true"></span><span class="wheel-telemetry" aria-hidden="true"></span><svg class="wheel-rotate-track" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="none" stroke="transparent" stroke-width="12"/></svg><button type="button" class="wheel-core"><canvas width="1" height="1" aria-hidden="true"></canvas></button>';
 document.body.appendChild(navigationWheel);
 let wheelPointer=null,wheelAngle=null,wheelRotation=0,wheelSensitivity=320,wheelBounds=null;
 let wheelScrollFrame=0,wheelScrollTarget=null,wheelScrollPosition=0,wheelFrameAt=0,wheelScrollSpeed=1.2;
 let wheelDocked=true,wheelPosition=null,wheelMove=null;
-function wheelLabel(){return lang==='zh'?'轉動外圈以捲動本頁，亦可使用上下方向鍵。拖曳中央以移動；拖到球體上收起，拖出即可使用。按中央或 D 鍵亦可收起或取出。':'Turn the outer ring to scroll this page, or use Up/Down. Drag the centre to move; drop onto the sphere to dock and drag out to use. Activate the centre or press D to dock/undock.';}
+function wheelLabel(){return lang==='zh'?'合併時捲動及分類切換停用；按中央可分離導覽輪，球體留在標題。分離後，轉動導覽輪以捲動本頁，轉動球體以切換主要分類。按 D 鍵可收起或取出。':'Scrolling and category selection are inactive while joined. Press the centre to separate the wheel; the sphere stays at the heading. Then turn the wheel to scroll this page or the sphere to switch main categories. Press D to dock/undock.';}
 function wheelViewportPosition(x,y,size){
   const view=window.visualViewport;
   const left=(view?.offsetLeft||0)+8;
@@ -611,11 +616,12 @@ function wheelViewportPosition(x,y,size){
   return {x:Math.max(left,Math.min(Math.max(left,right),x)),y:Math.max(top,Math.min(Math.max(top,bottom),y))};
 }
 function wheelSphereTarget(){
-  const sphere=main.querySelector('.heading-sphere');
+  const sphere=headingSphere;
   if(!sphere||!staffUnlocked())return null;
   const box=sphere.getBoundingClientRect(),bar=document.querySelector('.status').getBoundingClientRect();
   const x=box.left+box.width*.5,y=box.top+box.height*78/180;
-  if(!box.width||x<0||x>innerWidth||y<Math.max(0,bar.bottom)||y>innerHeight)return null;
+  const top=spherePosition?document.querySelector('#home-screen-status').getBoundingClientRect().bottom:bar.bottom;
+  if(!box.width||x<0||x>innerWidth||y<Math.max(0,top)||y>innerHeight)return null;
   return {sphere,box,x,y};
 }
 function wheelOverSphere(){
@@ -624,16 +630,17 @@ function wheelOverSphere(){
     (box.top+box.height/2-target.y)/(target.box.height*.5))<=1;
 }
 function syncNavigationWheelDock(){
-  const unlocked=staffUnlocked(),target=wheelSphereTarget(),sphere=main.querySelector('.heading-sphere');
+  const unlocked=staffUnlocked(),target=wheelSphereTarget(),sphere=headingSphere;
   const parent=wheelDocked&&sphere?sphere:document.body;
   if(navigationWheel.parentElement!==parent)parent.appendChild(navigationWheel);
   navigationWheel.classList.toggle('docked',wheelDocked);
   navigationWheel.hidden=!unlocked||(wheelDocked&&!target);
   navigationWheel.setAttribute('aria-label',wheelLabel());navigationWheel.title=wheelLabel();
   const core=navigationWheel.querySelector('.wheel-core');
-  core.setAttribute('aria-label',lang==='zh'?(wheelDocked?'取出導覽輪；拖曳以移動':'收起至球體；拖曳以移動'):
-    (wheelDocked?'Undock wheel; drag to move':'Dock wheel into sphere; drag to move'));
+  core.setAttribute('aria-label',lang==='zh'?(wheelDocked?'按中央以分離導覽輪；球體留在標題':'拖曳以移動導覽輪；按下可收起至球體'):
+    (wheelDocked?'Press centre to separate the wheel; sphere stays at heading':'Drag to move wheel; activate to dock into sphere'));
   core.setAttribute('aria-pressed',String(wheelDocked));
+  core.title=core.getAttribute('aria-label');
   if(wheelDocked&&sphere){
     const size=Math.max(1,Math.min(128,sphere.getBoundingClientRect().width*.8));
     navigationWheel.style.setProperty('--wheel-dock-size',`${size}px`);
@@ -646,19 +653,140 @@ function syncNavigationWheelDock(){
   }
   navigationWheel.style.right=wheelDocked||wheelPosition?'auto':'';
   navigationWheel.style.bottom=wheelDocked||wheelPosition?'auto':'';
+  updateSphereLabels();
 }
 function setNavigationWheelDocked(docked){
-  stopNavigationWheelScroll();wheelDocked=docked;
-  main.querySelector('.wheel-dock-target')?.classList.remove('wheel-dock-target');
+  releaseSphereGesture();stopNavigationWheelScroll();sphereCategoryAngle=0;wheelDocked=docked;
+  headingSphere?.classList.remove('wheel-dock-target');
   syncNavigationWheelDock();
 }
 navigationWheel.querySelector('.wheel-core').addEventListener('click',event=>{
-  if(event.detail===0&&staffUnlocked())setNavigationWheelDocked(!wheelDocked);
+  if(event.detail!==0||!staffUnlocked())return;
+  setNavigationWheelDocked(!wheelDocked);
 });
 window.addEventListener('scroll',()=>{if(wheelDocked&&!wheelMove)syncNavigationWheelDock();},{passive:true});
-window.addEventListener('resize',()=>{releaseNavigationWheel();syncNavigationWheelDock();});
-window.visualViewport?.addEventListener('resize',()=>{releaseNavigationWheel();syncNavigationWheelDock();});
-window.visualViewport?.addEventListener('scroll',()=>{if(!wheelMove)syncNavigationWheelDock();});
+function resizeNavigationControls(){
+  releaseNavigationWheel();releaseSphereGesture();syncSpherePlacement();syncNavigationWheelDock();startHeadingSphere();
+}
+window.addEventListener('resize',resizeNavigationControls);
+window.addEventListener('blur',()=>{releaseNavigationWheel();releaseSphereGesture();stopNavigationWheelScroll();});
+window.visualViewport?.addEventListener('resize',resizeNavigationControls);
+window.visualViewport?.addEventListener('scroll',()=>{
+  if(!wheelMove&&!sphereGesture){syncSpherePlacement();syncNavigationWheelDock();}
+});
+function updateSphereLabels(){
+  if(!headingSphere)return;
+  const turn=headingSphere.querySelector('.sphere-turn');
+  turn.disabled=wheelDocked;
+  const label=lang==='zh'?(wheelDocked?'合併時分類切換停用；請先分離導覽輪':'轉動球體以切換主要分類，不選取子分類；亦可使用方向鍵'):
+    (wheelDocked?'Category selection is inactive while joined; detach the wheel first':'Turn sphere to switch main categories, not subcategories; arrow keys also work');
+  turn.setAttribute('aria-label',label);turn.title=label;
+  headingSphere.setAttribute('aria-label',lang==='zh'?'標題分類導覽球體':'Heading category navigation sphere');
+}
+function syncSpherePlacement(){
+  if(!headingSphere)return;
+  const parent=spherePosition?document.body:main.querySelector('.hero');
+  if(parent&&headingSphere.parentElement!==parent){
+    const focused=headingSphere.contains(document.activeElement)?document.activeElement:null;
+    parent.appendChild(headingSphere);focused?.focus({preventScroll:true});
+  }
+  headingSphere.classList.toggle('floating',!!spherePosition);
+  headingSphere.hidden=!staffUnlocked();
+  if(spherePosition){
+    spherePosition=wheelViewportPosition(spherePosition.x,spherePosition.y,headingSphere.offsetWidth);
+    headingSphere.style.left=`${spherePosition.x}px`;headingSphere.style.top=`${spherePosition.y}px`;
+  }else{
+    headingSphere.style.removeProperty('left');headingSphere.style.removeProperty('top');
+  }
+  updateSphereLabels();
+}
+function revealSphereCategory(){
+  const element=navigationHidden?pageStrip:nav.closest('.side');
+  const chosen=navigationHidden?pageStrip.querySelector('.page-thumb.active'):nav.querySelector('.navcat.active');
+  if(!chosen)return;
+  const bounds=element.getBoundingClientRect(),item=chosen.getBoundingClientRect();
+  const position=navigationHidden?element.scrollLeft+item.left+item.width/2-bounds.left-element.clientWidth/2:
+    element.scrollTop+item.top+item.height/2-bounds.top-element.clientHeight/2;
+  element.scrollTo({[navigationHidden?'left':'top']:Math.max(0,position),behavior:'instant'});
+}
+function rotateSphereNavigation(delta){
+  if(!staffUnlocked()||document.hidden||wheelDocked)return;
+  sphereRotation+=delta;
+  sphereCategoryAngle+=delta;
+  const steps=Math.sign(sphereCategoryAngle)*Math.floor((Math.abs(sphereCategoryAngle)+1e-7)/SPHERE_CATEGORY_STEP);
+  if(steps){
+    sphereCategoryAngle-=steps*SPHERE_CATEGORY_STEP;
+    const categories=navigationHidden?C:navigationCategories(),index=categories.findIndex(category=>category.id===current);
+    if(index>=0){
+      const focused=headingSphere.contains(document.activeElement)?document.activeElement:null;
+      sphereCategoryChanging=true;
+      try{
+        navigateToCategory(categories[((index+steps)%categories.length+categories.length)%categories.length]);
+        revealSphereCategory();
+        focused?.focus({preventScroll:true});
+      }finally{sphereCategoryChanging=false;}
+    }
+  }
+  if(headingSphereMotion.matches)startHeadingSphere();
+}
+function startSphereGesture(event){
+  if(!staffUnlocked()||event.button!==0||sphereGesture||wheelPointer!==null||wheelDocked)return;
+  event.preventDefault();event.stopPropagation();stopNavigationWheelScroll();
+  const bounds=headingSphere.getBoundingClientRect();
+  sphereGesture={pointerId:event.pointerId,bounds,
+    angle:Math.atan2(event.clientY-bounds.top-bounds.height*78/180,event.clientX-bounds.left-bounds.width/2)};
+  sphereCategoryAngle=0;
+  // Keep the captured sphere connected when category rendering replaces the heading.
+  spherePosition={x:bounds.left,y:bounds.top};syncSpherePlacement();syncNavigationWheelDock();
+  headingSphere.classList.add('turning');
+  startHeadingSphere();
+  headingSphere.setPointerCapture(event.pointerId);
+}
+function moveSphereGesture(event){
+  const gesture=sphereGesture;
+  if(!gesture||event.pointerId!==gesture.pointerId)return;
+  const {bounds}=gesture,x=event.clientX-bounds.left-bounds.width/2,y=event.clientY-bounds.top-bounds.height*78/180;
+  if(Math.hypot(x,y)<Math.max(14,bounds.width*.2)){gesture.angle=null;return;}
+  const angle=Math.atan2(y,x);
+  if(gesture.angle!==null){
+    const delta=Math.atan2(Math.sin(angle-gesture.angle),Math.cos(angle-gesture.angle));
+    if(Math.abs(delta)<=Math.PI/2+1e-6)rotateSphereNavigation(delta);
+  }
+  gesture.angle=angle;
+}
+function releaseSphereGesture(event){
+  const gesture=sphereGesture;
+  if(!gesture||(event?.pointerId!==undefined&&event.pointerId!==gesture.pointerId))return;
+  sphereGesture=null;
+  sphereCategoryAngle=0;
+  headingSphere.classList.remove('turning');
+  spherePosition=null;
+  if(headingSphere.hasPointerCapture(gesture.pointerId))headingSphere.releasePointerCapture(gesture.pointerId);
+  syncSpherePlacement();syncNavigationWheelDock();
+  startHeadingSphere();
+}
+function createHeadingSphere(){
+  const sphere=document.createElement('span');
+  sphere.className='heading-sphere';sphere.setAttribute('role','group');
+  sphere.innerHTML='<canvas aria-hidden="true"></canvas><button type="button" class="sphere-turn"></button>';
+  sphere.addEventListener('pointerdown',event=>{
+    if(event.target.closest('.navigation-wheel')||event.target.closest('.sphere-turn')?.disabled)return;
+    startSphereGesture(event);
+  });
+  sphere.addEventListener('pointermove',moveSphereGesture);
+  sphere.addEventListener('pointerup',releaseSphereGesture);
+  sphere.addEventListener('pointercancel',releaseSphereGesture);
+  sphere.addEventListener('lostpointercapture',releaseSphereGesture);
+  sphere.querySelector('.sphere-turn').addEventListener('click',event=>{
+    if(event.detail===0)rotateSphereNavigation(SPHERE_CATEGORY_STEP);
+  });
+  sphere.querySelector('.sphere-turn').addEventListener('keydown',event=>{
+    if(event.altKey||event.ctrlKey||event.metaKey)return;
+    const direction={ArrowDown:1,ArrowRight:1,PageDown:3,ArrowUp:-1,ArrowLeft:-1,PageUp:-3}[event.key];
+    if(direction){event.preventDefault();event.stopPropagation();rotateSphereNavigation(direction*SPHERE_CATEGORY_STEP);}
+  });
+  return sphere;
+}
 function pointerWheelAngle(event){
   const box=wheelBounds??navigationWheel.getBoundingClientRect();
   const x=event.clientX-box.left-box.width/2,y=event.clientY-box.top-box.height/2;
@@ -672,7 +800,7 @@ function stopNavigationWheelScroll(){
 function stepNavigationWheelScroll(time){
   wheelScrollFrame=0;
   if(wheelScrollTarget===null)return;
-  if(document.hidden||!document.documentElement.classList.contains('manager-mode')){
+  if(wheelDocked||document.hidden||!document.documentElement.classList.contains('manager-mode')){
     stopNavigationWheelScroll();return;
   }
   const maximum=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
@@ -692,6 +820,7 @@ function stepNavigationWheelScroll(time){
 }
 function rotateNavigationWheel(delta,pixelsPerRadian=320){
   if(!staffUnlocked()){updateStaffUI();return;}
+  if(wheelDocked){stopNavigationWheelScroll();return;}
   const now=performance.now();
   if(now>managerWheelActiveUntil){
     showManagerImpact(navigationWheel);
@@ -715,23 +844,18 @@ function rotateNavigationWheel(delta,pixelsPerRadian=320){
   }
 }
 navigationWheel.addEventListener('pointerdown',event=>{
-  if(!staffUnlocked()||event.button!==0||wheelPointer!==null)return;
+  if(!staffUnlocked()||event.button!==0||wheelPointer!==null||sphereGesture)return;
   event.preventDefault();event.stopPropagation();
+  if(wheelDocked&&!event.target.closest('.wheel-core'))return;
   stopNavigationWheelScroll();
   wheelSensitivity=event.pointerType==='touch'?120:320;
   wheelBounds=navigationWheel.getBoundingClientRect();
   wheelPointer=event.pointerId;wheelAngle=pointerWheelAngle(event);
-  if(wheelDocked||event.target.closest('.wheel-core')){
+  if(event.target.closest('.wheel-core')){
     wheelMove={x:event.clientX,y:event.clientY,docked:wheelDocked,position:wheelPosition,
       offsetX:(event.clientX-wheelBounds.left)/wheelBounds.width,
       offsetY:(event.clientY-wheelBounds.top)/wheelBounds.height,moved:false};
-    navigationWheel.classList.add('moving');
-    if(wheelDocked){
-      wheelDocked=false;syncNavigationWheelDock();
-      const size=navigationWheel.offsetWidth;
-      wheelPosition=wheelViewportPosition(event.clientX-wheelMove.offsetX*size,event.clientY-wheelMove.offsetY*size,size);
-      syncNavigationWheelDock();
-    }
+    if(!wheelDocked)navigationWheel.classList.add('moving');
   }
   navigationWheel.setPointerCapture(event.pointerId);
   if(!wheelMove)navigationWheel.classList.add('turning');
@@ -740,12 +864,14 @@ navigationWheel.addEventListener('pointermove',event=>{
   if(event.pointerId!==wheelPointer)return;
   if(wheelMove){
     if(!wheelMove.moved&&Math.hypot(event.clientX-wheelMove.x,event.clientY-wheelMove.y)<5)return;
-    wheelMove.moved=true;wheelDocked=false;
+    wheelMove.moved=true;
+    if(wheelMove.docked)return;
+    wheelDocked=false;
     navigationWheel.classList.remove('docked');
     const size=navigationWheel.offsetWidth;
     wheelPosition=wheelViewportPosition(event.clientX-wheelMove.offsetX*size,event.clientY-wheelMove.offsetY*size,size);
     syncNavigationWheelDock();
-    const sphere=main.querySelector('.heading-sphere');
+    const sphere=headingSphere;
     sphere?.classList.toggle('wheel-dock-target',wheelOverSphere());
     return;
   }
@@ -778,7 +904,6 @@ navigationWheel.addEventListener('keydown',event=>{
   if(event.key.toLowerCase()==='d'&&!event.repeat&&!event.altKey&&!event.ctrlKey&&!event.metaKey&&staffUnlocked()){
     event.preventDefault();setNavigationWheelDocked(!wheelDocked);return;
   }
-  if(wheelDocked)return;
   const direction={ArrowDown:1,ArrowRight:1,PageDown:3,ArrowUp:-1,ArrowLeft:-1,PageUp:-3}[event.key];
   if(direction){event.preventDefault();rotateNavigationWheel(direction*.5);}
 });
@@ -788,7 +913,7 @@ document.addEventListener('pointerdown',event=>{
 window.addEventListener('wheel',stopNavigationWheelScroll,{passive:true});
 const wheelOrientation=window.matchMedia('(orientation:landscape)');
 wheelOrientation.addEventListener('change',()=>{
-  releaseNavigationWheel();stopNavigationWheelScroll();
+  releaseNavigationWheel();releaseSphereGesture();stopNavigationWheelScroll();syncSpherePlacement();syncNavigationWheelDock();
 });
 navigationWheel.addEventListener('focus',()=>navigationWheel.setAttribute('aria-label',wheelLabel()));
 navigationWheel.setAttribute('aria-label',wheelLabel());
@@ -1038,6 +1163,11 @@ function navChildren(c){
  return [];
 }
 let openCat='',activeGroup=null;
+const CATEGORY_NAV_ORDER=['c0','c1','c2','c6','c7','c3','c4','c5'];
+function navigationCategories(){
+  return [...CATEGORY_NAV_ORDER.map(id=>C.find(category=>category.id===id)),
+    ...C.filter(category=>!CATEGORY_NAV_ORDER.includes(category.id))];
+}
 function navigateToCategory(category,swipeDirection=0){
   if(!category)return;
   current=category.id;
@@ -1060,6 +1190,7 @@ function navigateToCategory(category,swipeDirection=0){
 function renderPageStrip(){
   const show=navigationHidden&&!q.value.trim();
   pageStrip.hidden=!show;
+  updateSphereLabels();
   if(!show)return;
   pageStrip.setAttribute('aria-label',lang==='zh'?'葡萄酒酒單頁面':'Wine list pages');
   pageStrip.innerHTML=C.map((category,index)=>{
@@ -1098,7 +1229,7 @@ function finishPageSwipe(x,y){
   }
 }
 function startPageTouch(event){
-  if(event.touches.length!==1||event.target.closest('button,input,a,select,textarea,.navigation-wheel')){
+  if(event.touches.length!==1||event.target.closest('button,input,a,select,textarea,.navigation-wheel,.heading-sphere')){
     pageSwipeStart=null;
     return;
   }
@@ -1139,7 +1270,7 @@ function setPageTouchListeners(enabled){
   }
 }
 main.addEventListener('pointerdown',event=>{
-  if(!navigationHidden||event.pointerType==='mouse'||event.pointerType==='touch'||event.target.closest('button,input,a,select,textarea,.navigation-wheel'))return;
+  if(!navigationHidden||event.pointerType==='mouse'||event.pointerType==='touch'||event.target.closest('button,input,a,select,textarea,.navigation-wheel,.heading-sphere'))return;
   pageSwipeStart={x:event.clientX,y:event.clientY,axis:null,source:'pointer'};
 });
 main.addEventListener('pointermove',event=>{
@@ -1170,24 +1301,7 @@ main.addEventListener('wheel',event=>{
   },240);
 },{passive:false});
 function navR(){
-
- const navOrder = [
-   'c0', // Wine of the Month
-   'c1', // Seasonal Selection
-   'c2', // Wine by the Glass
-   'c6', // Premium Fine Wine Collection
-   'c7', // Sommelier Selection
-   'c3', // Cocktails, Aperitifs & Digestives
-   'c4', // Whiskies
-   'c5'  // Beers & Beverages
- ];
-
- const orderedC = [
-   ...navOrder.map(id => C.find(c => c.id === id)),
-   ...C.filter(c => !navOrder.includes(c.id))
- ];
-
- nav.innerHTML=orderedC.map(c=>{const kids=navChildren(c),has=kids.length>0,open=has&&c.id===openCat,featured=navOrder.slice(0,5).includes(c.id);
+ nav.innerHTML=navigationCategories().map(c=>{const kids=navChildren(c),has=kids.length>0,open=has&&c.id===openCat,featured=CATEGORY_NAV_ORDER.slice(0,5).includes(c.id);
   return `<div class="navgroup"><button data-cat="${c.id}" class="navcat ${featured?'nav-featured':''} ${c.id===current&&!activeGroup?'active':''}" aria-current="${c.id===current&&!activeGroup?'page':'false'}" ${has?`aria-expanded="${open}"`:''}><span>${esc(pick(c,'title'))}</span>${has?`<span class="chev">${open?'−':'+'}</span>`:''}${featured?'<span class="nav-capsule-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l2.4 6.6L21 12l-6.6 2.4L12 21l-2.4-6.6L3 12l6.6-2.4L12 3Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></span>':''}</button>${has?`<div class="subnav ${open?'show':''}">${kids.map(g=>`<button class="navsub ${c.id===current&&activeGroup===g.name?'active':''}" aria-current="${c.id===current&&activeGroup===g.name?'page':'false'}" data-cat="${c.id}" data-group="${esc(g.name)}">${esc(pick(g,'name'))}</button>`).join('')}</div>`:''}</div>`
  }).join('');
  nav.querySelectorAll('.navcat').forEach(btn=>btn.onclick=()=>{const id=btn.dataset.cat,c=C.find(x=>x.id===id),has=navChildren(c).length>0;current=id;activeGroup=null;q.value='';openCat=has?(openCat===id?'':id):'';navR();render();showManagerSectionImpact();scrollTo({top:0,behavior:'smooth'})});
@@ -1514,16 +1628,24 @@ function featureCard(x,category,section){
 }
 function startHeadingSphere(){
   cancelAnimationFrame(headingSphereFrame);headingSphereFrame=0;
-  const canvas=document.querySelector('.heading-sphere canvas');
+  let canvas=document.querySelector('.heading-sphere canvas');
   const hero=canvas?.closest('.hero');
   if(canvas&&(!staffUnlocked()||document.hidden))canvas.width=canvas.height=1;
-  if(!canvas||!staffUnlocked()||document.hidden||(managerEffectsObserver&&!hero.classList.contains('manager-effect-visible')))return;
+  if(!canvas||!staffUnlocked()||document.hidden||(managerEffectsObserver&&!spherePosition&&!hero?.classList.contains('manager-effect-visible')))return;
   const phone=phoneLayout.matches;
   if(phone&&managerScrollPaused)return;
-  const context=canvas.getContext('2d');
-  if(!context){console.error('Holographic heading sphere: 2D canvas is unavailable');return;}
+  let context=canvas.getContext('2d');
+  if(!context){
+    const replacement=canvas.cloneNode(false);
+    canvas.width=canvas.height=replacement.width=replacement.height=1;
+    const replacementContext=replacement.getContext('2d');
+    if(!replacementContext){console.error('Holographic heading sphere: 2D canvas is unavailable');return;}
+    console.warn('Holographic heading sphere: replacing an unavailable drawing surface');
+    canvas.replaceWith(replacement);canvas=replacement;context=replacementContext;
+  }
   const size=180,ratio=phone?1:Math.min(window.devicePixelRatio||1,3);
-  canvas.width=size*ratio;canvas.height=size*ratio;context.scale(ratio,ratio);
+  if(canvas.width!==size*ratio||canvas.height!==size*ratio)canvas.width=canvas.height=size*ratio;
+  context.setTransform(ratio,0,0,ratio,0,0);
   const pointCount=phone?64:128;
   const points=Array.from({length:pointCount},(_,index)=>{
     const y=1-2*(index+.5)/pointCount,r=Math.sqrt(1-y*y),angle=index*Math.PI*(3-Math.sqrt(5));
@@ -1542,13 +1664,13 @@ function startHeadingSphere(){
   let paintedAt=-Infinity;
   function draw(time){
     if(!canvas.isConnected||!document.documentElement.classList.contains('manager-mode')||document.hidden||
-      (managerEffectsObserver&&!hero.classList.contains('manager-effect-visible'))){headingSphereFrame=0;return;}
+      (managerEffectsObserver&&!spherePosition&&!hero?.classList.contains('manager-effect-visible'))){headingSphereFrame=0;return;}
     if(phone&&managerScrollPaused){headingSphereFrame=0;return;}
     if(phone&&!headingSphereMotion.matches&&time-paintedAt<1000/12){
       headingSphereFrame=requestAnimationFrame(draw);return;
     }
     paintedAt=time;
-    const elapsed=headingSphereMotion.matches?0:time*.00015;
+    const elapsed=(headingSphereMotion.matches?0:time*.00015)+sphereRotation;
     const sine=Math.sin(elapsed),cosine=Math.cos(elapsed);
     function project(point){
       const x=point.x*cosine+point.z*sine;
@@ -1613,6 +1735,7 @@ function startHeadingSphere(){
 function bind(){
   clearTimeout(searchRenderTimer);
   releaseNavigationWheel();
+  if(!sphereCategoryChanging){releaseSphereGesture();sphereCategoryAngle=0;}
   stopNavigationWheelScroll();
   bindWineSelection();
   const hero=main.querySelector('.hero');
@@ -1621,11 +1744,8 @@ function bind(){
     copy.className='hero-copy';
     while(hero.firstChild)copy.appendChild(hero.firstChild);
     hero.appendChild(copy);
-    const sphere=document.createElement('span');
-    sphere.className='heading-sphere';
-    sphere.setAttribute('aria-hidden','true');
-    sphere.innerHTML='<canvas></canvas>';
-    hero.appendChild(sphere);
+    if(!headingSphere)headingSphere=createHeadingSphere();
+    syncSpherePlacement();
   }
   syncNavigationWheelDock();
   observeManagerEffects();

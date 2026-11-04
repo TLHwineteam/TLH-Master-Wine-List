@@ -2267,10 +2267,40 @@ html.manager-mode:lang(en) .hero h2{font-style:oblique 8deg}
   background:transparent;backdrop-filter:none;
 }
 .manager-mode .navigation-wheel{pointer-events:auto}
-.manager-mode .navigation-wheel.docked .wheel-core{inset:calc(50% - 22px);background:rgba(7,15,44,.65)}
+.manager-mode .navigation-wheel.docked .wheel-core{inset:calc(50% - 22px);background:rgba(7,15,44,.65);cursor:pointer}
 .manager-mode .navigation-wheel.docked .wheel-projection{display:none}
 .manager-mode .heading-sphere.wheel-dock-target{
   outline:2px solid #63ffff;outline-offset:4px;border-radius:50%;
+}
+.heading-sphere[hidden]{display:none!important}
+.manager-mode .heading-sphere.floating{
+  position:fixed;right:auto;transform:none;z-index:32;
+}
+.heading-sphere>canvas{pointer-events:none}
+.sphere-turn{
+  position:absolute;display:grid;place-items:center;pointer-events:auto;touch-action:none;
+  user-select:none;-webkit-user-select:none;cursor:grab;
+}
+.sphere-turn{
+  left:6.666667%;top:0;width:86.666667%;height:86.666667%;
+  padding:0;border:0;border-radius:50%;background:transparent;
+}
+.sphere-turn:disabled{cursor:default}
+.sphere-turn:focus-visible{
+  outline:2px solid #e4ffff;outline-offset:3px;
+}
+.heading-sphere.turning .sphere-turn{cursor:grabbing}
+.wheel-rotate-track{
+  position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:4;
+}
+.wheel-rotate-track circle{pointer-events:stroke}
+.navigation-wheel.docked .wheel-rotate-track circle{cursor:default}
+.manager-mode .navigation-wheel.docked{pointer-events:none}
+.manager-mode .navigation-wheel .wheel-core{z-index:5}
+.manager-mode .side{
+  max-height:calc(100vh - var(--home-screen-top,0px));
+  max-height:calc(100dvh - var(--home-screen-top,0px));
+  overscroll-behavior:contain;
 }
 
 /* Saturated atmosphere on larger displays; phone rendering stays budgeted. */
