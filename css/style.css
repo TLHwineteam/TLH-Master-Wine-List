@@ -2275,6 +2275,7 @@ html.manager-mode:lang(en) .hero h2{font-style:oblique 8deg}
 .manager-mode .wheel-core{
   display:grid;place-items:center;padding:0;cursor:grab;touch-action:none;pointer-events:auto;
   min-width:44px;min-height:44px;
+  user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
 }
 .manager-mode .wheel-core:focus-visible{outline:2px solid #e4ffff;outline-offset:3px}
 .wheel-core canvas{width:100%;height:100%;position:absolute;inset:0;pointer-events:none;border-radius:50%}
@@ -2299,6 +2300,18 @@ html.manager-mode:lang(en) .hero h2{font-style:oblique 8deg}
   position:fixed;right:auto;transform:none;z-index:32;
 }
 .heading-sphere>canvas{pointer-events:none}
+.manager-mode .main .hero.joined-effect-host{overflow:visible;z-index:2}
+.manager-mode .heading-sphere.joined-effect>canvas{
+  position:absolute;
+  left:calc(50% - 50% * var(--joined-canvas-scale,2.2));
+  top:calc(43.333333% - 43.333333% * var(--joined-canvas-scale,2.2));
+  width:calc(100% * var(--joined-canvas-scale,2.2));height:calc(100% * var(--joined-canvas-scale,2.2));
+}
+.manager-mode .heading-sphere.joined-effect{filter:none}
+.manager-mode .heading-sphere.joined-effect .navigation-wheel{
+  opacity:var(--joined-wheel-opacity,1);
+  transform:translate(-50%,-50%) rotate(var(--joined-wheel-spin,0rad));
+}
 .sphere-turn{
   position:absolute;display:grid;place-items:center;pointer-events:auto;touch-action:none;
   user-select:none;-webkit-user-select:none;cursor:grab;

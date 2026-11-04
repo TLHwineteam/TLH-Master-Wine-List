@@ -5,7 +5,10 @@ let C=catalogue?catalogue.getData():window.WINE_DATA;
 let headingSphereFrame=0;
 let headingSphere=null,spherePosition=null,sphereGesture=null,sphereRotation=0;
 let sphereCategoryAngle=0,sphereCategoryChanging=false;
-const SPHERE_CATEGORY_STEP=Math.PI/4;
+const SPHERE_CATEGORY_STEP=Math.PI/2;
+let joinedWheelEffect=null,joinedWheelHoldTimer=0,joinedBlastSprites=null;
+const JOINED_WHEEL_HOLD_MS=450,JOINED_WHEEL_CHARGE_MS=1900;
+const JOINED_WHEEL_BURST_MS=1800,JOINED_WHEEL_REFORM_MS=3800;
 const headingSphereMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 const phoneLayout=window.matchMedia('(any-pointer:coarse) and (max-width:600px), (any-pointer:coarse) and (max-height:500px)');
 let searchRenderTimer=0;
@@ -297,7 +300,8 @@ function drawWheelCore(time,phase){
     wheelCoreGlow.addColorStop(1,'rgba(0,90,255,0)');
   }
   wheelCorePaintedAt=time;
-  const t=phase*.001,count=phone?14:28;
+  const effect=joinedWheelEffectFrame(time);
+  const t=phase*.001+(effect?.spin||0),count=phone?14:28;
   context.clearRect(0,0,64,64);context.fillStyle=wheelCoreGlow;context.fillRect(0,0,64,64);
   for(let index=0;index<count;index++){
     const angle=index*2.39996+t*.35;
@@ -483,11 +487,12 @@ headingSphereMotion.addEventListener('change',startManagerDataFlow);
 phoneLayout.addEventListener('change',()=>{
   clearTimeout(managerScrollTimer);managerScrollPaused=false;
   document.documentElement.classList.remove('manager-scrolling');
-  finishManagerImpacts();startManagerDataFlow();startHeadingSphere();
+  cancelJoinedWheelEffect();finishManagerImpacts();startManagerDataFlow();startHeadingSphere();
 });
 window.addEventListener('scroll',()=>{
   if(!phoneLayout.matches||!document.documentElement.classList.contains('manager-mode'))return;
   managerScrollPaused=true;document.documentElement.classList.add('manager-scrolling');
+  cancelJoinedWheelEffect();
   cancelAnimationFrame(managerDataFrame);managerDataFrame=0;
   cancelAnimationFrame(headingSphereFrame);headingSphereFrame=0;
   finishManagerImpacts();clearTimeout(managerScrollTimer);
@@ -564,7 +569,7 @@ function updateStaffUI(){
   document.documentElement.classList.toggle('manager-effects-paused',document.hidden);
   if(!unlocked||document.hidden)finishManagerImpacts();
   if(unlocked)hideWelcomeCover();
-  if(!unlocked||document.hidden)releaseSphereGesture();
+  if(!unlocked||document.hidden){cancelJoinedWheelEffect();releaseSphereGesture();}
   syncSpherePlacement();
   const wheel=document.querySelector('.navigation-wheel');
   if(wheel){
@@ -597,7 +602,7 @@ window.addEventListener('storage',event=>{if(event.key===STAFF_SESSION_KEY||even
 window.addEventListener('focus',updateStaffUI);
 window.addEventListener('pageshow',updateStaffUI);
 document.addEventListener('visibilitychange',updateStaffUI);
-headingSphereMotion.addEventListener('change',startHeadingSphere);
+headingSphereMotion.addEventListener('change',()=>{cancelJoinedWheelEffect();startHeadingSphere();});
 const navigationWheel=document.createElement('div');
 navigationWheel.className='navigation-wheel';
 navigationWheel.tabIndex=0;
@@ -607,7 +612,240 @@ document.body.appendChild(navigationWheel);
 let wheelPointer=null,wheelAngle=null,wheelRotation=0,wheelSensitivity=320,wheelBounds=null;
 let wheelScrollFrame=0,wheelScrollTarget=null,wheelScrollPosition=0,wheelFrameAt=0,wheelScrollSpeed=1.2;
 let wheelDocked=true,wheelPosition=null,wheelMove=null;
-function wheelLabel(){return lang==='zh'?'合併時捲動及分類切換停用；按中央可分離導覽輪，球體留在標題。分離後，轉動導覽輪以捲動本頁，轉動球體以切換主要分類。按 D 鍵可收起或取出。':'Scrolling and category selection are inactive while joined. Press the centre to separate the wheel; the sphere stays at the heading. Then turn the wheel to scroll this page or the sphere to switch main categories. Press D to dock/undock.';}
+function clearJoinedWheelHold(){
+  clearTimeout(joinedWheelHoldTimer);joinedWheelHoldTimer=0;
+}
+function resetJoinedWheelEffect(){
+  joinedWheelEffect=null;
+  joinedBlastSprites?.forEach(sprite=>{sprite.width=sprite.height=1;});
+  joinedBlastSprites=null;
+  const canvas=headingSphere?.querySelector(':scope>canvas');
+  if(canvas)canvas.width=canvas.height=1;
+  headingSphere?.closest('.hero')?.classList.remove('joined-effect-host');
+  headingSphere?.classList.remove('joined-effect');
+  headingSphere?.style.removeProperty('--joined-canvas-scale');
+  navigationWheel.style.removeProperty('--joined-wheel-opacity');
+  navigationWheel.style.removeProperty('--joined-wheel-spin');
+}
+function cancelJoinedWheelEffect(){
+  clearJoinedWheelHold();
+  if(!joinedWheelEffect)return;
+  resetJoinedWheelEffect();
+  startHeadingSphere();
+}
+function joinedWheelEffectFrame(time){
+  if(!joinedWheelEffect)return null;
+  const ease=value=>value*value*(3-2*value);
+  if(headingSphereMotion.matches)return {phase:'calm',progress:0,charge:0,spin:0,meshScale:1,meshOpacity:1,wheelOpacity:1,canvasScale:2.2};
+  const elapsed=Math.max(0,time-joinedWheelEffect.startedAt),seconds=elapsed/1000;
+  let phase,progress,charge,spin;
+  if(joinedWheelEffect.releasedAt!==undefined){
+    progress=Math.min(1,Math.max(0,(time-joinedWheelEffect.releasedAt)/1400));
+    if(progress===1)return {phase:'done',spin:joinedWheelEffect.releaseSpin+2};
+    phase='settling';charge=joinedWheelEffect.releaseCharge*(1-ease(progress));
+    spin=joinedWheelEffect.releaseSpin+2*(1-(1-progress)**2);
+  }else if(elapsed<JOINED_WHEEL_CHARGE_MS){
+    phase='charging';progress=elapsed/JOINED_WHEEL_CHARGE_MS;charge=progress;
+    spin=seconds*.65+seconds**3*1.8;
+  }else{
+    const chargeSeconds=JOINED_WHEEL_CHARGE_MS/1000;
+    const chargeSpin=chargeSeconds*.65+chargeSeconds**3*1.8;
+    charge=1;
+    const afterCharge=elapsed-JOINED_WHEEL_CHARGE_MS;
+    if(afterCharge<JOINED_WHEEL_BURST_MS){
+      phase='burst';progress=afterCharge/JOINED_WHEEL_BURST_MS;
+      spin=chargeSpin+afterCharge*.009;
+    }else{
+      phase='reforming';progress=(afterCharge-JOINED_WHEEL_BURST_MS)/JOINED_WHEEL_REFORM_MS;
+      if(progress>=1)return {phase:'done',spin:chargeSpin+JOINED_WHEEL_BURST_MS*.009+4};
+      spin=chargeSpin+JOINED_WHEEL_BURST_MS*.009+4*(1-(1-progress)**3);
+    }
+  }
+  const reform=ease(progress);
+  return {phase,progress,charge,spin,
+    canvasScale:phase==='burst'||phase==='reforming'?8:2.2,
+    meshScale:phase==='burst'?.5*(1-progress):phase==='reforming'?.1+.9*reform:1-.5*charge*charge,
+    meshOpacity:phase==='burst'?.05*(1-progress)**4:phase==='reforming'?reform:1-.95*ease(charge),
+    wheelOpacity:phase==='burst'?0:phase==='reforming'?ease(Math.max(0,(progress-.15)/.85)):(1-charge)**2};
+}
+function beginJoinedWheelHold(){
+  clearJoinedWheelHold();
+  joinedWheelHoldTimer=setTimeout(()=>{
+    joinedWheelHoldTimer=0;
+    if(!wheelDocked||!wheelMove||wheelMove.moved||wheelPointer===null||!staffUnlocked()||document.hidden)return;
+    wheelMove.held=true;
+    joinedWheelEffect={startedAt:performance.now()};
+    headingSphere.closest('.hero')?.classList.add('joined-effect-host');
+    headingSphere.classList.add('joined-effect');
+    startHeadingSphere();
+  },JOINED_WHEEL_HOLD_MS);
+}
+function prepareJoinedBlastSprites(phone){
+  if(joinedBlastSprites)return joinedBlastSprites;
+  const size=phone?256:384,noise=new Float32Array(size*size);
+  let seed=7319,weight=.5;
+  const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
+  for(let cell=64;cell>=2;cell/=2){
+    const side=size/cell+1,grid=Float32Array.from({length:side*side},random);
+    for(let y=0;y<side;y++)grid[y*side+side-1]=grid[y*side];
+    for(let x=0;x<side;x++)grid[(side-1)*side+x]=grid[x];
+    for(let y=0;y<size;y++)for(let x=0;x<size;x++){
+      const gx=Math.floor(x/cell),gy=Math.floor(y/cell),fx=x/cell-gx,fy=y/cell-gy;
+      const tx=fx*fx*(3-2*fx),ty=fy*fy*(3-2*fy),offset=gy*side+gx;
+      const a=grid[offset]*(1-tx)+grid[offset+1]*tx;
+      const b=grid[offset+side]*(1-tx)+grid[offset+side+1]*tx;
+      noise[y*size+x]+=(a*(1-ty)+b*ty)*weight;
+    }
+    weight*=.5;
+  }
+  joinedBlastSprites=Array.from({length:4},(_,index)=>{
+    const sprite=document.createElement('canvas');sprite.width=sprite.height=size;
+    const paint=sprite.getContext('2d');
+    if(!paint){console.error('Joined-control blast cloud: 2D canvas is unavailable');return null;}
+    const image=paint.createImageData(size,size);
+    for(let y=0;y<size;y++)for(let x=0;x<size;x++){
+      const grain=noise[((y+index*47)%size)*size+(x+index*61)%size];
+      const radius=Math.hypot((x-(size-1)/2)/(size/2),(y-(size-1)/2)/(size/2));
+      const envelope=Math.max(0,Math.min(1,(.94+(grain-.5)*.5-radius)*3.5));
+      const density=Math.max(0,Math.min(1,(grain-.22)*1.8)),light=density**2;
+      const offset=(y*size+x)*4;
+      image.data[offset]=index===2?65+light*130:12+light*120;
+      image.data[offset+1]=index===2?30+light*120:75+light*150;
+      image.data[offset+2]=190+light*65;
+      image.data[offset+3]=255*envelope**1.5*density*.7;
+    }
+    paint.putImageData(image,0,0);
+    return sprite;
+  }).filter(Boolean);
+  return joinedBlastSprites;
+}
+function drawJoinedBlastCloud(context,frame,phone){
+  const {phase,progress}=frame,burst=phase==='burst';
+  const reform=progress*progress*(3-2*progress);
+  const expansion=burst?1-(1-progress)**3:1-reform*.88;
+  const fade=burst?Math.sin(Math.PI*(.14+progress*.64)):Math.sin(Math.PI*.78)*(1-progress)**1.5;
+  const sprites=prepareJoinedBlastSprites(phone),puffs=phone?18:30;
+  context.save();context.globalCompositeOperation='source-over';
+  const shadow=context.createRadialGradient(90,78,8,90,78,320*expansion);
+  shadow.addColorStop(0,`rgba(5,12,39,${fade*.62})`);
+  shadow.addColorStop(.55,`rgba(8,16,48,${fade*.35})`);
+  shadow.addColorStop(1,'rgba(8,16,48,0)');
+  context.fillStyle=shadow;context.fillRect(90-320*expansion,78-320*expansion,640*expansion,640*expansion);
+  context.globalCompositeOperation='screen';
+  if(sprites.length===4)for(let puff=0;puff<puffs;puff++){
+    const angle=puff*2.39996+(burst?progress*.18:.18-progress*.65);
+    const distance=(35+(puff*37%185))*expansion;
+    const radius=(64+puff%5*21)*(.25+expansion*.85);
+    context.save();context.translate(90+Math.cos(angle)*distance,78+Math.sin(angle)*distance*.87);
+    context.rotate(angle+(burst?progress*.25:.25+progress*.3));context.globalAlpha=fade*(puff%3===0?.85:.65);
+    context.drawImage(sprites[puff%4],-radius,-radius*.76,radius*2,radius*1.52);
+    context.restore();
+  }
+  const steps=phone?256:512;
+  for(let shell=0;shell<(phone?2:3);shell++){
+    const radius=(120+shell*65)*expansion,turn=burst?progress*.12:.12+progress*.4;
+    for(let segment=0;segment<steps;segment+=8){
+      context.beginPath();
+      for(let point=segment;point<=segment+8;point++){
+        const angle=point/steps*Math.PI*2;
+        const wrinkle=1+.1*Math.sin(angle*7+shell)+.055*Math.sin(angle*17-shell*2)+.025*Math.sin(angle*39+shell);
+        const x=90+Math.cos(angle+turn)*radius*wrinkle,y=78+Math.sin(angle+turn)*radius*wrinkle*.87;
+        if(point===segment)context.moveTo(x,y);else context.lineTo(x,y);
+      }
+      const light=(.5+.5*Math.sin(segment*.16+shell*3))**2;
+      context.strokeStyle=`rgba(128,220,255,${fade*(.015+light*.25)})`;
+      context.lineWidth=.35+light*.45;context.stroke();
+    }
+  }
+  context.globalCompositeOperation='lighter';
+  const coreRadius=burst?12+Math.sin(Math.PI*progress)*12:12*(1-progress);
+  if(coreRadius>0){
+    const core=context.createRadialGradient(90,78,0,90,78,coreRadius*4);
+    core.addColorStop(0,`rgba(255,255,255,${fade})`);
+    core.addColorStop(.09,`rgba(231,251,255,${fade*.95})`);
+    core.addColorStop(.24,`rgba(136,226,255,${fade*.6})`);
+    core.addColorStop(1,'rgba(62,137,255,0)');
+    context.fillStyle=core;context.fillRect(90-coreRadius*4,78-coreRadius*4,coreRadius*8,coreRadius*8);
+  }
+  const flare=context.createLinearGradient(-280,78,460,78);
+  flare.addColorStop(0,'rgba(82,163,255,0)');
+  flare.addColorStop(.45,`rgba(127,221,255,${fade*.18})`);
+  flare.addColorStop(.5,`rgba(243,252,255,${fade*.75})`);
+  flare.addColorStop(.55,`rgba(127,221,255,${fade*.18})`);
+  flare.addColorStop(1,'rgba(82,163,255,0)');
+  context.fillStyle=flare;context.fillRect(90-370*expansion,77.65,740*expansion,.7);
+  context.restore();
+  const dustCount=phone?680:1800;
+  for(let index=0;index<dustCount;index++){
+    const depth=(index*73%977)/977,angle=index*2.399963+(burst?progress*.08:.08+reform*.8);
+    const distance=(18+Math.sqrt(depth)*460)*expansion;
+    const x=90+Math.cos(angle)*distance,y=78+Math.sin(angle)*distance*.9;
+    const size=.6+(index*17%19)/19*1.15;
+    context.fillStyle=`rgba(${index%17===0?'255,221,178':'230,246,255'},${fade*(.28+depth*.65)})`;
+    context.fillRect(x,y,size,size);
+  }
+}
+function releaseJoinedWheelEffect(){
+  const now=performance.now(),frame=joinedWheelEffectFrame(now);
+  if(!frame)return;
+  if(frame.phase==='calm'){cancelJoinedWheelEffect();return;}
+  if(frame.phase==='charging'){
+    joinedWheelEffect.releasedAt=now;
+    joinedWheelEffect.releaseCharge=frame.charge;
+    joinedWheelEffect.releaseSpin=frame.spin;
+  }
+}
+function drawJoinedWheelEffect(context,frame,phone){
+  const {phase,progress,charge,spin}=frame;
+  const calm=phase==='calm',vortex=phase==='charging'||phase==='settling';
+  const intensity=calm?.22:vortex?charge:phase==='burst'?(1-progress)**2:(1-progress)*.5;
+  const radius=calm?55:vortex?24+charge*25:phase==='burst'?35+progress*48:30+(1-progress)*30;
+  context.save();context.globalCompositeOperation='lighter';
+  if(!calm&&!vortex)drawJoinedBlastCloud(context,frame,phone);
+  const bloom=context.createRadialGradient(90,78,0,90,78,radius);
+  bloom.addColorStop(0,`rgba(238,251,255,${intensity*.65})`);
+  bloom.addColorStop(.25,`rgba(123,218,255,${intensity*.35})`);
+  bloom.addColorStop(.65,`rgba(142,94,255,${intensity*.2})`);
+  bloom.addColorStop(1,'rgba(39,201,255,0)');
+  context.fillStyle=bloom;context.fillRect(90-radius,78-radius,radius*2,radius*2);
+  if(!calm){
+    const count=phone?64:160;
+    const reform=progress*progress*(3-2*progress);
+    const burstSpin=phase==='reforming'?spin-4*(1-(1-progress)**3):0;
+    for(let index=0;index<count;index++){
+      const seed=index*2.399963,depth=.3+.7*((index*37%101)/100);
+      let angle,distance,trail,alpha;
+      if(vortex){
+        const radial=(Math.floor(index/2)+.5)/Math.ceil(count/2);
+        distance=8+Math.sqrt(radial)*90*(1-charge*.42);
+        angle=index%2*Math.PI+spin+Math.log(distance/90+.12)*4;
+        trail=.08+charge*.4;alpha=charge*.85;
+      }else if(phase==='burst'){
+        distance=14+depth*270*(1-(1-progress)**3);
+        angle=seed+spin*.045;trail=(3+((index*29%101)/100)**3*110)*progress;alpha=(1-progress*.5)*.55;
+      }else{
+        distance=(14+depth*270)*(1-reform)+(18+depth*43)*reform;
+        angle=seed+burstSpin*.045+(spin-burstSpin)*.12+reform*3;
+        trail=(3+((index*29%101)/100)**3*110)*(1-reform);alpha=(1-progress**3)*.275;
+      }
+      const x=90+Math.cos(angle)*distance,y=78+Math.sin(angle)*distance;
+      const burstHue=index%19===0?38:190+index%4*9,targetHue=(index*43+35)%360;
+      const hue=vortex?targetHue:phase==='burst'?burstHue:burstHue+((targetHue-burstHue+540)%360-180)*reform;
+      const colourReturn=phase==='burst'?0:phase==='reforming'?reform:1;
+      context.strokeStyle=`hsla(${hue},95%,${84-17*colourReturn}%,${alpha})`;
+      context.lineWidth=(.24+(index%7)*.07)*(1-colourReturn)+(phone?.7:1)*colourReturn;
+      context.beginPath();
+      if(phase==='burst')context.moveTo(90+Math.cos(angle)*(distance-trail),78+Math.sin(angle)*(distance-trail));
+      else if(phase==='reforming')context.moveTo(90+Math.cos(angle-reform*.35)*(distance-trail),78+Math.sin(angle-reform*.35)*(distance-trail));
+      else context.moveTo(90+Math.cos(angle-trail)*distance*.96,78+Math.sin(angle-trail)*distance*.96);
+      context.lineTo(x,y);context.stroke();
+      context.fillStyle=`rgba(255,245,219,${alpha*.8})`;
+      context.beginPath();context.arc(x,y,index%7===0?.6:.25,0,Math.PI*2);context.fill();
+    }
+  }
+  context.restore();
+}
+function wheelLabel(){return lang==='zh'?'合併時捲動及分類切換停用；輕按中央可分離，長按可啟動旋渦、爆散及重組特效。分離後，轉動導覽輪以捲動本頁，轉動球體以切換主要分類。按 D 鍵可收起或取出。':'Scrolling and category selection are inactive while joined. Tap the centre to separate; hold for an accelerating vortex, burst and re-formation. Then turn the wheel to scroll this page or the sphere to switch main categories. Press D to dock/undock.';}
 function wheelViewportPosition(x,y,size){
   const view=window.visualViewport;
   const left=(view?.offsetLeft||0)+8;
@@ -638,8 +876,8 @@ function syncNavigationWheelDock(){
   navigationWheel.hidden=!unlocked||(wheelDocked&&!target);
   navigationWheel.setAttribute('aria-label',wheelLabel());navigationWheel.title=wheelLabel();
   const core=navigationWheel.querySelector('.wheel-core');
-  core.setAttribute('aria-label',lang==='zh'?(wheelDocked?'按中央以分離導覽輪；球體留在標題':'拖曳以移動導覽輪；按下可收起至球體'):
-    (wheelDocked?'Press centre to separate the wheel; sphere stays at heading':'Drag to move wheel; activate to dock into sphere'));
+  core.setAttribute('aria-label',lang==='zh'?(wheelDocked?'輕按中央以分離導覽輪；長按啟動旋渦爆散及重組特效；球體留在標題':'拖曳以移動導覽輪；按下可收起至球體'):
+    (wheelDocked?'Tap centre to separate the wheel; hold for vortex, burst and re-formation; sphere stays at heading':'Drag to move wheel; activate to dock into sphere'));
   core.setAttribute('aria-pressed',String(wheelDocked));
   core.title=core.getAttribute('aria-label');
   if(wheelDocked&&sphere){
@@ -657,20 +895,24 @@ function syncNavigationWheelDock(){
   updateSphereLabels();
 }
 function setNavigationWheelDocked(docked){
+  cancelJoinedWheelEffect();
   releaseSphereGesture();stopNavigationWheelScroll();sphereCategoryAngle=0;wheelDocked=docked;
   headingSphere?.classList.remove('wheel-dock-target');
   syncNavigationWheelDock();
 }
 navigationWheel.querySelector('.wheel-core').addEventListener('click',event=>{
-  if(event.detail!==0||!staffUnlocked())return;
+  if(event.detail!==0||!staffUnlocked()||joinedWheelEffect)return;
   setNavigationWheelDocked(!wheelDocked);
+});
+navigationWheel.addEventListener('contextmenu',event=>{
+  if(wheelDocked&&event.target.closest('.wheel-core'))event.preventDefault();
 });
 window.addEventListener('scroll',()=>{if(wheelDocked&&!wheelMove)syncNavigationWheelDock();},{passive:true});
 function resizeNavigationControls(){
-  releaseNavigationWheel();releaseSphereGesture();syncSpherePlacement();syncNavigationWheelDock();startHeadingSphere();
+  releaseNavigationWheel();cancelJoinedWheelEffect();releaseSphereGesture();syncSpherePlacement();syncNavigationWheelDock();startHeadingSphere();
 }
 window.addEventListener('resize',resizeNavigationControls);
-window.addEventListener('blur',()=>{releaseNavigationWheel();releaseSphereGesture();stopNavigationWheelScroll();});
+window.addEventListener('blur',()=>{releaseNavigationWheel();cancelJoinedWheelEffect();releaseSphereGesture();stopNavigationWheelScroll();});
 window.visualViewport?.addEventListener('resize',resizeNavigationControls);
 window.visualViewport?.addEventListener('scroll',()=>{
   if(!wheelMove&&!sphereGesture){syncSpherePlacement();syncNavigationWheelDock();}
@@ -847,6 +1089,7 @@ function rotateNavigationWheel(delta,pixelsPerRadian=320){
 navigationWheel.addEventListener('pointerdown',event=>{
   if(!staffUnlocked()||event.button!==0||wheelPointer!==null||sphereGesture)return;
   event.preventDefault();event.stopPropagation();
+  if(joinedWheelEffect)return;
   if(wheelDocked&&!event.target.closest('.wheel-core'))return;
   stopNavigationWheelScroll();
   wheelSensitivity=event.pointerType==='touch'?120:320;
@@ -857,6 +1100,7 @@ navigationWheel.addEventListener('pointerdown',event=>{
       offsetX:(event.clientX-wheelBounds.left)/wheelBounds.width,
       offsetY:(event.clientY-wheelBounds.top)/wheelBounds.height,moved:false};
     if(!wheelDocked)navigationWheel.classList.add('moving');
+    else beginJoinedWheelHold();
   }
   navigationWheel.setPointerCapture(event.pointerId);
   if(!wheelMove)navigationWheel.classList.add('turning');
@@ -864,7 +1108,8 @@ navigationWheel.addEventListener('pointerdown',event=>{
 navigationWheel.addEventListener('pointermove',event=>{
   if(event.pointerId!==wheelPointer)return;
   if(wheelMove){
-    if(!wheelMove.moved&&Math.hypot(event.clientX-wheelMove.x,event.clientY-wheelMove.y)<5)return;
+    if(!wheelMove.moved&&Math.hypot(event.clientX-wheelMove.x,event.clientY-wheelMove.y)<(wheelMove.docked?12:5))return;
+    cancelJoinedWheelEffect();
     wheelMove.moved=true;
     if(wheelMove.docked)return;
     wheelDocked=false;
@@ -886,14 +1131,21 @@ function releaseNavigationWheel(event){
   if(event?.pointerId!==undefined&&event.pointerId!==wheelPointer)return;
   const pointer=wheelPointer;
   const move=wheelMove,drop=move?.moved&&event?.type==='pointerup'&&wheelOverSphere();
+  clearJoinedWheelHold();
   wheelMove=null;
   wheelPointer=null;wheelAngle=null;wheelBounds=null;navigationWheel.classList.remove('turning');
   navigationWheel.classList.remove('moving');
   if(move){
-    if(event?.type!=='pointerup'){wheelPosition=move.position;wheelDocked=move.docked;}
-    else if(!move.moved){wheelPosition=move.position;wheelDocked=!move.docked;}
-    else if(drop){wheelPosition=move.position;wheelDocked=true;}
-    setNavigationWheelDocked(wheelDocked);
+    if(move.held){
+      wheelPosition=move.position;wheelDocked=move.docked;
+      if(event?.type==='pointerup')releaseJoinedWheelEffect();else cancelJoinedWheelEffect();
+      syncNavigationWheelDock();
+    }else{
+      if(event?.type!=='pointerup'){wheelPosition=move.position;wheelDocked=move.docked;}
+      else if(!move.moved){wheelPosition=move.position;wheelDocked=!move.docked;}
+      else if(drop){wheelPosition=move.position;wheelDocked=true;}
+      setNavigationWheelDocked(wheelDocked);
+    }
   }
   if(pointer!==null&&navigationWheel.hasPointerCapture(pointer))navigationWheel.releasePointerCapture(pointer);
   if(event?.type==='pointercancel'||(pointer!==null&&event?.type==='lostpointercapture'))stopNavigationWheelScroll();
@@ -914,7 +1166,7 @@ document.addEventListener('pointerdown',event=>{
 window.addEventListener('wheel',stopNavigationWheelScroll,{passive:true});
 const wheelOrientation=window.matchMedia('(orientation:landscape)');
 wheelOrientation.addEventListener('change',()=>{
-  releaseNavigationWheel();releaseSphereGesture();stopNavigationWheelScroll();syncSpherePlacement();syncNavigationWheelDock();
+  releaseNavigationWheel();cancelJoinedWheelEffect();releaseSphereGesture();stopNavigationWheelScroll();syncSpherePlacement();syncNavigationWheelDock();
 });
 navigationWheel.addEventListener('focus',()=>navigationWheel.setAttribute('aria-label',wheelLabel()));
 navigationWheel.setAttribute('aria-label',wheelLabel());
@@ -1740,7 +1992,11 @@ function startHeadingSphere(){
   let canvas=document.querySelector('.heading-sphere canvas');
   const hero=canvas?.closest('.hero');
   if(canvas&&(!staffUnlocked()||document.hidden))canvas.width=canvas.height=1;
-  if(!canvas||!staffUnlocked()||document.hidden||(managerEffectsObserver&&!spherePosition&&!hero?.classList.contains('manager-effect-visible')))return;
+  if(!canvas||!staffUnlocked()||document.hidden||(managerEffectsObserver&&!spherePosition&&!hero?.classList.contains('manager-effect-visible'))){
+    clearJoinedWheelHold();
+    if(joinedWheelEffect)resetJoinedWheelEffect();
+    return;
+  }
   const phone=phoneLayout.matches;
   if(phone&&managerScrollPaused)return;
   let context=canvas.getContext('2d');
@@ -1753,8 +2009,8 @@ function startHeadingSphere(){
     canvas.replaceWith(replacement);canvas=replacement;context=replacementContext;
   }
   const size=180,ratio=phone?1:Math.min(window.devicePixelRatio||1,3);
-  if(canvas.width!==size*ratio||canvas.height!==size*ratio)canvas.width=canvas.height=size*ratio;
-  context.setTransform(ratio,0,0,ratio,0,0);
+  const effectSize=Math.round(Math.min(phone?1024:2048,Math.max(size*ratio,
+    headingSphere.getBoundingClientRect().width*8*Math.min(window.devicePixelRatio||1,2))));
   const pointCount=phone?64:128;
   const points=Array.from({length:pointCount},(_,index)=>{
     const y=1-2*(index+.5)/pointCount,r=Math.sqrt(1-y*y),angle=index*Math.PI*(3-Math.sqrt(5));
@@ -1764,31 +2020,51 @@ function startHeadingSphere(){
   points.forEach((point,i)=>points.slice(i+1).forEach((other,j)=>{
     if(Math.hypot(point.x-other.x,point.y-other.y,point.z-other.z)<(phone?.54:.38))edges.push([i,i+j+1]);
   }));
-  const glow=context.createRadialGradient(78,66,8,90,78,79);
-  glow.addColorStop(0,'rgba(10,18,57,.7)');
-  glow.addColorStop(.65,'rgba(73,83,194,.12)');
-  glow.addColorStop(.83,'rgba(34,220,255,.2)');
-  glow.addColorStop(.9,'rgba(233,98,255,.15)');
-  glow.addColorStop(1,'rgba(0,173,255,0)');
   let paintedAt=-Infinity;
   function draw(time){
     if(!canvas.isConnected||!document.documentElement.classList.contains('manager-mode')||document.hidden||
-      (managerEffectsObserver&&!spherePosition&&!hero?.classList.contains('manager-effect-visible'))){headingSphereFrame=0;return;}
+      (managerEffectsObserver&&!spherePosition&&!hero?.classList.contains('manager-effect-visible'))){
+      clearJoinedWheelHold();resetJoinedWheelEffect();headingSphereFrame=0;return;
+    }
     if(phone&&managerScrollPaused){headingSphereFrame=0;return;}
-    if(phone&&!headingSphereMotion.matches&&time-paintedAt<1000/12){
+    const frameRate=phone?12:joinedWheelEffect?30:0;
+    if(frameRate&&!headingSphereMotion.matches&&time-paintedAt<1000/frameRate){
       headingSphereFrame=requestAnimationFrame(draw);return;
     }
     paintedAt=time;
-    const elapsed=(headingSphereMotion.matches?0:time*.00015)+sphereRotation;
+    let effect=joinedWheelEffectFrame(time);
+    if(effect?.phase==='done'){
+      sphereRotation+=effect.spin;resetJoinedWheelEffect();effect=null;
+    }
+    const backing=effect&&!headingSphereMotion.matches?effectSize:Math.round(size*ratio);
+    if(canvas.width!==backing||canvas.height!==backing)canvas.width=canvas.height=backing;
+    context.setTransform(backing/size,0,0,backing/size,0,0);
+    if(effect){
+      navigationWheel.style.setProperty('--joined-wheel-opacity',String(effect.wheelOpacity));
+      navigationWheel.style.setProperty('--joined-wheel-spin',`${effect.spin}rad`);
+      headingSphere.style.setProperty('--joined-canvas-scale',String(effect.canvasScale));
+    }
+    const elapsed=(headingSphereMotion.matches?0:time*.00015)+sphereRotation+(effect?.spin||0);
     const sine=Math.sin(elapsed),cosine=Math.cos(elapsed);
     function project(point){
       const x=point.x*cosine+point.z*sine;
       const z=-point.x*sine+point.z*cosine;
-      const scale=65/(1-z*.13);
+      const scale=65*(effect?.meshScale??1)/(1-z*.13);
       return {x:90+x*scale,y:78+point.y*scale,z};
     }
     const projected=points.map(project);
     context.clearRect(0,0,size,size);
+    context.save();
+    if(effect){
+      context.translate(90,78);context.scale(1/effect.canvasScale,1/effect.canvasScale);context.translate(-90,-78);
+      context.globalAlpha=effect.meshOpacity;
+    }
+    const glow=context.createRadialGradient(78,66,8,90,78,79);
+    glow.addColorStop(0,'rgba(10,18,57,.7)');
+    glow.addColorStop(.65,'rgba(73,83,194,.12)');
+    glow.addColorStop(.83,'rgba(34,220,255,.2)');
+    glow.addColorStop(.9,'rgba(233,98,255,.15)');
+    glow.addColorStop(1,'rgba(0,173,255,0)');
     context.fillStyle=glow;context.fillRect(0,0,size,size);
     edges.forEach(([i,j],index)=>{
       const a=projected[i],b=projected[j];
@@ -1837,12 +2113,18 @@ function startHeadingSphere(){
       context.fillStyle='rgba(223,255,255,.95)';
       context.beginPath();context.arc(90+Math.cos(phase)*radius,160+Math.sin(phase)*radius*.19,1,0,Math.PI*2);context.fill();
     }
+    if(effect){
+      context.globalAlpha=1;
+      drawJoinedWheelEffect(context,effect,phone);
+    }
+    context.restore();
     if(!headingSphereMotion.matches)headingSphereFrame=requestAnimationFrame(draw);
   }
   draw(performance.now());
 }
 function bind(){
   clearTimeout(searchRenderTimer);
+  cancelJoinedWheelEffect();
   cancelPageLongPress();closePageSubcategories(false);
   releaseNavigationWheel();
   if(!sphereCategoryChanging){releaseSphereGesture();sphereCategoryAngle=0;}
