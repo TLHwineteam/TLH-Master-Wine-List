@@ -83,6 +83,7 @@ async function loadUpdatedDate(){
 const brandName=document.querySelector('#brand-name'),wineListTitle=document.querySelector('#wine-list-title');
 const navToggle=document.querySelector('#nav-toggle');
 const pageStrip=document.querySelector('#page-strip');
+let pageNavigationReady=false;
 const welcomeCover=document.querySelector('#welcome-cover');
 const NAVIGATION_HIDDEN_STORAGE_KEY='wineListNavigationHidden';
 let navigationHidden=localStorage.getItem(NAVIGATION_HIDDEN_STORAGE_KEY)==='true';
@@ -1163,6 +1164,69 @@ function navChildren(c){
  return [];
 }
 let openCat='',activeGroup=null;
+let pageLongPress=null,pageClickSuppressed=null,pageSubcategoryOrigin=null;
+const PAGE_CATEGORY_HOLD_MS=500;
+const pageSubcategoryPopup=document.createElement('dialog');
+pageSubcategoryPopup.id='page-subcategories';
+pageSubcategoryPopup.className='page-subcategory-popup';
+pageSubcategoryPopup.setAttribute('aria-labelledby','page-subcategory-title');
+pageSubcategoryPopup.innerHTML='<header class="page-subcategory-header"><h2 id="page-subcategory-title"></h2><button type="button" class="page-subcategory-close"></button></header><div class="page-subcategory-list"></div>';
+document.body.appendChild(pageSubcategoryPopup);
+pageNavigationReady=true;
+function cancelPageLongPress(){
+  if(pageLongPress)clearTimeout(pageLongPress.timer);
+  pageLongPress=null;
+}
+function closePageSubcategories(restoreFocus=true){
+  const origin=pageSubcategoryOrigin;
+  pageSubcategoryOrigin=null;
+  origin?.setAttribute('aria-expanded','false');
+  if(pageSubcategoryPopup.open)pageSubcategoryPopup.close();
+  if(restoreFocus&&origin?.isConnected)origin.focus({preventScroll:true});
+}
+function openPageSubcategories(button,category){
+  const groups=navChildren(category);
+  if(!navigationHidden||pageStrip.hidden||!groups.length||pageSubcategoryPopup.open)return;
+  cancelPageLongPress();
+  pageSubcategoryOrigin=button;
+  button.setAttribute('aria-expanded','true');
+  pageSubcategoryPopup.querySelector('h2').textContent=pick(category,'title');
+  pageSubcategoryPopup.querySelector('.page-subcategory-close').textContent=lang==='zh'?'關閉':'Close';
+  const list=pageSubcategoryPopup.querySelector('.page-subcategory-list');
+  list.innerHTML=groups.map((group,index)=>`<button type="button" class="page-subcategory-option" data-group-index="${index}" aria-current="${current===category.id&&activeGroup===group.name?'page':'false'}">${esc(pick(group,'name'))}</button>`).join('');
+  list.querySelectorAll('button').forEach(option=>option.addEventListener('click',()=>{
+    closePageSubcategories(false);
+    navigateToSubcategory(category,groups[Number(option.dataset.groupIndex)]);
+    pageStrip.querySelector('.page-thumb.active')?.focus({preventScroll:true});
+  }));
+  const bottom=Math.max(8,innerHeight-pageStrip.getBoundingClientRect().top+10);
+  pageSubcategoryPopup.style.setProperty('--subcategory-bottom',`${bottom}px`);
+  pageSubcategoryPopup.showModal();
+  (list.querySelector('[aria-current="page"]')||list.querySelector('button')).focus({preventScroll:true});
+}
+pageSubcategoryPopup.querySelector('.page-subcategory-close').addEventListener('click',()=>closePageSubcategories());
+pageSubcategoryPopup.addEventListener('cancel',event=>{
+  event.preventDefault();closePageSubcategories();
+});
+document.addEventListener('pointerdown',event=>{
+  if(pageLongPress&&event.pointerId!==pageLongPress.pointerId)cancelPageLongPress();
+  if(pageSubcategoryPopup.open&&event.target===pageSubcategoryPopup){
+    const bounds=pageSubcategoryPopup.getBoundingClientRect();
+    if(event.clientX<bounds.left||event.clientX>bounds.right||event.clientY<bounds.top||event.clientY>bounds.bottom)closePageSubcategories();
+  }
+},true);
+document.addEventListener('pointerup',event=>{
+  if(event.pointerId===pageLongPress?.pointerId)cancelPageLongPress();
+});
+document.addEventListener('pointercancel',event=>{
+  if(event.pointerId===pageLongPress?.pointerId)cancelPageLongPress();
+});
+window.addEventListener('blur',()=>{cancelPageLongPress();closePageSubcategories(false);});
+window.addEventListener('resize',()=>{cancelPageLongPress();closePageSubcategories(false);});
+window.visualViewport?.addEventListener('resize',()=>{cancelPageLongPress();closePageSubcategories(false);});
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden){cancelPageLongPress();closePageSubcategories(false);}
+});
 const CATEGORY_NAV_ORDER=['c0','c1','c2','c6','c7','c3','c4','c5'];
 function navigationCategories(){
   return [...CATEGORY_NAV_ORDER.map(id=>C.find(category=>category.id===id)),
@@ -1187,15 +1251,29 @@ function navigateToCategory(category,swipeDirection=0){
     window.scrollTo({top:0,behavior:'smooth'});
   }
 }
+function navigateToSubcategory(category,group){
+  current=category.id;
+  openCat=current;
+  activeGroup=group.name;
+  q.value='';
+  navR();
+  render();
+  showManagerSectionImpact();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 function renderPageStrip(){
   const show=navigationHidden&&!q.value.trim();
   pageStrip.hidden=!show;
   updateSphereLabels();
+  // Language setup runs before category groups and popup controls are initialized.
+  if(!pageNavigationReady)return;
+  cancelPageLongPress();closePageSubcategories(false);
   if(!show)return;
   pageStrip.setAttribute('aria-label',lang==='zh'?'葡萄酒酒單頁面':'Wine list pages');
   pageStrip.innerHTML=C.map((category,index)=>{
-    const active=category.id===current;
-    return `<button class="page-thumb ${active?'active':''}" type="button" data-category="${esc(category.id)}" aria-current="${active?'page':'false'}" aria-label="${esc(lang==='zh'?'前往':'Go to')} ${esc(pick(category,'title'))}">
+    const active=category.id===current,hasChildren=navChildren(category).length>0;
+    const hint=hasChildren?(lang==='zh'?'；長按可選擇子分類':'; hold for subcategories'):'';
+    return `<button class="page-thumb ${active?'active':''}" type="button" data-category="${esc(category.id)}" aria-current="${active?'page':'false'}" aria-label="${esc(lang==='zh'?'前往':'Go to')} ${esc(pick(category,'title'))}${hint}" ${hasChildren?'aria-haspopup="dialog" aria-controls="page-subcategories" aria-expanded="false"':''}>
       <span class="page-thumb-page">
         <span class="page-thumb-title">${esc(pick(category,'title'))}</span>
       </span>
@@ -1203,10 +1281,47 @@ function renderPageStrip(){
     </button>`;
   }).join('');
   pageStrip.querySelectorAll('.page-thumb').forEach(button=>{
-    button.addEventListener('click',()=>navigateToCategory(C.find(category=>category.id===button.dataset.category)));
     if(button.dataset.category===current)button.scrollIntoView({block:'nearest',inline:'nearest'});
   });
 }
+pageStrip.addEventListener('pointerdown',event=>{
+  cancelPageLongPress();pageClickSuppressed=null;
+  if(event.button!==0||event.isPrimary===false)return;
+  const button=event.target.closest('.page-thumb');
+  const category=button&&C.find(category=>category.id===button.dataset.category);
+  if(!category||!navChildren(category).length)return;
+  pageLongPress={pointerId:event.pointerId,x:event.clientX,y:event.clientY,timer:setTimeout(()=>{
+    pageClickSuppressed=category.id;
+    openPageSubcategories(button,category);
+  },PAGE_CATEGORY_HOLD_MS)};
+});
+pageStrip.addEventListener('pointermove',event=>{
+  if(pageLongPress?.pointerId===event.pointerId&&Math.hypot(event.clientX-pageLongPress.x,event.clientY-pageLongPress.y)>10)cancelPageLongPress();
+});
+pageStrip.addEventListener('pointerleave',cancelPageLongPress);
+pageStrip.addEventListener('scroll',cancelPageLongPress,{passive:true});
+pageStrip.addEventListener('click',event=>{
+  const button=event.target.closest('.page-thumb');
+  if(!button)return;
+  if(pageClickSuppressed===button.dataset.category&&event.detail!==0){
+    event.preventDefault();pageClickSuppressed=null;return;
+  }
+  navigateToCategory(C.find(category=>category.id===button.dataset.category));
+});
+pageStrip.addEventListener('contextmenu',event=>{
+  const button=event.target.closest('.page-thumb');
+  const category=button&&C.find(category=>category.id===button.dataset.category);
+  if(!category||!navChildren(category).length)return;
+  event.preventDefault();pageClickSuppressed=category.id;
+  openPageSubcategories(button,category);
+});
+pageStrip.addEventListener('keydown',event=>{
+  const button=event.target.closest('.page-thumb');
+  if(!button||!(event.key==='ArrowUp'||event.key==='ContextMenu'||(event.key==='F10'&&event.shiftKey)))return;
+  const category=C.find(category=>category.id===button.dataset.category);
+  if(!navChildren(category).length)return;
+  event.preventDefault();openPageSubcategories(button,category);
+});
 function turnCategoryBy(direction){
   const currentIndex=C.findIndex(category=>category.id===current);
   if(currentIndex<0)return;
@@ -1306,15 +1421,9 @@ function navR(){
  }).join('');
  nav.querySelectorAll('.navcat').forEach(btn=>btn.onclick=()=>{const id=btn.dataset.cat,c=C.find(x=>x.id===id),has=navChildren(c).length>0;current=id;activeGroup=null;q.value='';openCat=has?(openCat===id?'':id):'';navR();render();showManagerSectionImpact();scrollTo({top:0,behavior:'smooth'})});
  nav.querySelectorAll('.navsub').forEach(btn=>btn.onclick=()=>{
-    current = btn.dataset.cat;
-    openCat = current;
-    activeGroup = btn.dataset.group;
-    q.value='';
-    navR();
-    render();
-    showManagerSectionImpact();
-    scrollTo({top:0,behavior:'smooth'});
-});
+    const category=C.find(c=>c.id===btn.dataset.cat);
+    navigateToSubcategory(category,navChildren(category).find(group=>group.name===btn.dataset.group));
+ });
  renderPageStrip();
 }
 function wineResearchPrompt(wine,category){
@@ -1734,6 +1843,7 @@ function startHeadingSphere(){
 }
 function bind(){
   clearTimeout(searchRenderTimer);
+  cancelPageLongPress();closePageSubcategories(false);
   releaseNavigationWheel();
   if(!sphereCategoryChanging){releaseSphereGesture();sphereCategoryAngle=0;}
   stopNavigationWheelScroll();
