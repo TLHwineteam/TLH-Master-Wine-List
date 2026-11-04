@@ -2342,6 +2342,24 @@ html.home-screen:not(.manager-mode) .shell>.status{
   .home-screen .side{top:var(--home-screen-top)}
 }
 
+html:not(.manager-mode) .status{height:auto;flex-wrap:wrap;row-gap:6px}
+html:not(.manager-mode) .status:not(.has-marker){min-height:57px}
+html:not(.manager-mode) .status .meta{
+  flex:1 1 0;min-width:0;overflow:hidden;text-overflow:ellipsis;
+}
+html:not(.manager-mode) .status :is(.pdf-link,.lang-toggle,.staff-mode-btn){
+  flex-shrink:0;min-height:44px;display:inline-flex;align-items:center;justify-content:center;
+}
+html:not(.manager-mode) .status .font-controls{
+  flex:0 0 auto;gap:6px;margin-right:12px;padding:0;
+  border:0;border-radius:0;overflow:visible;background:transparent;
+}
+.home-screen:not(.manager-mode) .status .font-controls{background:transparent}
+html:not(.manager-mode) .status .font-controls .font-btn{
+  flex:0 0 44px;width:44px;min-width:44px;min-height:44px;
+  border:1px solid #b68735;border-radius:7px;
+}
+
 /* Keep phone colour and depth without stacking filtered, animated surfaces. */
 @media (any-pointer:coarse) and (max-width:600px), (any-pointer:coarse) and (max-height:500px){
   .manager-mode *,.manager-mode *::before,.manager-mode *::after,.manager-mode *::backdrop{
