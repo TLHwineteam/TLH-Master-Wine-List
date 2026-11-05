@@ -2301,6 +2301,63 @@ html.manager-mode:lang(en) .hero h2{font-style:oblique 8deg}
 }
 .heading-sphere>canvas{pointer-events:none}
 .manager-mode .main .hero.joined-effect-host{overflow:visible;z-index:2}
+.cosmic-dragon{display:none}
+.manager-mode .main .hero.has-cosmic-dragon{padding-right:210px}
+.manager-mode .hero.has-cosmic-dragon .hero-copy{
+  position:relative;min-height:300px;padding-right:360px;
+}
+.manager-mode .hero .cosmic-dragon{
+  display:block;position:absolute;z-index:3;right:10px;top:50%;
+  width:340px;height:auto;aspect-ratio:4/3;margin:0;padding:0;transform:translateY(-50%);
+  border:0;background:transparent;box-shadow:none;border-radius:12px;
+  cursor:pointer;touch-action:pan-y pinch-zoom;-webkit-touch-callout:none;
+  user-select:none;-webkit-user-select:none;overflow:visible;
+}
+.cosmic-dragon[hidden]{display:none!important}
+.cosmic-dragon::before,.cosmic-dragon::after{content:"";position:absolute;pointer-events:none}
+.cosmic-dragon::before{
+  inset:10% 6% 8%;
+  background:radial-gradient(ellipse,rgba(148,103,255,.15),rgba(60,225,255,.05) 36%,transparent 66%);
+}
+.cosmic-dragon::after{
+  left:17%;width:66%;height:8.333333%;bottom:0;border-radius:50%;
+  border:1px solid rgba(118,208,255,.18);
+  background:radial-gradient(ellipse,rgba(131,115,255,.22),rgba(70,220,255,.08) 45%,transparent 72%);
+}
+.cosmic-dragon-art{display:block;position:relative;z-index:1;width:100%;height:100%;pointer-events:none}
+.cosmic-dragon-art[hidden]{display:none}
+.cosmic-dragon img[hidden]{display:none}
+.dragon-rig{display:block;width:100%;height:100%;overflow:visible;pointer-events:none}
+.cosmic-dragon:focus-visible{outline:2px solid #b6f8ff;outline-offset:6px}
+.cosmic-dragon:disabled{cursor:default;opacity:.5}
+.cosmic-dragon.attacking{z-index:5}
+.cosmic-dragon.artwork-error{color:#d9faff;font-size:12px}
+.cosmic-dragon.artwork-error::before,.cosmic-dragon.artwork-error::after{display:none}
+@media(min-width:601px) and (max-width:1200px){
+  .manager-mode .main .hero.has-cosmic-dragon{padding-right:28px}
+  .manager-mode .hero.has-cosmic-dragon .hero-copy{padding-right:8px;padding-bottom:296px}
+  .manager-mode .hero.has-cosmic-dragon .heading-sphere{top:auto;bottom:32px;right:26px;transform:none}
+  .manager-mode .hero .cosmic-dragon{
+    right:200px;top:auto;bottom:28px;transform:none;width:min(340px,calc(100% - 208px));
+  }
+}
+@media(max-width:600px){
+  .manager-mode .main .hero.has-cosmic-dragon{
+    padding-right:22px;min-height:220px;
+  }
+  .manager-mode .hero.has-cosmic-dragon .hero-copy{
+    padding-right:8px;padding-bottom:clamp(312px,calc(75vw + 82px),388px);
+  }
+  .manager-mode .hero.has-cosmic-dragon .heading-sphere{
+    top:auto;bottom:32px;right:26px;transform:none;
+  }
+  .manager-mode .hero .cosmic-dragon{
+    right:4px;top:auto;bottom:128px;transform:none;
+    width:min(320px,calc(100% - 8px));
+  }
+}
+.manager-mode.manager-scrolling .cosmic-dragon *,
+.manager-mode.manager-effects-ready .hero:not(.manager-effect-visible) .cosmic-dragon *{animation-play-state:paused}
 .manager-mode .heading-sphere.joined-effect>canvas{
   position:absolute;
   left:calc(50% - 50% * var(--joined-canvas-scale,2.2));
@@ -2308,10 +2365,12 @@ html.manager-mode:lang(en) .hero h2{font-style:oblique 8deg}
   width:calc(100% * var(--joined-canvas-scale,2.2));height:calc(100% * var(--joined-canvas-scale,2.2));
 }
 .manager-mode .heading-sphere.joined-effect{filter:none}
+.manager-mode .heading-sphere.joined-impact>canvas{z-index:40}
 .manager-mode .heading-sphere.joined-effect .navigation-wheel{
   opacity:var(--joined-wheel-opacity,1);
   transform:translate(-50%,-50%) rotate(var(--joined-wheel-spin,0rad));
 }
+.manager-mode .heading-sphere.joined-effect .navigation-wheel *{animation-play-state:paused!important}
 .sphere-turn{
   position:absolute;display:grid;place-items:center;pointer-events:auto;touch-action:none;
   user-select:none;-webkit-user-select:none;cursor:grab;

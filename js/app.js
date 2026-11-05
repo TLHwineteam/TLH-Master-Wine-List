@@ -7,7 +7,9 @@ let headingSphere=null,spherePosition=null,sphereGesture=null,sphereRotation=0;
 let sphereCategoryAngle=0,sphereCategoryChanging=false;
 const SPHERE_CATEGORY_STEP=Math.PI/2;
 let joinedWheelEffect=null,joinedWheelHoldTimer=0,joinedBlastSprites=null;
-const JOINED_WHEEL_HOLD_MS=450,JOINED_WHEEL_CHARGE_MS=1900;
+let cosmicDragon=null,dragonGesture=null;
+const JOINED_WHEEL_HOLD_MS=450,JOINED_WHEEL_CHARGE_MS=3600;
+const JOINED_WHEEL_IMPACT_MS=700;
 const JOINED_WHEEL_BURST_MS=1800,JOINED_WHEEL_REFORM_MS=3800;
 const headingSphereMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 const phoneLayout=window.matchMedia('(any-pointer:coarse) and (max-width:600px), (any-pointer:coarse) and (max-height:500px)');
@@ -301,7 +303,7 @@ function drawWheelCore(time,phase){
   }
   wheelCorePaintedAt=time;
   const effect=joinedWheelEffectFrame(time);
-  const t=phase*.001+(effect?.spin||0),count=phone?14:28;
+  const t=effect?(joinedWheelEffect.corePhase??=phase*.001):phase*.001,count=phone?14:28;
   context.clearRect(0,0,64,64);context.fillStyle=wheelCoreGlow;context.fillRect(0,0,64,64);
   for(let index=0;index<count;index++){
     const angle=index*2.39996+t*.35;
@@ -335,7 +337,7 @@ function drawWheelCore(time,phase){
     const start=-t*.4+arc*Math.PI;
     context.beginPath();context.arc(32,32,24.2,start,start+Math.PI*.9);context.stroke();
   }
-  drawWheelAura(phase,phone);
+  drawWheelAura(effect?t*1000:phase,phone);
 }
 function startManagerDataFlow(){
   cancelAnimationFrame(managerDataFrame);managerDataFrame=0;
@@ -616,19 +618,29 @@ function clearJoinedWheelHold(){
   clearTimeout(joinedWheelHoldTimer);joinedWheelHoldTimer=0;
 }
 function resetJoinedWheelEffect(){
+  if(joinedWheelEffect?.spherePhase!==undefined&&!headingSphereMotion.matches)
+    sphereRotation=joinedWheelEffect.spherePhase-performance.now()*.00015;
   joinedWheelEffect=null;
+  clearCosmicDragonPointer();
+  if(cosmicDragon){
+    cosmicDragon.classList.remove('attacking');
+    cosmicDragon.removeAttribute('aria-busy');
+    cosmicDragon.dataset.state='sitting';
+    CosmicDragonRig.render(cosmicDragon,CosmicDragonRig.pose(0,performance.now()/1000,0,headingSphereMotion.matches));
+  }
   joinedBlastSprites?.forEach(sprite=>{sprite.width=sprite.height=1;});
   joinedBlastSprites=null;
   const canvas=headingSphere?.querySelector(':scope>canvas');
   if(canvas)canvas.width=canvas.height=1;
   headingSphere?.closest('.hero')?.classList.remove('joined-effect-host');
-  headingSphere?.classList.remove('joined-effect');
+  headingSphere?.classList.remove('joined-effect','joined-impact');
   headingSphere?.style.removeProperty('--joined-canvas-scale');
   navigationWheel.style.removeProperty('--joined-wheel-opacity');
   navigationWheel.style.removeProperty('--joined-wheel-spin');
 }
 function cancelJoinedWheelEffect(){
   clearJoinedWheelHold();
+  clearCosmicDragonPointer();
   if(!joinedWheelEffect)return;
   resetJoinedWheelEffect();
   startHeadingSphere();
@@ -638,47 +650,209 @@ function joinedWheelEffectFrame(time){
   const ease=value=>value*value*(3-2*value);
   if(headingSphereMotion.matches)return {phase:'calm',progress:0,charge:0,spin:0,meshScale:1,meshOpacity:1,wheelOpacity:1,canvasScale:2.2};
   const elapsed=Math.max(0,time-joinedWheelEffect.startedAt),seconds=elapsed/1000;
-  let phase,progress,charge,spin;
-  if(joinedWheelEffect.releasedAt!==undefined){
-    progress=Math.min(1,Math.max(0,(time-joinedWheelEffect.releasedAt)/1400));
-    if(progress===1)return {phase:'done',spin:joinedWheelEffect.releaseSpin+2};
-    phase='settling';charge=joinedWheelEffect.releaseCharge*(1-ease(progress));
-    spin=joinedWheelEffect.releaseSpin+2*(1-(1-progress)**2);
-  }else if(elapsed<JOINED_WHEEL_CHARGE_MS){
+  let phase,progress,charge;
+  if(elapsed<JOINED_WHEEL_CHARGE_MS){
     phase='charging';progress=elapsed/JOINED_WHEEL_CHARGE_MS;charge=progress;
-    spin=seconds*.65+seconds**3*1.8;
   }else{
-    const chargeSeconds=JOINED_WHEEL_CHARGE_MS/1000;
-    const chargeSpin=chargeSeconds*.65+chargeSeconds**3*1.8;
     charge=1;
     const afterCharge=elapsed-JOINED_WHEEL_CHARGE_MS;
-    if(afterCharge<JOINED_WHEEL_BURST_MS){
-      phase='burst';progress=afterCharge/JOINED_WHEEL_BURST_MS;
-      spin=chargeSpin+afterCharge*.009;
+    if(afterCharge<JOINED_WHEEL_IMPACT_MS){
+      phase='impact';progress=afterCharge/JOINED_WHEEL_IMPACT_MS;
+    }else if(afterCharge<JOINED_WHEEL_IMPACT_MS+JOINED_WHEEL_BURST_MS){
+      phase='burst';progress=(afterCharge-JOINED_WHEEL_IMPACT_MS)/JOINED_WHEEL_BURST_MS;
     }else{
-      phase='reforming';progress=(afterCharge-JOINED_WHEEL_BURST_MS)/JOINED_WHEEL_REFORM_MS;
-      if(progress>=1)return {phase:'done',spin:chargeSpin+JOINED_WHEEL_BURST_MS*.009+4};
-      spin=chargeSpin+JOINED_WHEEL_BURST_MS*.009+4*(1-(1-progress)**3);
+      phase='reforming';progress=(afterCharge-JOINED_WHEEL_IMPACT_MS-JOINED_WHEEL_BURST_MS)/JOINED_WHEEL_REFORM_MS;
+      if(progress>=1)return {phase:'done',spin:0};
     }
   }
   const reform=ease(progress);
-  return {phase,progress,charge,spin,
-    canvasScale:phase==='burst'||phase==='reforming'?8:2.2,
-    meshScale:phase==='burst'?.5*(1-progress):phase==='reforming'?.1+.9*reform:1-.5*charge*charge,
-    meshOpacity:phase==='burst'?.05*(1-progress)**4:phase==='reforming'?reform:1-.95*ease(charge),
-    wheelOpacity:phase==='burst'?0:phase==='reforming'?ease(Math.max(0,(progress-.15)/.85)):(1-charge)**2};
+  return {phase,progress,charge,spin:0,energy:seconds,
+    canvasScale:phase==='burst'||phase==='reforming'?8:joinedWheelEffect.dragon.canvasScale,
+    meshScale:phase==='burst'?.5*(1-progress):phase==='reforming'?.1+.9*reform:1,
+    meshOpacity:phase==='burst'?0:phase==='reforming'?reform:1,
+    wheelOpacity:phase==='burst'?0:phase==='reforming'?ease(Math.max(0,(progress-.15)/.85)):1};
 }
-function beginJoinedWheelHold(){
+function clearCosmicDragonPointer(){
+  const gesture=dragonGesture;dragonGesture=null;
+  if(gesture&&cosmicDragon?.hasPointerCapture(gesture.pointerId))cosmicDragon.releasePointerCapture(gesture.pointerId);
+}
+function startCosmicDragonAttack(){
+  if(!staffUnlocked()||!wheelDocked||joinedWheelEffect||wheelPointer!==null||sphereGesture
+    ||document.hidden||managerScrollPaused||!wheelSphereTarget())return;
+  if(!cosmicDragon?.querySelector('img').naturalWidth){
+    console.error('Cosmic dragon: artwork has not loaded');
+    if(cosmicDragon)cosmicDragon.title=lang==='zh'?'巨龍圖像未能載入，請重新載入頁面。':'Dragon artwork unavailable. Reload the page.';
+    return;
+  }
+  if(!headingSphereMotion.matches)prepareJoinedBlastSprites(phoneLayout.matches);
+  const sphere=headingSphere.getBoundingClientRect(),box=cosmicDragon.getBoundingClientRect(),unit=sphere.width/180;
+  joinedWheelEffect={startedAt:performance.now(),spherePhase:performance.now()*.00015+sphereRotation,dragon:{
+    x:(box.left+box.width/2-sphere.left)/unit,y:(box.top+box.height/2-sphere.top)/unit,
+    width:box.width/unit,height:box.height/unit
+  }};
+  const dragon=joinedWheelEffect.dragon;
+  dragon.canvasScale=Math.min(8,Math.max(2.2,...[0,.5,1,1.5,2].flatMap(stage=>{
+    const {mouth}=CosmicDragonRig.pose(stage);
+    return [(Math.abs(dragon.x+dragon.width*(mouth.x/800-.5)-90)+42)/90,
+      (Math.abs(dragon.y+dragon.height*(mouth.y/600-.5)-78)+42)/78];
+  })));
+  cosmicDragon.classList.add('attacking');cosmicDragon.setAttribute('aria-busy','true');
+  headingSphere.closest('.hero')?.classList.add('joined-effect-host');
+  headingSphere.classList.add('joined-effect');startHeadingSphere();
+}
+function beginCosmicDragonHold(){
   clearJoinedWheelHold();
   joinedWheelHoldTimer=setTimeout(()=>{
     joinedWheelHoldTimer=0;
-    if(!wheelDocked||!wheelMove||wheelMove.moved||wheelPointer===null||!staffUnlocked()||document.hidden)return;
-    wheelMove.held=true;
-    joinedWheelEffect={startedAt:performance.now()};
-    headingSphere.closest('.hero')?.classList.add('joined-effect-host');
-    headingSphere.classList.add('joined-effect');
-    startHeadingSphere();
+    if(!dragonGesture||dragonGesture.moved)return;
+    dragonGesture.held=true;startCosmicDragonAttack();
   },JOINED_WHEEL_HOLD_MS);
+}
+function cosmicDragonPose(frame){
+  const dragon=joinedWheelEffect?.dragon;
+  if(!dragon)return null;
+  const ease=value=>value*value*(3-2*value);
+  const progress=Math.max(0,Math.min(1,frame.progress));
+  const stage=frame.phase==='charging'?
+    (progress<.42?progress/.42:1+Math.min(1,(progress-.42)/.24)):
+    frame.phase==='reforming'?2*(1-ease(Math.min(1,progress/.9))):
+      frame.phase==='impact'||frame.phase==='burst'?2:0;
+  const fire=frame.phase==='charging'?ease(Math.max(0,Math.min(1,(progress-.68)/.14))):
+    frame.phase==='impact'?1:frame.phase==='burst'?Math.max(0,1-progress/.12):0;
+  const rig=CosmicDragonRig.pose(stage,joinedWheelEffect.startedAt/1000+(frame.energy||0),fire,frame.phase==='calm');
+  return {...dragon,dx:0,dy:0,scale:1,stage,rig,
+    mouthAngle:rig.mouthAngle,mouthX:dragon.x+dragon.width*(rig.mouth.x/800-.5),
+    mouthY:dragon.y+dragon.height*(rig.mouth.y/600-.5),
+    state:frame.phase==='reforming'?'settling':stage===0?'sitting':
+      stage<1?'rising':stage<2?'bracing':'attacking',
+    fire};
+}
+function updateCosmicDragon(frame){
+  if(!cosmicDragon||!frame)return;
+  const pose=cosmicDragonPose(frame);
+  if(!pose)return;
+  cosmicDragon.dataset.state=pose.state;
+  CosmicDragonRig.render(cosmicDragon,pose.rig);
+}
+function drawCosmicDragonFire(context,frame,phone){
+  const pose=cosmicDragonPose(frame);
+  if(!pose?.fire)return;
+  const {mouthX,mouthY}=pose;
+  const dx=90-mouthX,dy=78-mouthY,length=Math.hypot(dx,dy),angle=Math.atan2(dy,dx);
+  context.save();context.translate(mouthX,mouthY);context.rotate(angle);
+  const strength=pose.fire,front=frame.phase==='charging'?Math.min(1,(frame.progress-.68)/.32):1;
+  const lead=Math.min(36,length*.28),direction=pose.mouthAngle-angle;
+  const controlX=Math.cos(direction)*lead,controlY=Math.sin(direction)*lead;
+  const path=t=>{
+    const u=1-t;
+    return {x:3*u*u*t*controlX+3*u*t*t*length*.72+t*t*t*length,
+      y:3*u*u*t*controlY+3*u*t*t*controlY*.25,
+      angle:Math.atan2(3*u*u*controlY-4.5*u*t*controlY-.75*t*t*controlY,
+        3*u*u*controlX+6*u*t*(length*.72-controlX)+.84*t*t*length)};
+  };
+  const flow=(t,seed)=>Math.sin(t*9-frame.energy*3+seed)*t*9+
+    Math.sin(t*21-frame.energy*5+seed*.7)*t*4;
+  for(let puff=0;puff<(phone?7:12);puff++){
+    const t=(puff*.618+frame.energy*.7)%1;
+    if(t>front)continue;
+    const point=path(t),radius=(8+t*43)*strength,x=point.x,y=point.y+flow(t,puff)+Math.sin(puff*4)*t*22;
+    const smoke=context.createRadialGradient(x,y,0,x,y,radius);
+    smoke.addColorStop(0,`rgba(24,36,59,${strength*.18})`);
+    smoke.addColorStop(.55,`rgba(51,66,89,${strength*.08})`);smoke.addColorStop(1,'rgba(8,12,24,0)');
+    context.fillStyle=smoke;context.beginPath();context.arc(x,y,radius,0,Math.PI*2);context.fill();
+  }
+  context.globalCompositeOperation='screen';
+  const sprites=prepareJoinedBlastSprites(phone),puffs=phone?30:54;
+  if(sprites.length===4)for(let puff=0;puff<puffs;puff++){
+    const t=(puff/puffs+frame.energy*(.85+puff%3*.13))%1;
+    if(t>front)continue;
+    const radius=(5+t**.8*(24+puff%5*3))*strength;
+    const point=path(t),y=point.y+flow(t,puff*.7)+Math.sin(puff*2.39+frame.energy*.6)*t*25;
+    context.save();context.translate(point.x,y);context.rotate(point.angle+Math.sin(puff+frame.energy*.8)*.45);
+    context.globalAlpha=strength*Math.sin(Math.PI*t)**.6*.7*Math.min(1,(front-t)*12);
+    context.drawImage(sprites[puff%2],-radius*1.6,-radius,radius*3.2,radius*2);
+    if(puff%3===0){
+      context.globalCompositeOperation='lighter';context.globalAlpha*=.8;
+      context.drawImage(sprites[puff%2],-radius*.75,-radius*.48,radius*1.5,radius*.96);
+    }
+    context.restore();
+  }
+  context.globalCompositeOperation='lighter';context.lineCap='round';
+  const heat=context.createRadialGradient(0,0,0,0,0,13);
+  heat.addColorStop(0,`rgba(245,254,255,${strength*.95})`);
+  heat.addColorStop(.3,`rgba(143,235,255,${strength*.5})`);heat.addColorStop(1,'rgba(72,157,255,0)');
+  context.fillStyle=heat;context.fillRect(-13,-13,26,26);
+  for(let strand=0;strand<(phone?10:18);strand++){
+    const start=(strand*.618+frame.energy*1.2)%1,end=Math.min(front,start+.09+strand%4*.025);
+    if(start>=end)continue;
+    const colour=strand%3===0?'202,247,255':'99,184,255';
+    const first=path(start),last=path(end),wisp=context.createLinearGradient(first.x,first.y,last.x,last.y);
+    wisp.addColorStop(0,`rgba(${colour},0)`);wisp.addColorStop(.45,`rgba(${colour},${strength*.36})`);
+    wisp.addColorStop(1,`rgba(${colour},0)`);context.strokeStyle=wisp;
+    context.lineWidth=(.5+strand%4*.45)*strength;
+    context.beginPath();
+    for(let step=0;step<=12;step++){
+      const t=start+(end-start)*step/12;
+      const point=path(t),y=point.y+flow(t,strand*.8)+Math.sin(strand*2.39+frame.energy*.6)*t*18+
+        Math.sin(t*37-frame.energy*7+strand)*t*3;
+      if(step===0)context.moveTo(point.x,y);else context.lineTo(point.x,y);
+    }
+    context.stroke();
+  }
+  for(let ember=0;ember<(phone?32:64);ember++){
+    const t=(ember*.618+frame.energy*(1.4+ember%3*.2))%1;
+    if(t>front)continue;
+    const point=path(t),x=point.x,y=point.y+flow(t,ember)+Math.sin(ember*7+frame.energy*.8)*t*24;
+    context.strokeStyle=`rgba(${ember%9===0?'255,218,168':'182,242,255'},${strength*Math.sin(Math.PI*t)*.48})`;
+    context.lineWidth=.45;context.beginPath();context.moveTo(x,y);context.lineTo(x-1.5-t*2,y);context.stroke();
+  }
+  context.restore();
+}
+function createCosmicDragon(){
+  const button=document.createElement('button');button.type='button';button.className='cosmic-dragon';
+  button.dataset.state='sitting';
+  button.innerHTML=`<span class="cosmic-dragon-art" aria-hidden="true"><img src="${CosmicDragonRig.asset}" alt="" width="1536" height="1032" hidden>${CosmicDragonRig.markup()}</span>`;
+  CosmicDragonRig.render(button,CosmicDragonRig.pose(0,performance.now()/1000,0,headingSphereMotion.matches));
+  button.addEventListener('pointerdown',event=>{
+    if(event.button!==0||!event.isPrimary||dragonGesture||joinedWheelEffect||!wheelDocked||wheelPointer!==null||sphereGesture)return;
+    event.preventDefault();event.stopPropagation();
+    dragonGesture={pointerId:event.pointerId,x:event.clientX,y:event.clientY,moved:false,held:false};
+    button.setPointerCapture(event.pointerId);beginCosmicDragonHold();
+  });
+  button.addEventListener('pointermove',event=>{
+    if(event.pointerId!==dragonGesture?.pointerId||dragonGesture.held)return;
+    if(Math.hypot(event.clientX-dragonGesture.x,event.clientY-dragonGesture.y)>12){
+      dragonGesture.moved=true;clearJoinedWheelHold();
+    }
+  });
+  button.addEventListener('pointerup',event=>{
+    if(event.pointerId!==dragonGesture?.pointerId)return;
+    clearJoinedWheelHold();clearCosmicDragonPointer();
+    if(headingSphereMotion.matches)cancelJoinedWheelEffect();
+  });
+  for(const name of ['pointercancel','lostpointercapture'])button.addEventListener(name,event=>{
+    if(event.pointerId===dragonGesture?.pointerId)cancelJoinedWheelEffect();
+  });
+  button.addEventListener('contextmenu',event=>event.preventDefault());
+  button.addEventListener('click',event=>{
+    event.preventDefault();
+    if(event.detail!==0)return;
+    startCosmicDragonAttack();
+    if(headingSphereMotion.matches&&joinedWheelEffect)
+      joinedWheelHoldTimer=setTimeout(cancelJoinedWheelEffect,1200);
+  });
+  button.addEventListener('keydown',event=>{
+    if(event.key==='Escape'){event.preventDefault();cancelJoinedWheelEffect();}
+  });
+  button.querySelector('img').addEventListener('error',()=>{
+    console.error(`Cosmic dragon: ${CosmicDragonRig.asset} could not be loaded`);
+    button.classList.add('artwork-error');
+    button.querySelector('.cosmic-dragon-art').hidden=true;
+    const message=document.createElement('span');message.textContent=lang==='zh'?'巨龍圖像未能載入':'Dragon artwork unavailable';
+    button.appendChild(message);
+    button.disabled=true;
+  });
+  return button;
 }
 function prepareJoinedBlastSprites(phone){
   if(joinedBlastSprites)return joinedBlastSprites;
@@ -733,17 +907,17 @@ function drawJoinedBlastCloud(context,frame,phone){
   context.fillStyle=shadow;context.fillRect(90-320*expansion,78-320*expansion,640*expansion,640*expansion);
   context.globalCompositeOperation='screen';
   if(sprites.length===4)for(let puff=0;puff<puffs;puff++){
-    const angle=puff*2.39996+(burst?progress*.18:.18-progress*.65);
+    const angle=puff*2.39996;
     const distance=(35+(puff*37%185))*expansion;
     const radius=(64+puff%5*21)*(.25+expansion*.85);
     context.save();context.translate(90+Math.cos(angle)*distance,78+Math.sin(angle)*distance*.87);
-    context.rotate(angle+(burst?progress*.25:.25+progress*.3));context.globalAlpha=fade*(puff%3===0?.85:.65);
+    context.rotate(angle);context.globalAlpha=fade*(puff%3===0?.85:.65);
     context.drawImage(sprites[puff%4],-radius,-radius*.76,radius*2,radius*1.52);
     context.restore();
   }
   const steps=phone?256:512;
   for(let shell=0;shell<(phone?2:3);shell++){
-    const radius=(120+shell*65)*expansion,turn=burst?progress*.12:.12+progress*.4;
+    const radius=(120+shell*65)*expansion,turn=0;
     for(let segment=0;segment<steps;segment+=8){
       context.beginPath();
       for(let point=segment;point<=segment+8;point++){
@@ -777,7 +951,7 @@ function drawJoinedBlastCloud(context,frame,phone){
   context.restore();
   const dustCount=phone?680:1800;
   for(let index=0;index<dustCount;index++){
-    const depth=(index*73%977)/977,angle=index*2.399963+(burst?progress*.08:.08+reform*.8);
+    const depth=(index*73%977)/977,angle=index*2.399963;
     const distance=(18+Math.sqrt(depth)*460)*expansion;
     const x=90+Math.cos(angle)*distance,y=78+Math.sin(angle)*distance*.9;
     const size=.6+(index*17%19)/19*1.15;
@@ -785,67 +959,105 @@ function drawJoinedBlastCloud(context,frame,phone){
     context.fillRect(x,y,size,size);
   }
 }
-function releaseJoinedWheelEffect(){
-  const now=performance.now(),frame=joinedWheelEffectFrame(now);
-  if(!frame)return;
-  if(frame.phase==='calm'){cancelJoinedWheelEffect();return;}
-  if(frame.phase==='charging'){
-    joinedWheelEffect.releasedAt=now;
-    joinedWheelEffect.releaseCharge=frame.charge;
-    joinedWheelEffect.releaseSpin=frame.spin;
+function drawDragonWheelImpact(context,frame,phone){
+  const pose=cosmicDragonPose(frame),progress=frame.progress;
+  const angle=Math.atan2(78-pose.mouthY,90-pose.mouthX);
+  const pressure=.4+.6*progress*progress*(3-2*progress);
+  context.save();context.translate(90,78);context.rotate(angle);
+  context.globalCompositeOperation='screen';
+  const sprites=prepareJoinedBlastSprites(phone);
+  if(sprites.length===4)for(let puff=0;puff<(phone?10:18);puff++){
+    const theta=puff*2.399963,radius=24+puff%4*10+Math.sin(frame.energy*3+puff)*3;
+    const size=18+puff%3*8;
+    context.save();context.translate(Math.cos(theta)*radius*.42-7,Math.sin(theta)*radius);
+    context.rotate(theta);context.globalAlpha=pressure*.6;
+    context.drawImage(sprites[puff%4],-size,-size,size*2,size*2);context.restore();
   }
+  context.globalCompositeOperation='lighter';
+  for(let ring=0;ring<3;ring++){
+    const age=(progress*1.1+ring*.27)%1,radius=20+age*58;
+    context.strokeStyle=`rgba(${ring%2?'187,132,255':'154,238,255'},${pressure*Math.sin(Math.PI*age)*.55})`;
+    context.lineWidth=.6+(1-age)*1.1;context.beginPath();
+    context.ellipse(-4,0,radius*.38,radius,0,0,Math.PI*2);context.stroke();
+  }
+  for(let spark=0;spark<(phone?28:56);spark++){
+    const age=(progress*1.7+spark*.618)%1,theta=spark*2.399963;
+    const distance=18+age*(42+spark%4*9),x=Math.cos(theta)*distance*.65,y=Math.sin(theta)*distance;
+    context.strokeStyle=`rgba(${spark%7===0?'255,225,182':'178,237,255'},${pressure*Math.sin(Math.PI*age)*.8})`;
+    context.lineWidth=spark%4===0?.8:.4;context.beginPath();
+    context.moveTo(Math.cos(theta)*12,Math.sin(theta)*18);
+    context.quadraticCurveTo(x*.55-8*age,y*.5+Math.sin(frame.energy*9+spark)*3,x,y);context.stroke();
+  }
+  const radius=38+progress*25;
+  context.save();context.scale(.55,1);
+  const core=context.createRadialGradient(0,0,0,0,0,radius);
+  core.addColorStop(0,`rgba(255,255,255,${pressure*.95})`);
+  core.addColorStop(.15,`rgba(223,251,255,${pressure*.9})`);
+  core.addColorStop(.4,`rgba(99,212,255,${pressure*.5})`);
+  core.addColorStop(.7,`rgba(154,103,255,${pressure*.16})`);
+  core.addColorStop(1,'rgba(91,151,255,0)');
+  context.fillStyle=core;context.fillRect(-radius,-radius,radius*2,radius*2);
+  context.restore();context.restore();
 }
 function drawJoinedWheelEffect(context,frame,phone){
-  const {phase,progress,charge,spin}=frame;
-  const calm=phase==='calm',vortex=phase==='charging'||phase==='settling';
-  const intensity=calm?.22:vortex?charge:phase==='burst'?(1-progress)**2:(1-progress)*.5;
-  const radius=calm?55:vortex?24+charge*25:phase==='burst'?35+progress*48:30+(1-progress)*30;
+  const {phase,progress,charge}=frame;
+  const calm=phase==='calm',charging=phase==='charging';
   context.save();context.globalCompositeOperation='lighter';
-  if(!calm&&!vortex)drawJoinedBlastCloud(context,frame,phone);
-  const bloom=context.createRadialGradient(90,78,0,90,78,radius);
-  bloom.addColorStop(0,`rgba(238,251,255,${intensity*.65})`);
-  bloom.addColorStop(.25,`rgba(123,218,255,${intensity*.35})`);
-  bloom.addColorStop(.65,`rgba(142,94,255,${intensity*.2})`);
-  bloom.addColorStop(1,'rgba(39,201,255,0)');
-  context.fillStyle=bloom;context.fillRect(90-radius,78-radius,radius*2,radius*2);
-  if(!calm){
-    const count=phone?64:160;
-    const reform=progress*progress*(3-2*progress);
-    const burstSpin=phase==='reforming'?spin-4*(1-(1-progress)**3):0;
-    for(let index=0;index<count;index++){
-      const seed=index*2.399963,depth=.3+.7*((index*37%101)/100);
-      let angle,distance,trail,alpha;
-      if(vortex){
-        const radial=(Math.floor(index/2)+.5)/Math.ceil(count/2);
-        distance=8+Math.sqrt(radial)*90*(1-charge*.42);
-        angle=index%2*Math.PI+spin+Math.log(distance/90+.12)*4;
-        trail=.08+charge*.4;alpha=charge*.85;
-      }else if(phase==='burst'){
-        distance=14+depth*270*(1-(1-progress)**3);
-        angle=seed+spin*.045;trail=(3+((index*29%101)/100)**3*110)*progress;alpha=(1-progress*.5)*.55;
-      }else{
-        distance=(14+depth*270)*(1-reform)+(18+depth*43)*reform;
-        angle=seed+burstSpin*.045+(spin-burstSpin)*.12+reform*3;
-        trail=(3+((index*29%101)/100)**3*110)*(1-reform);alpha=(1-progress**3)*.275;
-      }
-      const x=90+Math.cos(angle)*distance,y=78+Math.sin(angle)*distance;
-      const burstHue=index%19===0?38:190+index%4*9,targetHue=(index*43+35)%360;
-      const hue=vortex?targetHue:phase==='burst'?burstHue:burstHue+((targetHue-burstHue+540)%360-180)*reform;
-      const colourReturn=phase==='burst'?0:phase==='reforming'?reform:1;
-      context.strokeStyle=`hsla(${hue},95%,${84-17*colourReturn}%,${alpha})`;
-      context.lineWidth=(.24+(index%7)*.07)*(1-colourReturn)+(phone?.7:1)*colourReturn;
-      context.beginPath();
-      if(phase==='burst')context.moveTo(90+Math.cos(angle)*(distance-trail),78+Math.sin(angle)*(distance-trail));
-      else if(phase==='reforming')context.moveTo(90+Math.cos(angle-reform*.35)*(distance-trail),78+Math.sin(angle-reform*.35)*(distance-trail));
-      else context.moveTo(90+Math.cos(angle-trail)*distance*.96,78+Math.sin(angle-trail)*distance*.96);
-      context.lineTo(x,y);context.stroke();
-      context.fillStyle=`rgba(255,245,219,${alpha*.8})`;
-      context.beginPath();context.arc(x,y,index%7===0?.6:.25,0,Math.PI*2);context.fill();
+  if(calm||charging){
+    const heat=calm?.22:Math.max(0,(charge-.96)/.04)*.35,radius=calm?55:18+heat*32;
+    const glow=context.createRadialGradient(90,78,0,90,78,radius);
+    glow.addColorStop(0,`rgba(240,253,255,${heat*.8})`);
+    glow.addColorStop(.25,`rgba(105,219,255,${heat*.5})`);
+    glow.addColorStop(1,'rgba(55,143,255,0)');
+    context.fillStyle=glow;context.fillRect(90-radius,78-radius,radius*2,radius*2);
+    context.restore();return;
+  }
+  if(phase==='impact'){
+    drawDragonWheelImpact(context,frame,phone);context.restore();return;
+  }
+  drawJoinedBlastCloud(context,frame,phone);
+  const burst=phase==='burst',reform=progress*progress*(3-2*progress);
+  const expansion=burst?1-(1-progress)**3:1-reform;
+  if(burst){
+    const flash=Math.exp(-progress*9),radius=45+100*(1-flash);
+    const glow=context.createRadialGradient(90,78,0,90,78,radius);
+    glow.addColorStop(0,`rgba(255,255,246,${flash})`);
+    glow.addColorStop(.15,`rgba(241,250,255,${flash*.95})`);
+    glow.addColorStop(.45,`rgba(255,204,137,${flash*.65})`);
+    glow.addColorStop(1,'rgba(93,187,255,0)');
+    context.fillStyle=glow;context.fillRect(90-radius,78-radius,radius*2,radius*2);
+    for(let shell=0;shell<2;shell++){
+      const radius=30+(340-shell*45)*expansion;
+      context.strokeStyle=`rgba(${shell?'123,219,255':'255,227,180'},${.65*(1-progress)**3})`;
+      context.lineWidth=(shell?1:3)*(1-progress)+.25;
+      context.beginPath();context.ellipse(90,78,radius,radius*(shell?.72:.9),0,0,Math.PI*2);context.stroke();
     }
+    for(let shard=0;shard<(phone?12:24);shard++){
+      const angle=shard*2.39996,radius=62+(160+shard*23%120)*expansion;
+      const x=90+Math.cos(angle)*radius,y=78+Math.sin(angle)*radius,size=(4+shard%4*2)*(1-progress);
+      context.save();context.translate(x,y);context.rotate(angle);
+      context.strokeStyle=`rgba(${shard%3?'128,235,255':'255,221,167'},${(1-progress)**1.5*.85})`;
+      context.lineWidth=.8;context.beginPath();context.moveTo(size,0);
+      context.lineTo(-size*.6,-size*.5);context.lineTo(-size*.25,size*.6);context.closePath();context.stroke();
+      context.restore();
+    }
+  }
+  for(let index=0;index<(phone?64:160);index++){
+    const angle=index*2.399963,depth=.3+.7*((index*37%101)/100);
+    const distance=burst?14+depth*360*expansion:(14+depth*360)*(1-reform)+(18+depth*43)*reform;
+    const trail=(5+((index*29%101)/100)**3*145)*(burst?progress:1-reform);
+    const alpha=burst?(1-progress*.65)*.7:(1-progress**3)*.245;
+    const hue=index%9===0?36:190+index%4*9;
+    context.strokeStyle=`hsla(${hue},95%,84%,${alpha})`;
+    context.lineWidth=.24+(index%7)*.07;
+    context.beginPath();context.moveTo(90+Math.cos(angle)*(distance-trail),78+Math.sin(angle)*(distance-trail));
+    context.lineTo(90+Math.cos(angle)*distance,78+Math.sin(angle)*distance);context.stroke();
+    context.fillStyle=`rgba(255,245,219,${alpha*.8})`;
+    context.beginPath();context.arc(90+Math.cos(angle)*distance,78+Math.sin(angle)*distance,index%7===0?.6:.25,0,Math.PI*2);context.fill();
   }
   context.restore();
 }
-function wheelLabel(){return lang==='zh'?'合併時捲動及分類切換停用；輕按中央可分離，長按可啟動旋渦、爆散及重組特效。分離後，轉動導覽輪以捲動本頁，轉動球體以切換主要分類。按 D 鍵可收起或取出。':'Scrolling and category selection are inactive while joined. Tap the centre to separate; hold for an accelerating vortex, burst and re-formation. Then turn the wheel to scroll this page or the sphere to switch main categories. Press D to dock/undock.';}
+function wheelLabel(){return lang==='zh'?'合併時捲動及分類切換停用；輕按中央可分離，長按旁邊的宇宙巨龍可啟動龍焰及爆散重組特效。分離後，轉動導覽輪以捲動本頁，轉動球體以切換主要分類。按 D 鍵可收起或取出。':'Scrolling and category selection are inactive while joined. Tap the centre to separate; hold the cosmic dragon beside it for dragon fire, burst and re-formation. Then turn the wheel to scroll this page or the sphere to switch main categories. Press D to dock/undock.';}
 function wheelViewportPosition(x,y,size){
   const view=window.visualViewport;
   const left=(view?.offsetLeft||0)+8;
@@ -876,8 +1088,8 @@ function syncNavigationWheelDock(){
   navigationWheel.hidden=!unlocked||(wheelDocked&&!target);
   navigationWheel.setAttribute('aria-label',wheelLabel());navigationWheel.title=wheelLabel();
   const core=navigationWheel.querySelector('.wheel-core');
-  core.setAttribute('aria-label',lang==='zh'?(wheelDocked?'輕按中央以分離導覽輪；長按啟動旋渦爆散及重組特效；球體留在標題':'拖曳以移動導覽輪；按下可收起至球體'):
-    (wheelDocked?'Tap centre to separate the wheel; hold for vortex, burst and re-formation; sphere stays at heading':'Drag to move wheel; activate to dock into sphere'));
+  core.setAttribute('aria-label',lang==='zh'?(wheelDocked?'輕按中央以分離導覽輪；長按旁邊的宇宙巨龍可啟動龍焰特效；球體留在標題':'拖曳以移動導覽輪；按下可收起至球體'):
+    (wheelDocked?'Tap centre to separate the wheel; hold the cosmic dragon beside it for dragon fire; sphere stays at heading':'Drag to move wheel; activate to dock into sphere'));
   core.setAttribute('aria-pressed',String(wheelDocked));
   core.title=core.getAttribute('aria-label');
   if(wheelDocked&&sphere){
@@ -893,6 +1105,13 @@ function syncNavigationWheelDock(){
   navigationWheel.style.right=wheelDocked||wheelPosition?'auto':'';
   navigationWheel.style.bottom=wheelDocked||wheelPosition?'auto':'';
   updateSphereLabels();
+  if(cosmicDragon){
+    cosmicDragon.hidden=!unlocked;
+    cosmicDragon.disabled=!wheelDocked||cosmicDragon.classList.contains('artwork-error');
+    cosmicDragon.setAttribute('aria-label',lang==='zh'?(wheelDocked?'長按宇宙巨龍：讓坐著的巨龍站起怒吼、噴出龍焰並觸發導覽輪爆散及重組，再恢復坐姿。亦可按 Enter 或空白鍵啟動。':'先合併導覽輪與球體，才可啟動宇宙巨龍。'):
+      (wheelDocked?'Hold cosmic dragon to stand from sitting, roar and breathe fire into the wheel, then sit again as it reforms. Enter or Space also activates.':'Join the wheel and sphere to activate the cosmic dragon.'));
+    cosmicDragon.title=cosmicDragon.getAttribute('aria-label');
+  }
 }
 function setNavigationWheelDocked(docked){
   cancelJoinedWheelEffect();
@@ -1098,9 +1317,8 @@ navigationWheel.addEventListener('pointerdown',event=>{
   if(event.target.closest('.wheel-core')){
     wheelMove={x:event.clientX,y:event.clientY,docked:wheelDocked,position:wheelPosition,
       offsetX:(event.clientX-wheelBounds.left)/wheelBounds.width,
-      offsetY:(event.clientY-wheelBounds.top)/wheelBounds.height,moved:false};
+      offsetY:(event.clientY-wheelBounds.top)/wheelBounds.height,moved:false,pressedAt:performance.now()};
     if(!wheelDocked)navigationWheel.classList.add('moving');
-    else beginJoinedWheelHold();
   }
   navigationWheel.setPointerCapture(event.pointerId);
   if(!wheelMove)navigationWheel.classList.add('turning');
@@ -1136,16 +1354,13 @@ function releaseNavigationWheel(event){
   wheelPointer=null;wheelAngle=null;wheelBounds=null;navigationWheel.classList.remove('turning');
   navigationWheel.classList.remove('moving');
   if(move){
-    if(move.held){
-      wheelPosition=move.position;wheelDocked=move.docked;
-      if(event?.type==='pointerup')releaseJoinedWheelEffect();else cancelJoinedWheelEffect();
-      syncNavigationWheelDock();
-    }else{
-      if(event?.type!=='pointerup'){wheelPosition=move.position;wheelDocked=move.docked;}
-      else if(!move.moved){wheelPosition=move.position;wheelDocked=!move.docked;}
-      else if(drop){wheelPosition=move.position;wheelDocked=true;}
-      setNavigationWheelDocked(wheelDocked);
+    if(event?.type!=='pointerup'){wheelPosition=move.position;wheelDocked=move.docked;}
+    else if(!move.moved){
+      wheelPosition=move.position;
+      wheelDocked=move.docked&&performance.now()-move.pressedAt>=JOINED_WHEEL_HOLD_MS?true:!move.docked;
     }
+    else if(drop){wheelPosition=move.position;wheelDocked=true;}
+    setNavigationWheelDocked(wheelDocked);
   }
   if(pointer!==null&&navigationWheel.hasPointerCapture(pointer))navigationWheel.releasePointerCapture(pointer);
   if(event?.type==='pointercancel'||(pointer!==null&&event?.type==='lostpointercapture'))stopNavigationWheelScroll();
@@ -1994,6 +2209,7 @@ function startHeadingSphere(){
   if(canvas&&(!staffUnlocked()||document.hidden))canvas.width=canvas.height=1;
   if(!canvas||!staffUnlocked()||document.hidden||(managerEffectsObserver&&!spherePosition&&!hero?.classList.contains('manager-effect-visible'))){
     clearJoinedWheelHold();
+    clearCosmicDragonPointer();
     if(joinedWheelEffect)resetJoinedWheelEffect();
     return;
   }
@@ -2009,8 +2225,7 @@ function startHeadingSphere(){
     canvas.replaceWith(replacement);canvas=replacement;context=replacementContext;
   }
   const size=180,ratio=phone?1:Math.min(window.devicePixelRatio||1,3);
-  const effectSize=Math.round(Math.min(phone?1024:2048,Math.max(size*ratio,
-    headingSphere.getBoundingClientRect().width*8*Math.min(window.devicePixelRatio||1,2))));
+  const cssSize=headingSphere.getBoundingClientRect().width,effectRatio=Math.min(window.devicePixelRatio||1,2);
   const pointCount=phone?64:128;
   const points=Array.from({length:pointCount},(_,index)=>{
     const y=1-2*(index+.5)/pointCount,r=Math.sqrt(1-y*y),angle=index*Math.PI*(3-Math.sqrt(5));
@@ -2027,24 +2242,30 @@ function startHeadingSphere(){
       clearJoinedWheelHold();resetJoinedWheelEffect();headingSphereFrame=0;return;
     }
     if(phone&&managerScrollPaused){headingSphereFrame=0;return;}
-    const frameRate=phone?12:joinedWheelEffect?30:0;
-    if(frameRate&&!headingSphereMotion.matches&&time-paintedAt<1000/frameRate){
-      headingSphereFrame=requestAnimationFrame(draw);return;
-    }
-    paintedAt=time;
     let effect=joinedWheelEffectFrame(time);
     if(effect?.phase==='done'){
       sphereRotation+=effect.spin;resetJoinedWheelEffect();effect=null;
     }
-    const backing=effect&&!headingSphereMotion.matches?effectSize:Math.round(size*ratio);
-    if(canvas.width!==backing||canvas.height!==backing)canvas.width=canvas.height=backing;
-    context.setTransform(backing/size,0,0,backing/size,0,0);
     if(effect){
+      updateCosmicDragon(effect);
+      headingSphere.classList.toggle('joined-impact',effect.phase==='impact');
       navigationWheel.style.setProperty('--joined-wheel-opacity',String(effect.wheelOpacity));
       navigationWheel.style.setProperty('--joined-wheel-spin',`${effect.spin}rad`);
       headingSphere.style.setProperty('--joined-canvas-scale',String(effect.canvasScale));
     }
-    const elapsed=(headingSphereMotion.matches?0:time*.00015)+sphereRotation+(effect?.spin||0);
+    const frameRate=effect?30:(phone?12:0),interval=1000/frameRate,delta=time-paintedAt;
+    if(frameRate&&!headingSphereMotion.matches&&delta<interval-.5){
+      headingSphereFrame=requestAnimationFrame(draw);return;
+    }
+    paintedAt=effect&&Number.isFinite(paintedAt)&&delta>=interval?time-delta%interval:time;
+    if(!effect&&cosmicDragon&&!cosmicDragon.hidden)
+      CosmicDragonRig.render(cosmicDragon,CosmicDragonRig.pose(0,time/1000,0,headingSphereMotion.matches));
+    const backing=effect&&!headingSphereMotion.matches?
+      Math.round(Math.min(phone?1024:2048,Math.max(size*ratio,cssSize*effect.canvasScale*effectRatio))):
+      Math.round(size*ratio);
+    if(canvas.width!==backing||canvas.height!==backing)canvas.width=canvas.height=backing;
+    context.setTransform(backing/size,0,0,backing/size,0,0);
+    const elapsed=effect?(joinedWheelEffect.spherePhase??sphereRotation):(headingSphereMotion.matches?0:time*.00015)+sphereRotation;
     const sine=Math.sin(elapsed),cosine=Math.cos(elapsed);
     function project(point){
       const x=point.x*cosine+point.z*sine;
@@ -2059,63 +2280,66 @@ function startHeadingSphere(){
       context.translate(90,78);context.scale(1/effect.canvasScale,1/effect.canvasScale);context.translate(-90,-78);
       context.globalAlpha=effect.meshOpacity;
     }
-    const glow=context.createRadialGradient(78,66,8,90,78,79);
-    glow.addColorStop(0,'rgba(10,18,57,.7)');
-    glow.addColorStop(.65,'rgba(73,83,194,.12)');
-    glow.addColorStop(.83,'rgba(34,220,255,.2)');
-    glow.addColorStop(.9,'rgba(233,98,255,.15)');
-    glow.addColorStop(1,'rgba(0,173,255,0)');
-    context.fillStyle=glow;context.fillRect(0,0,size,size);
-    edges.forEach(([i,j],index)=>{
-      const a=projected[i],b=projected[j];
-      const depth=((a.z+b.z)/2+1)/2;
-      const current=.5+.5*Math.sin(elapsed*3+index*.17);
-      context.strokeStyle=`rgba(${index%3?'61,222,255':'235,116,255'},${.08+depth*.45+current*.18})`;
-      context.lineWidth=.35+depth*.4;
-      context.beginPath();context.moveTo(a.x,a.y);context.lineTo(b.x,b.y);context.stroke();
-    });
-    // Fine orbiting strands carry light around, rather than flattening the sphere.
-    const steps=phone?32:80;
-    for(let strand=0;strand<(phone?2:4);strand++){
-      const tilt=.4+strand*.75,radius=1.04+strand*.035;
-      let previous=null;
-      for(let step=0;step<=steps;step++){
-        const theta=step/steps*Math.PI*2+elapsed*(strand%2?-.7:.7);
-        const point=project({x:Math.cos(theta)*radius,y:Math.sin(theta)*Math.cos(tilt)*radius,z:Math.sin(theta)*Math.sin(tilt)*radius});
-        if(previous){
-          const light=(.5+.5*Math.sin(step*.12-elapsed*4+strand))**4;
-          context.strokeStyle=`rgba(${strand%2?'255,135,234':'136,245,255'},${(.1+light*.65)*(.6+(point.z+1)*.2)})`;
-          context.lineWidth=.4+light*.5;
-          context.beginPath();context.moveTo(previous.x,previous.y);context.lineTo(point.x,point.y);context.stroke();
+    if(!effect||effect.meshOpacity>0){
+      const glow=context.createRadialGradient(78,66,8,90,78,79);
+      glow.addColorStop(0,'rgba(10,18,57,.7)');
+      glow.addColorStop(.65,'rgba(73,83,194,.12)');
+      glow.addColorStop(.83,'rgba(34,220,255,.2)');
+      glow.addColorStop(.9,'rgba(233,98,255,.15)');
+      glow.addColorStop(1,'rgba(0,173,255,0)');
+      context.fillStyle=glow;context.fillRect(0,0,size,size);
+      edges.forEach(([i,j],index)=>{
+        const a=projected[i],b=projected[j];
+        const depth=((a.z+b.z)/2+1)/2;
+        const current=.5+.5*Math.sin(elapsed*3+index*.17);
+        context.strokeStyle=`rgba(${index%3?'61,222,255':'235,116,255'},${.08+depth*.45+current*.18})`;
+        context.lineWidth=.35+depth*.4;
+        context.beginPath();context.moveTo(a.x,a.y);context.lineTo(b.x,b.y);context.stroke();
+      });
+      // Fine orbiting strands carry light around, rather than flattening the sphere.
+      const steps=phone?32:80;
+      for(let strand=0;strand<(phone?2:4);strand++){
+        const tilt=.4+strand*.75,radius=1.04+strand*.035;
+        let previous=null;
+        for(let step=0;step<=steps;step++){
+          const theta=step/steps*Math.PI*2+elapsed*(strand%2?-.7:.7);
+          const point=project({x:Math.cos(theta)*radius,y:Math.sin(theta)*Math.cos(tilt)*radius,z:Math.sin(theta)*Math.sin(tilt)*radius});
+          if(previous){
+            const light=(.5+.5*Math.sin(step*.12-elapsed*4+strand))**4;
+            context.strokeStyle=`rgba(${strand%2?'255,135,234':'136,245,255'},${(.1+light*.65)*(.6+(point.z+1)*.2)})`;
+            context.lineWidth=.4+light*.5;
+            context.beginPath();context.moveTo(previous.x,previous.y);context.lineTo(point.x,point.y);context.stroke();
+          }
+          previous=point;
         }
-        previous=point;
       }
-    }
-    projected.slice().sort((a,b)=>a.z-b.z).forEach((point,index)=>{
-      context.fillStyle=`rgba(${index%4?'164,248,255':'255,178,239'},${.35+(point.z+1)*.3})`;
-      context.beginPath();context.arc(point.x,point.y,.45+(point.z+1)*.35,0,Math.PI*2);context.fill();
-    });
-    for(let spark=0;spark<(phone?6:16);spark++){
-      const [i,j]=edges[(spark*23)%edges.length],a=projected[i],b=projected[j];
-      const travel=(elapsed*.8+spark*.37)%1;
-      const x=a.x+(b.x-a.x)*travel,y=a.y+(b.y-a.y)*travel;
-      const alpha=.3+((a.z+b.z)/2+1)*.25;
-      context.fillStyle=`rgba(${spark%2?'255,115,223':'49,231,255'},${alpha*.25})`;
-      context.beginPath();context.arc(x,y,3,0,Math.PI*2);context.fill();
-      context.fillStyle=`rgba(235,255,255,${alpha})`;
-      context.beginPath();context.arc(x,y,.9,0,Math.PI*2);context.fill();
-    }
-    context.lineWidth=.65;
-    for(const radius of [26,38,50]){
-      context.strokeStyle=radius===38?'rgba(234,134,255,.65)':'rgba(98,239,255,.65)';
-      context.beginPath();context.ellipse(90,160,radius,radius*.19,0,0,Math.PI*2);context.stroke();
-      const phase=elapsed*2+radius;
-      context.fillStyle='rgba(223,255,255,.95)';
-      context.beginPath();context.arc(90+Math.cos(phase)*radius,160+Math.sin(phase)*radius*.19,1,0,Math.PI*2);context.fill();
+      projected.slice().sort((a,b)=>a.z-b.z).forEach((point,index)=>{
+        context.fillStyle=`rgba(${index%4?'164,248,255':'255,178,239'},${.35+(point.z+1)*.3})`;
+        context.beginPath();context.arc(point.x,point.y,.45+(point.z+1)*.35,0,Math.PI*2);context.fill();
+      });
+      for(let spark=0;spark<(phone?6:16);spark++){
+        const [i,j]=edges[(spark*23)%edges.length],a=projected[i],b=projected[j];
+        const travel=(elapsed*.8+spark*.37)%1;
+        const x=a.x+(b.x-a.x)*travel,y=a.y+(b.y-a.y)*travel;
+        const alpha=.3+((a.z+b.z)/2+1)*.25;
+        context.fillStyle=`rgba(${spark%2?'255,115,223':'49,231,255'},${alpha*.25})`;
+        context.beginPath();context.arc(x,y,3,0,Math.PI*2);context.fill();
+        context.fillStyle=`rgba(235,255,255,${alpha})`;
+        context.beginPath();context.arc(x,y,.9,0,Math.PI*2);context.fill();
+      }
+      context.lineWidth=.65;
+      for(const radius of [26,38,50]){
+        context.strokeStyle=radius===38?'rgba(234,134,255,.65)':'rgba(98,239,255,.65)';
+        context.beginPath();context.ellipse(90,160,radius,radius*.19,0,0,Math.PI*2);context.stroke();
+        const phase=elapsed*2+radius;
+        context.fillStyle='rgba(223,255,255,.95)';
+        context.beginPath();context.arc(90+Math.cos(phase)*radius,160+Math.sin(phase)*radius*.19,1,0,Math.PI*2);context.fill();
+      }
     }
     if(effect){
       context.globalAlpha=1;
       drawJoinedWheelEffect(context,effect,phone);
+      drawCosmicDragonFire(context,effect,phone);
     }
     context.restore();
     if(!headingSphereMotion.matches)headingSphereFrame=requestAnimationFrame(draw);
@@ -2138,6 +2362,8 @@ function bind(){
     hero.appendChild(copy);
     if(!headingSphere)headingSphere=createHeadingSphere();
     syncSpherePlacement();
+    if(!cosmicDragon)cosmicDragon=createCosmicDragon();
+    hero.classList.add('has-cosmic-dragon');copy.appendChild(cosmicDragon);
   }
   syncNavigationWheelDock();
   observeManagerEffects();
