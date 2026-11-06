@@ -2317,12 +2317,12 @@ html.manager-mode:lang(en) .hero h2{font-style:oblique 8deg}
 .cosmic-dragon::before,.cosmic-dragon::after{content:"";position:absolute;pointer-events:none}
 .cosmic-dragon::before{
   inset:10% 6% 8%;
-  background:radial-gradient(ellipse,rgba(148,103,255,.15),rgba(60,225,255,.05) 36%,transparent 66%);
+  background:radial-gradient(ellipse,rgba(92,133,196,.09),rgba(60,225,255,.025) 36%,transparent 66%);
 }
 .cosmic-dragon::after{
   left:17%;width:66%;height:8.333333%;bottom:0;border-radius:50%;
-  border:1px solid rgba(118,208,255,.18);
-  background:radial-gradient(ellipse,rgba(131,115,255,.22),rgba(70,220,255,.08) 45%,transparent 72%);
+  border:1px solid rgba(118,208,255,.12);
+  background:radial-gradient(ellipse,rgba(4,10,22,.52),rgba(35,61,96,.19) 45%,transparent 72%);
 }
 .cosmic-dragon-art{display:block;position:relative;z-index:1;width:100%;height:100%;pointer-events:none}
 .cosmic-dragon-art[hidden]{display:none}

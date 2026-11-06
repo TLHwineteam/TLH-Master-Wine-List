@@ -11,6 +11,7 @@ let cosmicDragon=null,dragonGesture=null;
 const JOINED_WHEEL_HOLD_MS=450,JOINED_WHEEL_CHARGE_MS=3600;
 const JOINED_WHEEL_IMPACT_MS=700;
 const JOINED_WHEEL_BURST_MS=1800,JOINED_WHEEL_REFORM_MS=3800;
+const DRAGON_FIRE_TAIL_MS=216,DRAGON_SETTLE_MS=800;
 const headingSphereMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 const phoneLayout=window.matchMedia('(any-pointer:coarse) and (max-width:600px), (any-pointer:coarse) and (max-height:500px)');
 let searchRenderTimer=0;
@@ -713,17 +714,21 @@ function cosmicDragonPose(frame){
   if(!dragon)return null;
   const ease=value=>value*value*(3-2*value);
   const progress=Math.max(0,Math.min(1,frame.progress));
+  const returning=frame.phase==='burst'||frame.phase==='reforming';
+  const settle=frame.phase==='burst'?
+    Math.max(0,Math.min(1,(progress*JOINED_WHEEL_BURST_MS-DRAGON_FIRE_TAIL_MS)/DRAGON_SETTLE_MS)):1;
   const stage=frame.phase==='charging'?
     (progress<.42?progress/.42:1+Math.min(1,(progress-.42)/.24)):
-    frame.phase==='reforming'?2*(1-ease(Math.min(1,progress/.9))):
-      frame.phase==='impact'||frame.phase==='burst'?2:0;
+    frame.phase==='burst'?2*(1-ease(settle)):frame.phase==='impact'?2:0;
   const fire=frame.phase==='charging'?ease(Math.max(0,Math.min(1,(progress-.68)/.14))):
-    frame.phase==='impact'?1:frame.phase==='burst'?Math.max(0,1-progress/.12):0;
-  const rig=CosmicDragonRig.pose(stage,joinedWheelEffect.startedAt/1000+(frame.energy||0),fire,frame.phase==='calm');
+    frame.phase==='impact'?1:frame.phase==='burst'?
+      Math.max(0,1-progress*JOINED_WHEEL_BURST_MS/DRAGON_FIRE_TAIL_MS):0;
+  const rig=CosmicDragonRig.pose(stage,joinedWheelEffect.startedAt/1000+(frame.energy||0),
+    fire,frame.phase==='calm',returning);
   return {...dragon,dx:0,dy:0,scale:1,stage,rig,
     mouthAngle:rig.mouthAngle,mouthX:dragon.x+dragon.width*(rig.mouth.x/800-.5),
     mouthY:dragon.y+dragon.height*(rig.mouth.y/600-.5),
-    state:frame.phase==='reforming'?'settling':stage===0?'sitting':
+    state:stage===0?'sitting':returning?(fire?'attacking':'settling'):
       stage<1?'rising':stage<2?'bracing':'attacking',
     fire};
 }
