@@ -2,16 +2,7 @@ let catalogue=null,catalogueError='',catalogueUIReady=false,catalogueToolbar,cat
 try{catalogue=new WineCatalogue(window.WINE_DATA,localStorage);if(catalogue.cacheError)catalogueError='Offline cache unavailable. Reconnect to load the authoritative Firebase catalogue.';}
 catch(error){catalogueError=String(error.message||error);console.error('Catalogue could not be loaded:',error);}
 let C=catalogue?catalogue.getData():window.WINE_DATA;
-let headingSphereFrame=0;
-let headingSphere=null,spherePosition=null,sphereGesture=null,sphereRotation=0;
-let sphereCategoryAngle=0,sphereCategoryChanging=false;
-const SPHERE_CATEGORY_STEP=Math.PI/2;
-let joinedWheelEffect=null,joinedWheelHoldTimer=0,joinedBlastSprites=null;
-let cosmicDragon=null,dragonGesture=null;
-const JOINED_WHEEL_HOLD_MS=450,JOINED_WHEEL_CHARGE_MS=3600;
-const JOINED_WHEEL_IMPACT_MS=700;
-const JOINED_WHEEL_BURST_MS=1800,JOINED_WHEEL_REFORM_MS=3800;
-const DRAGON_FIRE_TAIL_MS=216,DRAGON_SETTLE_MS=800;
+let animationLibrary=null,animationCloudSprites=null;
 const headingSphereMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
 const phoneLayout=window.matchMedia('(any-pointer:coarse) and (max-width:600px), (any-pointer:coarse) and (max-height:500px)');
 let searchRenderTimer=0;
@@ -234,6 +225,7 @@ function releaseWheelCore(){
   if(aura)aura.width=aura.height=1;
   wheelAuraSprites?.forEach(sprite=>{sprite.width=sprite.height=1;});
   wheelAuraSprites=null;
+  wheelCoreContext=null;wheelCoreGlow=null;wheelAuraContext=null;wheelAuraGradient=null;
   wheelCorePaintedAt=-Infinity;
 }
 function drawWheelAura(phase,phone){
@@ -241,7 +233,7 @@ function drawWheelAura(phase,phone){
   if(!canvas)return;
   if(!wheelAuraContext){
     wheelAuraContext=canvas.getContext('2d');
-    if(!wheelAuraContext){console.error('Navigation wheel outer corona: 2D canvas is unavailable');return;}
+    if(!wheelAuraContext)throw new Error('Cosmic wheel corona: 2D canvas is unavailable');
   }
   const context=wheelAuraContext,size=phone?128:256;
   if(canvas.width!==size){
@@ -254,7 +246,7 @@ function drawWheelAura(phase,phone){
     wheelAuraSprites=['41,204,255','226,57,255'].map(rgb=>{
       const sprite=document.createElement('canvas');sprite.width=sprite.height=32;
       const paint=sprite.getContext('2d');
-      if(!paint){console.error('Navigation wheel corona mist: 2D canvas is unavailable');return null;}
+      if(!paint)throw new Error('Cosmic wheel corona mist: 2D canvas is unavailable');
       const glow=paint.createRadialGradient(16,16,0,16,16,16);
       glow.addColorStop(0,`rgba(${rgb},.8)`);glow.addColorStop(.35,`rgba(${rgb},.4)`);
       glow.addColorStop(1,`rgba(${rgb},0)`);
@@ -284,15 +276,14 @@ function drawWheelAura(phase,phone){
   }
   context.globalAlpha=1;
 }
-function drawWheelCore(time,phase){
+function drawWheelCore(time,phase,active=false){
   const canvas=document.querySelector('.wheel-core canvas');
   if(!canvas)return;
-  if(canvas.closest('.navigation-wheel').hidden){if(canvas.width!==1)releaseWheelCore();return;}
   const phone=phoneLayout.matches,size=phone?64:128;
-  if(!headingSphereMotion.matches&&time-wheelCorePaintedAt<1000/(phone?12:30))return;
+  if(!headingSphereMotion.matches&&time-wheelCorePaintedAt<1000/(phone&&!active?12:30))return;
   if(!wheelCoreContext){
     wheelCoreContext=canvas.getContext('2d');
-    if(!wheelCoreContext){console.error('Navigation wheel filament ring: 2D canvas is unavailable');return;}
+    if(!wheelCoreContext)throw new Error('Cosmic wheel filament ring: 2D canvas is unavailable');
   }
   const context=wheelCoreContext;
   if(canvas.width!==size){
@@ -303,8 +294,7 @@ function drawWheelCore(time,phase){
     wheelCoreGlow.addColorStop(1,'rgba(0,90,255,0)');
   }
   wheelCorePaintedAt=time;
-  const effect=joinedWheelEffectFrame(time);
-  const t=effect?(joinedWheelEffect.corePhase??=phase*.001):phase*.001,count=phone?14:28;
+  const t=phase*.001,count=phone?14:28;
   context.clearRect(0,0,64,64);context.fillStyle=wheelCoreGlow;context.fillRect(0,0,64,64);
   for(let index=0;index<count;index++){
     const angle=index*2.39996+t*.35;
@@ -338,7 +328,7 @@ function drawWheelCore(time,phase){
     const start=-t*.4+arc*Math.PI;
     context.beginPath();context.arc(32,32,24.2,start,start+Math.PI*.9);context.stroke();
   }
-  drawWheelAura(effect?t*1000:phase,phone);
+  drawWheelAura(phase,phone);
 }
 function startManagerDataFlow(){
   cancelAnimationFrame(managerDataFrame);managerDataFrame=0;
@@ -478,33 +468,29 @@ function startManagerDataFlow(){
       }
       context.globalAlpha=1;
     }
-    drawWheelCore(time,headingSphereMotion.matches?0:sceneTime);
     if(!headingSphereMotion.matches)managerDataFrame=requestAnimationFrame(draw);
   }
   managerDataScene={key:sceneKey,draw};
   draw(performance.now());
 }
 window.addEventListener('resize',startManagerDataFlow);
-window.addEventListener('resize',startHeadingSphere);
 headingSphereMotion.addEventListener('change',startManagerDataFlow);
 phoneLayout.addEventListener('change',()=>{
   clearTimeout(managerScrollTimer);managerScrollPaused=false;
   document.documentElement.classList.remove('manager-scrolling');
-  cancelJoinedWheelEffect();finishManagerImpacts();startManagerDataFlow();startHeadingSphere();
+  finishManagerImpacts();startManagerDataFlow();
+  if(animationLibrary?.dialog.open){animationLibrary.reset(false);animationLibrary.layout();animationLibrary.start();}
 });
 window.addEventListener('scroll',()=>{
   if(!phoneLayout.matches||!document.documentElement.classList.contains('manager-mode'))return;
   managerScrollPaused=true;document.documentElement.classList.add('manager-scrolling');
-  cancelJoinedWheelEffect();
   cancelAnimationFrame(managerDataFrame);managerDataFrame=0;
-  cancelAnimationFrame(headingSphereFrame);headingSphereFrame=0;
   finishManagerImpacts();clearTimeout(managerScrollTimer);
   managerScrollTimer=setTimeout(()=>{
     managerScrollPaused=false;document.documentElement.classList.remove('manager-scrolling');
-    startManagerDataFlow();startHeadingSphere();
+    startManagerDataFlow();
   },200);
 },{passive:true,capture:true});
-let managerWheelActiveUntil=0;
 const managerImpacts=new Set();
 function finishManagerImpacts(){managerImpacts.forEach(finish=>finish());}
 function showManagerImpact(element,event){
@@ -545,15 +531,9 @@ main.addEventListener('pointerdown',event=>{
   if(event.button===0)showManagerImpact(event.target.closest('.wine,.wotm-feature'),event);
 },{passive:true});
 const managerEffectsObserver='IntersectionObserver' in window?new IntersectionObserver(entries=>{
-  let headingChanged=false;
   entries.forEach(entry=>{
     entry.target.classList.toggle('manager-effect-visible',entry.isIntersecting);
-    if(entry.target.classList.contains('hero'))headingChanged=true;
-    if(entry.isIntersecting&&entry.target.matches('.section h3')&&performance.now()<managerWheelActiveUntil){
-      showManagerImpact(entry.target);
-    }
   });
-  if(headingChanged)startHeadingSphere();
 },{rootMargin:'96px 0px'}):null;
 if(managerEffectsObserver)document.documentElement.classList.add('manager-effects-ready');
 function observeManagerEffects(){
@@ -572,14 +552,8 @@ function updateStaffUI(){
   document.documentElement.classList.toggle('manager-effects-paused',document.hidden);
   if(!unlocked||document.hidden)finishManagerImpacts();
   if(unlocked)hideWelcomeCover();
-  if(!unlocked||document.hidden){cancelJoinedWheelEffect();releaseSphereGesture();}
-  syncSpherePlacement();
-  const wheel=document.querySelector('.navigation-wheel');
-  if(wheel){
-    wheel.hidden=!unlocked;
-    if(!unlocked||document.hidden){releaseNavigationWheel();stopNavigationWheelScroll();}
-    syncNavigationWheelDock();
-  }
+  animationLibrary?.sync();
+  if(!unlocked&&current===AnimationLibrary.category.id){current=C.find(category=>category.id==='c25')?.id||C[0].id;activeGroup=null;openCat='';}
   staffButton.classList.toggle('unlocked',unlocked);
   if(unlocked){
     if(!staffButton.querySelector('.manager-badge-name')){
@@ -588,7 +562,6 @@ function updateStaffUI(){
   }else staffButton.textContent='🔒';
   staffButton.setAttribute('aria-label',lang==='zh'?(unlocked?'Marco：職員模式已啟用，按此鎖定':'解鎖職員模式'):(unlocked?'Marco: staff mode active. Press to lock':'Unlock staff mode'));
   staffButton.title=staffButton.getAttribute('aria-label');
-  startHeadingSphere();
   startManagerDataFlow();
   if(catalogueUIReady){
     updateCatalogueUI();
@@ -605,145 +578,10 @@ window.addEventListener('storage',event=>{if(event.key===STAFF_SESSION_KEY||even
 window.addEventListener('focus',updateStaffUI);
 window.addEventListener('pageshow',updateStaffUI);
 document.addEventListener('visibilitychange',updateStaffUI);
-headingSphereMotion.addEventListener('change',()=>{cancelJoinedWheelEffect();startHeadingSphere();});
-const navigationWheel=document.createElement('div');
-navigationWheel.className='navigation-wheel';
-navigationWheel.tabIndex=0;
-navigationWheel.setAttribute('role','group');
-navigationWheel.innerHTML='<canvas class="wheel-aura" width="1" height="1" aria-hidden="true"></canvas><span class="wheel-projection" aria-hidden="true"></span><span class="wheel-energy" aria-hidden="true"></span><span class="wheel-orbit" aria-hidden="true"></span><span class="wheel-telemetry" aria-hidden="true"></span><svg class="wheel-rotate-track" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="none" stroke="transparent" stroke-width="12"/></svg><button type="button" class="wheel-core"><canvas width="1" height="1" aria-hidden="true"></canvas></button>';
-document.body.appendChild(navigationWheel);
-let wheelPointer=null,wheelAngle=null,wheelRotation=0,wheelSensitivity=320,wheelBounds=null;
-let wheelScrollFrame=0,wheelScrollTarget=null,wheelScrollPosition=0,wheelFrameAt=0,wheelScrollSpeed=1.2;
-let wheelDocked=true,wheelPosition=null,wheelMove=null;
-function clearJoinedWheelHold(){
-  clearTimeout(joinedWheelHoldTimer);joinedWheelHoldTimer=0;
-}
-function resetJoinedWheelEffect(){
-  if(joinedWheelEffect?.spherePhase!==undefined&&!headingSphereMotion.matches)
-    sphereRotation=joinedWheelEffect.spherePhase-performance.now()*.00015;
-  joinedWheelEffect=null;
-  clearCosmicDragonPointer();
-  if(cosmicDragon){
-    cosmicDragon.classList.remove('attacking');
-    cosmicDragon.removeAttribute('aria-busy');
-    cosmicDragon.dataset.state='sitting';
-    CosmicDragonRig.render(cosmicDragon,CosmicDragonRig.pose(0,performance.now()/1000,0,headingSphereMotion.matches));
-  }
-  joinedBlastSprites?.forEach(sprite=>{sprite.width=sprite.height=1;});
-  joinedBlastSprites=null;
-  const canvas=headingSphere?.querySelector(':scope>canvas');
-  if(canvas)canvas.width=canvas.height=1;
-  headingSphere?.closest('.hero')?.classList.remove('joined-effect-host');
-  headingSphere?.classList.remove('joined-effect','joined-impact');
-  headingSphere?.style.removeProperty('--joined-canvas-scale');
-  navigationWheel.style.removeProperty('--joined-wheel-opacity');
-  navigationWheel.style.removeProperty('--joined-wheel-spin');
-}
-function cancelJoinedWheelEffect(){
-  clearJoinedWheelHold();
-  clearCosmicDragonPointer();
-  if(!joinedWheelEffect)return;
-  resetJoinedWheelEffect();
-  startHeadingSphere();
-}
-function joinedWheelEffectFrame(time){
-  if(!joinedWheelEffect)return null;
-  const ease=value=>value*value*(3-2*value);
-  if(headingSphereMotion.matches)return {phase:'calm',progress:0,charge:0,spin:0,meshScale:1,meshOpacity:1,wheelOpacity:1,canvasScale:2.2};
-  const elapsed=Math.max(0,time-joinedWheelEffect.startedAt),seconds=elapsed/1000;
-  let phase,progress,charge;
-  if(elapsed<JOINED_WHEEL_CHARGE_MS){
-    phase='charging';progress=elapsed/JOINED_WHEEL_CHARGE_MS;charge=progress;
-  }else{
-    charge=1;
-    const afterCharge=elapsed-JOINED_WHEEL_CHARGE_MS;
-    if(afterCharge<JOINED_WHEEL_IMPACT_MS){
-      phase='impact';progress=afterCharge/JOINED_WHEEL_IMPACT_MS;
-    }else if(afterCharge<JOINED_WHEEL_IMPACT_MS+JOINED_WHEEL_BURST_MS){
-      phase='burst';progress=(afterCharge-JOINED_WHEEL_IMPACT_MS)/JOINED_WHEEL_BURST_MS;
-    }else{
-      phase='reforming';progress=(afterCharge-JOINED_WHEEL_IMPACT_MS-JOINED_WHEEL_BURST_MS)/JOINED_WHEEL_REFORM_MS;
-      if(progress>=1)return {phase:'done',spin:0};
-    }
-  }
-  const reform=ease(progress);
-  return {phase,progress,charge,spin:0,energy:seconds,
-    canvasScale:phase==='burst'||phase==='reforming'?8:joinedWheelEffect.dragon.canvasScale,
-    meshScale:phase==='burst'?.5*(1-progress):phase==='reforming'?.1+.9*reform:1,
-    meshOpacity:phase==='burst'?0:phase==='reforming'?reform:1,
-    wheelOpacity:phase==='burst'?0:phase==='reforming'?ease(Math.max(0,(progress-.15)/.85)):1};
-}
-function clearCosmicDragonPointer(){
-  const gesture=dragonGesture;dragonGesture=null;
-  if(gesture&&cosmicDragon?.hasPointerCapture(gesture.pointerId))cosmicDragon.releasePointerCapture(gesture.pointerId);
-}
-function startCosmicDragonAttack(){
-  if(!staffUnlocked()||!wheelDocked||joinedWheelEffect||wheelPointer!==null||sphereGesture
-    ||document.hidden||managerScrollPaused||!wheelSphereTarget())return;
-  if(!cosmicDragon?.querySelector('img').naturalWidth){
-    console.error('Cosmic dragon: artwork has not loaded');
-    if(cosmicDragon)cosmicDragon.title=lang==='zh'?'巨龍圖像未能載入，請重新載入頁面。':'Dragon artwork unavailable. Reload the page.';
-    return;
-  }
-  if(!headingSphereMotion.matches)prepareJoinedBlastSprites(phoneLayout.matches);
-  const sphere=headingSphere.getBoundingClientRect(),box=cosmicDragon.getBoundingClientRect(),unit=sphere.width/180;
-  joinedWheelEffect={startedAt:performance.now(),spherePhase:performance.now()*.00015+sphereRotation,dragon:{
-    x:(box.left+box.width/2-sphere.left)/unit,y:(box.top+box.height/2-sphere.top)/unit,
-    width:box.width/unit,height:box.height/unit
-  }};
-  const dragon=joinedWheelEffect.dragon;
-  dragon.canvasScale=Math.min(8,Math.max(2.2,...[0,.5,1,1.5,2].flatMap(stage=>{
-    const {mouth}=CosmicDragonRig.pose(stage);
-    return [(Math.abs(dragon.x+dragon.width*(mouth.x/800-.5)-90)+42)/90,
-      (Math.abs(dragon.y+dragon.height*(mouth.y/600-.5)-78)+42)/78];
-  })));
-  cosmicDragon.classList.add('attacking');cosmicDragon.setAttribute('aria-busy','true');
-  headingSphere.closest('.hero')?.classList.add('joined-effect-host');
-  headingSphere.classList.add('joined-effect');startHeadingSphere();
-}
-function beginCosmicDragonHold(){
-  clearJoinedWheelHold();
-  joinedWheelHoldTimer=setTimeout(()=>{
-    joinedWheelHoldTimer=0;
-    if(!dragonGesture||dragonGesture.moved)return;
-    dragonGesture.held=true;startCosmicDragonAttack();
-  },JOINED_WHEEL_HOLD_MS);
-}
-function cosmicDragonPose(frame){
-  const dragon=joinedWheelEffect?.dragon;
-  if(!dragon)return null;
-  const ease=value=>value*value*(3-2*value);
-  const progress=Math.max(0,Math.min(1,frame.progress));
-  const returning=frame.phase==='burst'||frame.phase==='reforming';
-  const settle=frame.phase==='burst'?
-    Math.max(0,Math.min(1,(progress*JOINED_WHEEL_BURST_MS-DRAGON_FIRE_TAIL_MS)/DRAGON_SETTLE_MS)):1;
-  const stage=frame.phase==='charging'?
-    (progress<.42?progress/.42:1+Math.min(1,(progress-.42)/.24)):
-    frame.phase==='burst'?2*(1-ease(settle)):frame.phase==='impact'?2:0;
-  const fire=frame.phase==='charging'?ease(Math.max(0,Math.min(1,(progress-.68)/.14))):
-    frame.phase==='impact'?1:frame.phase==='burst'?
-      Math.max(0,1-progress*JOINED_WHEEL_BURST_MS/DRAGON_FIRE_TAIL_MS):0;
-  const rig=CosmicDragonRig.pose(stage,joinedWheelEffect.startedAt/1000+(frame.energy||0),
-    fire,frame.phase==='calm',returning);
-  return {...dragon,dx:0,dy:0,scale:1,stage,rig,
-    mouthAngle:rig.mouthAngle,mouthX:dragon.x+dragon.width*(rig.mouth.x/800-.5),
-    mouthY:dragon.y+dragon.height*(rig.mouth.y/600-.5),
-    state:stage===0?'sitting':returning?(fire?'attacking':'settling'):
-      stage<1?'rising':stage<2?'bracing':'attacking',
-    fire};
-}
-function updateCosmicDragon(frame){
-  if(!cosmicDragon||!frame)return;
-  const pose=cosmicDragonPose(frame);
-  if(!pose)return;
-  cosmicDragon.dataset.state=pose.state;
-  CosmicDragonRig.render(cosmicDragon,pose.rig);
-}
-function drawCosmicDragonFire(context,frame,phone){
-  const pose=cosmicDragonPose(frame);
+function drawCosmicDragonFire(context,frame,phone,pose){
   if(!pose?.fire)return;
   const {mouthX,mouthY}=pose;
-  const dx=90-mouthX,dy=78-mouthY,length=Math.hypot(dx,dy),angle=Math.atan2(dy,dx);
+  const length=pose.plumeLength,angle=pose.mouthAngle;
   context.save();context.translate(mouthX,mouthY);context.rotate(angle);
   const strength=pose.fire,front=frame.phase==='charging'?Math.min(1,(frame.progress-.68)/.32):1;
   const lead=Math.min(36,length*.28),direction=pose.mouthAngle-angle;
@@ -767,7 +605,7 @@ function drawCosmicDragonFire(context,frame,phone){
     context.fillStyle=smoke;context.beginPath();context.arc(x,y,radius,0,Math.PI*2);context.fill();
   }
   context.globalCompositeOperation='screen';
-  const sprites=prepareJoinedBlastSprites(phone),puffs=phone?30:54;
+  const sprites=prepareAnimationCloudSprites(phone),puffs=phone?30:54;
   if(sprites.length===4)for(let puff=0;puff<puffs;puff++){
     const t=(puff/puffs+frame.energy*(.85+puff%3*.13))%1;
     if(t>front)continue;
@@ -813,54 +651,8 @@ function drawCosmicDragonFire(context,frame,phone){
   }
   context.restore();
 }
-function createCosmicDragon(){
-  const button=document.createElement('button');button.type='button';button.className='cosmic-dragon';
-  button.dataset.state='sitting';
-  button.innerHTML=`<span class="cosmic-dragon-art" aria-hidden="true"><img src="${CosmicDragonRig.asset}" alt="" width="1536" height="1032" hidden>${CosmicDragonRig.markup()}</span>`;
-  CosmicDragonRig.render(button,CosmicDragonRig.pose(0,performance.now()/1000,0,headingSphereMotion.matches));
-  button.addEventListener('pointerdown',event=>{
-    if(event.button!==0||!event.isPrimary||dragonGesture||joinedWheelEffect||!wheelDocked||wheelPointer!==null||sphereGesture)return;
-    event.preventDefault();event.stopPropagation();
-    dragonGesture={pointerId:event.pointerId,x:event.clientX,y:event.clientY,moved:false,held:false};
-    button.setPointerCapture(event.pointerId);beginCosmicDragonHold();
-  });
-  button.addEventListener('pointermove',event=>{
-    if(event.pointerId!==dragonGesture?.pointerId||dragonGesture.held)return;
-    if(Math.hypot(event.clientX-dragonGesture.x,event.clientY-dragonGesture.y)>12){
-      dragonGesture.moved=true;clearJoinedWheelHold();
-    }
-  });
-  button.addEventListener('pointerup',event=>{
-    if(event.pointerId!==dragonGesture?.pointerId)return;
-    clearJoinedWheelHold();clearCosmicDragonPointer();
-    if(headingSphereMotion.matches)cancelJoinedWheelEffect();
-  });
-  for(const name of ['pointercancel','lostpointercapture'])button.addEventListener(name,event=>{
-    if(event.pointerId===dragonGesture?.pointerId)cancelJoinedWheelEffect();
-  });
-  button.addEventListener('contextmenu',event=>event.preventDefault());
-  button.addEventListener('click',event=>{
-    event.preventDefault();
-    if(event.detail!==0)return;
-    startCosmicDragonAttack();
-    if(headingSphereMotion.matches&&joinedWheelEffect)
-      joinedWheelHoldTimer=setTimeout(cancelJoinedWheelEffect,1200);
-  });
-  button.addEventListener('keydown',event=>{
-    if(event.key==='Escape'){event.preventDefault();cancelJoinedWheelEffect();}
-  });
-  button.querySelector('img').addEventListener('error',()=>{
-    console.error(`Cosmic dragon: ${CosmicDragonRig.asset} could not be loaded`);
-    button.classList.add('artwork-error');
-    button.querySelector('.cosmic-dragon-art').hidden=true;
-    const message=document.createElement('span');message.textContent=lang==='zh'?'巨龍圖像未能載入':'Dragon artwork unavailable';
-    button.appendChild(message);
-    button.disabled=true;
-  });
-  return button;
-}
-function prepareJoinedBlastSprites(phone){
-  if(joinedBlastSprites)return joinedBlastSprites;
+function prepareAnimationCloudSprites(phone){
+  if(animationCloudSprites)return animationCloudSprites;
   const size=phone?256:384,noise=new Float32Array(size*size);
   let seed=7319,weight=.5;
   const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
@@ -877,10 +669,10 @@ function prepareJoinedBlastSprites(phone){
     }
     weight*=.5;
   }
-  joinedBlastSprites=Array.from({length:4},(_,index)=>{
+  animationCloudSprites=Array.from({length:4},(_,index)=>{
     const sprite=document.createElement('canvas');sprite.width=sprite.height=size;
     const paint=sprite.getContext('2d');
-    if(!paint){console.error('Joined-control blast cloud: 2D canvas is unavailable');return null;}
+    if(!paint){console.error('Animation plasma texture: 2D canvas is unavailable');return null;}
     const image=paint.createImageData(size,size);
     for(let y=0;y<size;y++)for(let x=0;x<size;x++){
       const grain=noise[((y+index*47)%size)*size+(x+index*61)%size];
@@ -896,14 +688,14 @@ function prepareJoinedBlastSprites(phone){
     paint.putImageData(image,0,0);
     return sprite;
   }).filter(Boolean);
-  return joinedBlastSprites;
+  return animationCloudSprites;
 }
-function drawJoinedBlastCloud(context,frame,phone){
+function drawCosmicBlastCloud(context,frame,phone){
   const {phase,progress}=frame,burst=phase==='burst';
   const reform=progress*progress*(3-2*progress);
   const expansion=burst?1-(1-progress)**3:1-reform*.88;
   const fade=burst?Math.sin(Math.PI*(.14+progress*.64)):Math.sin(Math.PI*.78)*(1-progress)**1.5;
-  const sprites=prepareJoinedBlastSprites(phone),puffs=phone?18:30;
+  const sprites=prepareAnimationCloudSprites(phone),puffs=phone?18:30;
   context.save();context.globalCompositeOperation='source-over';
   const shadow=context.createRadialGradient(90,78,8,90,78,320*expansion);
   shadow.addColorStop(0,`rgba(5,12,39,${fade*.62})`);
@@ -964,52 +756,12 @@ function drawJoinedBlastCloud(context,frame,phone){
     context.fillRect(x,y,size,size);
   }
 }
-function drawDragonWheelImpact(context,frame,phone){
-  const pose=cosmicDragonPose(frame),progress=frame.progress;
-  const angle=Math.atan2(78-pose.mouthY,90-pose.mouthX);
-  const pressure=.4+.6*progress*progress*(3-2*progress);
-  context.save();context.translate(90,78);context.rotate(angle);
-  context.globalCompositeOperation='screen';
-  const sprites=prepareJoinedBlastSprites(phone);
-  if(sprites.length===4)for(let puff=0;puff<(phone?10:18);puff++){
-    const theta=puff*2.399963,radius=24+puff%4*10+Math.sin(frame.energy*3+puff)*3;
-    const size=18+puff%3*8;
-    context.save();context.translate(Math.cos(theta)*radius*.42-7,Math.sin(theta)*radius);
-    context.rotate(theta);context.globalAlpha=pressure*.6;
-    context.drawImage(sprites[puff%4],-size,-size,size*2,size*2);context.restore();
-  }
-  context.globalCompositeOperation='lighter';
-  for(let ring=0;ring<3;ring++){
-    const age=(progress*1.1+ring*.27)%1,radius=20+age*58;
-    context.strokeStyle=`rgba(${ring%2?'187,132,255':'154,238,255'},${pressure*Math.sin(Math.PI*age)*.55})`;
-    context.lineWidth=.6+(1-age)*1.1;context.beginPath();
-    context.ellipse(-4,0,radius*.38,radius,0,0,Math.PI*2);context.stroke();
-  }
-  for(let spark=0;spark<(phone?28:56);spark++){
-    const age=(progress*1.7+spark*.618)%1,theta=spark*2.399963;
-    const distance=18+age*(42+spark%4*9),x=Math.cos(theta)*distance*.65,y=Math.sin(theta)*distance;
-    context.strokeStyle=`rgba(${spark%7===0?'255,225,182':'178,237,255'},${pressure*Math.sin(Math.PI*age)*.8})`;
-    context.lineWidth=spark%4===0?.8:.4;context.beginPath();
-    context.moveTo(Math.cos(theta)*12,Math.sin(theta)*18);
-    context.quadraticCurveTo(x*.55-8*age,y*.5+Math.sin(frame.energy*9+spark)*3,x,y);context.stroke();
-  }
-  const radius=38+progress*25;
-  context.save();context.scale(.55,1);
-  const core=context.createRadialGradient(0,0,0,0,0,radius);
-  core.addColorStop(0,`rgba(255,255,255,${pressure*.95})`);
-  core.addColorStop(.15,`rgba(223,251,255,${pressure*.9})`);
-  core.addColorStop(.4,`rgba(99,212,255,${pressure*.5})`);
-  core.addColorStop(.7,`rgba(154,103,255,${pressure*.16})`);
-  core.addColorStop(1,'rgba(91,151,255,0)');
-  context.fillStyle=core;context.fillRect(-radius,-radius,radius*2,radius*2);
-  context.restore();context.restore();
-}
-function drawJoinedWheelEffect(context,frame,phone){
+function drawCosmicWheelEffect(context,frame,phone){
   const {phase,progress,charge}=frame;
   const calm=phase==='calm',charging=phase==='charging';
   context.save();context.globalCompositeOperation='lighter';
   if(calm||charging){
-    const heat=calm?.22:Math.max(0,(charge-.96)/.04)*.35,radius=calm?55:18+heat*32;
+    const heat=calm?.22:charge**3*.8,radius=calm?55:18+heat*32;
     const glow=context.createRadialGradient(90,78,0,90,78,radius);
     glow.addColorStop(0,`rgba(240,253,255,${heat*.8})`);
     glow.addColorStop(.25,`rgba(105,219,255,${heat*.5})`);
@@ -1017,10 +769,7 @@ function drawJoinedWheelEffect(context,frame,phone){
     context.fillStyle=glow;context.fillRect(90-radius,78-radius,radius*2,radius*2);
     context.restore();return;
   }
-  if(phase==='impact'){
-    drawDragonWheelImpact(context,frame,phone);context.restore();return;
-  }
-  drawJoinedBlastCloud(context,frame,phone);
+  drawCosmicBlastCloud(context,frame,phone);
   const burst=phase==='burst',reform=progress*progress*(3-2*progress);
   const expansion=burst?1-(1-progress)**3:1-reform;
   if(burst){
@@ -1062,336 +811,18 @@ function drawJoinedWheelEffect(context,frame,phone){
   }
   context.restore();
 }
-function wheelLabel(){return lang==='zh'?'合併時捲動及分類切換停用；輕按中央可分離，長按旁邊的宇宙巨龍可啟動龍焰及爆散重組特效。分離後，轉動導覽輪以捲動本頁，轉動球體以切換主要分類。按 D 鍵可收起或取出。':'Scrolling and category selection are inactive while joined. Tap the centre to separate; hold the cosmic dragon beside it for dragon fire, burst and re-formation. Then turn the wheel to scroll this page or the sphere to switch main categories. Press D to dock/undock.';}
-function wheelViewportPosition(x,y,size){
-  const view=window.visualViewport;
-  const left=(view?.offsetLeft||0)+8;
-  const top=Math.max((view?.offsetTop||0)+8,document.querySelector('#home-screen-status').getBoundingClientRect().bottom+8);
-  const right=left+(view?.width||innerWidth)-size-16;
-  const bottom=(view?.offsetTop||0)+(view?.height||innerHeight)-size-8;
-  return {x:Math.max(left,Math.min(Math.max(left,right),x)),y:Math.max(top,Math.min(Math.max(top,bottom),y))};
+function releaseAnimationTextures(){
+  releaseWheelCore();
+  animationCloudSprites?.forEach(sprite=>{sprite.width=sprite.height=1;});
+  animationCloudSprites=null;
 }
-function wheelSphereTarget(){
-  const sphere=headingSphere;
-  if(!sphere||!staffUnlocked())return null;
-  const box=sphere.getBoundingClientRect(),bar=document.querySelector('.status').getBoundingClientRect();
-  const x=box.left+box.width*.5,y=box.top+box.height*78/180;
-  const top=spherePosition?document.querySelector('#home-screen-status').getBoundingClientRect().bottom:bar.bottom;
-  if(!box.width||x<0||x>innerWidth||y<Math.max(0,top)||y>innerHeight)return null;
-  return {sphere,box,x,y};
-}
-function wheelOverSphere(){
-  const target=wheelSphereTarget(),box=navigationWheel.getBoundingClientRect();
-  return !!target&&Math.hypot((box.left+box.width/2-target.x)/(target.box.width*.5),
-    (box.top+box.height/2-target.y)/(target.box.height*.5))<=1;
-}
-function syncNavigationWheelDock(){
-  const unlocked=staffUnlocked(),target=wheelSphereTarget(),sphere=headingSphere;
-  const parent=wheelDocked&&sphere?sphere:document.body;
-  if(navigationWheel.parentElement!==parent)parent.appendChild(navigationWheel);
-  navigationWheel.classList.toggle('docked',wheelDocked);
-  navigationWheel.hidden=!unlocked||(wheelDocked&&!target);
-  navigationWheel.setAttribute('aria-label',wheelLabel());navigationWheel.title=wheelLabel();
-  const core=navigationWheel.querySelector('.wheel-core');
-  core.setAttribute('aria-label',lang==='zh'?(wheelDocked?'輕按中央以分離導覽輪；長按旁邊的宇宙巨龍可啟動龍焰特效；球體留在標題':'拖曳以移動導覽輪；按下可收起至球體'):
-    (wheelDocked?'Tap centre to separate the wheel; hold the cosmic dragon beside it for dragon fire; sphere stays at heading':'Drag to move wheel; activate to dock into sphere'));
-  core.setAttribute('aria-pressed',String(wheelDocked));
-  core.title=core.getAttribute('aria-label');
-  if(wheelDocked&&sphere){
-    const size=Math.max(1,Math.min(128,sphere.getBoundingClientRect().width*.8));
-    navigationWheel.style.setProperty('--wheel-dock-size',`${size}px`);
-    navigationWheel.style.removeProperty('left');navigationWheel.style.removeProperty('top');
-  }else if(wheelPosition){
-    wheelPosition=wheelViewportPosition(wheelPosition.x,wheelPosition.y,navigationWheel.offsetWidth);
-    navigationWheel.style.left=`${wheelPosition.x}px`;navigationWheel.style.top=`${wheelPosition.y}px`;
-  }else{
-    navigationWheel.style.removeProperty('left');navigationWheel.style.removeProperty('top');
+animationLibrary=new AnimationLibrary({
+  isAvailable:()=>staffUnlocked()&&!document.body.classList.contains('remote-lock-active')&&!document.body.classList.contains('site-disabled-active'),
+  language:()=>lang,drawFire:drawCosmicDragonFire,drawWheel:drawCosmicWheelEffect,drawCore:drawWheelCore,
+  releaseTextures:releaseAnimationTextures,prepareTextures:()=>{
+    if(prepareAnimationCloudSprites(phoneLayout.matches).length!==4)throw new Error('The plasma drawing surfaces are unavailable');
   }
-  navigationWheel.style.right=wheelDocked||wheelPosition?'auto':'';
-  navigationWheel.style.bottom=wheelDocked||wheelPosition?'auto':'';
-  updateSphereLabels();
-  if(cosmicDragon){
-    cosmicDragon.hidden=!unlocked;
-    cosmicDragon.disabled=!wheelDocked||cosmicDragon.classList.contains('artwork-error');
-    cosmicDragon.setAttribute('aria-label',lang==='zh'?(wheelDocked?'長按宇宙巨龍：讓坐著的巨龍站起怒吼、噴出龍焰並觸發導覽輪爆散及重組，再恢復坐姿。亦可按 Enter 或空白鍵啟動。':'先合併導覽輪與球體，才可啟動宇宙巨龍。'):
-      (wheelDocked?'Hold cosmic dragon to stand from sitting, roar and breathe fire into the wheel, then sit again as it reforms. Enter or Space also activates.':'Join the wheel and sphere to activate the cosmic dragon.'));
-    cosmicDragon.title=cosmicDragon.getAttribute('aria-label');
-  }
-}
-function setNavigationWheelDocked(docked){
-  cancelJoinedWheelEffect();
-  releaseSphereGesture();stopNavigationWheelScroll();sphereCategoryAngle=0;wheelDocked=docked;
-  headingSphere?.classList.remove('wheel-dock-target');
-  syncNavigationWheelDock();
-}
-navigationWheel.querySelector('.wheel-core').addEventListener('click',event=>{
-  if(event.detail!==0||!staffUnlocked()||joinedWheelEffect)return;
-  setNavigationWheelDocked(!wheelDocked);
 });
-navigationWheel.addEventListener('contextmenu',event=>{
-  if(wheelDocked&&event.target.closest('.wheel-core'))event.preventDefault();
-});
-window.addEventListener('scroll',()=>{if(wheelDocked&&!wheelMove)syncNavigationWheelDock();},{passive:true});
-function resizeNavigationControls(){
-  releaseNavigationWheel();cancelJoinedWheelEffect();releaseSphereGesture();syncSpherePlacement();syncNavigationWheelDock();startHeadingSphere();
-}
-window.addEventListener('resize',resizeNavigationControls);
-window.addEventListener('blur',()=>{releaseNavigationWheel();cancelJoinedWheelEffect();releaseSphereGesture();stopNavigationWheelScroll();});
-window.visualViewport?.addEventListener('resize',resizeNavigationControls);
-window.visualViewport?.addEventListener('scroll',()=>{
-  if(!wheelMove&&!sphereGesture){syncSpherePlacement();syncNavigationWheelDock();}
-});
-function updateSphereLabels(){
-  if(!headingSphere)return;
-  const turn=headingSphere.querySelector('.sphere-turn');
-  turn.disabled=wheelDocked;
-  const label=lang==='zh'?(wheelDocked?'合併時分類切換停用；請先分離導覽輪':'轉動球體以切換主要分類，不選取子分類；亦可使用方向鍵'):
-    (wheelDocked?'Category selection is inactive while joined; detach the wheel first':'Turn sphere to switch main categories, not subcategories; arrow keys also work');
-  turn.setAttribute('aria-label',label);turn.title=label;
-  headingSphere.setAttribute('aria-label',lang==='zh'?'標題分類導覽球體':'Heading category navigation sphere');
-}
-function syncSpherePlacement(){
-  if(!headingSphere)return;
-  const parent=spherePosition?document.body:main.querySelector('.hero');
-  if(parent&&headingSphere.parentElement!==parent){
-    const focused=headingSphere.contains(document.activeElement)?document.activeElement:null;
-    parent.appendChild(headingSphere);focused?.focus({preventScroll:true});
-  }
-  headingSphere.classList.toggle('floating',!!spherePosition);
-  headingSphere.hidden=!staffUnlocked();
-  if(spherePosition){
-    spherePosition=wheelViewportPosition(spherePosition.x,spherePosition.y,headingSphere.offsetWidth);
-    headingSphere.style.left=`${spherePosition.x}px`;headingSphere.style.top=`${spherePosition.y}px`;
-  }else{
-    headingSphere.style.removeProperty('left');headingSphere.style.removeProperty('top');
-  }
-  updateSphereLabels();
-}
-function revealSphereCategory(){
-  const element=navigationHidden?pageStrip:nav.closest('.side');
-  const chosen=navigationHidden?pageStrip.querySelector('.page-thumb.active'):nav.querySelector('.navcat.active');
-  if(!chosen)return;
-  const bounds=element.getBoundingClientRect(),item=chosen.getBoundingClientRect();
-  const position=navigationHidden?element.scrollLeft+item.left+item.width/2-bounds.left-element.clientWidth/2:
-    element.scrollTop+item.top+item.height/2-bounds.top-element.clientHeight/2;
-  element.scrollTo({[navigationHidden?'left':'top']:Math.max(0,position),behavior:'instant'});
-}
-function rotateSphereNavigation(delta){
-  if(!staffUnlocked()||document.hidden||wheelDocked)return;
-  sphereRotation+=delta;
-  sphereCategoryAngle+=delta;
-  const steps=Math.sign(sphereCategoryAngle)*Math.floor((Math.abs(sphereCategoryAngle)+1e-7)/SPHERE_CATEGORY_STEP);
-  if(steps){
-    sphereCategoryAngle-=steps*SPHERE_CATEGORY_STEP;
-    const categories=navigationHidden?C:navigationCategories(),index=categories.findIndex(category=>category.id===current);
-    if(index>=0){
-      const focused=headingSphere.contains(document.activeElement)?document.activeElement:null;
-      sphereCategoryChanging=true;
-      try{
-        navigateToCategory(categories[((index+steps)%categories.length+categories.length)%categories.length]);
-        revealSphereCategory();
-        focused?.focus({preventScroll:true});
-      }finally{sphereCategoryChanging=false;}
-    }
-  }
-  if(headingSphereMotion.matches)startHeadingSphere();
-}
-function startSphereGesture(event){
-  if(!staffUnlocked()||event.button!==0||sphereGesture||wheelPointer!==null||wheelDocked)return;
-  event.preventDefault();event.stopPropagation();stopNavigationWheelScroll();
-  const bounds=headingSphere.getBoundingClientRect();
-  sphereGesture={pointerId:event.pointerId,bounds,
-    angle:Math.atan2(event.clientY-bounds.top-bounds.height*78/180,event.clientX-bounds.left-bounds.width/2)};
-  sphereCategoryAngle=0;
-  // Keep the captured sphere connected when category rendering replaces the heading.
-  spherePosition={x:bounds.left,y:bounds.top};syncSpherePlacement();syncNavigationWheelDock();
-  headingSphere.classList.add('turning');
-  startHeadingSphere();
-  headingSphere.setPointerCapture(event.pointerId);
-}
-function moveSphereGesture(event){
-  const gesture=sphereGesture;
-  if(!gesture||event.pointerId!==gesture.pointerId)return;
-  const {bounds}=gesture,x=event.clientX-bounds.left-bounds.width/2,y=event.clientY-bounds.top-bounds.height*78/180;
-  if(Math.hypot(x,y)<Math.max(14,bounds.width*.2)){gesture.angle=null;return;}
-  const angle=Math.atan2(y,x);
-  if(gesture.angle!==null){
-    const delta=Math.atan2(Math.sin(angle-gesture.angle),Math.cos(angle-gesture.angle));
-    if(Math.abs(delta)<=Math.PI/2+1e-6)rotateSphereNavigation(delta);
-  }
-  gesture.angle=angle;
-}
-function releaseSphereGesture(event){
-  const gesture=sphereGesture;
-  if(!gesture||(event?.pointerId!==undefined&&event.pointerId!==gesture.pointerId))return;
-  sphereGesture=null;
-  sphereCategoryAngle=0;
-  headingSphere.classList.remove('turning');
-  spherePosition=null;
-  if(headingSphere.hasPointerCapture(gesture.pointerId))headingSphere.releasePointerCapture(gesture.pointerId);
-  syncSpherePlacement();syncNavigationWheelDock();
-  startHeadingSphere();
-}
-function createHeadingSphere(){
-  const sphere=document.createElement('span');
-  sphere.className='heading-sphere';sphere.setAttribute('role','group');
-  sphere.innerHTML='<canvas aria-hidden="true"></canvas><button type="button" class="sphere-turn"></button>';
-  sphere.addEventListener('pointerdown',event=>{
-    if(event.target.closest('.navigation-wheel')||event.target.closest('.sphere-turn')?.disabled)return;
-    startSphereGesture(event);
-  });
-  sphere.addEventListener('pointermove',moveSphereGesture);
-  sphere.addEventListener('pointerup',releaseSphereGesture);
-  sphere.addEventListener('pointercancel',releaseSphereGesture);
-  sphere.addEventListener('lostpointercapture',releaseSphereGesture);
-  sphere.querySelector('.sphere-turn').addEventListener('click',event=>{
-    if(event.detail===0)rotateSphereNavigation(SPHERE_CATEGORY_STEP);
-  });
-  sphere.querySelector('.sphere-turn').addEventListener('keydown',event=>{
-    if(event.altKey||event.ctrlKey||event.metaKey)return;
-    const direction={ArrowDown:1,ArrowRight:1,PageDown:3,ArrowUp:-1,ArrowLeft:-1,PageUp:-3}[event.key];
-    if(direction){event.preventDefault();event.stopPropagation();rotateSphereNavigation(direction*SPHERE_CATEGORY_STEP);}
-  });
-  return sphere;
-}
-function pointerWheelAngle(event){
-  const box=wheelBounds??navigationWheel.getBoundingClientRect();
-  const x=event.clientX-box.left-box.width/2,y=event.clientY-box.top-box.height/2;
-  if(Math.hypot(x,y)<Math.max(14,box.width*.24))return null;
-  return Math.atan2(y,x);
-}
-function stopNavigationWheelScroll(){
-  cancelAnimationFrame(wheelScrollFrame);
-  wheelScrollFrame=0;wheelScrollTarget=null;wheelFrameAt=0;
-}
-function stepNavigationWheelScroll(time){
-  wheelScrollFrame=0;
-  if(wheelScrollTarget===null)return;
-  if(wheelDocked||document.hidden||!document.documentElement.classList.contains('manager-mode')){
-    stopNavigationWheelScroll();return;
-  }
-  const maximum=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
-  wheelScrollTarget=Math.max(0,Math.min(maximum,wheelScrollTarget));
-  wheelScrollPosition=Math.max(0,Math.min(maximum,wheelScrollPosition));
-  const difference=wheelScrollTarget-wheelScrollPosition;
-  if(Math.abs(difference)<.5||headingSphereMotion.matches){
-    window.scrollTo({top:wheelScrollTarget,behavior:'instant'});
-    stopNavigationWheelScroll();return;
-  }
-  const elapsed=wheelFrameAt?Math.min(32,Math.max(1,time-wheelFrameAt)):1000/60;
-  wheelFrameAt=time;
-  const step=Math.min(Math.abs(difference)*(1-Math.exp(-elapsed/55)),elapsed*wheelScrollSpeed);
-  wheelScrollPosition+=Math.sign(difference)*step;
-  window.scrollTo({top:wheelScrollPosition,behavior:'instant'});
-  wheelScrollFrame=requestAnimationFrame(stepNavigationWheelScroll);
-}
-function rotateNavigationWheel(delta,pixelsPerRadian=320){
-  if(!staffUnlocked()){updateStaffUI();return;}
-  if(wheelDocked){stopNavigationWheelScroll();return;}
-  const now=performance.now();
-  if(now>managerWheelActiveUntil){
-    showManagerImpact(navigationWheel);
-    showManagerImpact(main.querySelector('.section h3.manager-effect-visible'));
-  }
-  managerWheelActiveUntil=now+500;
-  wheelRotation+=delta*180/Math.PI;
-  navigationWheel.style.setProperty('--wheel-angle',`${wheelRotation}deg`);
-  const maximum=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
-  const target=Math.max(0,Math.min(maximum,(wheelScrollTarget??window.scrollY)+delta*pixelsPerRadian));
-  if(headingSphereMotion.matches){
-    stopNavigationWheelScroll();
-    window.scrollTo({top:target,behavior:'instant'});return;
-  }
-  if(wheelScrollTarget===null)wheelScrollPosition=window.scrollY;
-  wheelScrollTarget=target;
-  wheelScrollSpeed=pixelsPerRadian===120 ? .8 : 1.2;
-  if(!wheelScrollFrame){
-    wheelFrameAt=0;
-    wheelScrollFrame=requestAnimationFrame(stepNavigationWheelScroll);
-  }
-}
-navigationWheel.addEventListener('pointerdown',event=>{
-  if(!staffUnlocked()||event.button!==0||wheelPointer!==null||sphereGesture)return;
-  event.preventDefault();event.stopPropagation();
-  if(joinedWheelEffect)return;
-  if(wheelDocked&&!event.target.closest('.wheel-core'))return;
-  stopNavigationWheelScroll();
-  wheelSensitivity=event.pointerType==='touch'?120:320;
-  wheelBounds=navigationWheel.getBoundingClientRect();
-  wheelPointer=event.pointerId;wheelAngle=pointerWheelAngle(event);
-  if(event.target.closest('.wheel-core')){
-    wheelMove={x:event.clientX,y:event.clientY,docked:wheelDocked,position:wheelPosition,
-      offsetX:(event.clientX-wheelBounds.left)/wheelBounds.width,
-      offsetY:(event.clientY-wheelBounds.top)/wheelBounds.height,moved:false,pressedAt:performance.now()};
-    if(!wheelDocked)navigationWheel.classList.add('moving');
-  }
-  navigationWheel.setPointerCapture(event.pointerId);
-  if(!wheelMove)navigationWheel.classList.add('turning');
-});
-navigationWheel.addEventListener('pointermove',event=>{
-  if(event.pointerId!==wheelPointer)return;
-  if(wheelMove){
-    if(!wheelMove.moved&&Math.hypot(event.clientX-wheelMove.x,event.clientY-wheelMove.y)<(wheelMove.docked?12:5))return;
-    cancelJoinedWheelEffect();
-    wheelMove.moved=true;
-    if(wheelMove.docked)return;
-    wheelDocked=false;
-    navigationWheel.classList.remove('docked');
-    const size=navigationWheel.offsetWidth;
-    wheelPosition=wheelViewportPosition(event.clientX-wheelMove.offsetX*size,event.clientY-wheelMove.offsetY*size,size);
-    syncNavigationWheelDock();
-    const sphere=headingSphere;
-    sphere?.classList.toggle('wheel-dock-target',wheelOverSphere());
-    return;
-  }
-  const angle=pointerWheelAngle(event);
-  if(angle===null||wheelAngle===null){wheelAngle=angle;return;}
-  const delta=Math.atan2(Math.sin(angle-wheelAngle),Math.cos(angle-wheelAngle));
-  wheelAngle=angle;
-  if(Math.abs(delta)<=Math.PI/2+1e-6)rotateNavigationWheel(delta,wheelSensitivity);
-});
-function releaseNavigationWheel(event){
-  if(event?.pointerId!==undefined&&event.pointerId!==wheelPointer)return;
-  const pointer=wheelPointer;
-  const move=wheelMove,drop=move?.moved&&event?.type==='pointerup'&&wheelOverSphere();
-  clearJoinedWheelHold();
-  wheelMove=null;
-  wheelPointer=null;wheelAngle=null;wheelBounds=null;navigationWheel.classList.remove('turning');
-  navigationWheel.classList.remove('moving');
-  if(move){
-    if(event?.type!=='pointerup'){wheelPosition=move.position;wheelDocked=move.docked;}
-    else if(!move.moved){
-      wheelPosition=move.position;
-      wheelDocked=move.docked&&performance.now()-move.pressedAt>=JOINED_WHEEL_HOLD_MS?true:!move.docked;
-    }
-    else if(drop){wheelPosition=move.position;wheelDocked=true;}
-    setNavigationWheelDocked(wheelDocked);
-  }
-  if(pointer!==null&&navigationWheel.hasPointerCapture(pointer))navigationWheel.releasePointerCapture(pointer);
-  if(event?.type==='pointercancel'||(pointer!==null&&event?.type==='lostpointercapture'))stopNavigationWheelScroll();
-}
-navigationWheel.addEventListener('lostpointercapture',releaseNavigationWheel);
-navigationWheel.addEventListener('pointerup',releaseNavigationWheel);
-navigationWheel.addEventListener('pointercancel',releaseNavigationWheel);
-navigationWheel.addEventListener('keydown',event=>{
-  if(event.key.toLowerCase()==='d'&&!event.repeat&&!event.altKey&&!event.ctrlKey&&!event.metaKey&&staffUnlocked()){
-    event.preventDefault();setNavigationWheelDocked(!wheelDocked);return;
-  }
-  const direction={ArrowDown:1,ArrowRight:1,PageDown:3,ArrowUp:-1,ArrowLeft:-1,PageUp:-3}[event.key];
-  if(direction){event.preventDefault();rotateNavigationWheel(direction*.5);}
-});
-document.addEventListener('pointerdown',event=>{
-  if(!navigationWheel.contains(event.target))stopNavigationWheelScroll();
-},{passive:true});
-window.addEventListener('wheel',stopNavigationWheelScroll,{passive:true});
-const wheelOrientation=window.matchMedia('(orientation:landscape)');
-wheelOrientation.addEventListener('change',()=>{
-  releaseNavigationWheel();cancelJoinedWheelEffect();releaseSphereGesture();stopNavigationWheelScroll();syncSpherePlacement();syncNavigationWheelDock();
-});
-navigationWheel.addEventListener('focus',()=>navigationWheel.setAttribute('aria-label',wheelLabel()));
-navigationWheel.setAttribute('aria-label',wheelLabel());
-navigationWheel.title=wheelLabel();
-updateStaffUI();
 let markedWines=[];
 let pendingJumpKey='';
 const markerStatus=document.createElement('div');markerStatus.className='marker-status';markerStatus.hidden=true;document.querySelector('.status').appendChild(markerStatus);
@@ -1413,6 +844,7 @@ function applySiteEnabled(){
     'site-disabled-active',
     disabled
   );
+  if(disabled)animationLibrary.close(false);
 
   if(siteDisabledOverlay){
     siteDisabledOverlay.hidden=!disabled;
@@ -1420,7 +852,7 @@ function applySiteEnabled(){
 }
 const remoteLockOverlay=document.querySelector('#remote-lock'),remoteLockForm=document.querySelector('#remote-lock-form'),remoteLockInput=document.querySelector('#remote-lock-password'),remoteLockError=document.querySelector('#remote-lock-error'),remoteLockTitle=document.querySelector('#remote-lock-title'),remoteLockMessage=document.querySelector('#remote-lock-message');
 function remoteUnlockValid(){return Number(localStorage.getItem(REMOTE_LOCK_SESSION_KEY)||0)>Date.now();}
-function applyRemoteLock(){const locked=remoteLockEnabled&&!remoteUnlockValid();document.body.classList.toggle('remote-lock-active',locked);remoteLockOverlay.hidden=!locked;if(locked){remoteLockError.hidden=true;remoteLockInput.value='';setTimeout(()=>remoteLockInput.focus(),50);}}
+function applyRemoteLock(){const locked=remoteLockEnabled&&!remoteUnlockValid();document.body.classList.toggle('remote-lock-active',locked);remoteLockOverlay.hidden=!locked;if(locked){animationLibrary.close(false);remoteLockError.hidden=true;remoteLockInput.value='';setTimeout(()=>remoteLockInput.focus(),50);}}
 async function sha256(value){const bytes=new TextEncoder().encode(value);const digest=await crypto.subtle.digest('SHA-256',bytes);return Array.from(new Uint8Array(digest),byte=>byte.toString(16).padStart(2,'0')).join('');}
 remoteLockForm.addEventListener('submit',async event=>{event.preventDefault();const digest=await sha256(remoteLockInput.value);if(digest===REMOTE_LOCK_PASSWORD_SHA256){localStorage.setItem(REMOTE_LOCK_SESSION_KEY,String(Date.now()+REMOTE_LOCK_SESSION_MS));remoteLockError.hidden=true;applyRemoteLock();}else{remoteLockError.hidden=false;remoteLockInput.select();}});
 function startSiteEnabledSync(){
@@ -1700,12 +1132,22 @@ document.addEventListener('visibilitychange',()=>{
   if(document.hidden){cancelPageLongPress();closePageSubcategories(false);}
 });
 const CATEGORY_NAV_ORDER=['c0','c1','c2','c6','c7','c3','c4','c5'];
+const NAV_TEXT_LIGHT_CYCLE_MS=2500;
+function pageCategories(){
+  const categories=[...C];
+  if(staffUnlocked()){
+    const sake=categories.findIndex(category=>category.id==='c25');
+    categories.splice(sake<0?categories.length:sake+1,0,AnimationLibrary.category);
+  }
+  return categories;
+}
 function navigationCategories(){
-  return [...CATEGORY_NAV_ORDER.map(id=>C.find(category=>category.id===id)),
-    ...C.filter(category=>!CATEGORY_NAV_ORDER.includes(category.id))];
+  const categories=pageCategories();
+  return [...CATEGORY_NAV_ORDER.map(id=>categories.find(category=>category.id===id)).filter(Boolean),
+    ...categories.filter(category=>!CATEGORY_NAV_ORDER.includes(category.id))];
 }
 function navigateToCategory(category,swipeDirection=0){
-  if(!category)return;
+  if(!category||(category.id===AnimationLibrary.category.id&&!staffUnlocked()))return;
   current=category.id;
   activeGroup=null;
   openCat=navChildren(category).length?category.id:'';
@@ -1736,13 +1178,13 @@ function navigateToSubcategory(category,group){
 function renderPageStrip(){
   const show=navigationHidden&&!q.value.trim();
   pageStrip.hidden=!show;
-  updateSphereLabels();
   // Language setup runs before category groups and popup controls are initialized.
   if(!pageNavigationReady)return;
   cancelPageLongPress();closePageSubcategories(false);
   if(!show)return;
-  pageStrip.setAttribute('aria-label',lang==='zh'?'葡萄酒酒單頁面':'Wine list pages');
-  pageStrip.innerHTML=C.map((category,index)=>{
+  pageStrip.setAttribute('aria-label',lang==='zh'?(staffUnlocked()?'酒單及動畫收藏頁面':'葡萄酒酒單頁面'):
+    (staffUnlocked()?'Wine list and animation library pages':'Wine list pages'));
+  pageStrip.innerHTML=pageCategories().map((category,index)=>{
     const active=category.id===current,hasChildren=navChildren(category).length>0;
     const hint=hasChildren?(lang==='zh'?'；長按可選擇子分類':'; hold for subcategories'):'';
     return `<button class="page-thumb ${active?'active':''}" type="button" data-category="${esc(category.id)}" aria-current="${active?'page':'false'}" aria-label="${esc(lang==='zh'?'前往':'Go to')} ${esc(pick(category,'title'))}${hint}" ${hasChildren?'aria-haspopup="dialog" aria-controls="page-subcategories" aria-expanded="false"':''}>
@@ -1760,7 +1202,7 @@ pageStrip.addEventListener('pointerdown',event=>{
   cancelPageLongPress();pageClickSuppressed=null;
   if(event.button!==0||event.isPrimary===false)return;
   const button=event.target.closest('.page-thumb');
-  const category=button&&C.find(category=>category.id===button.dataset.category);
+  const category=button&&pageCategories().find(category=>category.id===button.dataset.category);
   if(!category||!navChildren(category).length)return;
   pageLongPress={pointerId:event.pointerId,x:event.clientX,y:event.clientY,timer:setTimeout(()=>{
     pageClickSuppressed=category.id;
@@ -1778,11 +1220,11 @@ pageStrip.addEventListener('click',event=>{
   if(pageClickSuppressed===button.dataset.category&&event.detail!==0){
     event.preventDefault();pageClickSuppressed=null;return;
   }
-  navigateToCategory(C.find(category=>category.id===button.dataset.category));
+  navigateToCategory(pageCategories().find(category=>category.id===button.dataset.category));
 });
 pageStrip.addEventListener('contextmenu',event=>{
   const button=event.target.closest('.page-thumb');
-  const category=button&&C.find(category=>category.id===button.dataset.category);
+  const category=button&&pageCategories().find(category=>category.id===button.dataset.category);
   if(!category||!navChildren(category).length)return;
   event.preventDefault();pageClickSuppressed=category.id;
   openPageSubcategories(button,category);
@@ -1790,15 +1232,15 @@ pageStrip.addEventListener('contextmenu',event=>{
 pageStrip.addEventListener('keydown',event=>{
   const button=event.target.closest('.page-thumb');
   if(!button||!(event.key==='ArrowUp'||event.key==='ContextMenu'||(event.key==='F10'&&event.shiftKey)))return;
-  const category=C.find(category=>category.id===button.dataset.category);
-  if(!navChildren(category).length)return;
+  const category=pageCategories().find(category=>category.id===button.dataset.category);
+  if(!category||!navChildren(category).length)return;
   event.preventDefault();openPageSubcategories(button,category);
 });
 function turnCategoryBy(direction){
-  const currentIndex=C.findIndex(category=>category.id===current);
+  const categories=pageCategories(),currentIndex=categories.findIndex(category=>category.id===current);
   if(currentIndex<0)return;
-  const nextIndex=(currentIndex+direction+C.length)%C.length;
-  navigateToCategory(C[nextIndex],direction);
+  const nextIndex=(currentIndex+direction+categories.length)%categories.length;
+  navigateToCategory(categories[nextIndex],direction);
 }
 function updatePageSwipeAxis(x,y){
   if(!pageSwipeStart||pageSwipeStart.axis)return;
@@ -1888,10 +1330,18 @@ main.addEventListener('wheel',event=>{
   },240);
 },{passive:false});
 function navR(){
- nav.innerHTML=navigationCategories().map(c=>{const kids=navChildren(c),has=kids.length>0,open=has&&c.id===openCat,featured=CATEGORY_NAV_ORDER.slice(0,5).includes(c.id);
-  return `<div class="navgroup"><button data-cat="${c.id}" class="navcat ${featured?'nav-featured':''} ${c.id===current&&!activeGroup?'active':''}" aria-current="${c.id===current&&!activeGroup?'page':'false'}" ${has?`aria-expanded="${open}"`:''}><span>${esc(pick(c,'title'))}</span>${has?`<span class="chev">${open?'−':'+'}</span>`:''}${featured?'<span class="nav-capsule-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l2.4 6.6L21 12l-6.6 2.4L12 21l-2.4-6.6L3 12l6.6-2.4L12 3Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></span>':''}</button>${has?`<div class="subnav ${open?'show':''}">${kids.map(g=>`<button class="navsub ${c.id===current&&activeGroup===g.name?'active':''}" aria-current="${c.id===current&&activeGroup===g.name?'page':'false'}" data-cat="${c.id}" data-group="${esc(g.name)}">${esc(pick(g,'name'))}</button>`).join('')}</div>`:''}</div>`
+ const featuredCategories=CATEGORY_NAV_ORDER.slice(0,5),manager=staffUnlocked();
+ const cycle=NAV_TEXT_LIGHT_CYCLE_MS,phase=performance.now()%cycle;
+ nav.style.setProperty('--nav-text-light-cycle',`${cycle}ms`);
+ // One negative delay keeps all five lights aligned across navigation rebuilds.
+ nav.style.setProperty('--nav-text-light-delay',`${(-phase).toFixed(1)}ms`);
+ nav.innerHTML=navigationCategories().map(c=>{
+  const kids=navChildren(c),has=kids.length>0,open=has&&c.id===openCat;
+  const featuredIndex=featuredCategories.indexOf(c.id),featured=featuredIndex>=0,title=esc(pick(c,'title'));
+  const label=featured&&!manager?`<span class="nav-featured-label"><span class="nav-title-text">${title}</span><span class="nav-title-shine" aria-hidden="true" data-title="${title}"></span></span>`:`<span>${title}</span>`;
+  return `<div class="navgroup"><button data-cat="${c.id}" class="navcat ${featured?'nav-featured':''} ${c.id===current&&!activeGroup?'active':''}" aria-current="${c.id===current&&!activeGroup?'page':'false'}" ${has?`aria-expanded="${open}"`:''}>${label}${has?`<span class="chev">${open?'−':'+'}</span>`:''}${featured&&manager?'<span class="nav-capsule-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l2.4 6.6L21 12l-6.6 2.4L12 21l-2.4-6.6L3 12l6.6-2.4L12 3Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></span>':''}</button>${has?`<div class="subnav ${open?'show':''}">${kids.map(g=>`<button class="navsub ${c.id===current&&activeGroup===g.name?'active':''}" aria-current="${c.id===current&&activeGroup===g.name?'page':'false'}" data-cat="${c.id}" data-group="${esc(g.name)}">${esc(pick(g,'name'))}</button>`).join('')}</div>`:''}</div>`
  }).join('');
- nav.querySelectorAll('.navcat').forEach(btn=>btn.onclick=()=>{const id=btn.dataset.cat,c=C.find(x=>x.id===id),has=navChildren(c).length>0;current=id;activeGroup=null;q.value='';openCat=has?(openCat===id?'':id):'';navR();render();showManagerSectionImpact();scrollTo({top:0,behavior:'smooth'})});
+ nav.querySelectorAll('.navcat').forEach(btn=>btn.onclick=()=>{const id=btn.dataset.cat,c=navigationCategories().find(x=>x.id===id);if(!c)return;const has=navChildren(c).length>0;current=id;activeGroup=null;q.value='';openCat=has?(openCat===id?'':id):'';navR();render();showManagerSectionImpact();scrollTo({top:0,behavior:'smooth'})});
  nav.querySelectorAll('.navsub').forEach(btn=>btn.onclick=()=>{
     const category=C.find(c=>c.id===btn.dataset.cat);
     navigateToSubcategory(category,navChildren(category).find(group=>group.name===btn.dataset.group));
@@ -1986,7 +1436,7 @@ function catalogueActionHtml(item,category,section){
   return `<div class="catalogue-entry-controls">${item.catalogueHidden?`<span class="catalogue-hidden-label">${catalogueText('Hidden from customers','已對顧客隱藏')}</span>`:''}<button type="button" class="catalogue-manage" data-catalogue-key="${esc(catalogueEntryKey(item,category,section))}">${catalogueText('Manage item','管理酒款')}</button></div>`;
 }
 function updateCatalogueUI(){
-  catalogueToolbar.hidden=!staffUnlocked();
+  catalogueToolbar.hidden=!staffUnlocked()||(current===AnimationLibrary.category.id&&!q.value.trim());
   catalogueToolbar.querySelector('[data-action="add"]').textContent=catalogueText('+ Add item','＋ 新增酒款');
   catalogueToolbar.querySelector('[data-action="export"]').textContent=catalogueText('Export wines.js','匯出 wines.js');
   catalogueToolbar.querySelector('[data-action="add"]').disabled=!catalogueCanWrite()||catalogue.pending;
@@ -2207,157 +1657,10 @@ function featureCard(x,category,section){
     ${catalogueActionHtml(x,category,section)}
   </section>`;
 }
-function startHeadingSphere(){
-  cancelAnimationFrame(headingSphereFrame);headingSphereFrame=0;
-  let canvas=document.querySelector('.heading-sphere canvas');
-  const hero=canvas?.closest('.hero');
-  if(canvas&&(!staffUnlocked()||document.hidden))canvas.width=canvas.height=1;
-  if(!canvas||!staffUnlocked()||document.hidden||(managerEffectsObserver&&!spherePosition&&!hero?.classList.contains('manager-effect-visible'))){
-    clearJoinedWheelHold();
-    clearCosmicDragonPointer();
-    if(joinedWheelEffect)resetJoinedWheelEffect();
-    return;
-  }
-  const phone=phoneLayout.matches;
-  if(phone&&managerScrollPaused)return;
-  let context=canvas.getContext('2d');
-  if(!context){
-    const replacement=canvas.cloneNode(false);
-    canvas.width=canvas.height=replacement.width=replacement.height=1;
-    const replacementContext=replacement.getContext('2d');
-    if(!replacementContext){console.error('Holographic heading sphere: 2D canvas is unavailable');return;}
-    console.warn('Holographic heading sphere: replacing an unavailable drawing surface');
-    canvas.replaceWith(replacement);canvas=replacement;context=replacementContext;
-  }
-  const size=180,ratio=phone?1:Math.min(window.devicePixelRatio||1,3);
-  const cssSize=headingSphere.getBoundingClientRect().width,effectRatio=Math.min(window.devicePixelRatio||1,2);
-  const pointCount=phone?64:128;
-  const points=Array.from({length:pointCount},(_,index)=>{
-    const y=1-2*(index+.5)/pointCount,r=Math.sqrt(1-y*y),angle=index*Math.PI*(3-Math.sqrt(5));
-    return {x:Math.cos(angle)*r,y,z:Math.sin(angle)*r};
-  });
-  const edges=[];
-  points.forEach((point,i)=>points.slice(i+1).forEach((other,j)=>{
-    if(Math.hypot(point.x-other.x,point.y-other.y,point.z-other.z)<(phone?.54:.38))edges.push([i,i+j+1]);
-  }));
-  let paintedAt=-Infinity;
-  function draw(time){
-    if(!canvas.isConnected||!document.documentElement.classList.contains('manager-mode')||document.hidden||
-      (managerEffectsObserver&&!spherePosition&&!hero?.classList.contains('manager-effect-visible'))){
-      clearJoinedWheelHold();resetJoinedWheelEffect();headingSphereFrame=0;return;
-    }
-    if(phone&&managerScrollPaused){headingSphereFrame=0;return;}
-    let effect=joinedWheelEffectFrame(time);
-    if(effect?.phase==='done'){
-      sphereRotation+=effect.spin;resetJoinedWheelEffect();effect=null;
-    }
-    if(effect){
-      updateCosmicDragon(effect);
-      headingSphere.classList.toggle('joined-impact',effect.phase==='impact');
-      navigationWheel.style.setProperty('--joined-wheel-opacity',String(effect.wheelOpacity));
-      navigationWheel.style.setProperty('--joined-wheel-spin',`${effect.spin}rad`);
-      headingSphere.style.setProperty('--joined-canvas-scale',String(effect.canvasScale));
-    }
-    const frameRate=effect?30:(phone?12:0),interval=1000/frameRate,delta=time-paintedAt;
-    if(frameRate&&!headingSphereMotion.matches&&delta<interval-.5){
-      headingSphereFrame=requestAnimationFrame(draw);return;
-    }
-    paintedAt=effect&&Number.isFinite(paintedAt)&&delta>=interval?time-delta%interval:time;
-    if(!effect&&cosmicDragon&&!cosmicDragon.hidden)
-      CosmicDragonRig.render(cosmicDragon,CosmicDragonRig.pose(0,time/1000,0,headingSphereMotion.matches));
-    const backing=effect&&!headingSphereMotion.matches?
-      Math.round(Math.min(phone?1024:2048,Math.max(size*ratio,cssSize*effect.canvasScale*effectRatio))):
-      Math.round(size*ratio);
-    if(canvas.width!==backing||canvas.height!==backing)canvas.width=canvas.height=backing;
-    context.setTransform(backing/size,0,0,backing/size,0,0);
-    const elapsed=effect?(joinedWheelEffect.spherePhase??sphereRotation):(headingSphereMotion.matches?0:time*.00015)+sphereRotation;
-    const sine=Math.sin(elapsed),cosine=Math.cos(elapsed);
-    function project(point){
-      const x=point.x*cosine+point.z*sine;
-      const z=-point.x*sine+point.z*cosine;
-      const scale=65*(effect?.meshScale??1)/(1-z*.13);
-      return {x:90+x*scale,y:78+point.y*scale,z};
-    }
-    const projected=points.map(project);
-    context.clearRect(0,0,size,size);
-    context.save();
-    if(effect){
-      context.translate(90,78);context.scale(1/effect.canvasScale,1/effect.canvasScale);context.translate(-90,-78);
-      context.globalAlpha=effect.meshOpacity;
-    }
-    if(!effect||effect.meshOpacity>0){
-      const glow=context.createRadialGradient(78,66,8,90,78,79);
-      glow.addColorStop(0,'rgba(10,18,57,.7)');
-      glow.addColorStop(.65,'rgba(73,83,194,.12)');
-      glow.addColorStop(.83,'rgba(34,220,255,.2)');
-      glow.addColorStop(.9,'rgba(233,98,255,.15)');
-      glow.addColorStop(1,'rgba(0,173,255,0)');
-      context.fillStyle=glow;context.fillRect(0,0,size,size);
-      edges.forEach(([i,j],index)=>{
-        const a=projected[i],b=projected[j];
-        const depth=((a.z+b.z)/2+1)/2;
-        const current=.5+.5*Math.sin(elapsed*3+index*.17);
-        context.strokeStyle=`rgba(${index%3?'61,222,255':'235,116,255'},${.08+depth*.45+current*.18})`;
-        context.lineWidth=.35+depth*.4;
-        context.beginPath();context.moveTo(a.x,a.y);context.lineTo(b.x,b.y);context.stroke();
-      });
-      // Fine orbiting strands carry light around, rather than flattening the sphere.
-      const steps=phone?32:80;
-      for(let strand=0;strand<(phone?2:4);strand++){
-        const tilt=.4+strand*.75,radius=1.04+strand*.035;
-        let previous=null;
-        for(let step=0;step<=steps;step++){
-          const theta=step/steps*Math.PI*2+elapsed*(strand%2?-.7:.7);
-          const point=project({x:Math.cos(theta)*radius,y:Math.sin(theta)*Math.cos(tilt)*radius,z:Math.sin(theta)*Math.sin(tilt)*radius});
-          if(previous){
-            const light=(.5+.5*Math.sin(step*.12-elapsed*4+strand))**4;
-            context.strokeStyle=`rgba(${strand%2?'255,135,234':'136,245,255'},${(.1+light*.65)*(.6+(point.z+1)*.2)})`;
-            context.lineWidth=.4+light*.5;
-            context.beginPath();context.moveTo(previous.x,previous.y);context.lineTo(point.x,point.y);context.stroke();
-          }
-          previous=point;
-        }
-      }
-      projected.slice().sort((a,b)=>a.z-b.z).forEach((point,index)=>{
-        context.fillStyle=`rgba(${index%4?'164,248,255':'255,178,239'},${.35+(point.z+1)*.3})`;
-        context.beginPath();context.arc(point.x,point.y,.45+(point.z+1)*.35,0,Math.PI*2);context.fill();
-      });
-      for(let spark=0;spark<(phone?6:16);spark++){
-        const [i,j]=edges[(spark*23)%edges.length],a=projected[i],b=projected[j];
-        const travel=(elapsed*.8+spark*.37)%1;
-        const x=a.x+(b.x-a.x)*travel,y=a.y+(b.y-a.y)*travel;
-        const alpha=.3+((a.z+b.z)/2+1)*.25;
-        context.fillStyle=`rgba(${spark%2?'255,115,223':'49,231,255'},${alpha*.25})`;
-        context.beginPath();context.arc(x,y,3,0,Math.PI*2);context.fill();
-        context.fillStyle=`rgba(235,255,255,${alpha})`;
-        context.beginPath();context.arc(x,y,.9,0,Math.PI*2);context.fill();
-      }
-      context.lineWidth=.65;
-      for(const radius of [26,38,50]){
-        context.strokeStyle=radius===38?'rgba(234,134,255,.65)':'rgba(98,239,255,.65)';
-        context.beginPath();context.ellipse(90,160,radius,radius*.19,0,0,Math.PI*2);context.stroke();
-        const phase=elapsed*2+radius;
-        context.fillStyle='rgba(223,255,255,.95)';
-        context.beginPath();context.arc(90+Math.cos(phase)*radius,160+Math.sin(phase)*radius*.19,1,0,Math.PI*2);context.fill();
-      }
-    }
-    if(effect){
-      context.globalAlpha=1;
-      drawJoinedWheelEffect(context,effect,phone);
-      drawCosmicDragonFire(context,effect,phone);
-    }
-    context.restore();
-    if(!headingSphereMotion.matches)headingSphereFrame=requestAnimationFrame(draw);
-  }
-  draw(performance.now());
-}
 function bind(){
   clearTimeout(searchRenderTimer);
-  cancelJoinedWheelEffect();
+  animationLibrary.close(false);
   cancelPageLongPress();closePageSubcategories(false);
-  releaseNavigationWheel();
-  if(!sphereCategoryChanging){releaseSphereGesture();sphereCategoryAngle=0;}
-  stopNavigationWheelScroll();
   bindWineSelection();
   const hero=main.querySelector('.hero');
   if(hero){
@@ -2365,16 +1668,20 @@ function bind(){
     copy.className='hero-copy';
     while(hero.firstChild)copy.appendChild(hero.firstChild);
     hero.appendChild(copy);
-    if(!headingSphere)headingSphere=createHeadingSphere();
-    syncSpherePlacement();
-    if(!cosmicDragon)cosmicDragon=createCosmicDragon();
-    hero.classList.add('has-cosmic-dragon');copy.appendChild(cosmicDragon);
   }
-  syncNavigationWheelDock();
   observeManagerEffects();
-  startHeadingSphere();
+  if(catalogueUIReady)updateCatalogueUI();
 }
-function render(){const query=q.value.trim().toLowerCase();const visible=item=>staffUnlocked()||!item.catalogueHidden;if(query){let groups=[];C.forEach(c=>c.sections.forEach(s=>{let items=s.items.filter(x=>visible(x)&&(c.title+' '+s.name+' '+x.v+' '+x.name+' '+x.nameZh+' '+x.price+' '+x.note).toLowerCase().includes(query));if(items.length)groups.push({title:c.title+(s.hideHeading?'':' · '+s.name),items,category:c,section:s})}));let count=groups.reduce((a,g)=>a+g.items.length,0);st.textContent='Search results';meta.textContent=totalSelections+' selections · Updated '+updatedDateText();main.innerHTML=`<section class="hero"><div class="kicker">Search</div><h2>${esc(q.value)}</h2><p>${count} matching selections</p></section>`+(groups.length?groups.map(g=>`<section class="section"><h3>${esc(g.title)}</h3>${g.items.map(x=>card(x,g.category,g.section)).join('')}</section>`).join(''):'<div class="empty">No matching selection found.</div>');bind();return}let c=C.find(x=>x.id===current)||C[0];st.textContent='';meta.textContent=totalSelections+' '+ui().selections+' · '+ui().updated+' '+updatedDateText();const sectionKey=value=>String(value??'')
+function render(){
+  if(current===AnimationLibrary.category.id&&!staffUnlocked()){
+    current=C.find(category=>category.id==='c25')?.id||C[0].id;activeGroup=null;navR();
+  }
+  const query=q.value.trim().toLowerCase();
+  if(!query&&current===AnimationLibrary.category.id&&staffUnlocked()){
+    st.textContent='';meta.textContent=lang==='zh'?'私人收藏 · 2 款動畫':'Private collection · 2 animations';
+    main.innerHTML=animationLibrary.markup();bind();animationLibrary.bind(main);return;
+  }
+  const visible=item=>staffUnlocked()||!item.catalogueHidden;if(query){let groups=[];C.forEach(c=>c.sections.forEach(s=>{let items=s.items.filter(x=>visible(x)&&(c.title+' '+s.name+' '+x.v+' '+x.name+' '+x.nameZh+' '+x.price+' '+x.note).toLowerCase().includes(query));if(items.length)groups.push({title:c.title+(s.hideHeading?'':' · '+s.name),items,category:c,section:s})}));let count=groups.reduce((a,g)=>a+g.items.length,0);st.textContent='Search results';meta.textContent=totalSelections+' selections · Updated '+updatedDateText();main.innerHTML=`<section class="hero"><div class="kicker">Search</div><h2>${esc(q.value)}</h2><p>${count} matching selections</p></section>`+(groups.length?groups.map(g=>`<section class="section"><h3>${esc(g.title)}</h3>${g.items.map(x=>card(x,g.category,g.section)).join('')}</section>`).join(''):'<div class="empty">No matching selection found.</div>');bind();return}let c=C.find(x=>x.id===current)||C[0];st.textContent='';meta.textContent=totalSelections+' '+ui().selections+' · '+ui().updated+' '+updatedDateText();const sectionKey=value=>String(value??'')
   .normalize('NFD')
   .replace(/[\u0300-\u036f]/g,'')
   .toLowerCase()
