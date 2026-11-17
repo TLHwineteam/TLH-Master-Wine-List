@@ -7,9 +7,9 @@ class AnimationLibrary{
   static settleMs=800;
   static burstMs=1800;
   static reformMs=3800;
-  static names={dragon:'The Ice Dragon',wheel:'The Cosmic Wheel'};
-  constructor({isAvailable,language,drawFire,drawWheel,drawCore,releaseTextures,prepareTextures}){
-    Object.assign(this,{isAvailable,language,drawFire,drawWheel,drawCore,releaseTextures,prepareTextures});
+  static names={dragon:'The Ice Dragon',wheel:'The Cosmic Wheel',wolf:'The Cyber Wolf'};
+  constructor({isAvailable,language,drawFire,drawWheel,drawCore,releaseTextures,prepareTextures,avatarState,selectAvatar}){
+    Object.assign(this,{isAvailable,language,drawFire,drawWheel,drawCore,releaseTextures,prepareTextures,avatarState,selectAvatar});
     this.motion=matchMedia('(prefers-reduced-motion: reduce)');
     this.dialog=document.createElement('dialog');
     this.dialog.id='animation-player';
@@ -37,43 +37,65 @@ class AnimationLibrary{
   text(english,chinese){return this.language()==='zh'?chinese:english;}
   markup(){
     const dragon=CosmicDragonRig.markup();
-    const entries=['dragon','wheel'].map((kind,index)=>`
+    const entries=Object.keys(AnimationLibrary.names).map((kind,index)=>`
       <figure class="library-slot">
-        <button type="button" class="animation-card animation-card-${kind}" data-animation="${kind}"
-          aria-labelledby="library-card-name-${kind}" aria-haspopup="dialog" aria-controls="animation-player">
-          <span class="animation-card-top"><span>${kind==='dragon'?'ICE / 01':'COSMOS / 02'}</span><span aria-hidden="true">✧</span></span>
+        <button type="button" class="animation-card animation-card-${kind}" data-animation="${kind}" data-avatar-select="${kind}"
+          aria-labelledby="library-card-name-${kind}" aria-pressed="false">
+          <span class="animation-card-top"><span>${{dragon:'ICE / 01',wheel:'COSMOS / 02',wolf:'LYCAN / 03'}[kind]}</span><span aria-hidden="true">✧</span></span>
           <span class="animation-card-scene" aria-hidden="true">${kind==='dragon'?
-            `<span class="library-dragon-preview"><img src="${CosmicDragonRig.asset}" alt="" hidden>${dragon}</span>`:
+            `<span class="library-dragon-preview"><img src="${CosmicDragonRig.asset}" alt="" hidden>${dragon}</span>`:kind==='wolf'?
+            `<span class="library-wolf-preview"><img src="${CyberWolfRig.asset}" alt="" hidden>${CyberWolfRig.markup()}</span>`:
             '<span class="library-wheel-preview"><img src="images/manager-wheel-hud.svg" alt=""><img src="images/manager-energy-ring.svg" alt=""><span class="library-wheel-preview-core"></span></span>'}</span>
           <span class="animation-card-bottom"><span class="animation-card-number">0${index+1}</span>
-            <span>${this.text(kind==='dragon'?'FIRE BREATH':'BIG BANG',kind==='dragon'?'冰焰吐息':'宇宙爆發')}</span>
+            <span>${this.text({dragon:'FIRE BREATH',wheel:'BIG BANG',wolf:'LYCAN AWAKENING'}[kind],
+              {dragon:'冰焰吐息',wheel:'宇宙爆發',wolf:'狼人覺醒'}[kind])}</span>
             <span class="animation-card-open" aria-hidden="true">↗</span></span>
         </button>
         <figcaption id="library-card-name-${kind}">${AnimationLibrary.names[kind]}</figcaption>
+        <p class="library-avatar-owner" data-avatar-owner="${kind}"></p>
+        <button type="button" class="library-avatar-preview" data-avatar-preview="${kind}" aria-haspopup="dialog" aria-controls="animation-player">${this.text('Preview animation','預覽動畫')}</button>
       </figure>`).join('');
-    const empty=Array.from({length:4},(_,index)=>`<div class="library-slot library-slot-empty" aria-hidden="true">
-      <div class="library-empty-card"><span>✧</span><small>SLOT 0${index+3}</small></div>
+    const empty=Array.from({length:3},(_,index)=>`<div class="library-slot library-slot-empty" aria-hidden="true">
+      <div class="library-empty-card"><span>✧</span><small>SLOT 0${index+4}</small></div>
     </div>`).join('');
     return `<section class="animation-library" aria-labelledby="library-title">
       <header class="library-heading">
         <div><p class="library-eyebrow">${this.text('PRIVATE COLLECTION / 01','私人收藏 / 01')}</p>
           <h2 id="library-title">${this.text(AnimationLibrary.category.title,AnimationLibrary.category.titleZh)}</h2>
-          <p>${this.text('Choose a card to enter its animation studio.','選擇一張收藏卡，進入專屬動畫展示空間。')}</p></div>
+          <p>${this.text('Click any card to wear it beside your name. Switch freely; preview its animation below.','點選任何收藏卡，即可將頭像放到名字旁；隨時自由切換，亦可在下方預覽動畫。')}</p></div>
         <span class="library-manager-badge">${this.text('MANAGER ONLY','僅限管理員')}</span>
       </header>
       <div class="library-cabinet">
         <div class="library-rail" aria-hidden="true"><span>01</span><span>COLLECTION</span></div>
         <div class="library-collection"><div class="library-collection-heading">
-          <span>${this.text('ANIMATION CARDS','動畫收藏卡')}</span><span>${this.text('2 / 6 SLOTS','2 / 6 個收藏位置')}</span>
+          <span>${this.text('AVATAR COLLECTION','頭像收藏')}</span><span>${this.text('3 / 6 SLOTS','3 / 6 個收藏位置')}</span>
         </div><div class="library-slots">${entries}${empty}</div></div>
       </div>
       <p class="library-note">${this.text('A private collection, separate from the wine list and customer PDF.','私人動畫收藏，不屬於酒單，亦不會列入顧客 PDF。')}</p>
+      <p class="library-avatar-feedback" role="status" aria-live="polite"></p>
     </section>`;
   }
   bind(root){
+    this.root=root;
+    root.querySelectorAll('[data-avatar-select]').forEach(button=>button.addEventListener('click',async()=>{
+      if(button.disabled||!this.isAvailable()||!this.selectAvatar)return;
+      const feedback=root.querySelector('.library-avatar-feedback');
+      try{
+        button.disabled=true;
+        await this.selectAvatar(button.dataset.avatarSelect);
+        feedback.textContent=this.text('Avatar updated beside your name. Saved on this browser.','名字旁的頭像已更新，並已儲存在此瀏覽器。');
+      }catch(error){
+        console.error('Avatar selection failed:',error);
+        feedback.textContent=this.text('Avatar could not be changed: ','未能更換頭像：')+error.message;
+      }finally{this.refreshAvatars();}
+    }));
+    this.refreshAvatars();
     root.querySelectorAll('[data-animation]').forEach(card=>{
       if(card.dataset.animation==='dragon')CosmicDragonRig.render(card,CosmicDragonRig.pose(0,0,0,true));
-      card.addEventListener('click',()=>this.open(card.dataset.animation,card));
+      if(card.dataset.animation==='wolf'){
+        CyberWolfRig.render(card,null,0,true);
+        card.querySelector('.wolf-rig').setAttribute('viewBox','85 135 560 440');
+      }
       card.querySelectorAll('img').forEach(image=>{
         const failed=()=>{
           if(card.disabled)return;
@@ -87,6 +109,25 @@ class AnimationLibrary{
         if(image.complete&&!image.naturalWidth)failed();
       });
     });
+    root.querySelectorAll('[data-avatar-preview]').forEach(button=>{
+      button.addEventListener('click',()=>this.open(button.dataset.avatarPreview,button));
+    });
+  }
+  refreshAvatars(){
+    if(!this.root?.querySelector('.animation-library'))return;
+    const state=this.avatarState?.();
+    for(const kind of Object.keys(AnimationLibrary.names)){
+      const mine=state?.selected===kind;
+      const label=this.root.querySelector(`[data-avatar-owner="${kind}"]`);
+      const button=this.root.querySelector(`[data-avatar-select="${kind}"]`);
+      if(!label||!button)continue;
+      label.textContent=mine?this.text(`${state.name}’s avatar`,`${state.name} 的頭像`):
+        this.text('Click to use as your avatar','點選以使用此頭像');
+      button.disabled=!this.isAvailable()||!state?.ready;
+      button.setAttribute('aria-pressed',String(mine));
+      label.classList.toggle('is-owned',mine);
+    }
+    if(state?.error)this.root.querySelector('.library-avatar-feedback').textContent=state.error;
   }
   async open(kind,origin){
     if(!this.isAvailable()||!AnimationLibrary.names[kind]||this.dialog.open)return;
@@ -100,16 +141,19 @@ class AnimationLibrary{
     <div class="animation-stage" data-state="loading">
       <canvas class="animation-stage-canvas" width="1" height="1" aria-hidden="true"></canvas>
       <button type="button" class="animation-target library-${kind}" disabled
-        aria-label="${this.text(kind==='dragon'?'Hold The Ice Dragon to breathe fire':'Hold The Cosmic Wheel to accelerate, contract and trigger the big bang',
-          kind==='dragon'?'長按冰龍以噴出冰焰':'長按宇宙輪以加速旋轉、收縮並啟動宇宙爆發')}">
+        aria-label="${this.text(kind==='dragon'?'Hold The Ice Dragon to breathe fire':kind==='wolf'?
+          'Hold The Cyber Wolf to transform into a werewolf and strike twice':'Hold The Cosmic Wheel to accelerate, contract and trigger the big bang',
+          kind==='dragon'?'長按冰龍以噴出冰焰':kind==='wolf'?'長按賽博狼以變身狼人及揮爪兩次':'長按宇宙輪以加速旋轉、收縮並啟動宇宙爆發')}">
         ${kind==='dragon'?`<span class="cosmic-dragon-art" aria-hidden="true"><img src="${CosmicDragonRig.asset}" alt="" hidden>${CosmicDragonRig.markup()}</span>`:
+          kind==='wolf'?`<span class="library-wolf-art" aria-hidden="true">
+            <img src="${CyberWolfRig.asset}" alt="" hidden>${CyberWolfRig.markup()}</span>`:
           `<span class="library-wheel-art" aria-hidden="true"><span class="navigation-wheel">
             <canvas class="wheel-aura" width="1" height="1"></canvas><span class="wheel-energy"></span>
             <span class="wheel-orbit"></span><span class="wheel-telemetry"></span><span class="wheel-core"><canvas width="1" height="1"></canvas></span>
             <img src="images/manager-energy-ring.svg" alt="" hidden><img src="images/manager-wheel-hud.svg" alt="" hidden>
           </span></span>`}
       </button>
-      <span class="animation-stage-label" aria-hidden="true">${kind==='dragon'?'ELEMENTAL / ICE':'CELESTIAL / COSMOS'}</span>
+      <span class="animation-stage-label" aria-hidden="true">${{dragon:'ELEMENTAL / ICE',wheel:'CELESTIAL / COSMOS',wolf:'LYCANTHROPE / NEON'}[kind]}</span>
     </div>
     <footer class="animation-dialog-footer">
       <p id="animation-instructions">${this.text('Hold the artwork to play. Enter, Space or Play also works.','長按圖像即可播放，亦可按 Enter、空白鍵或「播放」。')}</p>
@@ -201,7 +245,7 @@ class AnimationLibrary{
   }
   play(){
     if(!this.dialog.open||!this.ready||!this.isAvailable()||document.hidden||this.effect)return;
-    if(!this.motion.matches){
+    if(!this.motion.matches&&this.kind!=='wolf'){
       try{this.prepareTextures();}
       catch(error){
         this.fail(error,'Animation textures could not be prepared:');return;
@@ -214,6 +258,7 @@ class AnimationLibrary{
     if(this.motion.matches)this.calmTimer=setTimeout(()=>this.reset(),1200);
   }
   static frame(kind,elapsed,reduced=false){
+    if(kind==='wolf')return CyberWolfRig.frame(elapsed,reduced);
     const clamp=value=>Math.max(0,Math.min(1,value)),ease=value=>value*value*(3-2*value);
     elapsed=Math.max(0,elapsed);
     if(reduced)return {phase:'calm',progress:0,charge:0,energy:0,spin:0,meshScale:1,meshOpacity:1,wheelOpacity:1};
@@ -260,7 +305,8 @@ class AnimationLibrary{
   layout(){
     if(!this.dialog.open)return;
     const bounds=this.stage.getBoundingClientRect();
-    const width=Math.min(bounds.width*(this.kind==='dragon'?.62:.28),bounds.height*(this.kind==='dragon'?1.05:.48));
+    const width=this.kind==='wolf'?Math.min(bounds.width*.94,bounds.height*1.27):
+      Math.min(bounds.width*(this.kind==='dragon'?.62:.28),bounds.height*(this.kind==='dragon'?1.05:.48));
     this.target.style.width=`${Math.max(44,width)}px`;
     const target=this.target.getBoundingClientRect(),unit=800/Math.max(1,bounds.width);
     this.geometry={x:(target.left-bounds.left)*unit,y:(target.top-bounds.top)*unit,
@@ -287,12 +333,21 @@ class AnimationLibrary{
         const messages={charging:this.kind==='dragon'?this.text('The Ice Dragon is rising.','冰龍正在站起。'):this.text('Accelerating and contracting…','正在加速旋轉及收縮……'),
           breathing:this.text('Breathing ice fire into open space.','向空中噴出冰焰。'),
           settling:this.text('Returning directly to sitting.','直接恢復坐姿。'),
-          burst:this.text('Big bang.','宇宙爆發。'),reforming:this.text('The Cosmic Wheel is reforming.','宇宙輪正在重組。')};
+          burst:this.text('Big bang.','宇宙爆發。'),reforming:this.text('The Cosmic Wheel is reforming.','宇宙輪正在重組。'),
+          awakening:this.text('The wolf awakens.','賽博狼正在覺醒。'),
+          transforming:this.text('Wolf to werewolf.','正在變身狼人。'),
+          'first-windup':this.text('First claw: gathering energy.','第一爪：凝聚能量。'),
+          'first-strike':this.text('First claw strike.','第一爪出擊。'),
+          'second-windup':this.text('Counterattack: drawing back.','蓄勢反擊。'),
+          'second-strike':this.text('Second claw strike.','第二爪出擊。'),
+          recovering:this.text('The werewolf settles.','狼人恢復站姿。'),
+          reverting:this.text('Returning to the wolf avatar.','回復賽博狼頭像。')};
         this.setStatus(messages[phase]||this.idleText());
       }
       const pose=this.kind==='dragon'?this.dragonPose(frame,time):null;
       const wheelAngle=this.wheelAngle(time)+(frame?.spin||0);
       if(pose)CosmicDragonRig.render(this.target,pose.rig);
+      else if(this.kind==='wolf')CyberWolfRig.render(this.target,frame,time,this.motion.matches);
       else{
         const art=this.target.querySelector('.library-wheel-art');
         art.style.transform=`scale(${frame?.meshScale??1}) rotate(${wheelAngle}rad)`;
@@ -304,7 +359,8 @@ class AnimationLibrary{
         const context=this.context,height=this.geometry.stageHeight;
         context.setTransform(this.canvas.width/800,0,0,this.canvas.height/height,0,0);
         context.clearRect(0,0,800,height);
-        if(pose)this.drawFire(context,frame,this.phone,pose);
+        if(this.kind==='wolf')CyberWolfRig.draw(context,frame,this.geometry,time,this.phone,this.motion.matches);
+        else if(pose)this.drawFire(context,frame,this.phone,pose);
         else{
           const center={x:this.geometry.x+this.geometry.width/2,y:this.geometry.y+this.geometry.height/2};
           this.drawSphere(context,frame,wheelAngle,center);

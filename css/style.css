@@ -374,6 +374,15 @@ body{font-size:calc(16px * var(--font-scale))}
 .catalogue-dialog .catalogue-error,.catalogue-toolbar .catalogue-error{color:#ffd1d5}
 .catalogue-dialog .catalogue-danger{border-color:#fca8b1;background:#4b2435;color:#ffe9eb}
 .catalogue-delete-warning{margin-top:20px;padding:12px;border:1px solid #fca8b1;border-radius:10px}
+.catalogue-history-dialog{width:min(760px,calc(100% - 24px))}
+.catalogue-history-dialog h3{margin:0 0 12px;color:#edfcff;font-size:24px;line-height:1.2}
+.catalogue-history-list{display:grid;gap:12px;margin:16px 0 0;padding:0;list-style:none}
+.catalogue-history-entry{min-width:0;padding:14px 16px;border:1px solid rgba(135,226,255,.28);border-radius:12px;background:rgba(8,19,35,.6);overflow-wrap:anywhere}
+.catalogue-history-entry p{margin:5px 0}
+.catalogue-history-entry time{display:block;color:#a6d9eb;font-size:12px;line-height:1.6}
+.catalogue-history-actor{color:#d6eaf7}
+.catalogue-history-uid{display:block;margin-top:3px;color:#99b2c8;font-size:11px;overflow-wrap:anywhere}
+.catalogue-history-status{margin-bottom:0;color:#b9daec}
 .catalogue-toolbar button:focus-visible,.catalogue-dialog :is(button,input,select):focus-visible,.catalogue-manage:focus-visible{outline:2px solid #80f3e5;outline-offset:3px}
 @media(max-width:600px){
   .catalogue-toolbar{margin:12px 14px 0;padding:12px}
@@ -2161,8 +2170,8 @@ html.manager-mode .page-strip{
 }
 .manager-mode .status .staff-mode-btn.unlocked:focus-visible{outline:2px solid #fff;outline-offset:3px}
 .manager-badge-wolf{
-  width:32px;height:32px;flex-shrink:0;object-fit:contain;padding:2px;border-radius:7px;
-  border:1px solid rgba(115,236,255,.7);
+  width:44px;height:40px;flex-shrink:0;object-fit:contain;padding:0;
+  filter:drop-shadow(0 0 3px rgba(100,219,255,.25));
 }
 .manager-badge-name{
   color:#e4faff;font-size:14px;font-weight:700;letter-spacing:.08em;
@@ -2170,7 +2179,7 @@ html.manager-mode .page-strip{
 }
 @media (max-width:600px){
   .manager-mode .status .staff-mode-btn.unlocked{min-width:100px;gap:6px;padding:7px 8px}
-  .manager-badge-wolf{width:28px;height:28px}
+  .manager-badge-wolf{width:38px;height:34px}
   .manager-badge-name{font-size:12px;letter-spacing:.04em}
 }
 .manager-mode .status .font-controls{padding:2px;gap:2px;min-height:48px}
@@ -2666,6 +2675,17 @@ html:not(.manager-mode) .status .font-controls .font-btn{
 .animation-card-wheel{
   border-color:#d4b5ff;background:linear-gradient(150deg,#eed4ff,#734eae 6%,#11234d 55%,#627cdc);
 }
+.animation-card-wolf{
+  border-color:#f0aaff;background:linear-gradient(145deg,#ffe1ff,#70449c 6%,#101d43 55%,#33b9cc);
+}
+.library-wolf-preview{position:relative;display:block;width:118%;aspect-ratio:4/3}
+.library-avatar-owner{min-height:2.6em;margin:8px 0 6px;text-align:center;font-size:11px;line-height:1.3;color:#aac6e3;overflow-wrap:anywhere}
+.library-avatar-owner.is-owned{color:#8df5e0}
+.library-avatar-preview{display:block;width:100%;min-height:44px;padding:8px;border:1px solid #65afcb;border-radius:8px;
+  background:#163b60;color:#d9f7ff;font-family:inherit;font-size:12px;font-weight:600;line-height:1.3;cursor:pointer}
+.animation-card[aria-pressed="true"]{outline:2px solid #72e5c4;outline-offset:4px}
+.library-avatar-preview:focus-visible{outline:2px solid #e6faff;outline-offset:3px}
+.library-avatar-feedback{font-size:13px;line-height:1.5;color:#b5efff;overflow-wrap:anywhere}
 .animation-card::before{
   content:"";position:absolute;inset:5px;border:1px solid rgba(194,242,255,.55);border-radius:7px;pointer-events:none;
 }
@@ -2766,6 +2786,14 @@ body.animation-player-open{overflow:hidden}
   background:radial-gradient(ellipse,rgba(0,3,16,.7),rgba(23,49,82,.25) 50%,transparent 72%);
 }
 .library-wheel{left:50%;top:50%;aspect-ratio:1;transform:translate(-50%,-50%)}
+.library-wolf{left:50%;top:50%;aspect-ratio:4/3;transform:translate(-50%,-50%)}
+.library-wolf-art{position:absolute;inset:0;display:block;pointer-events:none}
+.wolf-rig{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.animation-dialog[data-animation="wolf"] .animation-stage{background:
+  radial-gradient(ellipse at 50% 35%,rgba(74,38,124,.26),transparent 58%),#071326}
+.animation-dialog[data-animation="wolf"] .animation-stage-canvas{z-index:4}
+.animation-stage[data-state="first-strike"] .wolf-rig,
+.animation-stage[data-state="second-strike"] .wolf-rig{filter:drop-shadow(0 0 4px rgba(198,107,255,.2))}
 .library-wheel-art{display:block;width:100%;height:100%;pointer-events:none}
 .manager-mode .animation-dialog .navigation-wheel{
   position:absolute;inset:0;width:100%;height:100%;pointer-events:none;cursor:inherit;

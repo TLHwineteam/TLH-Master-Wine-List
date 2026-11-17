@@ -1,4 +1,7 @@
 let catalogue=null,catalogueError='',catalogueUIReady=false,catalogueToolbar,catalogueDialog;
+let stockDatabase=null,catalogueAuth=null,catalogueConnected=false,catalogueManager=false,catalogueBusy=false;
+const MANAGER_AVATAR_KEY='tlh-manager-avatar-v2';
+let managerAvatarError='';
 try{catalogue=new WineCatalogue(window.WINE_DATA,localStorage);if(catalogue.cacheError)catalogueError='Offline cache unavailable. Reconnect to load the authoritative Firebase catalogue.';}
 catch(error){catalogueError=String(error.message||error);console.error('Catalogue could not be loaded:',error);}
 let C=catalogue?catalogue.getData():window.WINE_DATA;
@@ -555,12 +558,9 @@ function updateStaffUI(){
   animationLibrary?.sync();
   if(!unlocked&&current===AnimationLibrary.category.id){current=C.find(category=>category.id==='c25')?.id||C[0].id;activeGroup=null;openCat='';}
   staffButton.classList.toggle('unlocked',unlocked);
-  if(unlocked){
-    if(!staffButton.querySelector('.manager-badge-name')){
-      staffButton.innerHTML='<img class="manager-badge-wolf" src="images/manager-marco-wolf.png" alt="" width="36" height="36"><span class="manager-badge-name">MARCO</span>';
-    }
-  }else staffButton.textContent='🔒';
-  staffButton.setAttribute('aria-label',lang==='zh'?(unlocked?'Marco：職員模式已啟用，按此鎖定':'解鎖職員模式'):(unlocked?'Marco: staff mode active. Press to lock':'Unlock staff mode'));
+  if(unlocked)renderManagerAvatarBadge();
+  else{staffButton.textContent='🔒';}
+  if(!unlocked)staffButton.setAttribute('aria-label',lang==='zh'?'解鎖職員模式':'Unlock staff mode');
   staffButton.title=staffButton.getAttribute('aria-label');
   startManagerDataFlow();
   if(catalogueUIReady){
@@ -819,6 +819,7 @@ function releaseAnimationTextures(){
 animationLibrary=new AnimationLibrary({
   isAvailable:()=>staffUnlocked()&&!document.body.classList.contains('remote-lock-active')&&!document.body.classList.contains('site-disabled-active'),
   language:()=>lang,drawFire:drawCosmicDragonFire,drawWheel:drawCosmicWheelEffect,drawCore:drawWheelCore,
+  avatarState:managerAvatarState,selectAvatar:selectManagerAvatar,
   releaseTextures:releaseAnimationTextures,prepareTextures:()=>{
     if(prepareAnimationCloudSprites(phoneLayout.matches).length!==4)throw new Error('The plasma drawing surfaces are unavailable');
   }
@@ -880,7 +881,50 @@ function startSiteEnabledSync(){
 }
 function startRemoteLockSync(){const settingsRef=stockDatabase.ref('settings/remoteLock');settingsRef.on('value',snapshot=>{const settings=snapshot.val()||{};remoteLockEnabled=settings.enabled===true;remoteLockTitle.textContent=settings.title||'Service Suspended';remoteLockMessage.textContent=settings.message||'Please contact management.';applyRemoteLock();},error=>console.error('Remote lock unavailable:',error));}
 setInterval(()=>{if(remoteLockEnabled)applyRemoteLock();},60000);
-let stockDatabase=null,catalogueAuth=null,catalogueConnected=false,catalogueManager=false,catalogueBusy=false;
+async function authenticatedManagerActor(){
+  const user=catalogueAuth?.currentUser;
+  if(!user)throw new Error('Sign in before saving a manager change.');
+  const {claims}=await user.getIdTokenResult();
+  if(catalogueAuth.currentUser?.uid!==user.uid)throw new Error('The signed-in account changed. Please retry.');
+  return {uid:user.uid,displayName:claims.name||'',email:claims.email||''};
+}
+function managerAvatarState(){
+  const saved=localStorage.getItem(MANAGER_AVATAR_KEY);
+  const selected=Object.hasOwn(AnimationLibrary.names,saved)?saved:'wolf';
+  return {ready:staffUnlocked(),selected,name:'Marco',error:managerAvatarError||null};
+}
+function renderManagerAvatarBadge(){
+  if(!staffUnlocked())return;
+  const {selected:kind,name}=managerAvatarState();
+  const assets={wolf:CyberWolfRig.avatar,dragon:'images/manager-dragon-avatar.webp',wheel:'images/manager-wheel-hud.svg'};
+  let image=staffButton.querySelector('img'),label=staffButton.querySelector('.manager-badge-name');
+  if(!image||!label){
+    staffButton.replaceChildren();
+    image=document.createElement('img');image.className='manager-badge-wolf';image.alt='';image.width=36;image.height=36;
+    label=document.createElement('span');label.className='manager-badge-name';staffButton.append(image,label);
+  }
+  if(staffButton.dataset.avatar!==kind||!image.getAttribute('src'))image.src=assets[kind]||assets.wolf;
+  staffButton.dataset.avatar=kind;label.textContent=name;
+  staffButton.setAttribute('aria-label',lang==='zh'?`${name}：職員模式已啟用，按此鎖定`:`${name}: staff mode active. Press to lock`);
+  staffButton.title=staffButton.getAttribute('aria-label');
+}
+function refreshManagerAvatars(){
+  renderManagerAvatarBadge();animationLibrary?.refreshAvatars?.();
+}
+async function selectManagerAvatar(kind){
+  try{
+    managerAvatarError='';
+    if(!staffUnlocked()||!siteEnabled||remoteLockEnabled)throw new Error(catalogueText('Unlock manager mode to choose an avatar.','請先解鎖管理員模式以選擇頭像。'));
+    if(!Object.hasOwn(AnimationLibrary.names,kind))throw new Error('Unknown avatar.');
+    localStorage.setItem(MANAGER_AVATAR_KEY,kind);
+  }catch(error){
+    managerAvatarError=catalogueText('Avatar not changed: ','未能更改頭像：')+String(error.message||error);
+    throw new Error(managerAvatarError);
+  }finally{refreshManagerAvatars();}
+}
+window.addEventListener('storage',event=>{
+  if(event.key===MANAGER_AVATAR_KEY||event.key===null)refreshManagerAvatars();
+});
 function catalogueCanWrite(){return Boolean(catalogue&&catalogue.ready&&catalogueConnected&&catalogueManager&&staffUnlocked()&&!catalogueBusy);}
 function startSettingsAndCatalogueSync(){
   if(!window.firebase){catalogueError='Firebase is unavailable. Reconnect to load the shared catalogue.';updateCatalogueUI();return;}
@@ -894,6 +938,7 @@ function startSettingsAndCatalogueSync(){
     },error=>{catalogueConnected=false;catalogueError=error.message;console.error('Catalogue connection unavailable:',error);updateCatalogueUI();});
     if(catalogue)catalogue.connect(stockDatabase.ref('wineCatalogue/v1'),{
       canWrite:()=>catalogueConnected&&catalogueManager&&staffUnlocked(),
+      getActor:authenticatedManagerActor,
       onChange:refreshCatalogue,
       onStatus:error=>{catalogueError=error?String(error.message||error):'';if(error)console.error('Shared catalogue unavailable:',error);updateCatalogueUI();}
     });
@@ -1436,9 +1481,15 @@ function catalogueActionHtml(item,category,section){
   return `<div class="catalogue-entry-controls">${item.catalogueHidden?`<span class="catalogue-hidden-label">${catalogueText('Hidden from customers','已對顧客隱藏')}</span>`:''}<button type="button" class="catalogue-manage" data-catalogue-key="${esc(catalogueEntryKey(item,category,section))}">${catalogueText('Manage item','管理酒款')}</button></div>`;
 }
 function updateCatalogueUI(){
+  refreshManagerAvatars();
+  if(catalogueHistoryDialog?.open&&!catalogueCanReadHistory())closeCatalogueHistory();
+  else if(catalogueHistoryDialog?.open)renderCatalogueHistory();
   catalogueToolbar.hidden=!staffUnlocked()||(current===AnimationLibrary.category.id&&!q.value.trim());
   catalogueToolbar.querySelector('[data-action="add"]').textContent=catalogueText('+ Add item','＋ 新增酒款');
   catalogueToolbar.querySelector('[data-action="export"]').textContent=catalogueText('Export wines.js','匯出 wines.js');
+  const historyButton=catalogueToolbar.querySelector('[data-action="history"]');
+  historyButton.textContent=catalogueText('Change history','更新紀錄');
+  historyButton.disabled=!catalogueCanReadHistory();
   catalogueToolbar.querySelector('[data-action="add"]').disabled=!catalogueCanWrite()||catalogue.pending;
   catalogueToolbar.querySelector('[data-action="export"]').disabled=!catalogue?.ready||!catalogueConnected||catalogue.pending;
   const authButton=catalogueToolbar.querySelector('[data-action="auth"]');
@@ -1472,6 +1523,66 @@ function showCatalogueError(error){
   const target=catalogueDialog.querySelector('.catalogue-error');
   target.textContent=catalogueText('Not saved: ','未能儲存：')+String(error.message||error);
   target.hidden=false;
+}
+let catalogueHistoryDialog=null,catalogueHistoryEntries=[],catalogueHistoryError='',catalogueHistoryLoading=false,catalogueHistoryOwner=null;
+function catalogueCanReadHistory(){
+  return Boolean(staffUnlocked()&&catalogueManager&&catalogueAuth?.currentUser);
+}
+function closeCatalogueHistory(){
+  catalogue?.stopHistory();
+  catalogueHistoryEntries=[];catalogueHistoryError='';catalogueHistoryLoading=false;catalogueHistoryOwner=null;
+  if(catalogueHistoryDialog){
+    if(catalogueHistoryDialog.open)catalogueHistoryDialog.close();
+    catalogueHistoryDialog.replaceChildren();
+  }
+}
+function renderCatalogueHistory(){
+  if(!catalogueHistoryDialog?.open)return;
+  const labels={add:catalogueText('Added','新增'),hide:catalogueText('Hidden','隱藏'),
+    restore:catalogueText('Restored','恢復'),delete:catalogueText('Deleted','刪除')};
+  const entries=catalogueHistoryEntries.map(entry=>{
+    const category=entry.category||{},section=entry.section||{},item=entry.item||{},actor=entry.actor||{};
+    const at=typeof entry.at==='number'?new Date(entry.at):null;
+    const date=at&&!Number.isNaN(at.getTime())?at.toLocaleString(lang==='zh'?'zh-HK':'en-HK',
+      {timeZoneName:'short'}):catalogueText('Time unavailable','時間暫不可用');
+    const identity=[actor.displayName,actor.email].filter(Boolean).join(' · ');
+    return `<li class="catalogue-history-entry"><strong>${esc(labels[entry.action]||entry.action||'')}</strong>
+      <p class="catalogue-item-name">${esc(item.v||'')} ${esc(pick(item,'name')||'')}</p>
+      <p>${esc(pick(category,'title')||category.id||'')} · ${esc(pick(section,'name')||'')}</p>
+      <p>${esc(pick(item,'price')||'')}</p>
+      <p class="catalogue-history-actor">${esc(identity)} <span class="catalogue-history-uid">UID: ${esc(actor.uid||'')}</span></p>
+      <time ${at&&!Number.isNaN(at.getTime())?`datetime="${esc(at.toISOString())}"`:''}>${esc(date)}</time></li>`;
+  }).join('');
+  const status=catalogueHistoryError?catalogueText('History unavailable: ','無法讀取紀錄：')+catalogueHistoryError
+    :!catalogueConnected?catalogueText('Offline: history may be out of date. Reconnect and reload history.','離線：紀錄可能並非最新。請連線後重新讀取。')
+    :catalogueHistoryLoading?catalogueText('Loading change history…','正在讀取更新紀錄……')
+    :!entries?catalogueText('No recorded changes yet. Earlier catalogue changes were not logged.','尚無更新紀錄。啟用此功能前的酒單修改並無紀錄。'):'';
+  catalogueHistoryDialog.innerHTML=`<div class="catalogue-dialog-card"><h3 id="catalogue-history-title">${catalogueText('Catalogue change history','酒單更新紀錄')}</h3>
+    <p>${catalogueText('Latest 100 recorded changes, newest first, ordered by server time. This is a recent window, not the complete history. Times use this device’s time zone.','按伺服器時間顯示最近 100 項紀錄（最新優先），並非完整紀錄。時間採用本裝置時區。')}</p>
+    <p class="catalogue-history-status ${catalogueHistoryError?'catalogue-error':''}" role="${catalogueHistoryError?'alert':'status'}">${esc(status)}</p>
+    <ol class="catalogue-history-list">${entries}</ol>
+    <div class="catalogue-dialog-actions"><button type="button" data-action="retry">${catalogueText('Reload history','重新讀取')}</button>
+    <button type="button" data-action="close">${catalogueText('Close','關閉')}</button></div></div>`;
+}
+function showCatalogueHistory(){
+  if(!catalogueCanReadHistory()||!stockDatabase||!catalogue)return;
+  catalogueHistoryOwner=catalogueAuth.currentUser.uid;
+  catalogueHistoryEntries=[];catalogueHistoryError='';catalogueHistoryLoading=true;
+  if(!catalogueHistoryDialog.open)catalogueHistoryDialog.showModal();
+  renderCatalogueHistory();
+  if(!catalogueConnected){
+    catalogueHistoryLoading=false;
+    catalogueHistoryError=catalogueText('Connect to load the private history.','請連線以讀取私人紀錄。');
+    renderCatalogueHistory();return;
+  }
+  catalogue.watchHistory(stockDatabase.ref('wineCatalogue/auditV1'),{
+    canRead:()=>catalogueCanReadHistory()&&catalogueHistoryDialog.open&&catalogueAuth.currentUser.uid===catalogueHistoryOwner,
+    onChange:entries=>{catalogueHistoryEntries=entries;catalogueHistoryLoading=false;renderCatalogueHistory();},
+    onError:error=>{
+      catalogue.stopHistory();catalogueHistoryEntries=[];catalogueHistoryLoading=false;
+      catalogueHistoryError=String(error.message||error);renderCatalogueHistory();
+    }
+  });
 }
 function showCatalogueDialog(key=null){
   if(!staffUnlocked()||!catalogue?.ready||!catalogueConnected||catalogue.pending){updateStaffUI();return;}
@@ -1527,12 +1638,23 @@ function setupCatalogueUI(){
   catalogueToolbar=document.createElement('section');
   catalogueToolbar.className='catalogue-toolbar';
   catalogueToolbar.hidden=true;
-  catalogueToolbar.innerHTML='<div class="catalogue-toolbar-actions"><button type="button" data-action="auth"></button><button type="button" data-action="add"></button><button type="button" data-action="export"></button></div><p class="catalogue-scope" role="status"></p>';
+  catalogueToolbar.innerHTML='<div class="catalogue-toolbar-actions"><button type="button" data-action="auth"></button><button type="button" data-action="add"></button><button type="button" data-action="export"></button><button type="button" data-action="history"></button></div><p class="catalogue-scope" role="status"></p>';
   main.before(catalogueToolbar);
   catalogueDialog=document.createElement('dialog');
   catalogueDialog.className='catalogue-dialog';
   catalogueDialog.setAttribute('aria-labelledby','catalogue-title');
   document.body.appendChild(catalogueDialog);
+  catalogueHistoryDialog=document.createElement('dialog');
+  catalogueHistoryDialog.className='catalogue-dialog catalogue-history-dialog';
+  catalogueHistoryDialog.setAttribute('aria-labelledby','catalogue-history-title');
+  document.body.appendChild(catalogueHistoryDialog);
+  catalogueHistoryDialog.addEventListener('close',()=>{if(!catalogueHistoryDialog.open)closeCatalogueHistory();});
+  catalogueHistoryDialog.addEventListener('click',event=>{
+    const action=event.target.closest('button')?.dataset.action;
+    if(action==='close')closeCatalogueHistory();
+    else if(action==='retry')showCatalogueHistory();
+  });
+  catalogueToolbar.querySelector('[data-action="history"]').onclick=showCatalogueHistory;
   catalogueToolbar.querySelector('[data-action="auth"]').onclick=async()=>{
     if(!staffUnlocked()||!catalogueAuth)return;
     try{
@@ -1678,10 +1800,11 @@ function render(){
   }
   const query=q.value.trim().toLowerCase();
   if(!query&&current===AnimationLibrary.category.id&&staffUnlocked()){
-    st.textContent='';meta.textContent=lang==='zh'?'私人收藏 · 2 款動畫':'Private collection · 2 animations';
+    const animationCount=Object.keys(AnimationLibrary.names).length;
+    st.textContent='';meta.textContent=lang==='zh'?`私人收藏 · ${animationCount} 款動畫`:`Private collection · ${animationCount} animations`;
     main.innerHTML=animationLibrary.markup();bind();animationLibrary.bind(main);return;
   }
-  const visible=item=>staffUnlocked()||!item.catalogueHidden;if(query){let groups=[];C.forEach(c=>c.sections.forEach(s=>{let items=s.items.filter(x=>visible(x)&&(c.title+' '+s.name+' '+x.v+' '+x.name+' '+x.nameZh+' '+x.price+' '+x.note).toLowerCase().includes(query));if(items.length)groups.push({title:c.title+(s.hideHeading?'':' · '+s.name),items,category:c,section:s})}));let count=groups.reduce((a,g)=>a+g.items.length,0);st.textContent='Search results';meta.textContent=totalSelections+' selections · Updated '+updatedDateText();main.innerHTML=`<section class="hero"><div class="kicker">Search</div><h2>${esc(q.value)}</h2><p>${count} matching selections</p></section>`+(groups.length?groups.map(g=>`<section class="section"><h3>${esc(g.title)}</h3>${g.items.map(x=>card(x,g.category,g.section)).join('')}</section>`).join(''):'<div class="empty">No matching selection found.</div>');bind();return}let c=C.find(x=>x.id===current)||C[0];st.textContent='';meta.textContent=totalSelections+' '+ui().selections+' · '+ui().updated+' '+updatedDateText();const sectionKey=value=>String(value??'')
+  const visible=item=>staffUnlocked()||!item.catalogueHidden;if(query){let groups=[];C.forEach(c=>c.sections.forEach(s=>{let items=s.items.filter(x=>visible(x)&&(c.title+' '+s.name+' '+x.v+' '+x.name+' '+x.nameZh+' '+x.price+' '+x.note).toLowerCase().includes(query));if(items.length)groups.push({title:c.title+(s.hideHeading?'':' · '+s.name),items,category:c,section:s})}));let count=groups.reduce((a,g)=>a+g.items.length,0);st.textContent='Search results';meta.textContent=totalSelections+' '+ui().selections;main.innerHTML=`<section class="hero"><div class="kicker">Search</div><h2>${esc(q.value)}</h2><p>${count} matching selections</p></section>`+(groups.length?groups.map(g=>`<section class="section"><h3>${esc(g.title)}</h3>${g.items.map(x=>card(x,g.category,g.section)).join('')}</section>`).join(''):'<div class="empty">No matching selection found.</div>');bind();return}let c=C.find(x=>x.id===current)||C[0];st.textContent='';meta.textContent=totalSelections+' '+ui().selections;const sectionKey=value=>String(value??'')
   .normalize('NFD')
   .replace(/[\u0300-\u036f]/g,'')
   .toLowerCase()
